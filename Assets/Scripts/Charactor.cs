@@ -7,7 +7,8 @@ public class Charactor : MonoBehaviour
     Vector3 _lookPos;
     float _speed;
 
-    [Range(1, 50)][SerializeField] float Max_Speed;
+    [Range(1, 50)][SerializeField] float moveSpeed = 10;
+    [Range(1, 50)][SerializeField] float interactionRange = 10;
 
     LineRenderer _lineRenderer;
     IInteractable onInteractObject;
@@ -47,7 +48,7 @@ public class Charactor : MonoBehaviour
     }
     public void TryInteract(IInteractable interactableObject)
     {        
-        if(interactableObject != null && interactableObject.TryInteract(this.transform.position, 10))
+        if(interactableObject != null && interactableObject.TryInteract(this.transform.position, interactionRange))
         {
             onInteractObject = interactableObject;           
         }
@@ -66,15 +67,15 @@ public class Charactor : MonoBehaviour
         if (_moveVector != Vector3.zero)
         {
             _speed = _rigidbody.velocity.magnitude;
-            if (_speed < Max_Speed)
+            if (_speed < moveSpeed)
             {
                 if(onInteractObject == null)
                 {
-                    _rigidbody.AddForce(_moveVector * Max_Speed * 3, ForceMode.Force);
+                    _rigidbody.AddForce(_moveVector * moveSpeed * 3, ForceMode.Force);
                 }                
                 else
                 {
-                    _rigidbody.AddForce(_moveVector * Max_Speed, ForceMode.Force);
+                    _rigidbody.AddForce(_moveVector * moveSpeed, ForceMode.Force);
                 }
             }
         }
