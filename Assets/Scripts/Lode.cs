@@ -1,14 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Lode : MonoBehaviour, IInteractable
 {
-    [SerializeField] string lodeName;
+    [SerializeField] int itemKey;
 
     public string GetName()
     {
-        return lodeName;
+        string name = JsonDataManager.GetItem(itemKey).Name;
+        return name;
     }
     public Vector3 GetPos()
     {
@@ -22,8 +21,6 @@ public class Lode : MonoBehaviour, IInteractable
         }
         else
         {
-            Debug.Log($"{lodeName} √§√Î");
-
             return true;
         }
     }

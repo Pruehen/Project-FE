@@ -118,4 +118,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b04fa4b20ca591e448dafe0b95367bae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lodeName: "\uAD6C\uB9AC \uAD11\uC11D"
+  itemKey: 1

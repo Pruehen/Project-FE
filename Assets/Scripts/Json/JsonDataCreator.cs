@@ -4,41 +4,45 @@ using EnumTypes;
 
 public class Item
 {
-    int _id;
-    ItemType _itemType;
-    string _name;
-    string _icon;
-    int _maxStack;
+    [JsonProperty] public int Id { get; private set; }
+    [JsonProperty] public ItemType ItemType { get; private set; }
+    [JsonProperty] public string Name { get; private set; }
+    [JsonProperty] public string Icon { get; private set; }
+    [JsonProperty] public int MaxStack { get; private set; }
+    [JsonProperty] public float EnergyReserves { get; private set; }
 
     [JsonConstructor]
-    public Item(int id, ItemType itemType, string name, string icon, int maxStack)
+    public Item(int id, ItemType itemType, string name, string icon, int maxStack, float energyReserves)
     {
-        _id = id;
-        _itemType = itemType;
-        _name = name;
-        _icon = icon;
-        _maxStack = maxStack;
+        Id = id;
+        ItemType = itemType;
+        Name = name;
+        Icon = icon;
+        MaxStack = maxStack;
+        EnergyReserves = energyReserves;
     }
     public Item()
     {
-        _id = -1;
-        _itemType = ItemType.Material;
-        _name = "기본 자원 이름";
-        _icon = "기본 아이콘 이름";
-        _maxStack = 100;
+        Id = 0;
+        ItemType = ItemType.Material;
+        Name = "기본 자원 이름";
+        Icon = "기본 아이콘 이름";
+        MaxStack = 100;
+        EnergyReserves = 0;
     }
 }
 public class ItemTable
 {
-    public List<Item> list = new List<Item>();
+    public Dictionary<int, Item> dic;
     [JsonConstructor]
-    public ItemTable(List<Item> list)
+    public ItemTable(Dictionary<int, Item> dic)
     {
-        this.list = list;
+        this.dic = dic;
     }
     public ItemTable()
     {
-        list = new List<Item>();
+        dic = new Dictionary<int, Item>();
+        dic.Add(0, new Item());
     }
     public static string FilePath()
     {

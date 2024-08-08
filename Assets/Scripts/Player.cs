@@ -18,6 +18,8 @@ public class Player : SceneSingleton<Player>
     {
         onInput_Move += Command_CharactorMove;
         OnLookTargetPosSet += Command_SetCharactorLookPos;
+
+        JsonDataManager.jsonCache.Lode();
     }
     // Update is called once per frame
     void Update()

@@ -1,0 +1,36 @@
+{
+  "dic": {
+    "-1": {
+      "Id": -1,
+      "ItemType": 0,
+      "Name": "기본 아이템 이름",
+      "Icon": "기본 아이콘 이름",
+      "MaxStack": 100,
+      "EnergyReserves": 0
+    },
+    "0": {
+      "Id": 0,
+      "ItemType": 0,
+      "Name": "철 광석",
+      "Icon": "기본 아이콘 이름",
+      "MaxStack": 100,
+      "EnergyReserves": 0
+    },
+    "1": {
+      "Id": 1,
+      "ItemType": 0,
+      "Name": "구리 광석",
+      "Icon": "기본 아이콘 이름",
+      "MaxStack": 100,
+      "EnergyReserves": 0
+    },
+    "2": {
+      "Id": 2,
+      "ItemType": 0,
+      "Name": "석탄",
+      "Icon": "기본 아이콘 이름",
+      "MaxStack": 100,
+      "EnergyReserves": 25
+    }
+  }
+}

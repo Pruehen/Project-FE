@@ -1484,10 +1484,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2955794383671687693, guid: 019daec70d517c94ea6505cd7c8019e5, type: 3}
-      propertyPath: lodeName
-      value: "\uC11D\uD0C4"
-      objectReference: {fileID: 0}
     - target: {fileID: 3465983852339732353, guid: 019daec70d517c94ea6505cd7c8019e5, type: 3}
       propertyPath: m_Name
       value: Coal

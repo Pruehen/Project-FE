@@ -57,25 +57,36 @@ public static class JsonDataManager
 
         Debug.Log($"<color=#FFFF00>데이터 저장 완료</color> : {typeof(T).Name}");
     }
-}
 
-public class JsonCache
-{
-    ItemTable _itemTableCache;
-    public ItemTable ItemTableCache
+    public static Item GetItem(int key)
     {
-        get
+        if (jsonCache.ItemTableCache.dic.ContainsKey(key))
         {
-            if (_itemTableCache == null)
-            {
-                _itemTableCache = JsonDataManager.DataTableListLoad<ItemTable>(ItemTable.FilePath());
-            }
-            return _itemTableCache;
+            return jsonCache.ItemTableCache.dic[key];
         }
+        else
+            return jsonCache.ItemTableCache.dic[-1];
     }
 
-    public void Lode()
+    public class JsonCache
     {
-        _itemTableCache = ItemTableCache;
+        ItemTable _itemTableCache;
+        public ItemTable ItemTableCache
+        {
+            get
+            {
+                if (_itemTableCache == null)
+                {
+                    _itemTableCache = JsonDataManager.DataTableListLoad<ItemTable>(ItemTable.FilePath());
+                    //JsonDataManager.DataSaveCommand(_itemTableCache, ItemTable.FilePath());
+                }
+                return _itemTableCache;
+            }
+        }
+
+        public void Lode()
+        {
+            _itemTableCache = ItemTableCache;
+        }
     }
 }
