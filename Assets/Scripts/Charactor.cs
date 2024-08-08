@@ -1,14 +1,21 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Inventory))]
+[RequireComponent(typeof(MiningDevice))]
 public class Charactor : MonoBehaviour
 {
+    Inventory _inventory;
+    MiningDevice _miningDevice;
+
     Rigidbody _rigidbody;
     Vector3 _moveVector;
     Vector3 _lookPos;
     float _speed;
 
+
     [Range(1, 50)][SerializeField] float moveSpeed = 10;
     [Range(1, 50)][SerializeField] float interactionRange = 10;
+    [Range(1, 100)][SerializeField] float interactionSpeed = 1;
 
     LineRenderer _lineRenderer;
     IInteractable onInteractObject;
@@ -18,6 +25,8 @@ public class Charactor : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         _lineRenderer = GetComponent<LineRenderer>();
+        _inventory = GetComponent<Inventory>();
+        _miningDevice = GetComponent<MiningDevice>();
     }
 
     private void FixedUpdate()

@@ -3,6 +3,8 @@ using UnityEngine;
 public class Lode : MonoBehaviour, IInteractable
 {
     [SerializeField] int itemKey;
+    [SerializeField] float extractTimeGain = 1;
+    [SerializeField] int reserves = 10000;
 
     public string GetName()
     {
