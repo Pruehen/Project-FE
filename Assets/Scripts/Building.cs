@@ -13,6 +13,11 @@ public class Building : MonoBehaviour, IInteractable
     {
         return this.transform.position;
     }
+    public float InteractSpeedGain()
+    {
+        return 1;
+    }
+
     public bool TryInteract(Vector3 originPos, float checkRange)
     {
         if(Vector3.Distance(originPos, GetPos()) > checkRange)

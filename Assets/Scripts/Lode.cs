@@ -15,6 +15,10 @@ public class Lode : MonoBehaviour, IInteractable
     {
         return this.transform.position;
     }
+    public float InteractSpeedGain()
+    {
+        return extractTimeGain;
+    }
     public bool TryInteract(Vector3 originPos, float checkRange)
     {
         if(Vector3.Distance(originPos, GetPos()) > checkRange)

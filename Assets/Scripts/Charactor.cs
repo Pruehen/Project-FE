@@ -11,7 +11,7 @@ public class Charactor : MonoBehaviour
     Vector3 _moveVector;
     Vector3 _lookPos;
     float _speed;
-
+    float _interactTime = 0;
 
     [Range(1, 50)][SerializeField] float moveSpeed = 10;
     [Range(1, 50)][SerializeField] float interactionRange = 10;
@@ -55,20 +55,24 @@ public class Charactor : MonoBehaviour
     {
         _lookPos = vector;
     }
-    public void TryInteract(IInteractable interactableObject)
+    public void TryInteract(IInteractable interactableObject, out float interactRatio)
     {        
         if(interactableObject != null && interactableObject.TryInteract(this.transform.position, interactionRange))
         {
-            onInteractObject = interactableObject;           
+            onInteractObject = interactableObject;
+            _interactTime += Time.deltaTime;            
         }
         else
         {
-            onInteractObject = null;
+            EndInteract();
         }
+
+        interactRatio = _interactTime;
     }
     public void EndInteract()
     {
         onInteractObject = null;
+        _interactTime = 0;
     }
 
     void Move_OnFixedUpdate()

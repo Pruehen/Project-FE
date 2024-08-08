@@ -2,11 +2,13 @@ using System.ComponentModel;
 using TMPro;
 using UI.Extension;
 using UnityEngine;
+using UnityEngine.UI;
 using ViewModel.Extensions;
 
 public class PlayerView : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI TMP_OnMouseObjectName;
+    [SerializeField] Image Image_InteractBar;
 
     PlayerViewModel _vm;
     Vector3 _originPos_TMP_OnMouseObjectName;

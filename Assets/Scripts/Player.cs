@@ -7,8 +7,10 @@ public class Player : SceneSingleton<Player>
     public Vector3 lookTargetPosVector { get; private set; }
 
     Action<Vector2> onInput_Move;
+
     public Action<Vector3> OnLookTargetPosSet;
     public Action<string> OnMouseObjectNameChanged;
+    public Action<float> OnInteractRatioChanged;
 
     [SerializeField] Charactor controlledCharactor;
 
@@ -109,7 +111,8 @@ public class Player : SceneSingleton<Player>
     {
         if (controlledCharactor != null)
         {
-            controlledCharactor.TryInteract(onMouseObject);
+            controlledCharactor.TryInteract(onMouseObject, out float interactRatio);
+            OnInteractRatioChanged?.Invoke(interactRatio);
         }
     }
     void Command_EndInteract()
