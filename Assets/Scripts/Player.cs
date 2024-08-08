@@ -29,6 +29,8 @@ public class Player : SceneSingleton<Player>
         PlayerInput_OnUpdate();
         SetLookTargetPos_OnUpdate();
         MouseClickCheck_OnUpdate();
+
+        InputKeyCheck_OnUpdate();
     }    
 
     void PlayerInput_OnUpdate()
@@ -93,6 +95,14 @@ public class Player : SceneSingleton<Player>
         }
     }
 
+    void InputKeyCheck_OnUpdate()
+    {
+        if(Input.GetKeyDown(KeyCode.I))
+        {
+
+        }
+    }
+
     void Command_CharactorMove(Vector2 inputVector)
     {
         if(controlledCharactor != null)
@@ -120,6 +130,13 @@ public class Player : SceneSingleton<Player>
         if (controlledCharactor != null)
         {
             controlledCharactor.EndInteract();
+        }
+    }
+    void Command_InventoryToggle()
+    {
+        if (controlledCharactor != null)
+        {
+            controlledCharactor.InventoryToggle();
         }
     }
 }

@@ -74,6 +74,10 @@ public class Charactor : MonoBehaviour
         onInteractObject = null;
         _interactTime = 0;
     }
+    public void InventoryToggle()
+    {
+
+    }
 
     void Move_OnFixedUpdate()
     {        
