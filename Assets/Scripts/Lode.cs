@@ -6,7 +6,7 @@ public class Lode : MonoBehaviour, IInteractable
 {
     [SerializeField] string lodeName;
 
-    public string GetData()
+    public string GetName()
     {
         return lodeName;
     }
