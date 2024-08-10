@@ -1,7 +1,130 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    //[SerializeField] GameObject Prefab_
-    //[SerializeField] int inventoryMaxCount = 150;
+    [SerializeField] int inventoryMaxCount = 150;
+    List<CellData> tempItemList = new List<CellData>();
+    int cellCorsor = 0; 
+
+    private void Awake()
+    {
+        for (int i = 0; i < inventoryMaxCount; i++)
+        {
+            tempItemList.Add(new CellData());
+        }
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space)) 
+        {
+            AddItem(1, 1500);
+        }
+    }
+
+    public void Clear()
+    {
+        foreach (var item in tempItemList)
+        {
+            item.Clear();
+        }
+    }
+
+    public void AddItem(int id, int count)
+    {
+        if(tempItemList[cellCorsor].Id != id || tempItemList[cellCorsor].CanItemAdd() == false)
+        {
+            SetCorsor(id);
+        }
+        if(cellCorsor == -1)
+        {
+            Debug.LogWarning("인벤토리가 가득 찼습니다.");
+            return;
+        }
+
+        int remaining = 0;
+        tempItemList[cellCorsor].AddItem(id, count, out remaining);
+
+        if(remaining > 0)
+        {
+            AddItem(id, remaining);
+        }
+    }
+
+    void SetCorsor(int id)//모든 인벤토리가 가득 찼을 경우, cellCorsor가 -1이 됨.
+    {
+        int firstEmptySlotIndex = -1;
+        for (int index = 0; index < tempItemList.Count; index++)
+        {
+            int slotId = tempItemList[index].Id;
+            if (tempItemList[index].Id == id && tempItemList[index].CanItemAdd())//목표 커서 아이템이 찾는 아이템과 같고, 아이템 추가가 가능할 경우
+            {
+                cellCorsor = index;
+                return;
+            }
+
+            if(firstEmptySlotIndex == -1 && slotId == -1)
+            {
+                firstEmptySlotIndex = index;
+            }
+        }
+
+        cellCorsor = firstEmptySlotIndex;
+    }
+}
+
+class CellData
+{
+    public int Id { get; private set; }
+    public int Count { get; private set; }
+    public int MaxCount { get; private set; }
+    public bool CanItemAdd()
+    {
+        return MaxCount > Count;
+    }
+
+    public CellData(int id, int count, int maxCound)
+    {
+        Id = id;
+        Count = count;
+        MaxCount = maxCound;
+    }
+    public CellData()
+    {
+        Clear();
+    }
+    public void Clear()
+    {
+        Id = -1;
+        Count = 0;
+        MaxCount = 0;
+    }
+    public void CreateItem(int id)
+    {
+        Id = id;
+        MaxCount = JsonDataManager.GetItem(id).MaxStack;
+    }
+    public void AddItem(int id, int count, out int remaining)
+    {
+        remaining = 0;
+
+        if (Id == -1)//빈 칸일 경우
+        {
+            CreateItem(id);
+        }
+        else if(Id != id)
+        {
+            Debug.LogError("다른 아이템이 추가되었습니다.");
+            return;
+        }
+
+        Count += count;
+
+        if (Count > MaxCount)
+        {
+            remaining = Count - MaxCount;
+            Count = MaxCount;
+        }
+    }
 }
