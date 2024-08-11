@@ -5,7 +5,24 @@ public class Inventory : MonoBehaviour
 {
     [SerializeField] int inventoryMaxCount = 150;
     List<CellData> tempItemList = new List<CellData>();
-    int cellCorsor = 0; 
+    int cellCorsor = 0;
+    bool _activeUI = false;
+
+    public List<CellData> TempItemList() { return tempItemList; }
+
+    public void ToggleActiveUI()
+    {
+        _activeUI = !_activeUI;
+
+        if(_activeUI)
+        {
+            UIWindowManager.Instance.TryActive_InventoryUIWdw(this);
+        }
+        else
+        {
+            UIWindowManager.Instance.TryUnActive_InventoryUIWdw(this);
+        }
+    }
 
     private void Awake()
     {
@@ -74,7 +91,7 @@ public class Inventory : MonoBehaviour
     }
 }
 
-class CellData
+public class CellData
 {
     public int Id { get; private set; }
     public int Count { get; private set; }

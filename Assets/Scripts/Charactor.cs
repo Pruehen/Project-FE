@@ -76,7 +76,7 @@ public class Charactor : MonoBehaviour
     }
     public void InventoryToggle()
     {
-
+       _inventory.ToggleActiveUI();
     }
 
     void Move_OnFixedUpdate()

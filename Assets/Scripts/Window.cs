@@ -5,6 +5,11 @@ public class Window : MonoBehaviour
     bool _isMoveMode = false;
     Vector3 mousePosTemp;
 
+    private void Awake()
+    {
+        this.GetComponent<RectTransform>().anchoredPosition = new Vector2 (Screen.width * 0.5f, Screen.height * 0.5f);
+    }
+
     public void SetMoveMode(bool value)
     {
         _isMoveMode = value;

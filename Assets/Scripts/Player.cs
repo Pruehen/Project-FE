@@ -99,7 +99,7 @@ public class Player : SceneSingleton<Player>
     {
         if(Input.GetKeyDown(KeyCode.I))
         {
-
+            Command_InventoryToggle();
         }
     }
 
