@@ -25,6 +25,7 @@ public class ItemCell : MonoBehaviour
         {
             Item item = JsonDataManager.GetItem(cellData.Id);
             TMP_ItemCount.text = cellData.Count.ToString();
+            Image_ItemIcon.gameObject.SetActive(true);
             Image_ItemIcon.sprite = LoadSprite(spritePath + item.Icon);
         }
     }

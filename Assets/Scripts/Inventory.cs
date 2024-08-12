@@ -54,11 +54,16 @@ public class Inventory : MonoBehaviour
 
     public void AddItem(int id, int count)
     {
-        if(tempItemList[cellCorsor].Id != id || tempItemList[cellCorsor].CanItemAdd() == false)
+        if (cellCorsor == -1)
+        {
+            Debug.LogWarning("인벤토리가 가득 찼습니다.");
+            return;
+        }
+        if (tempItemList[cellCorsor].Id != id || tempItemList[cellCorsor].CanItemAdd() == false)
         {
             SetCorsor(id);
         }
-        if(cellCorsor == -1)
+        if (cellCorsor == -1)
         {
             Debug.LogWarning("인벤토리가 가득 찼습니다.");
             return;
