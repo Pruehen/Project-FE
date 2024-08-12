@@ -4,23 +4,27 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     [SerializeField] int inventoryMaxCount = 150;
+    public int InventoryMaxCount() { return inventoryMaxCount; }
+
     List<CellData> tempItemList = new List<CellData>();
     int cellCorsor = 0;
     bool _activeUI = false;
 
     public List<CellData> TempItemList() { return tempItemList; }
+    public CellData CellItemData(int index) { return tempItemList[index]; }
 
+    Wdw_InventoryView wdw;
     public void ToggleActiveUI()
     {
         _activeUI = !_activeUI;
 
         if(_activeUI)
         {
-            UIWindowManager.Instance.TryActive_InventoryUIWdw(this);
+            wdw = UIWindowManager.Instance.TryActive_InventoryUIWdw(this);
         }
         else
         {
-            UIWindowManager.Instance.TryUnActive_InventoryUIWdw(this);
+            UIWindowManager.Instance.TryUnActive_InventoryUIWdw(this);            
         }
     }
 
@@ -62,6 +66,11 @@ public class Inventory : MonoBehaviour
 
         int remaining = 0;
         tempItemList[cellCorsor].AddItem(id, count, out remaining);
+        if(wdw != null)
+        {
+            wdw.CellChange(cellCorsor, tempItemList[cellCorsor]);
+        }
+
 
         if(remaining > 0)
         {
@@ -93,7 +102,7 @@ public class Inventory : MonoBehaviour
 
 public class CellData
 {
-    public int Id { get; private set; }
+    public int Id { get; private set; }    
     public int Count { get; private set; }
     public int MaxCount { get; private set; }
     public bool CanItemAdd()
@@ -101,11 +110,11 @@ public class CellData
         return MaxCount > Count;
     }
 
-    public CellData(int id, int count, int maxCound)
+    public CellData(int id, int count, int maxCount)
     {
         Id = id;
         Count = count;
-        MaxCount = maxCound;
+        MaxCount = maxCount;
     }
     public CellData()
     {

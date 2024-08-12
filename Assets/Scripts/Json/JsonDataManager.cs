@@ -65,7 +65,7 @@ public static class JsonDataManager
             return jsonCache.ItemTableCache.dic[key];
         }
         else
-            return jsonCache.ItemTableCache.dic[-1];
+            return jsonCache.ItemTableCache.dic[0];
     }
 
     public class JsonCache

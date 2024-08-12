@@ -12,7 +12,7 @@
       "Id": 1,
       "ItemType": 0,
       "Name": "철 광석",
-      "Icon": "기본 아이콘 이름",
+      "Icon": "ICO_IronOre",
       "MaxStack": 100,
       "EnergyReserves": 0
     },
@@ -20,7 +20,7 @@
       "Id": 2,
       "ItemType": 0,
       "Name": "구리 광석",
-      "Icon": "기본 아이콘 이름",
+      "Icon": "ICO_CopperOre",
       "MaxStack": 100,
       "EnergyReserves": 0
     },
@@ -28,7 +28,7 @@
       "Id": 3,
       "ItemType": 0,
       "Name": "석탄",
-      "Icon": "기본 아이콘 이름",
+      "Icon": "ICO_Coal",
       "MaxStack": 100,
       "EnergyReserves": 25
     },
