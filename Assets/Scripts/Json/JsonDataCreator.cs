@@ -77,8 +77,5 @@ public class JsonDataCreator : MonoBehaviour
     private void Awake()
     {
         JsonDataManager.jsonCache.Lode();
-        JsonDataManager.jsonCache.ItemDataTableCache.dic.Add("Item_Iron", new ItemData("Item_Iron"));
-        JsonDataManager.jsonCache.ItemDataTableCache.dic.Add("Item_Copper", new ItemData("Item_Copper"));
-        JsonDataManager.DataSaveCommand(JsonDataManager.jsonCache.ItemDataTableCache, ItemDataTable.FilePath());
     }
 }

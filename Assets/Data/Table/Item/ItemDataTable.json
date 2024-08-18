@@ -7,7 +7,7 @@
       "Desc": "Text_Iron_Desc",
       "MaxStack": 100,
       "EnergyReserves": 0.0,
-      "Icon_Path": "UI/Icon/ItemData/Icon_Iron",
+      "Icon_Path": "UI/Icon/Item/Icon_Iron",
       "ItemMesh_Path": "Prefabs/Iron",
       "DropMesh_Path": "Prefabs/Fe"
     },
@@ -18,7 +18,7 @@
       "Desc": "Text_Copper_Desc",
       "MaxStack": 100,
       "EnergyReserves": 0.0,
-      "Icon_Path": "UI/Icon/ItemData/Icon_Copper",
+      "Icon_Path": "UI/Icon/Item/Icon_Copper",
       "ItemMesh_Path": "Prefabs/Copper",
       "DropMesh_Path": "Prefabs/Cu"
     }

@@ -850,7 +850,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c115586d0a669f841b18dadd2f14ee99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemKey: 100
+  itemKey: Item_Iron
 --- !u!65 &1313047538
 BoxCollider:
   m_ObjectHideFlags: 0

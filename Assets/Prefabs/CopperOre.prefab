@@ -118,6 +118,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b04fa4b20ca591e448dafe0b95367bae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemKey: 2
+  itemKey: Item_Copper
   extractTimeGain: 1
   reserves: 10000
