@@ -97,7 +97,7 @@ public class Player : SceneSingleton<Player>
 
     void InputKeyCheck_OnUpdate()
     {
-        if(Input.GetKeyDown(KeyCode.I))
+        if(Input.GetKeyDown(KeyCode.Tab))
         {
             Command_InventoryToggle();
         }
