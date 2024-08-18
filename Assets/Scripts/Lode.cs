@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Lode : MonoBehaviour, IInteractable
 {
-    [SerializeField] int itemKey;
+    [SerializeField] string itemKey;
     [SerializeField] float extractTimeGain = 1;
     [SerializeField] int reserves = 10000;
 

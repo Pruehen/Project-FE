@@ -1,0 +1,26 @@
+{
+  "dic": {
+    "Item_Iron": {
+      "Id": "Item_Iron",
+      "ItemType": 0,
+      "Name": "Text_Iron_Name",
+      "Desc": "Text_Iron_Desc",
+      "MaxStack": 100,
+      "EnergyReserves": 0.0,
+      "Icon_Path": "UI/Icon/ItemData/Icon_Iron",
+      "ItemMesh_Path": "Prefabs/Iron",
+      "DropMesh_Path": "Prefabs/Fe"
+    },
+    "Item_Copper": {
+      "Id": "Item_Copper",
+      "ItemType": 0,
+      "Name": "Text_Copper_Name",
+      "Desc": "Text_Copper_Desc",
+      "MaxStack": 100,
+      "EnergyReserves": 0.0,
+      "Icon_Path": "UI/Icon/ItemData/Icon_Copper",
+      "ItemMesh_Path": "Prefabs/Copper",
+      "DropMesh_Path": "Prefabs/Cu"
+    }
+  }
+}

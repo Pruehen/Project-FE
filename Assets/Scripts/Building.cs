@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Building : MonoBehaviour, IInteractable
 {
-    [SerializeField] int itemKey;
+    [SerializeField] string itemKey;
 
     public string GetName()
     {

@@ -2,7 +2,8 @@ namespace EnumTypes
 {
     public enum ItemType
     {
-        Material,       
+        Resource,       
+        Parts,
         Building
     }
 }

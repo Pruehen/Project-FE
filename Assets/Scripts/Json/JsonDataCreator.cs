@@ -1,51 +1,84 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using EnumTypes;
+using UnityEngine;
 
-public class Item
+public class ItemData
 {
-    [JsonProperty] public int Id { get; private set; }
+    [JsonProperty] public string Id { get; private set; }
     [JsonProperty] public ItemType ItemType { get; private set; }
     [JsonProperty] public string Name { get; private set; }
-    [JsonProperty] public string Icon { get; private set; }
+    [JsonProperty] public string Desc { get; private set; }
     [JsonProperty] public int MaxStack { get; private set; }
     [JsonProperty] public float EnergyReserves { get; private set; }
 
+    [JsonProperty] public string Icon_Path { get; private set; }
+    [JsonProperty] public string ItemMesh_Path { get; private set; }
+    [JsonProperty] public string DropMesh_Path { get; private set; }
+
     [JsonConstructor]
-    public Item(int id, ItemType itemType, string name, string icon, int maxStack, float energyReserves)
+    public ItemData(string id, ItemType itemType, string name, string desc, int maxStack, float energyReserves, string iconPath, string itemMeshPath, string dropMeshPath )
     {
         Id = id;
         ItemType = itemType;
         Name = name;
-        Icon = icon;
+        Desc = desc;
         MaxStack = maxStack;
         EnergyReserves = energyReserves;
+        Icon_Path = iconPath;
+        ItemMesh_Path = itemMeshPath;
+        DropMesh_Path = dropMeshPath;
     }
-    public Item()
+    public ItemData(string id)
     {
-        Id = 0;
-        ItemType = ItemType.Material;
-        Name = "기본 자원 이름";
-        Icon = "기본 아이콘 이름";
+        Id = id;
+        ItemType = ItemType.Resource;
+        Name = "Text_Iron_Name";
+        Desc = "Text_Iron_Desc";
         MaxStack = 100;
         EnergyReserves = 0;
+        Icon_Path = "UI/Icon/ItemData/Icon_Iron";
+        ItemMesh_Path = "Prefabs/Iron";
+        DropMesh_Path = "Prefabs/Fe";
+    }
+    public ItemData()
+    {
+        Id = "Item_Iron";
+        ItemType = ItemType.Resource;
+        Name = "Text_Iron_Name";
+        Desc = "Text_Iron_Desc";
+        MaxStack = 100;
+        EnergyReserves = 0;
+        Icon_Path = "UI/Icon/ItemData/Icon_Iron";
+        ItemMesh_Path = "Prefabs/Iron";
+        DropMesh_Path = "Prefabs/Fe";
     }
 }
-public class ItemTable
+public class ItemDataTable
 {
-    public Dictionary<int, Item> dic;
+    public Dictionary<string, ItemData> dic;
     [JsonConstructor]
-    public ItemTable(Dictionary<int, Item> dic)
+    public ItemDataTable(Dictionary<string, ItemData> dic)
     {
         this.dic = dic;
     }
-    public ItemTable()
+    public ItemDataTable()
     {
-        dic = new Dictionary<int, Item>();
-        dic.Add(0, new Item());
+        dic = new Dictionary<string, ItemData>();
     }
     public static string FilePath()
     {
-        return "/Data/Table/Item/ItemTable.json";
+        return "/Data/Table/Item/ItemDataTable.json";
+    }
+}
+
+public class JsonDataCreator : MonoBehaviour
+{
+    private void Awake()
+    {
+        JsonDataManager.jsonCache.Lode();
+        JsonDataManager.jsonCache.ItemDataTableCache.dic.Add("Item_Iron", new ItemData("Item_Iron"));
+        JsonDataManager.jsonCache.ItemDataTableCache.dic.Add("Item_Copper", new ItemData("Item_Copper"));
+        JsonDataManager.DataSaveCommand(JsonDataManager.jsonCache.ItemDataTableCache, ItemDataTable.FilePath());
     }
 }

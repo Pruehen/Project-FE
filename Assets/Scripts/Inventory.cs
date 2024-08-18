@@ -40,7 +40,7 @@ public class Inventory : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space)) 
         {
-            AddItem(1, 1500);
+            AddItem("Item_Iron", 1500);
         }
     }
 
@@ -52,7 +52,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void AddItem(int id, int count)
+    public void AddItem(string id, int count)
     {
         if (cellCorsor == -1)
         {
@@ -83,19 +83,19 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    void SetCorsor(int id)//모든 인벤토리가 가득 찼을 경우, cellCorsor가 -1이 됨.
+    void SetCorsor(string id)//모든 인벤토리가 가득 찼을 경우, cellCorsor가 -1이 됨.
     {
         int firstEmptySlotIndex = -1;
         for (int index = 0; index < tempItemList.Count; index++)
         {
-            int slotId = tempItemList[index].Id;
+            string slotId = tempItemList[index].Id;
             if (tempItemList[index].Id == id && tempItemList[index].CanItemAdd())//목표 커서 아이템이 찾는 아이템과 같고, 아이템 추가가 가능할 경우
             {
                 cellCorsor = index;
                 return;
             }
 
-            if(firstEmptySlotIndex == -1 && slotId == -1)
+            if(firstEmptySlotIndex == -1 && slotId == null)
             {
                 firstEmptySlotIndex = index;
             }
@@ -107,7 +107,7 @@ public class Inventory : MonoBehaviour
 
 public class CellData
 {
-    public int Id { get; private set; }    
+    public string Id { get; private set; }    
     public int Count { get; private set; }
     public int MaxCount { get; private set; }
     public bool CanItemAdd()
@@ -115,7 +115,7 @@ public class CellData
         return MaxCount > Count;
     }
 
-    public CellData(int id, int count, int maxCount)
+    public CellData(string id, int count, int maxCount)
     {
         Id = id;
         Count = count;
@@ -127,20 +127,20 @@ public class CellData
     }
     public void Clear()
     {
-        Id = -1;
+        Id = null;
         Count = 0;
         MaxCount = 0;
     }
-    public void CreateItem(int id)
+    public void CreateItem(string id)
     {
         Id = id;
         MaxCount = JsonDataManager.GetItem(id).MaxStack;
     }
-    public void AddItem(int id, int count, out int remaining)
+    public void AddItem(string id, int count, out int remaining)
     {
         remaining = 0;
 
-        if (Id == -1)//빈 칸일 경우
+        if (Id == null)//빈 칸일 경우
         {
             CreateItem(id);
         }

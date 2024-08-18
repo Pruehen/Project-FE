@@ -58,35 +58,38 @@ public static class JsonDataManager
         Debug.Log($"<color=#FFFF00>데이터 저장 완료</color> : {typeof(T).Name}");
     }
 
-    public static Item GetItem(int key)
+    public static ItemData GetItem(string key)
     {
-        if (jsonCache.ItemTableCache.dic.ContainsKey(key))
+        if (jsonCache.ItemDataTableCache.dic.ContainsKey(key))
         {
-            return jsonCache.ItemTableCache.dic[key];
+            return jsonCache.ItemDataTableCache.dic[key];
         }
         else
-            return jsonCache.ItemTableCache.dic[0];
+        {
+            Debug.LogError("존재하지 않는 아이템 키입니다.");
+            return null;
+        }
     }
 
     public class JsonCache
     {
-        ItemTable _itemTableCache;
-        public ItemTable ItemTableCache
+        ItemDataTable _itemDataTableCache;
+        public ItemDataTable ItemDataTableCache
         {
             get
             {
-                if (_itemTableCache == null)
+                if (_itemDataTableCache == null)
                 {
-                    _itemTableCache = JsonDataManager.DataTableListLoad<ItemTable>(ItemTable.FilePath());
-                    //JsonDataManager.DataSaveCommand(_itemTableCache, ItemTable.FilePath());
+                    _itemDataTableCache = JsonDataManager.DataTableListLoad<ItemDataTable>(ItemDataTable.FilePath());
+                    //JsonDataManager.DataSaveCommand(_itemDataTableCache, ItemDataTable.FilePath());
                 }
-                return _itemTableCache;
+                return _itemDataTableCache;
             }
         }
 
         public void Lode()
         {
-            _itemTableCache = ItemTableCache;
+            _itemDataTableCache = ItemDataTableCache;
         }
     }
 }

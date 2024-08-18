@@ -4,8 +4,6 @@ using UnityEngine.UI;
 
 public class ItemCell : MonoBehaviour
 {
-    string spritePath = "Art/Sprite/";
-
     [SerializeField] TextMeshProUGUI TMP_ItemCount;
     [SerializeField] Image Image_ItemIcon;
 
@@ -16,17 +14,17 @@ public class ItemCell : MonoBehaviour
     }
     public void Init(CellData cellData)
     {
-        if (cellData.Id == -1)
+        if (cellData.Id == null)
         {
             TMP_ItemCount.text = string.Empty;
             Image_ItemIcon.gameObject.SetActive(false);
         }
         else
         {
-            Item item = JsonDataManager.GetItem(cellData.Id);
+            ItemData item = JsonDataManager.GetItem(cellData.Id);
             TMP_ItemCount.text = cellData.Count.ToString();
             Image_ItemIcon.gameObject.SetActive(true);
-            Image_ItemIcon.sprite = LoadSprite(spritePath + item.Icon);
+            Image_ItemIcon.sprite = LoadSprite(item.Icon_Path);
         }
     }
 
