@@ -81,15 +81,28 @@ public static class JsonDataManager
                 if (_itemDataTableCache == null)
                 {
                     _itemDataTableCache = JsonDataManager.DataTableListLoad<ItemDataTable>(ItemDataTable.FilePath());
-                    //JsonDataManager.DataSaveCommand(_itemDataTableCache, ItemDataTable.FilePath());
                 }
                 return _itemDataTableCache;
+            }
+        }
+
+        BuildingDataTable _buildingDataTableCache;
+        public BuildingDataTable BuildingDataTableCache
+        {
+            get
+            {
+                if (_buildingDataTableCache == null)
+                {
+                    _buildingDataTableCache = JsonDataManager.DataTableListLoad<BuildingDataTable>(BuildingDataTable.FilePath());
+                }
+                return _buildingDataTableCache;
             }
         }
 
         public void Lode()
         {
             _itemDataTableCache = ItemDataTableCache;
+            _buildingDataTableCache = BuildingDataTableCache;
         }
     }
 }

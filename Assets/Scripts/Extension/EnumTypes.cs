@@ -6,4 +6,14 @@ namespace EnumTypes
         Parts,
         Building
     }
+
+    public enum BuildingType
+    {
+        Crafting,
+        Refinery,
+        Mining,
+        Conveying,
+        Generator,
+        Storage
+    }
 }

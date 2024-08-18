@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using EnumTypes;
 using UnityEngine;
+using System.Xml.Linq;
 
 public class ItemData
 {
@@ -72,10 +73,71 @@ public class ItemDataTable
     }
 }
 
+public class BuildingData
+{
+    [JsonProperty] public string Id { get; private set; }
+    [JsonProperty] public BuildingType BuildingType { get; private set; }
+    [JsonProperty] public string RecipyGroupId { get; private set; }
+    [JsonProperty] public float DeploySize_X { get; private set; }
+    [JsonProperty] public float DeploySize_Y { get; private set; }
+    [JsonProperty] public float DeploySize_Z { get; private set; }
+    [JsonProperty] public bool IsUseEnergy { get; private set; }
+    [JsonProperty] public float EnergyEfficiency { get; private set; }
+    [JsonProperty] public float SpeedEfficiency { get; private set; }
+
+    [JsonConstructor]
+    public BuildingData(string id, BuildingType buildingType, string recipyGroupId, float deploySizeX, float deploySizeY, float deploySizeZ, bool isUseEnergy, float energyEfficiency, float speedEfficiency)
+    {
+        Id = id;
+        BuildingType = buildingType;
+        RecipyGroupId = recipyGroupId;
+        DeploySize_X = deploySizeX;
+        DeploySize_Y = deploySizeY;
+        DeploySize_Z = deploySizeZ;
+        IsUseEnergy = isUseEnergy;
+        EnergyEfficiency = energyEfficiency;
+        SpeedEfficiency = speedEfficiency;
+    }
+
+    public BuildingData(string id)
+    {
+        Id = id;
+        BuildingType = BuildingType.Crafting;
+        RecipyGroupId = "RG_Crafter_T1";
+        DeploySize_X = 2;
+        DeploySize_Y = 1.5f;
+        DeploySize_Z = 2;
+        IsUseEnergy = true;
+        EnergyEfficiency = 1;
+        SpeedEfficiency = 1;
+    }
+}
+
+public class BuildingDataTable
+{
+    public Dictionary<string, BuildingData> dic;
+    [JsonConstructor]
+    public BuildingDataTable(Dictionary<string, BuildingData> dic)
+    {
+        this.dic = dic;
+    }
+    public BuildingDataTable()
+    {
+        dic = new Dictionary<string, BuildingData>();
+    }
+    public static string FilePath()
+    {
+        return "/Data/Table/Building/BuildingDataTable.json";
+    }
+}
+
 public class JsonDataCreator : MonoBehaviour
 {
     private void Awake()
     {
         JsonDataManager.jsonCache.Lode();
+
+        //JsonDataManager.jsonCache.BuildingDataTableCache.dic.Add("Building_Crafter_T1", new BuildingData("Building_Crafter_T1"));
+        //JsonDataManager.DataSaveCommand(JsonDataManager.jsonCache.BuildingDataTableCache, BuildingDataTable.FilePath());
     }
 }
