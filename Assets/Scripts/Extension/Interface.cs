@@ -7,3 +7,8 @@ public interface IInteractable
     public float InteractSpeedGain();
     public bool TryInteract(Vector3 originPos, float checkRange);
 }
+
+public interface ITable
+{
+    public string FilePath();
+}

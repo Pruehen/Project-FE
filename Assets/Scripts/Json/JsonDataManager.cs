@@ -85,7 +85,7 @@ public static class JsonDataManager
                 return _itemDataTableCache;
             }
         }
-
+        //=======================================================================
         BuildingDataTable _buildingDataTableCache;
         public BuildingDataTable BuildingDataTableCache
         {
@@ -98,11 +98,60 @@ public static class JsonDataManager
                 return _buildingDataTableCache;
             }
         }
-
+        //=======================================================================
+        RecipyGroupDataTable _recipyGroupDataTableCache;
+        public RecipyGroupDataTable RecipyGroupDataTableCache
+        {
+            get
+            {
+                if (_recipyGroupDataTableCache == null)
+                {
+                    _recipyGroupDataTableCache = JsonDataManager.DataTableListLoad<RecipyGroupDataTable>(RecipyGroupDataTable.FilePath());
+                }
+                return _recipyGroupDataTableCache;
+            }
+        }
+        //=======================================================================
+        RecipyDataTable _recipyDataTableCache;
+        public RecipyDataTable RecipyDataTableCache
+        {
+            get
+            {
+                if(_recipyDataTableCache == null)
+                {
+                    _recipyDataTableCache = JsonDataManager.DataTableListLoad<RecipyDataTable>(RecipyDataTable.FilePath());
+                }
+                return _recipyDataTableCache;
+            }
+        }
+        //=======================================================================
+        TextDataTable _textDataTableCache;
+        public TextDataTable TextDataTableCache
+        {
+            get
+            {
+                if (_textDataTableCache == null)
+                {
+                    _textDataTableCache = JsonDataManager.DataTableListLoad<TextDataTable>(TextDataTable.FilePath());
+                }
+                return _textDataTableCache;
+            }
+        }
         public void Lode()
         {
             _itemDataTableCache = ItemDataTableCache;
             _buildingDataTableCache = BuildingDataTableCache;
+            _recipyGroupDataTableCache = RecipyGroupDataTableCache;
+            _recipyDataTableCache = RecipyDataTableCache;
+            _textDataTableCache = TextDataTableCache;
+        }
+        public void Save()
+        {
+            JsonDataManager.DataSaveCommand(_itemDataTableCache, ItemDataTable.FilePath());
+            JsonDataManager.DataSaveCommand(_buildingDataTableCache, BuildingDataTable.FilePath());
+            JsonDataManager.DataSaveCommand(_recipyGroupDataTableCache, RecipyGroupDataTable.FilePath());
+            JsonDataManager.DataSaveCommand(_recipyDataTableCache, RecipyDataTable.FilePath());
+            JsonDataManager.DataSaveCommand(_textDataTableCache, TextDataTable.FilePath());
         }
     }
 }

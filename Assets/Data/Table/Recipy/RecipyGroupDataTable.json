@@ -1,0 +1,19 @@
+{
+  "dic": {
+    "RG_Crafter_T1": {
+      "GroupId": "RG_Crafter_T1",
+      "RecipyList": [
+        "Recipy_IronPlate",
+        "Recipy_IronPlate_Alternative",
+        "Recipy_CopperPlate",
+        "Recipy_CopperPlate_Alternative",
+        "Recipy_Crafter",
+        "Recipy_Miner",
+        "Recipy_Refinery",
+        "Recipy_Belt",
+        "Recipy_Inserter",
+        "Recipy_Generator"
+      ]
+    }
+  }
+}
