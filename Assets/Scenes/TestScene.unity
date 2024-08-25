@@ -1623,7 +1623,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1133071687895540700, guid: 8188e484434f45b4ca633338f2f8be7f, type: 3}
       propertyPath: m_Name
-      value: CopperOre
+      value: CopperVein
       objectReference: {fileID: 0}
     - target: {fileID: 3593473047108376448, guid: 8188e484434f45b4ca633338f2f8be7f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1720,7 +1720,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8542323872652785472, guid: 3b5377e852013454a9097b302b68fdd8, type: 3}
       propertyPath: m_Name
-      value: IronOre
+      value: IronVein
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

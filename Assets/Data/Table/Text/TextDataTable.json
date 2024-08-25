@@ -3,6 +3,10 @@
     "Text_Iron_Name": {
       "Id": "Text_Iron_Name",
       "Text_Kr": "철광석"
+    },
+    "Text_Copper_Name": {
+      "Id": "Text_Copper_Name",
+      "Text_Kr": "구리 광석"
     }
   }
 }

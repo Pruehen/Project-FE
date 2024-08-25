@@ -45,7 +45,7 @@ public class PlayerView : MonoBehaviour
             case nameof(_vm.OnMouseObjectName):
                 if (_vm.OnMouseObjectName != null)
                 {
-                    TMP_OnMouseObjectName.text = _vm.OnMouseObjectName;
+                    TMP_OnMouseObjectName.text = JsonDataManager.GetText(_vm.OnMouseObjectName, EnumTypes.Language.Kr);
                 }
                 else
                 {

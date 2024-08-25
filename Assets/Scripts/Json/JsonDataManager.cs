@@ -3,6 +3,7 @@ using UnityEngine;
 using System.IO;
 using System;
 using System.Threading.Tasks;
+using EnumTypes;
 
 public static class JsonDataManager
 {
@@ -69,6 +70,10 @@ public static class JsonDataManager
             Debug.LogError("존재하지 않는 아이템 키입니다.");
             return null;
         }
+    }
+    public static string GetText(string key, Language language)
+    {
+        return jsonCache.TextDataTableCache.dic[key].Text_Kr;
     }
 
     public class JsonCache

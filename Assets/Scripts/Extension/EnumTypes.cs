@@ -16,4 +16,9 @@ namespace EnumTypes
         Generator,
         Storage
     }
+
+    public enum Language
+    {
+        Kr
+    }
 }
