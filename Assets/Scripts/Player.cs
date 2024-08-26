@@ -14,7 +14,23 @@ public class Player : SceneSingleton<Player>
 
     [SerializeField] Charactor controlledCharactor;
 
-    IInteractable onMouseObject;
+    IInteractable _onMouseObjectTemp;
+    IInteractable OnMouseObjectTemp
+    {
+        get { return _onMouseObjectTemp; }
+        set
+        {
+            if (_onMouseObjectTemp != null)
+            {
+                _onMouseObjectTemp.MouseExit();
+            }
+            _onMouseObjectTemp = value;
+            if (_onMouseObjectTemp != null)
+            {
+                _onMouseObjectTemp.MouseEnter();
+            }
+        }
+    }
 
     private void Start()
     {
@@ -25,7 +41,7 @@ public class Player : SceneSingleton<Player>
     void Update()
     {
         PlayerInput_OnUpdate();
-        SetLookTargetPos_OnUpdate();
+        MousePosCheck_OnUpdate();
         MouseClickCheck_OnUpdate();
 
         InputKeyCheck_OnUpdate();
@@ -56,7 +72,7 @@ public class Player : SceneSingleton<Player>
         onInput_Move?.Invoke(inputVector_Move);
     }
 
-    void SetLookTargetPos_OnUpdate()
+    void MousePosCheck_OnUpdate()
     {        
         Vector3 mousePosition = Input.mousePosition;
         
@@ -65,14 +81,15 @@ public class Player : SceneSingleton<Player>
         
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            if(hit.collider.TryGetComponent(out onMouseObject))
+            if(hit.collider.TryGetComponent(out IInteractable onMouseObject))
             {
                 lookTargetPosVector = onMouseObject.GetPos();
                 mouseOverObjectName = onMouseObject.GetName();
+                OnMouseObjectTemp = onMouseObject;
             }
             else
             {
-                onMouseObject = null;
+                OnMouseObjectTemp = null;
                 lookTargetPosVector = hit.point;
                 mouseOverObjectName = null;
             }
@@ -119,7 +136,7 @@ public class Player : SceneSingleton<Player>
     {
         if (controlledCharactor != null)
         {
-            controlledCharactor.TryInteract(onMouseObject, out float interactRatio);
+            controlledCharactor.TryInteract(OnMouseObjectTemp, out float interactRatio);
             OnInteractRatioChanged?.Invoke(interactRatio);
         }
     }

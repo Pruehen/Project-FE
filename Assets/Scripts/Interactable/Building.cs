@@ -4,6 +4,18 @@ public class Building : MonoBehaviour, IInteractable
 {
     [SerializeField] string Key;
     BuildingData _buildingData;
+
+    Outline _outline;
+    Outline Outline
+    {
+        get
+        {
+            if (_outline == null)
+                _outline = GetComponent<Outline>();
+            return _outline;
+        }
+    }
+
     public BuildingData BuildingData
     {
         get 
@@ -36,6 +48,16 @@ public class Building : MonoBehaviour, IInteractable
     public float InteractSpeedGain()
     {
         return 1;
+    }
+
+    public void MouseEnter()
+    {
+        Outline.IsOutlineEnabled = true;
+    }
+
+    public void MouseExit()
+    {
+        Outline.IsOutlineEnabled = false;
     }
 
     public bool TryInteract(Vector3 originPos, float checkRange)
