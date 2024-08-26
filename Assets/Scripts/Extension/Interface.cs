@@ -6,6 +6,8 @@ public interface IInteractable
     public Vector3 GetPos();
     public float InteractSpeedGain();
     public bool TryInteract(Vector3 originPos, float checkRange);
+    public void MouseEnter();
+    public void MouseExit();
 }
 
 public interface ITable

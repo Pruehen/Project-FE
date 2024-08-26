@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1570681320503234092}
   - component: {fileID: 1774044772353328016}
   - component: {fileID: -8096749106778028507}
+  - component: {fileID: -6799628280309421769}
   m_Layer: 0
   m_Name: Building_Crafter_T1
   m_TagString: Untagged
@@ -132,3 +133,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b95819a3776e984b9b87a3aa14535ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CraftingTimeGain: 1
+--- !u!114 &-6799628280309421769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1112341657288002647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 0, g: 1, b: 0.1481998, a: 1}
+  outlineWidth: 10
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
