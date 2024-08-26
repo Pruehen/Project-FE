@@ -1,0 +1,274 @@
+[
+    {
+        "Id":"Text_Item_Iron_Name",
+        "Text_Kr":"철광석"
+    },
+    {
+        "Id":"Text_Item_Copper_Name",
+        "Text_Kr":"구리광석"
+    },
+    {
+        "Id":"Text_Item_IronPlate_Name",
+        "Text_Kr":"철판"
+    },
+    {
+        "Id":"Text_Item_CopperPlate_Name",
+        "Text_Kr":"구리판"
+    },
+    {
+        "Id":"Text_Item_BioSludge_Name",
+        "Text_Kr":"바이오슬러지"
+    },
+    {
+        "Id":"Text_Item_Crafter_T1_Name",
+        "Text_Kr":"기계식 제작기"
+    },
+    {
+        "Id":"Text_Item_Crater_T2_Name",
+        "Text_Kr":"전기 제작기"
+    },
+    {
+        "Id":"Text_Item_Refinery_T1_Name",
+        "Text_Kr":"기계식 제련기"
+    },
+    {
+        "Id":"Text_Item_Refinery_T2_Name",
+        "Text_Kr":"전기 제련기"
+    },
+    {
+        "Id":"Text_Item_Miner_T1_Name",
+        "Text_Kr":"기계식 채굴기"
+    },
+    {
+        "Id":"Text_Item_Miner_T2_Name",
+        "Text_Kr":"전기 채굴기"
+    },
+    {
+        "Id":"Text_Item_Inserter_T1_Name",
+        "Text_Kr":"기계식 투입기"
+    },
+    {
+        "Id":"Text_Item_Inserter_T2_Name",
+        "Text_Kr":"전기 투입기"
+    },
+    {
+        "Id":"Text_Item_Belt_T1_Name",
+        "Text_Kr":"운송벨트"
+    },
+    {
+        "Id":"Text_Item_Belt_T2_Name",
+        "Text_Kr":"고속 운송벨트"
+    },
+    {
+        "Id":"Text_Item_Generator_T1_Name",
+        "Text_Kr":"바이오슬러지 발전기"
+    },
+    {
+        "Id":"Text_Item_Generator_T2_Name",
+        "Text_Kr":"풍력 발전기"
+    },
+    {
+        "Id":"Text_Item_BioFuel_Name",
+        "Text_Kr":"바이오슬러지"
+    },
+    {
+        "Id":"Text_Item_Iron_Desc",
+        "Text_Kr":"철광석 입니다."
+    },
+    {
+        "Id":"Text_Item_Copper_Desc",
+        "Text_Kr":"구리광석 입니다."
+    },
+    {
+        "Id":"Text_Item_IronPlate_Desc",
+        "Text_Kr":"철판 입니다."
+    },
+    {
+        "Id":"Text_Item_CopperPlate_Desc",
+        "Text_Kr":"구리판 입니다."
+    },
+    {
+        "Id":"Text_Item_BioSludge_Desc",
+        "Text_Kr":"바이오슬러지 입니다."
+    },
+    {
+        "Id":"Text_Item_Crafter_T1_Desc",
+        "Text_Kr":"기계식 제작기 입니다."
+    },
+    {
+        "Id":"Text_Item_Crater_T2_Desc",
+        "Text_Kr":"전기 제작기 입니다."
+    },
+    {
+        "Id":"Text_Item_Refinery_T1_Desc",
+        "Text_Kr":"기계식 제련기 입니다."
+    },
+    {
+        "Id":"Text_Item_Refinery_T2_Desc",
+        "Text_Kr":"전기 제련기 입니다."
+    },
+    {
+        "Id":"Text_Item_Miner_T1_Desc",
+        "Text_Kr":"기계식 채굴기 입니다."
+    },
+    {
+        "Id":"Text_Item_Miner_T2_Desc",
+        "Text_Kr":"전기 채굴기 입니다."
+    },
+    {
+        "Id":"Text_Item_Inserter_T1_Desc",
+        "Text_Kr":"기계식 투입기 입니다."
+    },
+    {
+        "Id":"Text_Item_Inserter_T2_Desc",
+        "Text_Kr":"전기 투입기 입니다."
+    },
+    {
+        "Id":"Text_Item_Belt_T1_Desc",
+        "Text_Kr":"운송벨트 입니다."
+    },
+    {
+        "Id":"Text_Item_Belt_T2_Desc",
+        "Text_Kr":"고속 운송벨트 입니다."
+    },
+    {
+        "Id":"Text_Item_Generator_T1_Desc",
+        "Text_Kr":"바이오슬러지 발전기 입니다."
+    },
+    {
+        "Id":"Text_Item_Generator_T2_Desc",
+        "Text_Kr":"풍력 발전기 입니다."
+    },
+    {
+        "Id":"Text_Item_BioFuel_Desc",
+        "Text_Kr":"바이오슬러지 입니다."
+    },
+    {
+        "Id":"Text_Recipy_IronPlate_Name",
+        "Text_Kr":"철판 제작법"
+    },
+    {
+        "Id":"Text_Recipy_IronPlate_Alternative_Name",
+        "Text_Kr":"효율적인 철판 제작법"
+    },
+    {
+        "Id":"Text_Recipy_CopperPlate_Name",
+        "Text_Kr":"구리판 제작법"
+    },
+    {
+        "Id":"Text_Recipy_CopperPlate_Alternative_Name",
+        "Text_Kr":"효율적인 구리판 제작법"
+    },
+    {
+        "Id":"Text_Recipy_Crafter_T1_Name",
+        "Text_Kr":"기계식 제작기 제작법"
+    },
+    {
+        "Id":"Text_Recipy_Crater_T2_Name",
+        "Text_Kr":"전기 제작기 제작법"
+    },
+    {
+        "Id":"Text_Recipy_Refinery_T1_Name",
+        "Text_Kr":"기계식 제련기 제작법"
+    },
+    {
+        "Id":"Text_Recipy_Refinery_T2_Name",
+        "Text_Kr":"전기 제련기 제작법"
+    },
+    {
+        "Id":"Text_Recipy_Miner_T1_Name",
+        "Text_Kr":"기계식 채굴기 제작법"
+    },
+    {
+        "Id":"Text_Recipy_Miner_T2_Name",
+        "Text_Kr":"전기 채굴기 제작법"
+    },
+    {
+        "Id":"Text_Recipy_Inserter_T1_Name",
+        "Text_Kr":"기계식 투입기 제작법"
+    },
+    {
+        "Id":"Text_Recipy_Inserter_T2_Name",
+        "Text_Kr":"전기 투입기 제작법"
+    },
+    {
+        "Id":"Text_Recipy_Belt_T1_Name",
+        "Text_Kr":"운송벨트 제작법"
+    },
+    {
+        "Id":"Text_Recipy_Belt_T2_Name",
+        "Text_Kr":"고속 운송벨트 제작법"
+    },
+    {
+        "Id":"Text_Recipy_Generator_T1_Name",
+        "Text_Kr":"바이오슬러지 발전기 제작법"
+    },
+    {
+        "Id":"Text_Recipy_Generator_T2_Name",
+        "Text_Kr":"풍력 발전기 제작법"
+    },
+    {
+        "Id":"Text_Recipy_IronPlate_Desc",
+        "Text_Kr":"철판 제작법 입니다."
+    },
+    {
+        "Id":"Text_Recipy_IronPlate_Alternative_Desc",
+        "Text_Kr":"효율적인 철판 제작법 입니다."
+    },
+    {
+        "Id":"Text_Recipy_CopperPlate_Desc",
+        "Text_Kr":"구리판 제작법 입니다."
+    },
+    {
+        "Id":"Text_Recipy_CopperPlate_Alternative_Desc",
+        "Text_Kr":"효율적인 구리판 제작법 입니다."
+    },
+    {
+        "Id":"Text_Recipy_Crafter_T1_Desc",
+        "Text_Kr":"기계식 제작기 제작법 입니다."
+    },
+    {
+        "Id":"Text_Recipy_Crater_T2_Desc",
+        "Text_Kr":"전기 제작기 제작법 입니다."
+    },
+    {
+        "Id":"Text_Recipy_Refinery_T1_Desc",
+        "Text_Kr":"기계식 제련기 제작법 입니다."
+    },
+    {
+        "Id":"Text_Recipy_Refinery_T2_Desc",
+        "Text_Kr":"전기 제련기 제작법 입니다."
+    },
+    {
+        "Id":"Text_Recipy_Miner_T1_Desc",
+        "Text_Kr":"기계식 채굴기 제작법 입니다."
+    },
+    {
+        "Id":"Text_Recipy_Miner_T2_Desc",
+        "Text_Kr":"전기 채굴기 제작법 입니다."
+    },
+    {
+        "Id":"Text_Recipy_Inserter_T1_Desc",
+        "Text_Kr":"기계식 투입기 제작법 입니다."
+    },
+    {
+        "Id":"Text_Recipy_Inserter_T2_Desc",
+        "Text_Kr":"전기 투입기 제작법 입니다."
+    },
+    {
+        "Id":"Text_Recipy_Belt_T1_Desc",
+        "Text_Kr":"운송벨트 제작법 입니다."
+    },
+    {
+        "Id":"Text_Recipy_Belt_T2_Desc",
+        "Text_Kr":"고속 운송벨트 제작법 입니다."
+    },
+    {
+        "Id":"Text_Recipy_Generator_T1_Desc",
+        "Text_Kr":"바이오슬러지 발전기 제작법 입니다."
+    },
+    {
+        "Id":"Text_Recipy_Generator_T2_Desc",
+        "Text_Kr":"풍력 발전기 제작법 입니다."
+    }
+]
