@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 3607719911530112964}
   - component: {fileID: 2480963745228497335}
   - component: {fileID: 1570681320503234092}
+  - component: {fileID: 1774044772353328016}
+  - component: {fileID: -8096749106778028507}
   m_Layer: 0
   m_Name: Building_Crafter_T1
   m_TagString: Untagged
@@ -105,3 +107,28 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1774044772353328016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1112341657288002647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c115586d0a669f841b18dadd2f14ee99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Key: Building_Crafter_T1
+--- !u!114 &-8096749106778028507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1112341657288002647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b95819a3776e984b9b87a3aa14535ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
