@@ -83,6 +83,18 @@ public static class JsonDataManager
             return null;
         }
     }
+    public static RecipyData GetRecipyData(string key)
+    {
+        if (jsonCache.RecipyDataTableCache.dic.ContainsKey(key))
+        {
+            return jsonCache.RecipyDataTableCache.dic[key];
+        }
+        else
+        {
+            Debug.LogError("존재하지 않는 레시피 데이터 키입니다.");
+            return null;
+        }
+    }
     public static string GetText(string key, Language language)
     {
         return jsonCache.TextDataTableCache.dic[key].Text_Kr;

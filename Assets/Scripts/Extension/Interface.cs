@@ -12,3 +12,8 @@ public interface ITable
 {
     public string FilePath();
 }
+
+public interface IInventory
+{
+
+}

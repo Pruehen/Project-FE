@@ -3,6 +3,18 @@ using UnityEngine;
 public class Building : MonoBehaviour, IInteractable
 {
     [SerializeField] string Key;
+    BuildingData _buildingData;
+    public BuildingData BuildingData
+    {
+        get 
+        {
+            if(_buildingData == null)
+            {
+                _buildingData = JsonDataManager.GetBuilding(Key);
+            }
+            return _buildingData; 
+        }
+    }
 
     public string GetName()
     {

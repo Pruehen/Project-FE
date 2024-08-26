@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour
+public class Inventory : MonoBehaviour, IInventory
 {
     [SerializeField] int inventoryMaxCount = 150;
     public int InventoryMaxCount() { return inventoryMaxCount; }
@@ -110,28 +111,43 @@ public class CellData
     public string Id { get; private set; }    
     public int Count { get; private set; }
     public int MaxCount { get; private set; }
+    public bool FixedCell { get; private set; }//아이템 고정 변수. true일 시 아이템이 모두 제거되어도 Id가 null이 되지 않음.
     public bool CanItemAdd()
     {
         return MaxCount > Count;
     }
 
-    public CellData(string id, int count, int maxCount)
+    public CellData(string id, int count, int maxCount, bool fixedCell)
     {
         Id = id;
         Count = count;
         MaxCount = maxCount;
+        FixedCell = fixedCell;
     }
-    public CellData()
+    public CellData(string id = null, bool fixedCell = false)
     {
-        Clear();
-    }
-    public void Clear()
-    {
-        Id = null;
+        FixedCell = fixedCell;
         Count = 0;
-        MaxCount = 0;
+        if (FixedCell && id != null)
+        {
+            SetItem(id);            
+        }
+        else
+        {
+            Id = null;
+            MaxCount = 0;
+        }
     }
-    public void CreateItem(string id)
+    public void Clear()//Remove
+    {
+        if(FixedCell == false)
+        {
+            Id = null;
+            MaxCount = 0;
+        }
+        Count = 0;        
+    }
+    public void SetItem(string id)
     {
         Id = id;
         MaxCount = JsonDataManager.GetItem(id).MaxStack;
@@ -142,7 +158,8 @@ public class CellData
 
         if (Id == null)//빈 칸일 경우
         {
-            CreateItem(id);
+            SetItem(id);
+            Debug.LogWarning("수신 셀이 비어있습니다. 아이템을 할당합니다.");
         }
         else if(Id != id)
         {
@@ -155,7 +172,69 @@ public class CellData
         if (Count > MaxCount)
         {
             remaining = Count - MaxCount;
-            Count = MaxCount;
+            if(FixedCell == false)
+            {
+                Count = MaxCount;
+            }
+        }
+    }
+
+    public void AddItem(int count)//FixedCell 전용
+    {        
+        if(FixedCell == false)
+        {
+            Debug.LogWarning("고정 아이템 셀이 아닙니다.");
+            return;
+        }
+        if (Id == null)//빈 칸일 경우
+        {            
+            Debug.LogWarning("수신 셀이 비어있습니다.");
+            return;
+        }
+
+        Count += count;
+    }
+    public void UseItem(int count)
+    {
+        if(count > Count)
+        {
+            Debug.LogWarning("사용 가능한 수량 이상을 요청했습니다.");
+            return;
+        }
+
+        Count -= count;
+        if (Count == 0)
+        {
+            Debug.Log("셀 비워짐");
+            Clear();
+        }
+    }
+    public void TransportItem(CellData targetCell, int transportCount)
+    {
+        if (Id == null || Count == 0)
+        {
+            Debug.LogWarning("발신 셀이 비어있습니다.");
+            return;
+        }
+
+        if(transportCount > Count)
+        {
+            transportCount = Count;
+            Debug.LogWarning("셀의 보유량을 초과하는 요청입니다.");
+        }
+        
+        targetCell.AddItem(Id, transportCount, out int remaining);
+        Count -= transportCount;
+
+        if (remaining > 0)
+        {
+            Debug.LogWarning($"셀 오버플로우 발생. {remaining} 개의 아이템 반환");
+            Count += remaining;
+        }
+        if(Count == 0)
+        {
+            Debug.Log("셀 비워짐");
+            Clear();
         }
     }
 }

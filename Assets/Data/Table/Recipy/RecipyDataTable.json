@@ -9,17 +9,9 @@
         {
           "Id": "Item_Iron",
           "Count": 1
-        },
-        {
-          "Id": "Item_Iron",
-          "Count": 1
         }
       ],
       "OutputItemGroup": [
-        {
-          "Id": "Item_Iron",
-          "Count": 1
-        },
         {
           "Id": "Item_Iron",
           "Count": 1

@@ -1564,6 +1564,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8096749106778028507, guid: 79e631fc43fcfa148a0f74e5d1c86699, type: 3}
+      propertyPath: CraftingTimeGain
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 1112341657288002647, guid: 79e631fc43fcfa148a0f74e5d1c86699, type: 3}
       propertyPath: m_Name
       value: Building_Crafter_T1
