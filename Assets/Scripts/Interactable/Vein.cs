@@ -6,6 +6,17 @@ public class Vein : MonoBehaviour, IInteractable
     [SerializeField] float extractTimeGain = 1;
     [SerializeField] int reserves = 10000;
 
+    Outline _outline;
+    Outline Outline
+    {
+        get
+        {
+            if (_outline == null)
+                _outline = GetComponent<Outline>();
+            return _outline;
+        }
+    }
+
     public string GetName()
     {
         string name = JsonDataManager.GetItem(itemKey).Name;
@@ -29,5 +40,15 @@ public class Vein : MonoBehaviour, IInteractable
         {
             return true;
         }
+    }
+
+    public void MouseEnter()
+    {
+        Outline.IsOutlineEnabled = true;
+    }
+
+    public void MouseExit()
+    {
+        Outline.IsOutlineEnabled = false;
     }
 }
