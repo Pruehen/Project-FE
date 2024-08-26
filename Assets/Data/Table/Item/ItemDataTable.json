@@ -21,6 +21,17 @@
       "Icon_Path": "UI/Icon/Item/Icon_Copper",
       "ItemMesh_Path": "Prefabs/Copper",
       "DropMesh_Path": "Prefabs/Cu"
+    },
+    "Building_Crafter_T1": {
+      "Id": "Building_Crafter_T1",
+      "ItemType": 2,
+      "Name": "Text_Building_Crafter_T1_Name",
+      "Desc": "Text_Building_Crafter_T1_Desc",
+      "MaxStack": 50,
+      "EnergyReserves": 0.0,
+      "Icon_Path": "UI/Icon/Item/Icon_Copper",
+      "ItemMesh_Path": "Prefabs/Copper",
+      "DropMesh_Path": "Prefabs/Cu"
     }
   }
 }

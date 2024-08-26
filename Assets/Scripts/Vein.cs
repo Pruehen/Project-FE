@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Lode : MonoBehaviour, IInteractable
+public class Vein : MonoBehaviour, IInteractable
 {
     [SerializeField] string itemKey;
     [SerializeField] float extractTimeGain = 1;

@@ -2,12 +2,20 @@ using UnityEngine;
 
 public class Building : MonoBehaviour, IInteractable
 {
-    [SerializeField] string itemKey;
+    [SerializeField] string Key;
 
     public string GetName()
     {
-        string name = JsonDataManager.GetItem(itemKey).Name;
-        return name;
+        ItemData data = JsonDataManager.GetItem(Key);
+        if(data != null)
+        {
+            string name = data.Name;
+            return name;
+        }
+        else
+        {
+            return "키를 찾을 수 없음";
+        }
     }
     public Vector3 GetPos()
     {

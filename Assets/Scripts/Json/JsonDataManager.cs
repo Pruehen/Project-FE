@@ -71,6 +71,18 @@ public static class JsonDataManager
             return null;
         }
     }
+    public static BuildingData GetBuilding(string key)
+    {
+        if (jsonCache.BuildingDataTableCache.dic.ContainsKey(key))
+        {
+            return jsonCache.BuildingDataTableCache.dic[key];
+        }
+        else
+        {
+            Debug.LogError("존재하지 않는 건물 아이템 키입니다.");
+            return null;
+        }
+    }
     public static string GetText(string key, Language language)
     {
         return jsonCache.TextDataTableCache.dic[key].Text_Kr;
