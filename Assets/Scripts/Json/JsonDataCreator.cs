@@ -184,21 +184,110 @@ public class RecipyData
     [JsonProperty] public string Id { get; private set; }
     [JsonProperty] public string Name { get; private set; }
     [JsonProperty] public string Desc { get; private set; }
-    [JsonProperty] public string Icon_Path { get; private set; }
-    [JsonProperty] public List<ItemGroup_UsedInRecipe> InputItemGroup { get; private set; }
-    [JsonProperty] public List<ItemGroup_UsedInRecipe> OutputItemGroup { get; private set; }
+    [JsonProperty("Icon")] public string Icon_Path { get; private set; }
+    //========================================================================
+    [JsonProperty("InputItem-1")] public string InputItem_1 { get; private set; }
+    [JsonProperty("InputItemCount-1")] public int InputItemCount_1 { get; private set; }
+    [JsonProperty("InputItem-2")] public string InputItem_2 { get; private set; }
+    [JsonProperty("InputItemCount-2")] public int InputItemCount_2 { get; private set; }
+    [JsonProperty("InputItem-3")] public string InputItem_3 { get; private set; }
+    [JsonProperty("InputItemCount-3")] public int InputItemCount_3 { get; private set; }
+    [JsonProperty("InputItem-4")] public string InputItem_4 { get; private set; }
+    [JsonProperty("InputItemCount-4")] public int InputItemCount_4 { get; private set; }
+    //========================================================================
+    [JsonProperty("OutputItem-1")] public string OutputItem_1 { get; private set; }
+    [JsonProperty("OutputItemCount-1")] public int OutputItemCount_1 { get; private set; }
+    [JsonProperty("OutputItem-2")] public string OutputItem_2 { get; private set; }
+    [JsonProperty("OutputItemCount-2")] public int OutputItemCount_2 { get; private set; }
+    [JsonProperty("OutputItem-3")] public string OutputItem_3 { get; private set; }
+    [JsonProperty("OutputItemCount-3")] public int OutputItemCount_3 { get; private set; }
+    [JsonProperty("OutputItem-4")] public string OutputItem_4 { get; private set; }
+    [JsonProperty("OutputItemCount-4")] public int OutputItemCount_4 { get; private set; }
+    //========================================================================
+
     [JsonProperty] public float CraftingTime { get; private set; }
 
+    [JsonIgnore] public List<ItemGroup_UsedInRecipe> InputItemGroup { get; private set; }
+    [JsonIgnore] public List<ItemGroup_UsedInRecipe> OutputItemGroup { get; private set; }
+
     [JsonConstructor]
-    public RecipyData(string id, string name, string desc, string icon_Path, List<ItemGroup_UsedInRecipe> inputItemGroup, List<ItemGroup_UsedInRecipe> outputItemGroup, float craftingTime)
+    public RecipyData(
+        string id,
+        string name,
+        string desc,
+        string icon_Path,
+        string inputItem_1, int inputItemCount_1,
+        string inputItem_2, int inputItemCount_2,
+        string inputItem_3, int inputItemCount_3,
+        string inputItem_4, int inputItemCount_4,
+        string outputItem_1, int outputItemCount_1,
+        string outputItem_2, int outputItemCount_2,
+        string outputItem_3, int outputItemCount_3,
+        string outputItem_4, int outputItemCount_4,
+        float craftingTime
+    )
     {
-        this.Id = id;
-        this.Name = name;
-        this.Desc = desc;
-        this.Icon_Path = icon_Path;
-        this.InputItemGroup = inputItemGroup;
-        this.OutputItemGroup = outputItemGroup;
-        this.CraftingTime = craftingTime;
+        Id = id;
+        Name = name;
+        Desc = desc;
+        Icon_Path = icon_Path;
+
+        InputItemGroup = new List<ItemGroup_UsedInRecipe>();
+        OutputItemGroup = new List<ItemGroup_UsedInRecipe>();
+
+        //================================================================
+        InputItem_1 = inputItem_1;
+        InputItemCount_1 = inputItemCount_1;
+        if(InputItem_1 != null)
+        {
+            InputItemGroup.Add(new ItemGroup_UsedInRecipe(InputItem_1, InputItemCount_1));
+        }
+        InputItem_2 = inputItem_2;
+        InputItemCount_2 = inputItemCount_2;
+        if (InputItem_2 != null)
+        {
+            InputItemGroup.Add(new ItemGroup_UsedInRecipe(InputItem_2, InputItemCount_2));
+        }
+        InputItem_3 = inputItem_3;
+        InputItemCount_3 = inputItemCount_3;
+        if (InputItem_3 != null)
+        {
+            InputItemGroup.Add(new ItemGroup_UsedInRecipe(InputItem_3, InputItemCount_3));
+        }
+        InputItem_4 = inputItem_4;
+        InputItemCount_4 = inputItemCount_4;
+        if (InputItem_4 != null)
+        {
+            InputItemGroup.Add(new ItemGroup_UsedInRecipe(InputItem_4, InputItemCount_4));
+        }
+        //================================================================
+        OutputItem_1 = outputItem_1;
+        OutputItemCount_1 = outputItemCount_1;
+        if (OutputItem_1 != null)
+        {
+            OutputItemGroup.Add(new ItemGroup_UsedInRecipe(OutputItem_1, OutputItemCount_1));
+        }
+        OutputItem_2 = outputItem_2;
+        OutputItemCount_2 = outputItemCount_2;
+        if (OutputItem_2 != null)
+        {
+            OutputItemGroup.Add(new ItemGroup_UsedInRecipe(OutputItem_2, OutputItemCount_2));
+        }
+        OutputItem_3 = outputItem_3;
+        OutputItemCount_3 = outputItemCount_3;
+        if (OutputItem_3 != null)
+        {
+            OutputItemGroup.Add(new ItemGroup_UsedInRecipe(OutputItem_3, OutputItemCount_3));
+        }
+        OutputItem_4 = outputItem_4;
+        OutputItemCount_4 = outputItemCount_4;
+        if (OutputItem_4 != null)
+        {
+            OutputItemGroup.Add(new ItemGroup_UsedInRecipe(OutputItem_4, OutputItemCount_4));
+        }
+        //================================================================
+
+        CraftingTime = craftingTime;
     }
     public RecipyData()
     {
@@ -243,7 +332,7 @@ public class RecipyDataTable
     }
     public static string FilePath()
     {
-        return "/Data/Table/Recipy/RecipyDataTable.json";
+        return "/Data/Table/Item/RecipyData.json";
     }
 }
 
