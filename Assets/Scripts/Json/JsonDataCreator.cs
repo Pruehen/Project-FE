@@ -12,9 +12,9 @@ public class ItemData
     [JsonProperty] public int MaxStack { get; private set; }
     [JsonProperty] public float EnergyReserves { get; private set; }
 
-    [JsonProperty] public string Icon_Path { get; private set; }
-    [JsonProperty] public string ItemMesh_Path { get; private set; }
-    [JsonProperty] public string DropMesh_Path { get; private set; }
+    [JsonProperty("Icon")] public string Icon_Path { get; private set; }
+    [JsonProperty("ItemMesh")] public string ItemMesh_Path { get; private set; }
+    [JsonProperty("DropMesh")] public string DropMesh_Path { get; private set; }
 
     [JsonConstructor]
     public ItemData(string id, ItemType itemType, string name, string desc, int maxStack, float energyReserves, string iconPath, string itemMeshPath, string dropMeshPath )
@@ -69,7 +69,7 @@ public class ItemDataTable
     }
     public static string FilePath()
     {
-        return "/Data/Table/Item/ItemDataTable.json";
+        return "/Data/Table/Item/ItemData.json";
     }
 }
 

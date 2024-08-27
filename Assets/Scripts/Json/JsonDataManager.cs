@@ -16,11 +16,20 @@ public static class JsonDataManager
             return new T();
 
         string fileData = File.ReadAllText(filePath);
+
+        // JSON에서 받은 경로를 Unity 경로로 변환
+        string unityPath = fileData.Replace("\\", "/");
+        unityPath = unityPath.Replace("//", "/");
+        unityPath = unityPath.Replace("/UI/", "UI/");
+        unityPath = unityPath.Replace("/Prefabs", "Prefabs/");
+        unityPath = unityPath.Replace("/Resources/", ""); // "Resources/" 부분 제거
+        unityPath = unityPath.Replace(".png", ""); // 파일 확장자 제거
+
         T data;
 
         try
         {
-            data = JsonConvert.DeserializeObject<T>(fileData);
+            data = JsonConvert.DeserializeObject<T>(unityPath);
             if (data == null)
             {
                 data = new T();

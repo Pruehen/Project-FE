@@ -2,7 +2,7 @@
   "dic": {
     "Item_Iron": {
       "Id": "Item_Iron",
-      "ItemType": 0,
+      "ItemType": "Resource",
       "Name": "Text_Iron_Name",
       "Desc": "Text_Iron_Desc",
       "MaxStack": 100,
@@ -13,7 +13,7 @@
     },
     "Item_Copper": {
       "Id": "Item_Copper",
-      "ItemType": 0,
+      "ItemType": "Resource",
       "Name": "Text_Copper_Name",
       "Desc": "Text_Copper_Desc",
       "MaxStack": 100,
@@ -24,7 +24,7 @@
     },
     "Building_Crafter_T1": {
       "Id": "Building_Crafter_T1",
-      "ItemType": 2,
+      "ItemType": "Building",
       "Name": "Text_Building_Crafter_T1_Name",
       "Desc": "Text_Building_Crafter_T1_Desc",
       "MaxStack": 50,

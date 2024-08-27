@@ -1,5 +1,9 @@
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json;
+
 namespace EnumTypes
 {
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum ItemType
     {
         Resource,       
@@ -7,6 +11,7 @@ namespace EnumTypes
         Building
     }
 
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum BuildingType
     {
         Crafting,
@@ -17,6 +22,7 @@ namespace EnumTypes
         Storage
     }
 
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum Language
     {
         Kr

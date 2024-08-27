@@ -2,7 +2,7 @@
   "dic": {
     "Building_Crafter_T1": {
       "Id": "Building_Crafter_T1",
-      "BuildingType": 0,
+      "BuildingType": "Crafting",
       "RecipyGroupId": "RG_Crafter_T1",
       "DeploySize_X": 2.0,
       "DeploySize_Y": 1.5,

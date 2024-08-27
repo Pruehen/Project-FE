@@ -1,200 +1,202 @@
-[
-    {
-        "Id":"Item_Iron",
-        "ItemType":"Resource",
-        "Name":"Text_Item_Iron_Name",
-        "Desc":"Text_Item_Iron_Desc",
-        "Icon":"\\Resources\\UI\\Icon\\Item\\Icon_Iron.png",
-        "MaxStack":100,
-        "EnergyReserves":0,
-        "ItemMesh":"\\Prefabs\\Iron.prefab",
-        "DropMesh":"\\Prefabs\\Fe.prefab"
+{
+  "dic": {
+    "Item_Iron": {
+      "Id": "Item_Iron",
+      "ItemType": "Resource",
+      "Name": "Text_Item_Iron_Name",
+      "Desc": "Text_Item_Iron_Desc",
+      "MaxStack": 100,
+      "EnergyReserves": 0.0,
+      "Icon": "UI/Icon/Item/Icon_Iron",
+      "ItemMesh": "Prefabs//Iron.prefab",
+      "DropMesh": "Prefabs//Fe.prefab"
     },
-    {
-        "Id":"Item_Copper",
-        "ItemType":"Resource",
-        "Name":"Text_Item_Copper_Name",
-        "Desc":"Text_Item_Copper_Desc",
-        "Icon":"\\Resources\\UI\\Icon\\Item\\Icon_Copper.png",
-        "MaxStack":100,
-        "EnergyReserves":0,
-        "ItemMesh":"\\Prefabs\\Copper.prefab",
-        "DropMesh":"\\Prefabs\\Copper.prefab"
+    "Item_Copper": {
+      "Id": "Item_Copper",
+      "ItemType": "Resource",
+      "Name": "Text_Item_Copper_Name",
+      "Desc": "Text_Item_Copper_Desc",
+      "MaxStack": 100,
+      "EnergyReserves": 0.0,
+      "Icon": "UI/Icon/Item/Icon_Copper",
+      "ItemMesh": "Prefabs//Copper.prefab",
+      "DropMesh": "Prefabs//Copper.prefab"
     },
-    {
-        "Id":"Item_IronPlate",
-        "ItemType":"Parts",
-        "Name":"Text_Item_IronPlate_Name",
-        "Desc":"Text_Item_IronPlate_Desc",
-        "Icon":"\\Resources\\UI\\Icon\\Item\\Icon_IronPlate.png",
-        "MaxStack":100,
-        "EnergyReserves":0,
-        "ItemMesh":"\\Prefabs\\IronPlate.prefab",
-        "DropMesh":"\\Prefabs\\IronPlate.prefab"
+    "Item_IronPlate": {
+      "Id": "Item_IronPlate",
+      "ItemType": "Parts",
+      "Name": "Text_Item_IronPlate_Name",
+      "Desc": "Text_Item_IronPlate_Desc",
+      "MaxStack": 100,
+      "EnergyReserves": 0.0,
+      "Icon": "UI/Icon/Item/Icon_IronPlate",
+      "ItemMesh": "Prefabs//IronPlate.prefab",
+      "DropMesh": "Prefabs//IronPlate.prefab"
     },
-    {
-        "Id":"Item_CopperPlate",
-        "ItemType":"Resource",
-        "Name":"Text_Item_CopperPlate_Name",
-        "Desc":"Text_Item_CopperPlate_Desc",
-        "Icon":"\\Resources\\UI\\Icon\\Item\\Icon_CopperPlate.png",
-        "MaxStack":100,
-        "EnergyReserves":0,
-        "ItemMesh":"\\Prefabs\\CopperPlate.prefab",
-        "DropMesh":"\\Prefabs\\CopperPlate.prefab"
+    "Item_CopperPlate": {
+      "Id": "Item_CopperPlate",
+      "ItemType": "Resource",
+      "Name": "Text_Item_CopperPlate_Name",
+      "Desc": "Text_Item_CopperPlate_Desc",
+      "MaxStack": 100,
+      "EnergyReserves": 0.0,
+      "Icon": "UI/Icon/Item/Icon_CopperPlate",
+      "ItemMesh": "Prefabs//CopperPlate.prefab",
+      "DropMesh": "Prefabs//CopperPlate.prefab"
     },
-    {
-        "Id":"Item_BioSludge",
-        "ItemType":"Parts",
-        "Name":"Text_Item_BioSludge_Name",
-        "Desc":"Text_Item_BioSludge_Desc",
-        "Icon":"\\Resources\\UI\\Icon\\Item\\Icon_BioSludge.png",
-        "MaxStack":100,
-        "EnergyReserves":0,
-        "ItemMesh":"\\Prefabs\\BioSludge.prefab",
-        "DropMesh":"\\Prefabs\\BioSludge.prefab"
+    "Item_BioSludge": {
+      "Id": "Item_BioSludge",
+      "ItemType": "Parts",
+      "Name": "Text_Item_BioSludge_Name",
+      "Desc": "Text_Item_BioSludge_Desc",
+      "MaxStack": 100,
+      "EnergyReserves": 0.0,
+      "Icon": "UI/Icon/Item/Icon_BioSludge",
+      "ItemMesh": "Prefabs//BioSludge.prefab",
+      "DropMesh": "Prefabs//BioSludge.prefab"
     },
-    {
-        "Id":"Item_Crafter_T1",
-        "ItemType":"Building",
-        "Name":"Text_Item_Crafter_T1_Name",
-        "Desc":"Text_Item_Crafter_T1_Desc",
-        "Icon":"\\Resources\\UI\\Icon\\Item\\Icon_Crafter_T1.png",
-        "MaxStack":100,
-        "EnergyReserves":0,
-        "ItemMesh":"\\Prefabs\\Crafter_T1.prefab",
-        "DropMesh":"\\Prefabs\\Crafter_T1.prefab"
+    "Item_Crafter_T1": {
+      "Id": "Item_Crafter_T1",
+      "ItemType": "Building",
+      "Name": "Text_Item_Crafter_T1_Name",
+      "Desc": "Text_Item_Crafter_T1_Desc",
+      "MaxStack": 100,
+      "EnergyReserves": 0.0,
+      "Icon": "UI/Icon/Item/Icon_Crafter_T1",
+      "ItemMesh": "Prefabs//Crafter_T1.prefab",
+      "DropMesh": "Prefabs//Crafter_T1.prefab"
     },
-    {
-        "Id":"Item_Crater_T2",
-        "ItemType":"Building",
-        "Name":"Text_Item_Crater_T2_Name",
-        "Desc":"Text_Item_Crater_T2_Desc",
-        "Icon":"\\Resources\\UI\\Icon\\Item\\Icon_Crater_T2.png",
-        "MaxStack":100,
-        "EnergyReserves":0,
-        "ItemMesh":"\\Prefabs\\Crater_T2.prefab",
-        "DropMesh":"\\Prefabs\\Crater_T2.prefab"
+    "Item_Crater_T2": {
+      "Id": "Item_Crater_T2",
+      "ItemType": "Building",
+      "Name": "Text_Item_Crater_T2_Name",
+      "Desc": "Text_Item_Crater_T2_Desc",
+      "MaxStack": 100,
+      "EnergyReserves": 0.0,
+      "Icon": "UI/Icon/Item/Icon_Crater_T2",
+      "ItemMesh": "Prefabs//Crater_T2.prefab",
+      "DropMesh": "Prefabs//Crater_T2.prefab"
     },
-    {
-        "Id":"Item_Refinery_T1",
-        "ItemType":"Building",
-        "Name":"Text_Item_Refinery_T1_Name",
-        "Desc":"Text_Item_Refinery_T1_Desc",
-        "Icon":"\\Resources\\UI\\Icon\\Item\\Icon_Refinery_T1.png",
-        "MaxStack":100,
-        "EnergyReserves":0,
-        "ItemMesh":"\\Prefabs\\Refinery_T1.prefab",
-        "DropMesh":"\\Prefabs\\Refinery_T1.prefab"
+    "Item_Refinery_T1": {
+      "Id": "Item_Refinery_T1",
+      "ItemType": "Building",
+      "Name": "Text_Item_Refinery_T1_Name",
+      "Desc": "Text_Item_Refinery_T1_Desc",
+      "MaxStack": 100,
+      "EnergyReserves": 0.0,
+      "Icon": "UI/Icon/Item/Icon_Refinery_T1",
+      "ItemMesh": "Prefabs//Refinery_T1.prefab",
+      "DropMesh": "Prefabs//Refinery_T1.prefab"
     },
-    {
-        "Id":"Item_Refinery_T2",
-        "ItemType":"Building",
-        "Name":"Text_Item_Refinery_T2_Name",
-        "Desc":"Text_Item_Refinery_T2_Desc",
-        "Icon":"\\Resources\\UI\\Icon\\Item\\Icon_Refinery_T2.png",
-        "MaxStack":100,
-        "EnergyReserves":0,
-        "ItemMesh":"\\Prefabs\\Refinery_T2.prefab",
-        "DropMesh":"\\Prefabs\\Refinery_T2.prefab"
+    "Item_Refinery_T2": {
+      "Id": "Item_Refinery_T2",
+      "ItemType": "Building",
+      "Name": "Text_Item_Refinery_T2_Name",
+      "Desc": "Text_Item_Refinery_T2_Desc",
+      "MaxStack": 100,
+      "EnergyReserves": 0.0,
+      "Icon": "UI/Icon/Item/Icon_Refinery_T2",
+      "ItemMesh": "Prefabs//Refinery_T2.prefab",
+      "DropMesh": "Prefabs//Refinery_T2.prefab"
     },
-    {
-        "Id":"Item_Miner_T1",
-        "ItemType":"Building",
-        "Name":"Text_Item_Miner_T1_Name",
-        "Desc":"Text_Item_Miner_T1_Desc",
-        "Icon":"\\Resources\\UI\\Icon\\Item\\Icon_Miner_T1.png",
-        "MaxStack":100,
-        "EnergyReserves":0,
-        "ItemMesh":"\\Prefabs\\Miner_T1.prefab",
-        "DropMesh":"\\Prefabs\\Miner_T1.prefab"
+    "Item_Miner_T1": {
+      "Id": "Item_Miner_T1",
+      "ItemType": "Building",
+      "Name": "Text_Item_Miner_T1_Name",
+      "Desc": "Text_Item_Miner_T1_Desc",
+      "MaxStack": 100,
+      "EnergyReserves": 0.0,
+      "Icon": "UI/Icon/Item/Icon_Miner_T1",
+      "ItemMesh": "Prefabs//Miner_T1.prefab",
+      "DropMesh": "Prefabs//Miner_T1.prefab"
     },
-    {
-        "Id":"Item_Miner_T2",
-        "ItemType":"Building",
-        "Name":"Text_Item_Miner_T2_Name",
-        "Desc":"Text_Item_Miner_T2_Desc",
-        "Icon":"\\Resources\\UI\\Icon\\Item\\Icon_Miner_T2.png",
-        "MaxStack":100,
-        "EnergyReserves":0,
-        "ItemMesh":"\\Prefabs\\Miner_T2.prefab",
-        "DropMesh":"\\Prefabs\\Miner_T2.prefab"
+    "Item_Miner_T2": {
+      "Id": "Item_Miner_T2",
+      "ItemType": "Building",
+      "Name": "Text_Item_Miner_T2_Name",
+      "Desc": "Text_Item_Miner_T2_Desc",
+      "MaxStack": 100,
+      "EnergyReserves": 0.0,
+      "Icon": "UI/Icon/Item/Icon_Miner_T2",
+      "ItemMesh": "Prefabs//Miner_T2.prefab",
+      "DropMesh": "Prefabs//Miner_T2.prefab"
     },
-    {
-        "Id":"Item_Inserter_T1",
-        "ItemType":"Building",
-        "Name":"Text_Item_Inserter_T1_Name",
-        "Desc":"Text_Item_Inserter_T1_Desc",
-        "Icon":"\\Resources\\UI\\Icon\\Item\\Icon_Inserter_T1.png",
-        "MaxStack":100,
-        "EnergyReserves":0,
-        "ItemMesh":"\\Prefabs\\Inserter_T1.prefab",
-        "DropMesh":"\\Prefabs\\Inserter_T1.prefab"
+    "Item_Inserter_T1": {
+      "Id": "Item_Inserter_T1",
+      "ItemType": "Building",
+      "Name": "Text_Item_Inserter_T1_Name",
+      "Desc": "Text_Item_Inserter_T1_Desc",
+      "MaxStack": 100,
+      "EnergyReserves": 0.0,
+      "Icon": "UI/Icon/Item/Icon_Inserter_T1",
+      "ItemMesh": "Prefabs//Inserter_T1.prefab",
+      "DropMesh": "Prefabs//Inserter_T1.prefab"
     },
-    {
-        "Id":"Item_Inserter_T2",
-        "ItemType":"Building",
-        "Name":"Text_Item_Inserter_T2_Name",
-        "Desc":"Text_Item_Inserter_T2_Desc",
-        "Icon":"\\Resources\\UI\\Icon\\Item\\Icon_Inserter_T2.png",
-        "MaxStack":100,
-        "EnergyReserves":0,
-        "ItemMesh":"\\Prefabs\\Inserter_T2.prefab",
-        "DropMesh":"\\Prefabs\\Inserter_T2.prefab"
+    "Item_Inserter_T2": {
+      "Id": "Item_Inserter_T2",
+      "ItemType": "Building",
+      "Name": "Text_Item_Inserter_T2_Name",
+      "Desc": "Text_Item_Inserter_T2_Desc",
+      "MaxStack": 100,
+      "EnergyReserves": 0.0,
+      "Icon": "UI/Icon/Item/Icon_Inserter_T2",
+      "ItemMesh": "Prefabs//Inserter_T2.prefab",
+      "DropMesh": "Prefabs//Inserter_T2.prefab"
     },
-    {
-        "Id":"Item_Belt_T1",
-        "ItemType":"Building",
-        "Name":"Text_Item_Belt_T1_Name",
-        "Desc":"Text_Item_Belt_T1_Desc",
-        "Icon":"\\Resources\\UI\\Icon\\Item\\Icon_Belt_T1.png",
-        "MaxStack":100,
-        "EnergyReserves":0,
-        "ItemMesh":"\\Prefabs\\Belt_T1.prefab",
-        "DropMesh":"\\Prefabs\\Belt_T1.prefab"
+    "Item_Belt_T1": {
+      "Id": "Item_Belt_T1",
+      "ItemType": "Building",
+      "Name": "Text_Item_Belt_T1_Name",
+      "Desc": "Text_Item_Belt_T1_Desc",
+      "MaxStack": 100,
+      "EnergyReserves": 0.0,
+      "Icon": "UI/Icon/Item/Icon_Belt_T1",
+      "ItemMesh": "Prefabs//Belt_T1.prefab",
+      "DropMesh": "Prefabs//Belt_T1.prefab"
     },
-    {
-        "Id":"Item_Belt_T2",
-        "ItemType":"Building",
-        "Name":"Text_Item_Belt_T2_Name",
-        "Desc":"Text_Item_Belt_T2_Desc",
-        "Icon":"\\Resources\\UI\\Icon\\Item\\Icon_Belt_T2.png",
-        "MaxStack":100,
-        "EnergyReserves":0,
-        "ItemMesh":"\\Prefabs\\Belt_T2.prefab",
-        "DropMesh":"\\Prefabs\\Belt_T2.prefab"
+    "Item_Belt_T2": {
+      "Id": "Item_Belt_T2",
+      "ItemType": "Building",
+      "Name": "Text_Item_Belt_T2_Name",
+      "Desc": "Text_Item_Belt_T2_Desc",
+      "MaxStack": 100,
+      "EnergyReserves": 0.0,
+      "Icon": "UI/Icon/Item/Icon_Belt_T2",
+      "ItemMesh": "Prefabs//Belt_T2.prefab",
+      "DropMesh": "Prefabs//Belt_T2.prefab"
     },
-    {
-        "Id":"Item_Generator_T1",
-        "ItemType":"Building",
-        "Name":"Text_Item_Generator_T1_Name",
-        "Desc":"Text_Item_Generator_T1_Desc",
-        "Icon":"\\Resources\\UI\\Icon\\Item\\Icon_Generator_T1.png",
-        "MaxStack":100,
-        "EnergyReserves":0,
-        "ItemMesh":"\\Prefabs\\Generator_T1.prefab",
-        "DropMesh":"\\Prefabs\\Generator_T1.prefab"
+    "Item_Generator_T1": {
+      "Id": "Item_Generator_T1",
+      "ItemType": "Building",
+      "Name": "Text_Item_Generator_T1_Name",
+      "Desc": "Text_Item_Generator_T1_Desc",
+      "MaxStack": 100,
+      "EnergyReserves": 0.0,
+      "Icon": "UI/Icon/Item/Icon_Generator_T1",
+      "ItemMesh": "Prefabs//Generator_T1.prefab",
+      "DropMesh": "Prefabs//Generator_T1.prefab"
     },
-    {
-        "Id":"Item_Generator_T2",
-        "ItemType":"Building",
-        "Name":"Text_Item_Generator_T2_Name",
-        "Desc":"Text_Item_Generator_T2_Desc",
-        "Icon":"\\Resources\\UI\\Icon\\Item\\Icon_Generator_T2.png",
-        "MaxStack":100,
-        "EnergyReserves":0,
-        "ItemMesh":"\\Prefabs\\Generator_T2.prefab",
-        "DropMesh":"\\Prefabs\\Generator_T2.prefab"
+    "Item_Generator_T2": {
+      "Id": "Item_Generator_T2",
+      "ItemType": "Building",
+      "Name": "Text_Item_Generator_T2_Name",
+      "Desc": "Text_Item_Generator_T2_Desc",
+      "MaxStack": 100,
+      "EnergyReserves": 0.0,
+      "Icon": "UI/Icon/Item/Icon_Generator_T2",
+      "ItemMesh": "Prefabs//Generator_T2.prefab",
+      "DropMesh": "Prefabs//Generator_T2.prefab"
     },
-    {
-        "Id":"Item_BioFuel",
-        "ItemType":"Resource",
-        "Name":"Text_Item_BioFuel_Name",
-        "Desc":"Text_Item_BioFuel_Desc",
-        "Icon":"\\Resources\\UI\\Icon\\Item\\Icon_BioFuel.png",
-        "MaxStack":100,
-        "EnergyReserves":1,
-        "ItemMesh":"\\Prefabs\\BioFuel.prefab",
-        "DropMesh":"\\Prefabs\\BioFuel.prefab"
+    "Item_BioFuel": {
+      "Id": "Item_BioFuel",
+      "ItemType": "Resource",
+      "Name": "Text_Item_BioFuel_Name",
+      "Desc": "Text_Item_BioFuel_Desc",
+      "MaxStack": 100,
+      "EnergyReserves": 1.0,
+      "Icon": "UI/Icon/Item/Icon_BioFuel",
+      "ItemMesh": "Prefabs//BioFuel.prefab",
+      "DropMesh": "Prefabs//BioFuel.prefab"
     }
-]
+  }
+}
