@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class Building : MonoBehaviour, IInteractable
 {
-    [SerializeField] string Key;
+    [SerializeField] string ItemKey;
+    [SerializeField] string BuildingKey;
     BuildingData _buildingData;
 
     Outline _outline;
@@ -22,7 +23,7 @@ public class Building : MonoBehaviour, IInteractable
         {
             if(_buildingData == null)
             {
-                _buildingData = JsonDataManager.GetBuilding(Key);
+                _buildingData = JsonDataManager.GetBuilding(BuildingKey);
             }
             return _buildingData; 
         }
@@ -30,7 +31,7 @@ public class Building : MonoBehaviour, IInteractable
 
     public string GetName()
     {
-        ItemData data = JsonDataManager.GetItem(Key);
+        ItemData data = JsonDataManager.GetItem(ItemKey);
         if(data != null)
         {
             string name = data.Name;
