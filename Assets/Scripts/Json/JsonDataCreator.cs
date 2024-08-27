@@ -279,7 +279,7 @@ public class TextDataTable
     }
     public static string FilePath()
     {
-        return "/Data/Table/Text/TextDataTable.json";
+        return "/Data/Table/Item/TextData.json";
     }
 }
 
