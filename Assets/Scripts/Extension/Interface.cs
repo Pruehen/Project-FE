@@ -15,7 +15,8 @@ public interface ITable
     public string FilePath();
 }
 
-public interface IInventory
+public interface IWindow
 {
-
+    public void Active();
+    public void Close();    
 }

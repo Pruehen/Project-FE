@@ -1,4 +1,5 @@
 
+using EnumTypes;
 using TMPro;
 using UnityEngine;
 
@@ -46,7 +47,10 @@ namespace UI.Extension
             return highestPriorityCamera;
         }
 
-        
+        public static string GetTextTable(this string id, Language languageType = Language.Kr)
+        {
+            return JsonDataManager.GetText(id, languageType);
+        }
 
         public static string SimplifyNumber(this float number)
         {

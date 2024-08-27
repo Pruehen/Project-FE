@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Window : MonoBehaviour
+public class WindowMove : MonoBehaviour
 {
     bool _isMoveMode = false;
     Vector3 mousePosTemp;

@@ -7,6 +7,8 @@ public class ItemCell : MonoBehaviour
     [SerializeField] TextMeshProUGUI TMP_ItemCount;
     [SerializeField] Image Image_ItemIcon;
 
+    CellData _cellData;
+
     public void Init()
     {
         TMP_ItemCount.text = string.Empty;
@@ -14,6 +16,7 @@ public class ItemCell : MonoBehaviour
     }
     public void Init(CellData cellData)
     {
+        _cellData = cellData;
         if (cellData.Id == null)
         {
             TMP_ItemCount.text = string.Empty;
@@ -25,6 +28,18 @@ public class ItemCell : MonoBehaviour
             TMP_ItemCount.text = cellData.Count.ToString();
             Image_ItemIcon.gameObject.SetActive(true);
             Image_ItemIcon.sprite = LoadSprite(item.Icon_Path);
+        }
+    }
+
+    public void Set_BtnMouseOverInfo(bool OnEnter)
+    {
+        if (OnEnter && _cellData.Id != null)
+        {
+            UIManager.Instance.Set_BtnMouseOverInfo(_cellData);
+        }
+        else
+        {
+            UIManager.Instance.Set_BtnMouseOverInfo(null);
         }
     }
 

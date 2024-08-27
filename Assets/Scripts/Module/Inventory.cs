@@ -1,15 +1,13 @@
 using System.Collections.Generic;
-using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour, IInventory
+public class Inventory : MonoBehaviour
 {
     [SerializeField] int inventoryMaxCount = 150;
     public int InventoryMaxCount() { return inventoryMaxCount; }
 
     List<CellData> tempItemList = new List<CellData>();
     int cellCorsor = 0;
-    bool _activeUI = false;
 
     public List<CellData> TempItemList() { return tempItemList; }
     public CellData CellItemData(int index) { return tempItemList[index]; }
@@ -17,16 +15,7 @@ public class Inventory : MonoBehaviour, IInventory
     Wdw_InventoryView wdw;
     public void ToggleActiveUI()
     {
-        _activeUI = !_activeUI;
-
-        if(_activeUI)
-        {
-            wdw = UIWindowManager.Instance.TryActive_InventoryUIWdw(this);
-        }
-        else
-        {
-            UIWindowManager.Instance.TryUnActive_InventoryUIWdw(this);            
-        }
+        wdw = UIManager.Instance.Toggle_InventoryUIWdw(this);
     }
 
     private void Awake()
