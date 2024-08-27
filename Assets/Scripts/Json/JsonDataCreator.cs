@@ -77,11 +77,11 @@ public class BuildingData
 {
     [JsonProperty] public string Id { get; private set; }
     [JsonProperty] public BuildingType BuildingType { get; private set; }
-    [JsonProperty] public string RecipyGroupId { get; private set; }
-    [JsonProperty] public float DeploySize_X { get; private set; }
-    [JsonProperty] public float DeploySize_Y { get; private set; }
-    [JsonProperty] public float DeploySize_Z { get; private set; }
-    [JsonProperty] public bool IsUseEnergy { get; private set; }
+    [JsonProperty] public string RecipyGroup { get; private set; }
+    [JsonProperty] public float DeploySizeX { get; private set; }
+    [JsonProperty] public float DeploySizeY { get; private set; }
+    [JsonProperty] public float DeploySizeZ { get; private set; }
+    [JsonProperty] public bool UseEnergy { get; private set; }
     [JsonProperty] public float EnergyEfficiency { get; private set; }
     [JsonProperty] public float SpeedEfficiency { get; private set; }
 
@@ -90,11 +90,11 @@ public class BuildingData
     {
         Id = id;
         BuildingType = buildingType;
-        RecipyGroupId = recipyGroupId;
-        DeploySize_X = deploySizeX;
-        DeploySize_Y = deploySizeY;
-        DeploySize_Z = deploySizeZ;
-        IsUseEnergy = isUseEnergy;
+        RecipyGroup = recipyGroupId;
+        DeploySizeX = deploySizeX;
+        DeploySizeY = deploySizeY;
+        DeploySizeZ = deploySizeZ;
+        UseEnergy = isUseEnergy;
         EnergyEfficiency = energyEfficiency;
         SpeedEfficiency = speedEfficiency;
     }
@@ -103,11 +103,11 @@ public class BuildingData
     {
         Id = "Building_Crafter_T1";
         BuildingType = BuildingType.Crafting;
-        RecipyGroupId = "RG_Crafter_T1";
-        DeploySize_X = 2;
-        DeploySize_Y = 1.5f;
-        DeploySize_Z = 2;
-        IsUseEnergy = true;
+        RecipyGroup = "RG_Crafter_T1";
+        DeploySizeX = 2;
+        DeploySizeY = 1.5f;
+        DeploySizeZ = 2;
+        UseEnergy = true;
         EnergyEfficiency = 1;
         SpeedEfficiency = 1;
     }
@@ -128,7 +128,7 @@ public class BuildingDataTable
     }
     public static string FilePath()
     {
-        return "/Data/Table/Building/BuildingDataTable.json";
+        return "/Data/Table/Item/BuildingData.json";
     }
 }
 public class RecipyGroupData
