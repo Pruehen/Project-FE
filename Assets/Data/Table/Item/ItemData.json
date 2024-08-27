@@ -8,8 +8,8 @@
       "MaxStack": 100,
       "EnergyReserves": 0.0,
       "Icon": "UI/Icon/Item/Icon_Iron",
-      "ItemMesh": "Prefabs//Iron.prefab",
-      "DropMesh": "Prefabs//Fe.prefab"
+      "ItemMesh": "Prefabs/Iron.prefab",
+      "DropMesh": "Prefabs/Fe.prefab"
     },
     "Item_Copper": {
       "Id": "Item_Copper",
@@ -19,8 +19,8 @@
       "MaxStack": 100,
       "EnergyReserves": 0.0,
       "Icon": "UI/Icon/Item/Icon_Copper",
-      "ItemMesh": "Prefabs//Copper.prefab",
-      "DropMesh": "Prefabs//Copper.prefab"
+      "ItemMesh": "Prefabs/Copper.prefab",
+      "DropMesh": "Prefabs/Copper.prefab"
     },
     "Item_IronPlate": {
       "Id": "Item_IronPlate",
@@ -30,8 +30,8 @@
       "MaxStack": 100,
       "EnergyReserves": 0.0,
       "Icon": "UI/Icon/Item/Icon_IronPlate",
-      "ItemMesh": "Prefabs//IronPlate.prefab",
-      "DropMesh": "Prefabs//IronPlate.prefab"
+      "ItemMesh": "Prefabs/IronPlate.prefab",
+      "DropMesh": "Prefabs/IronPlate.prefab"
     },
     "Item_CopperPlate": {
       "Id": "Item_CopperPlate",
@@ -41,8 +41,8 @@
       "MaxStack": 100,
       "EnergyReserves": 0.0,
       "Icon": "UI/Icon/Item/Icon_CopperPlate",
-      "ItemMesh": "Prefabs//CopperPlate.prefab",
-      "DropMesh": "Prefabs//CopperPlate.prefab"
+      "ItemMesh": "Prefabs/CopperPlate.prefab",
+      "DropMesh": "Prefabs/CopperPlate.prefab"
     },
     "Item_BioSludge": {
       "Id": "Item_BioSludge",
@@ -52,8 +52,8 @@
       "MaxStack": 100,
       "EnergyReserves": 0.0,
       "Icon": "UI/Icon/Item/Icon_BioSludge",
-      "ItemMesh": "Prefabs//BioSludge.prefab",
-      "DropMesh": "Prefabs//BioSludge.prefab"
+      "ItemMesh": "Prefabs/BioSludge.prefab",
+      "DropMesh": "Prefabs/BioSludge.prefab"
     },
     "Item_Crafter_T1": {
       "Id": "Item_Crafter_T1",
@@ -63,8 +63,8 @@
       "MaxStack": 100,
       "EnergyReserves": 0.0,
       "Icon": "UI/Icon/Item/Icon_Crafter_T1",
-      "ItemMesh": "Prefabs//Crafter_T1.prefab",
-      "DropMesh": "Prefabs//Crafter_T1.prefab"
+      "ItemMesh": "Prefabs/Crafter_T1.prefab",
+      "DropMesh": "Prefabs/Crafter_T1.prefab"
     },
     "Item_Crater_T2": {
       "Id": "Item_Crater_T2",
@@ -74,8 +74,8 @@
       "MaxStack": 100,
       "EnergyReserves": 0.0,
       "Icon": "UI/Icon/Item/Icon_Crater_T2",
-      "ItemMesh": "Prefabs//Crater_T2.prefab",
-      "DropMesh": "Prefabs//Crater_T2.prefab"
+      "ItemMesh": "Prefabs/Crater_T2.prefab",
+      "DropMesh": "Prefabs/Crater_T2.prefab"
     },
     "Item_Refinery_T1": {
       "Id": "Item_Refinery_T1",
@@ -85,8 +85,8 @@
       "MaxStack": 100,
       "EnergyReserves": 0.0,
       "Icon": "UI/Icon/Item/Icon_Refinery_T1",
-      "ItemMesh": "Prefabs//Refinery_T1.prefab",
-      "DropMesh": "Prefabs//Refinery_T1.prefab"
+      "ItemMesh": "Prefabs/Refinery_T1.prefab",
+      "DropMesh": "Prefabs/Refinery_T1.prefab"
     },
     "Item_Refinery_T2": {
       "Id": "Item_Refinery_T2",
@@ -96,8 +96,8 @@
       "MaxStack": 100,
       "EnergyReserves": 0.0,
       "Icon": "UI/Icon/Item/Icon_Refinery_T2",
-      "ItemMesh": "Prefabs//Refinery_T2.prefab",
-      "DropMesh": "Prefabs//Refinery_T2.prefab"
+      "ItemMesh": "Prefabs/Refinery_T2.prefab",
+      "DropMesh": "Prefabs/Refinery_T2.prefab"
     },
     "Item_Miner_T1": {
       "Id": "Item_Miner_T1",
@@ -107,8 +107,8 @@
       "MaxStack": 100,
       "EnergyReserves": 0.0,
       "Icon": "UI/Icon/Item/Icon_Miner_T1",
-      "ItemMesh": "Prefabs//Miner_T1.prefab",
-      "DropMesh": "Prefabs//Miner_T1.prefab"
+      "ItemMesh": "Prefabs/Miner_T1.prefab",
+      "DropMesh": "Prefabs/Miner_T1.prefab"
     },
     "Item_Miner_T2": {
       "Id": "Item_Miner_T2",
@@ -118,8 +118,8 @@
       "MaxStack": 100,
       "EnergyReserves": 0.0,
       "Icon": "UI/Icon/Item/Icon_Miner_T2",
-      "ItemMesh": "Prefabs//Miner_T2.prefab",
-      "DropMesh": "Prefabs//Miner_T2.prefab"
+      "ItemMesh": "Prefabs/Miner_T2.prefab",
+      "DropMesh": "Prefabs/Miner_T2.prefab"
     },
     "Item_Inserter_T1": {
       "Id": "Item_Inserter_T1",
@@ -129,8 +129,8 @@
       "MaxStack": 100,
       "EnergyReserves": 0.0,
       "Icon": "UI/Icon/Item/Icon_Inserter_T1",
-      "ItemMesh": "Prefabs//Inserter_T1.prefab",
-      "DropMesh": "Prefabs//Inserter_T1.prefab"
+      "ItemMesh": "Prefabs/Inserter_T1.prefab",
+      "DropMesh": "Prefabs/Inserter_T1.prefab"
     },
     "Item_Inserter_T2": {
       "Id": "Item_Inserter_T2",
@@ -140,8 +140,8 @@
       "MaxStack": 100,
       "EnergyReserves": 0.0,
       "Icon": "UI/Icon/Item/Icon_Inserter_T2",
-      "ItemMesh": "Prefabs//Inserter_T2.prefab",
-      "DropMesh": "Prefabs//Inserter_T2.prefab"
+      "ItemMesh": "Prefabs/Inserter_T2.prefab",
+      "DropMesh": "Prefabs/Inserter_T2.prefab"
     },
     "Item_Belt_T1": {
       "Id": "Item_Belt_T1",
@@ -151,8 +151,8 @@
       "MaxStack": 100,
       "EnergyReserves": 0.0,
       "Icon": "UI/Icon/Item/Icon_Belt_T1",
-      "ItemMesh": "Prefabs//Belt_T1.prefab",
-      "DropMesh": "Prefabs//Belt_T1.prefab"
+      "ItemMesh": "Prefabs/Belt_T1.prefab",
+      "DropMesh": "Prefabs/Belt_T1.prefab"
     },
     "Item_Belt_T2": {
       "Id": "Item_Belt_T2",
@@ -162,8 +162,8 @@
       "MaxStack": 100,
       "EnergyReserves": 0.0,
       "Icon": "UI/Icon/Item/Icon_Belt_T2",
-      "ItemMesh": "Prefabs//Belt_T2.prefab",
-      "DropMesh": "Prefabs//Belt_T2.prefab"
+      "ItemMesh": "Prefabs/Belt_T2.prefab",
+      "DropMesh": "Prefabs/Belt_T2.prefab"
     },
     "Item_Generator_T1": {
       "Id": "Item_Generator_T1",
@@ -173,8 +173,8 @@
       "MaxStack": 100,
       "EnergyReserves": 0.0,
       "Icon": "UI/Icon/Item/Icon_Generator_T1",
-      "ItemMesh": "Prefabs//Generator_T1.prefab",
-      "DropMesh": "Prefabs//Generator_T1.prefab"
+      "ItemMesh": "Prefabs/Generator_T1.prefab",
+      "DropMesh": "Prefabs/Generator_T1.prefab"
     },
     "Item_Generator_T2": {
       "Id": "Item_Generator_T2",
@@ -184,8 +184,8 @@
       "MaxStack": 100,
       "EnergyReserves": 0.0,
       "Icon": "UI/Icon/Item/Icon_Generator_T2",
-      "ItemMesh": "Prefabs//Generator_T2.prefab",
-      "DropMesh": "Prefabs//Generator_T2.prefab"
+      "ItemMesh": "Prefabs/Generator_T2.prefab",
+      "DropMesh": "Prefabs/Generator_T2.prefab"
     },
     "Item_BioFuel": {
       "Id": "Item_BioFuel",
@@ -195,8 +195,8 @@
       "MaxStack": 100,
       "EnergyReserves": 1.0,
       "Icon": "UI/Icon/Item/Icon_BioFuel",
-      "ItemMesh": "Prefabs//BioFuel.prefab",
-      "DropMesh": "Prefabs//BioFuel.prefab"
+      "ItemMesh": "Prefabs/BioFuel.prefab",
+      "DropMesh": "Prefabs/BioFuel.prefab"
     }
   }
 }
