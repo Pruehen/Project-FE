@@ -134,47 +134,56 @@ public class BuildingDataTable
 public class RecipyGroupData
 {
     [JsonProperty] public string GroupId { get; private set; }
-    [JsonProperty] public List<string> RecipyList { get; private set; }
+    [JsonProperty] public string Recipy { get; private set; }
 
     [JsonConstructor]
-    public RecipyGroupData(string groupId, List<string> recipyList)
+    public RecipyGroupData(string groupId, string recipy)
     {
-        this.GroupId = groupId;
-        RecipyList = recipyList;
+        GroupId = groupId;
+        Recipy = recipy;
     }
     public RecipyGroupData()
     {
-        this.GroupId = "RG_Crafter_T1";
-        RecipyList = new List<string>();
-
-        RecipyList.Add("Recipy_IronPlate");
-        RecipyList.Add("Recipy_IronPlate_Alternative");
-        RecipyList.Add("Recipy_CopperPlate");
-        RecipyList.Add("Recipy_CopperPlate_Alternative");
-        RecipyList.Add("Recipy_Crafter");
-        RecipyList.Add("Recipy_Miner");
-        RecipyList.Add("Recipy_Refinery");
-        RecipyList.Add("Recipy_Belt");
-        RecipyList.Add("Recipy_Inserter");
-        RecipyList.Add("Recipy_Generator");
+        GroupId = "null";
+        Recipy = "null";
     }
 }
 public class RecipyGroupDataTable
 {
-    public Dictionary<string, RecipyGroupData> dic;
+    [JsonProperty] List<RecipyGroupData> list;
+    [JsonIgnore] public Dictionary<string, List<string>> dic { get; private set; }
     [JsonConstructor]
-    public RecipyGroupDataTable(Dictionary<string, RecipyGroupData> dic)
+    public RecipyGroupDataTable(List<RecipyGroupData> list)
     {
-        this.dic = dic;
+        this.list = list;
+        Init();
     }
     public RecipyGroupDataTable()
     {
-        dic = new Dictionary<string, RecipyGroupData>();
-        dic.Add("RG_Crafter_T1", new RecipyGroupData());
+        list = new List<RecipyGroupData>();    
+        list.Add(new RecipyGroupData());
+        list.Add(new RecipyGroupData());
+        Init();
+    }
+    void Init()
+    {
+        dic = new Dictionary<string, List<string>>();
+        foreach (var item in list)
+        {
+            if(dic.ContainsKey(item.GroupId))
+            {
+                dic[item.GroupId].Add(item.Recipy);
+            }
+            else
+            {
+                dic.Add(item.GroupId, new List<string>());
+                dic[item.GroupId].Add(item.Recipy);
+            }
+        }
     }
     public static string FilePath()
     {
-        return "/Data/Table/Recipy/RecipyGroupDataTable.json";
+        return "/Data/Table/Item/RecipyGroupData.json";
     }
 }
 
