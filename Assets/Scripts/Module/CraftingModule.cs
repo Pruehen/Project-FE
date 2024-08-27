@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,21 +6,43 @@ public class CraftingModule : MonoBehaviour
 {
     Building _building;
     RecipyData _craftingRecipyData;
+    public RecipyData CraftingRecipyData
+    {
+        get { return _craftingRecipyData; }
+        set
+        { 
+            _craftingRecipyData = value;
+            OnRecipyChanged?.Invoke(_craftingRecipyData);
+        }
+    }
+    public Action<RecipyData> OnRecipyChanged;
+    public Action OnCraftingCompleted;
 
     int _inputItemTypeNum;
     int _outputItemTypeNum;
     float _craftingTime = 1;
     [SerializeField] float CraftingTimeGain = 1;
-    public void UpdateCraftingTime()
-    {
-        _craftingTime = _craftingRecipyData.CraftingTime / (_building.BuildingData.SpeedEfficiency * CraftingTimeGain);
-    }
     float _craftingTimeValue;
+    bool _isCrafting = true;
 
     List<CellData> _inputItemCellList = new List<CellData>();
     List<int> _inputItemRequiredList = new List<int>();
     List<CellData> _outputItemCellList = new List<CellData>();
     List<int> _outputItemRequiredList = new List<int>();
+
+    public void SetIsCrafting_OnStageChange()
+    {
+        _isCrafting = true;
+    }
+
+    public void UpdateCraftingTime()
+    {
+        _craftingTime = CraftingRecipyData.CraftingTime / (_building.BuildingData.SpeedEfficiency * CraftingTimeGain);
+    }
+    public float GetCraftingTimeRatio()
+    {
+        return _craftingTimeValue / _craftingTime;
+    }
 
     public void SetCraftingRecipyData(string key)
     {
@@ -32,7 +55,7 @@ public class CraftingModule : MonoBehaviour
             return;
         }
 
-        _craftingRecipyData = data;       
+        CraftingRecipyData = data;       
 
         if (_building == null)
         {
@@ -44,27 +67,27 @@ public class CraftingModule : MonoBehaviour
 
     public void RemoveCraftingRecipyData()
     {
-        _craftingRecipyData = null;
+        CraftingRecipyData = null;
         SetCraftModule();
     }
 
     void SetCraftModule()
     {
-        if (_craftingRecipyData != null)
+        if (CraftingRecipyData != null)
         {
-            _inputItemTypeNum = _craftingRecipyData.InputItemGroup.Count;
-            _outputItemTypeNum = _craftingRecipyData.OutputItemGroup.Count;
+            _inputItemTypeNum = CraftingRecipyData.InputItemGroup.Count;
+            _outputItemTypeNum = CraftingRecipyData.OutputItemGroup.Count;
             UpdateCraftingTime();
 
             for (int i = 0; i < _inputItemTypeNum; i++)
             {
-                _inputItemCellList.Add(new CellData(_craftingRecipyData.InputItemGroup[i].Id, true));
-                _inputItemRequiredList.Add(_craftingRecipyData.InputItemGroup[i].Count);
+                _inputItemCellList.Add(new CellData(CraftingRecipyData.InputItemGroup[i].Id, true));
+                _inputItemRequiredList.Add(CraftingRecipyData.InputItemGroup[i].Count);
             }
             for (int i = 0; i < _outputItemTypeNum; i++)
             {
-                _outputItemCellList.Add(new CellData(_craftingRecipyData.OutputItemGroup[i].Id, true));
-                _outputItemRequiredList.Add(_craftingRecipyData.OutputItemGroup[i].Count);
+                _outputItemCellList.Add(new CellData(CraftingRecipyData.OutputItemGroup[i].Id, true));
+                _outputItemRequiredList.Add(CraftingRecipyData.OutputItemGroup[i].Count);
             }
         }
         else
@@ -82,7 +105,7 @@ public class CraftingModule : MonoBehaviour
 
     void CraftItem()
     {
-        if (_craftingRecipyData == null)
+        if (CraftingRecipyData == null)
         {
             Debug.Log("제작할 레시피가 없습니다.");
             return;
@@ -100,6 +123,7 @@ public class CraftingModule : MonoBehaviour
             }
 
             Debug.Log("제작 성공");
+            OnCraftingCompleted?.Invoke();
         }
         else
         {
@@ -148,7 +172,11 @@ public class CraftingModule : MonoBehaviour
     }
     private void Update()
     {
-        _craftingTimeValue += Time.deltaTime;
+        if (_isCrafting)
+        {
+            _craftingTimeValue += Time.deltaTime;
+        }
+
         if (_craftingTimeValue > _craftingTime)
         {
             _craftingTimeValue = 0;
