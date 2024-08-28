@@ -782,7 +782,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8096749106778028507, guid: 79e631fc43fcfa148a0f74e5d1c86699, type: 3}
       propertyPath: CraftingTimeGain
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1112341657288002647, guid: 79e631fc43fcfa148a0f74e5d1c86699, type: 3}
       propertyPath: m_Name

@@ -21,8 +21,7 @@ public class Wdw_CraftingModuleView : MonoBehaviour, IWindow
             {
                 _craftingModule = value;
                 Init();                
-            }
-            _craftingModule.RefreshView();
+            }            
         }
     }
 

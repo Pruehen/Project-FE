@@ -78,13 +78,12 @@ public class ItemCell : MonoBehaviour
                 if (CellData.Id != null)
                 {
                     TMP_ItemCount.text = CellData.Count.ToString();
+                    Image_ItemIcon.gameObject.SetActive(CellData.Count > 0);
                 }
                 else
                 {
                     TMP_ItemCount.text = string.Empty;
                 }
-                break;
-            case nameof(CellData.MaxCount):
                 break;
             case nameof(CellData.FixedCell):
                 Image_FixedItemIcon.gameObject.SetActive(CellData.FixedCell);

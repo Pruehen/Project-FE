@@ -17,20 +17,11 @@ public class CraftingModule : MonoBehaviour, IModule
     }    
 
     public Action<RecipyData> OnRecipyChanged;
-    public Action<List<CellData>> OnInputCellChanged;
-    public Action<List<CellData>> OnOutputCellChanged;
 
     public void GetData(out List<CellData> inputCellData, out List<CellData> outputCellData)
     {
         inputCellData = _inputItemCellList;
         outputCellData = _outputItemCellList;
-    }
-
-    public void RefreshView()
-    {
-        OnRecipyChanged?.Invoke(_craftingRecipyData);
-        OnInputCellChanged?.Invoke(_inputItemCellList);
-        OnOutputCellChanged?.Invoke(_outputItemCellList);
     }
 
     public int InputItemTypeNum { get; private set; }
@@ -40,6 +31,14 @@ public class CraftingModule : MonoBehaviour, IModule
     [SerializeField] float CraftingTimeGain = 1;
     float _craftingTimeValue;
     bool _isCrafting = true;
+    public bool IsCrafting
+    {
+        get { return _isCrafting; }
+        set
+        {
+            _isCrafting = value;
+        }
+    }
 
     List<CellData> _inputItemCellList = new List<CellData>();
     List<int> _inputItemRequiredList = new List<int>();
@@ -57,11 +56,6 @@ public class CraftingModule : MonoBehaviour, IModule
         {
             window.Close();
         }
-    }
-
-    public void SetIsCrafting_OnStageChange()
-    {
-        _isCrafting = true;
     }
 
     void UpdateCraftingTime()
@@ -151,14 +145,11 @@ public class CraftingModule : MonoBehaviour, IModule
                 _outputItemCellList[i].AddItem(_outputItemCellList[i].Id, _outputItemRequiredList[i], out int remaining);                
             }
 
-            OnInputCellChanged?.Invoke(_inputItemCellList);
-            OnOutputCellChanged?.Invoke(_outputItemCellList);
-
             Debug.Log("제작 성공");
         }
         else
         {
-            Debug.Log("제작 실패");
+            Debug.Log("제작 실패");            
         }
     }
 
@@ -199,12 +190,11 @@ public class CraftingModule : MonoBehaviour, IModule
         foreach (var item in _inputItemCellList)
         {
             item.AddItem(100);
-        }
-        OnInputCellChanged?.Invoke(_inputItemCellList);
+        }        
     }
     private void Update()
     {
-        if (_isCrafting)
+        if (IsCrafting)
         {
             _craftingTimeValue += Time.deltaTime;
         }
@@ -214,5 +204,7 @@ public class CraftingModule : MonoBehaviour, IModule
             _craftingTimeValue = 0;
             CraftItem();
         }
+
+        IsCrafting = (CanCraftItem_InputItemCheck() && CanCraftItem_OutputItemCheck()) == true;
     }
 }
