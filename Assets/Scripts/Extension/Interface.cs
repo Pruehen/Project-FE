@@ -14,6 +14,7 @@ public interface IInteractable
 public interface IModule
 {
     public void Active_Wdw();
+    public void Close_Wdw();
 }
 
 

@@ -35,6 +35,10 @@ public class CraftingModule : MonoBehaviour, IModule
     {
         UIManager.Instance.Actvie_ModuleWdw(UIManager.Instance.Prefab_CraftingModuleUIWdw, this);
     }
+    public void Close_Wdw()
+    {
+
+    }
 
     public void SetIsCrafting_OnStageChange()
     {

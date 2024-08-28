@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,11 +13,7 @@ public class Inventory : MonoBehaviour, IModule
     public List<CellData> TempItemList() { return tempItemList; }
     public CellData CellItemData(int index) { return tempItemList[index]; }
 
-    Wdw_InventoryView wdw;
-    public void ToggleActiveUI()
-    {
-        wdw = UIManager.Instance.Toggle_InventoryUIWdw(this);
-    }
+    public Action<int, CellData> OnCellDataChanged;
 
     private void Awake()
     {
@@ -61,13 +58,10 @@ public class Inventory : MonoBehaviour, IModule
 
         int remaining = 0;
         tempItemList[cellCorsor].AddItem(id, count, out remaining);
-        if(wdw != null)
-        {
-            wdw.CellChange(cellCorsor, tempItemList[cellCorsor]);
-        }
+        
+        OnCellDataChanged?.Invoke(cellCorsor, tempItemList[cellCorsor]);
 
-
-        if(remaining > 0)
+        if (remaining > 0)
         {
             AddItem(id, remaining);
         }
@@ -94,9 +88,17 @@ public class Inventory : MonoBehaviour, IModule
         cellCorsor = firstEmptySlotIndex;
     }
 
+    IWindow window;
     public void Active_Wdw()
     {
-        
+        window = UIManager.Instance.Actvie_ModuleWdw(UIManager.Instance.Prefab_InventoryUIWdw, this);
+    }
+    public void Close_Wdw()
+    {
+        if(window != null)
+        {
+            window.Close();
+        }
     }
 }
 

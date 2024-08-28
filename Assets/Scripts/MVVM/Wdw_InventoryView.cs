@@ -5,11 +5,21 @@ public class Wdw_InventoryView : MonoBehaviour, IWindow
 {
     [SerializeField] GameObject Prefab_Cell;
     [SerializeField] Transform Trf_Contant;
-    List<ItemCell> cellList = new List<ItemCell>();
-
-    public bool IsActive { get; private set; } = false;
+    List<ItemCell> cellList = new List<ItemCell>();    
 
     Inventory _Inventory;
+    Inventory Inventory
+    {
+        get { return _Inventory; }
+        set
+        {
+            if (_Inventory != value)
+            {
+                _Inventory = value;
+                Init();
+            }
+        }
+    }
 
     public void CellChange(int index, CellData cellData)
     {
@@ -18,21 +28,22 @@ public class Wdw_InventoryView : MonoBehaviour, IWindow
     public void Active(IModule module)
     {
         this.gameObject.SetActive(true);
-        IsActive = true;
-
-        _Inventory = module as Inventory;
-        for (int i = 0; i < _Inventory.InventoryMaxCount(); i++)
+        Inventory = module as Inventory;
+        Inventory.OnCellDataChanged = CellChange;
+    }
+    void Init()
+    {
+        for (int i = 0; i < Inventory.InventoryMaxCount(); i++)
         {
             ItemCell cell = Instantiate(Prefab_Cell, Trf_Contant).GetComponent<ItemCell>();
             cellList.Add(cell);
-            cell.Init(_Inventory.CellItemData(i));
+            cell.Init(Inventory.CellItemData(i));
         }
     }
     public void Close()
     {
-        this.gameObject.SetActive(false);
-        IsActive = false;
+        ObjectPoolManager.Instance.EnqueueObject(this.gameObject);        
 
-        UIManager.Instance.OnDeActive_ModuleWdw(_Inventory.gameObject.GetInstanceID());
+        UIManager.Instance.OnDeActive_ModuleWdw(_Inventory);
     }
 }

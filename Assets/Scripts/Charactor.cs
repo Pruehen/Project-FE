@@ -13,6 +13,8 @@ public class Charactor : MonoBehaviour
     float _speed;
     float _interactTime = 0;
 
+    bool _inventoryUIActive = false;
+
     [Range(1, 50)][SerializeField] float moveSpeed = 10;
     [Range(1, 50)][SerializeField] float interactionRange = 10;
     [Range(1, 100)][SerializeField] float interactionSpeed = 1;
@@ -76,7 +78,15 @@ public class Charactor : MonoBehaviour
     }
     public void InventoryToggle()
     {
-       _inventory.ToggleActiveUI();
+        _inventoryUIActive = !_inventoryUIActive;
+        if (_inventoryUIActive)
+        {
+            _inventory.Active_Wdw();
+        }       
+        else
+        {
+            _inventory.Close_Wdw();
+        }
     }
 
     void Move_OnFixedUpdate()

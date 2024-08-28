@@ -10,6 +10,17 @@ public class Wdw_CraftingModuleView : MonoBehaviour, IWindow
     Wdw_CraftingModuleViewModel _vm;
 
     CraftingModule _craftingModule;
+    CraftingModule CraftingModule
+    {
+        get { return _craftingModule; }
+        set
+        {
+            if (_craftingModule != value)
+            {
+                _craftingModule = value;
+            }
+        }
+    }
 
     void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
@@ -32,7 +43,7 @@ public class Wdw_CraftingModuleView : MonoBehaviour, IWindow
     public void Active(IModule craftingModule)
     {
         this.gameObject.SetActive(true);
-        _craftingModule = craftingModule as CraftingModule;
+        CraftingModule = craftingModule as CraftingModule;
 
         if (_vm == null)
         {
@@ -46,7 +57,7 @@ public class Wdw_CraftingModuleView : MonoBehaviour, IWindow
 
     public void Close()
     {
-        this.gameObject.SetActive(false);
+        ObjectPoolManager.Instance.EnqueueObject(this.gameObject);
 
         if (_vm != null)
         {
@@ -54,6 +65,6 @@ public class Wdw_CraftingModuleView : MonoBehaviour, IWindow
             _vm = null;
         }
 
-        UIManager.Instance.OnDeActive_ModuleWdw(_craftingModule.gameObject.GetInstanceID());
+        UIManager.Instance.OnDeActive_ModuleWdw(_craftingModule);
     }
 }

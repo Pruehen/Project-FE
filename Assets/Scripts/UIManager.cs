@@ -10,36 +10,9 @@ public class UIManager : SceneSingleton<UIManager>
     [SerializeField] Transform Trf_WindowParent;
 
     [SerializeField] MouseTrackUI _MouseTrackUI;
-
-    Dictionary<Inventory, Wdw_InventoryView> useInventoryUI = new Dictionary<Inventory, Wdw_InventoryView>();
+   
     HashSet<int> ActiveWdwModuleHashSet = new HashSet<int>();
 
-    public Wdw_InventoryView Toggle_InventoryUIWdw(Inventory inventory)
-    {
-        if(useInventoryUI.ContainsKey(inventory))
-        {
-            if (useInventoryUI[inventory].IsActive == false)
-            {
-                useInventoryUI[inventory].Active(inventory);
-                return useInventoryUI[inventory];
-            }
-            else
-            {
-                useInventoryUI[inventory].Close();
-                return useInventoryUI[inventory];
-            }
-        }
-        else
-        {
-            GameObject obj = ObjectPoolManager.Instance.DequeueObject(Prefab_InventoryUIWdw);
-            obj.transform.SetParent(Trf_WindowParent);
-
-            Wdw_InventoryView newUI = obj.GetComponent<Wdw_InventoryView>();            
-            newUI.Active(inventory);
-            useInventoryUI.Add(inventory, newUI);
-            return newUI;
-        }
-    }
     public void Active_BuildingMainModuleUIWdw(IModule module)
     {
         if (module != null)
@@ -47,7 +20,7 @@ public class UIManager : SceneSingleton<UIManager>
             module.Active_Wdw();
         }
     }
-    public void Actvie_ModuleWdw<T>(GameObject windowPrefab, T module) where T : MonoBehaviour, IModule
+    public IWindow Actvie_ModuleWdw<T>(GameObject windowPrefab, T module) where T : MonoBehaviour, IModule
     {
         int instanceId = module.gameObject.GetInstanceID();
 
@@ -60,11 +33,16 @@ public class UIManager : SceneSingleton<UIManager>
             window.Active(module);
 
             ActiveWdwModuleHashSet.Add(instanceId);
+            return window;
         }        
+        else
+        {
+            return null;
+        }
     }
-    public void OnDeActive_ModuleWdw(int moduleObjectId)
+    public void OnDeActive_ModuleWdw<T>(T module) where T : MonoBehaviour, IModule
     {
-        ActiveWdwModuleHashSet.Remove(moduleObjectId);
+        ActiveWdwModuleHashSet.Remove(module.gameObject.GetInstanceID());
     }
 
     public void SetCellData_MouseTrackUI_OnCellPointerEnter(CellData cellData)
