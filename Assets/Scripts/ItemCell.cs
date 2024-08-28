@@ -52,7 +52,7 @@ public class ItemCell : MonoBehaviour
         }
     }
 
-    public void Init(CellData cellData)
+    public void RegisterCellData(CellData cellData)
     {
         CellData = cellData;
     }

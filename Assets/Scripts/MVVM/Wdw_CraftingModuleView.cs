@@ -51,7 +51,17 @@ public class Wdw_CraftingModuleView : MonoBehaviour, IWindow
         for (int i = 0; i < outputCellList.Count; i++)
         {
             outputCellList[i].gameObject.SetActive(CraftingModule.OutputItemTypeNum > i);
-        }        
+        }
+
+        CraftingModule.GetData(out List<CellData> inputCellData, out List<CellData> outputCellData);
+        for (int i = 0; i < inputCellData.Count; i++)
+        {
+            inputCellList[i].RegisterCellData(inputCellData[i]);
+        }
+        for (int i = 0; i < outputCellData.Count; i++)
+        {
+            outputCellList[i].RegisterCellData(outputCellData[i]);
+        }
     }
 
     public void Close()

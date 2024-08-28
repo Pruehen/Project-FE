@@ -33,7 +33,7 @@ public class Wdw_InventoryView : MonoBehaviour, IWindow
 
         for (int i = 0; i < Inventory.InventoryMaxCount(); i++)
         {            
-            cellList[i].Init(Inventory.CellItemData(i));
+            cellList[i].RegisterCellData(Inventory.CellItemData(i));
         }
     }
     public void Close()
