@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 public class ItemCell : MonoBehaviour
 {
+    static ItemCell SelectedCell;
+    static ItemCell OnMouseCell;
+
     [SerializeField] TextMeshProUGUI TMP_ItemCount;
     [SerializeField] Image Image_ItemIcon;
 
@@ -31,16 +34,42 @@ public class ItemCell : MonoBehaviour
         }
     }
 
-    public void Set_BtnMouseOverInfo(bool OnEnter)
+    public void Active_BtnMouseOverInfo_OnPointerEnter()
     {
-        if (OnEnter && _cellData.Id != null)
+        if (_cellData.Id != null)
         {
             UIManager.Instance.Set_BtnMouseOverInfo(_cellData);
         }
-        else
+    }
+    public void DeActive_BtnMouseOverInfo_OnPointerExit()
+    {
+        UIManager.Instance.Set_BtnMouseOverInfo(null);
+    }
+
+    public void Set_OnMouseCell_OnPointerEnter()
+    {
+        OnMouseCell = this;
+    }
+    public void Remove_OnMouseCell_OnPointerExit()
+    {
+        OnMouseCell = null;
+    }
+
+    public void ItemGrab_OnPointerDown()
+    {
+        SelectedCell = this;
+        Debug.Log("그랩");
+    }
+    public void ItemDrop_OnPointerUp()
+    {
+        Debug.Log("드랍");
+
+        if(OnMouseCell != null && SelectedCell != null)
         {
-            UIManager.Instance.Set_BtnMouseOverInfo(null);
+            Debug.Log($"아이템 이동  {SelectedCell} -> {OnMouseCell.name}");
         }
+
+        SelectedCell = null;
     }
 
     Sprite LoadSprite(string path)

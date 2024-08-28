@@ -70121,11 +70121,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2724439808428230716, guid: 4e8bb44738d47b449bcde28ad37e6d50, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 969
       objectReference: {fileID: 0}
     - target: {fileID: 2724439808428230716, guid: 4e8bb44738d47b449bcde28ad37e6d50, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 519
       objectReference: {fileID: 0}
     - target: {fileID: 2724439808428230716, guid: 4e8bb44738d47b449bcde28ad37e6d50, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

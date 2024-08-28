@@ -293,8 +293,20 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 3788146367927912940}
           m_TargetAssemblyTypeName: ItemCell, Assembly-CSharp
-          m_MethodName: Set_BtnMouseOverInfo
-          m_Mode: 6
+          m_MethodName: Active_BtnMouseOverInfo_OnPointerEnter
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+        - m_Target: {fileID: 3788146367927912940}
+          m_TargetAssemblyTypeName: ItemCell, Assembly-CSharp
+          m_MethodName: Set_OnMouseCell_OnPointerEnter
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -309,8 +321,52 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 3788146367927912940}
           m_TargetAssemblyTypeName: ItemCell, Assembly-CSharp
-          m_MethodName: Set_BtnMouseOverInfo
-          m_Mode: 6
+          m_MethodName: DeActive_BtnMouseOverInfo_OnPointerExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 3788146367927912940}
+          m_TargetAssemblyTypeName: ItemCell, Assembly-CSharp
+          m_MethodName: Remove_OnMouseCell_OnPointerExit
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 3788146367927912940}
+          m_TargetAssemblyTypeName: ItemCell, Assembly-CSharp
+          m_MethodName: ItemGrab_OnPointerDown
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 3788146367927912940}
+          m_TargetAssemblyTypeName: ItemCell, Assembly-CSharp
+          m_MethodName: ItemDrop_OnPointerUp
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
