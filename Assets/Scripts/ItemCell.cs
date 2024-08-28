@@ -1,7 +1,9 @@
+using System.ComponentModel;
 using TMPro;
 using UI.Extension;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class ItemCell : MonoBehaviour
 {
@@ -25,47 +27,81 @@ public class ItemCell : MonoBehaviour
         }
     }
 
-
-
     [SerializeField] TextMeshProUGUI TMP_ItemCount;
     [SerializeField] Image Image_ItemIcon;
     [SerializeField] Image Image_FixedItemIcon;
 
     CellData _cellData;
-
-    public void Init()
+    CellData CellData
     {
-        TMP_ItemCount.text = string.Empty;
-        Image_ItemIcon.gameObject.SetActive(false);
+        get { return _cellData; }
+        set
+        {
+            if(_cellData != null)
+            {
+                _cellData.PropertyChanged -= OnPropertyChanged;
+            }
+
+            if(_cellData != value)
+            {
+                _cellData = value;
+                _cellData.PropertyChanged += OnPropertyChanged;
+            }
+
+            _cellData.RefreshVM();
+        }
     }
+
     public void Init(CellData cellData)
     {
-        _cellData = cellData;
-        if (cellData.Id == null)
-        {
-            TMP_ItemCount.text = string.Empty;
-            Image_ItemIcon.gameObject.SetActive(false);
-        }
-        else
-        {
-            ItemData item = JsonDataManager.GetItem(cellData.Id);
-            TMP_ItemCount.text = cellData.Count.ToString();
-            Image_ItemIcon.gameObject.SetActive(true);
-            Image_ItemIcon.SetLoadSprite(item.Icon_Path);
+        CellData = cellData;
+    }
 
-            Image_FixedItemIcon.gameObject.SetActive(cellData.FixedCell);
-            if (cellData.FixedCell)
-            {                
-                Image_FixedItemIcon.SetLoadSprite(item.Icon_Path);
-            }            
+    void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        switch (e.PropertyName)
+        {
+            case nameof(CellData.Id):
+                if (CellData.Id == null)
+                {
+                    TMP_ItemCount.text = string.Empty;
+                    Image_ItemIcon.gameObject.SetActive(false);
+                }
+                else
+                {
+                    ItemData item = JsonDataManager.GetItem(CellData.Id);
+                    Image_ItemIcon.gameObject.SetActive(true);
+                    Image_ItemIcon.SetLoadSprite(item.Icon_Path);
+                }
+                break;
+            case nameof(CellData.Count):
+                if (CellData.Id != null)
+                {
+                    TMP_ItemCount.text = CellData.Count.ToString();
+                }
+                else
+                {
+                    TMP_ItemCount.text = string.Empty;
+                }
+                break;
+            case nameof(CellData.MaxCount):
+                break;
+            case nameof(CellData.FixedCell):
+                Image_FixedItemIcon.gameObject.SetActive(CellData.FixedCell);
+                if(CellData.FixedCell)
+                {
+                    ItemData item = JsonDataManager.GetItem(CellData.Id);
+                    Image_FixedItemIcon.SetLoadSprite(item.Icon_Path);
+                }
+                break;
         }
     }
 
     public void Active_BtnMouseOverInfo_OnPointerEnter()
     {
-        if (_cellData != null && _cellData.Id != null)
+        if (CellData != null && CellData.Id != null)
         {
-            UIManager.Instance.SetCellData_MouseTrackUI_OnCellPointerEnter(_cellData);
+            UIManager.Instance.SetCellData_MouseTrackUI_OnCellPointerEnter(CellData);
         }
     }
     public void DeActive_BtnMouseOverInfo_OnPointerExit()
@@ -85,7 +121,7 @@ public class ItemCell : MonoBehaviour
     public void ItemGrab_OnPointerDown()
     {
         SelectedCell = this;
-        UIManager.Instance.SetIcon_MouseTrackUI_OnGrab(_cellData);
+        UIManager.Instance.SetIcon_MouseTrackUI_OnGrab(CellData);
         Debug.Log("±×·¦");
     }
     public void ItemDrop_OnPointerUp()

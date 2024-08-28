@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour, IModule
@@ -104,14 +105,71 @@ public class Inventory : MonoBehaviour, IModule
 
 public class CellData
 {
-    public string Id { get; private set; }    
-    public int Count { get; private set; }
-    public int MaxCount { get; private set; }
-    public bool FixedCell { get; private set; }//아이템 고정 변수. true일 시 아이템이 모두 제거되어도 Id가 null이 되지 않음.
+    string _id;
+    int _count;
+    int _maxCount;
+    bool fixedCell;
+
+    public string Id 
+    { 
+        get { return _id; } 
+        private set
+        {
+            if(_id != value)
+            {
+                _id = value;
+                OnPropertyChanged(nameof(Id));
+            }
+        }
+    }    
+    public int Count
+    {
+        get { return _count; }
+        private set
+        {
+            if (_count != value)
+            {
+                _count = value;
+                OnPropertyChanged(nameof(Count));
+            }
+        }
+    }
+    public int MaxCount
+    {
+        get { return _maxCount; }
+        private set
+        {
+            if (_maxCount != value)
+            {
+                _maxCount = value;
+                OnPropertyChanged(nameof(MaxCount));
+            }
+        }
+    }
+    public bool FixedCell
+    {
+        get { return fixedCell; }
+        private set
+        {
+            if (fixedCell != value)
+            {
+                fixedCell = value;
+                OnPropertyChanged(nameof(FixedCell));
+            }
+        }
+    }    //아이템 고정 변수. true일 시 아이템이 모두 제거되어도 Id가 null이 되지 않음.
     public bool CanItemAdd()
     {
         return MaxCount > Count;
+    }    
+    public void RefreshVM()
+    {
+        OnPropertyChanged(nameof(Id));
+        OnPropertyChanged(nameof(Count));
+        OnPropertyChanged(nameof(MaxCount));
+        OnPropertyChanged(nameof(FixedCell));
     }
+
 
     public CellData(string id, int count, int maxCount, bool fixedCell)
     {
@@ -188,7 +246,7 @@ public class CellData
             return;
         }
 
-        Count += count;
+        Count += count;        
     }
     public void UseItem(int count)
     {
@@ -203,7 +261,7 @@ public class CellData
         {
             Debug.Log("셀 비워짐");
             Clear();
-        }
+        }        
     }
     public void TransportItem(CellData targetCell, int transportCount)
     {
@@ -216,7 +274,7 @@ public class CellData
         if(transportCount > Count)
         {
             transportCount = Count;
-            Debug.LogWarning("셀의 보유량을 초과하는 요청입니다.");
+            Debug.LogWarning("셀의 보유량을 초과하는 요청입니다. 운송 수량을 강제로 감소시킵니다.");
         }
         
         targetCell.AddItem(Id, transportCount, out int remaining);
@@ -232,5 +290,11 @@ public class CellData
             Debug.Log("셀 비워짐");
             Clear();
         }
+    }
+
+    public event PropertyChangedEventHandler PropertyChanged;
+    protected virtual void OnPropertyChanged(string propertyName)//값이 변경되었을 때 이벤트를 발생시키기 위한 용도 (데이터 바인딩)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

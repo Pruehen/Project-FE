@@ -1,13 +1,15 @@
-using System.ComponentModel;
-using TMPro;
-using UI.Extension;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Wdw_CraftingModuleView : MonoBehaviour, IWindow
 {
-    [SerializeField] TextMeshProUGUI Text_RecipyName;
+    [SerializeField] Display display;
+    [SerializeField] ProgressBar progressBar_Crafting;
+    [SerializeField] ProgressBar progressBar_Fuel;
 
-    Wdw_CraftingModuleViewModel _vm;
+    [SerializeField] List<ItemCell> inputCellList;
+    [SerializeField] List<ItemCell> outputCellList;
 
     CraftingModule _craftingModule;
     CraftingModule CraftingModule
@@ -18,53 +20,44 @@ public class Wdw_CraftingModuleView : MonoBehaviour, IWindow
             if (_craftingModule != value)
             {
                 _craftingModule = value;
+                Init();                
             }
-        }
-    }
-
-    void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
-    {
-        switch (e.PropertyName)
-        {
-            case nameof(_vm.CraftingModule):
-                _craftingModule = _vm.CraftingModule;
-                break;
-            case nameof(_vm.RecipyData):
-                Text_RecipyName.text = _vm.RecipyData.Name.GetTextTable();
-                break;
+            _craftingModule.RefreshView();
         }
     }
 
     void Update()
     {
-        
+        if(CraftingModule != null)
+        {
+            progressBar_Crafting.SetBarRatio(CraftingModule.GetCraftingTimeRatio());
+        }
     }
 
     public void Active(IModule craftingModule)
     {
         this.gameObject.SetActive(true);
         CraftingModule = craftingModule as CraftingModule;
-
-        if (_vm == null)
-        {
-            _vm = new Wdw_CraftingModuleViewModel();
-            _vm.PropertyChanged += OnPropertyChanged;
-
-            //_vm.OnCraftingModuleChanged(craftingModule);
-        }
     }
 
+    void Init()
+    {
+        display.SetText("테스트 문자 출력 중...");
+
+        for (int i = 0; i < inputCellList.Count; i++)
+        {
+            inputCellList[i].gameObject.SetActive(CraftingModule.InputItemTypeNum > i);
+        }
+        for (int i = 0; i < outputCellList.Count; i++)
+        {
+            outputCellList[i].gameObject.SetActive(CraftingModule.OutputItemTypeNum > i);
+        }        
+    }
 
     public void Close()
     {
         ObjectPoolManager.Instance.EnqueueObject(this.gameObject);
 
-        if (_vm != null)
-        {
-            _vm.PropertyChanged -= OnPropertyChanged;
-            _vm = null;
-        }
-
-        UIManager.Instance.OnDeActive_ModuleWdw(_craftingModule);
+        UIManager.Instance.OnDeActive_ModuleWdw(CraftingModule);
     }
 }

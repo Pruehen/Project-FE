@@ -17,10 +17,25 @@ public class CraftingModule : MonoBehaviour, IModule
     }    
 
     public Action<RecipyData> OnRecipyChanged;
-    public Action OnCraftingCompleted;
+    public Action<List<CellData>> OnInputCellChanged;
+    public Action<List<CellData>> OnOutputCellChanged;
 
-    int _inputItemTypeNum;
-    int _outputItemTypeNum;
+    public void GetData(out List<CellData> inputCellData, out List<CellData> outputCellData)
+    {
+        inputCellData = _inputItemCellList;
+        outputCellData = _outputItemCellList;
+    }
+
+    public void RefreshView()
+    {
+        OnRecipyChanged?.Invoke(_craftingRecipyData);
+        OnInputCellChanged?.Invoke(_inputItemCellList);
+        OnOutputCellChanged?.Invoke(_outputItemCellList);
+    }
+
+    public int InputItemTypeNum { get; private set; }
+    public int OutputItemTypeNum { get; private set; }
+
     float _craftingTime = 1;
     [SerializeField] float CraftingTimeGain = 1;
     float _craftingTimeValue;
@@ -31,13 +46,17 @@ public class CraftingModule : MonoBehaviour, IModule
     List<CellData> _outputItemCellList = new List<CellData>();
     List<int> _outputItemRequiredList = new List<int>();
 
+    IWindow window;
     public void Active_Wdw()
     {
-        UIManager.Instance.Actvie_ModuleWdw(UIManager.Instance.Prefab_CraftingModuleUIWdw, this);
+        window = UIManager.Instance.Actvie_ModuleWdw(UIManager.Instance.Prefab_CraftingModuleUIWdw, this);
     }
     public void Close_Wdw()
     {
-
+        if (window != null)
+        {
+            window.Close();
+        }
     }
 
     public void SetIsCrafting_OnStageChange()
@@ -45,7 +64,7 @@ public class CraftingModule : MonoBehaviour, IModule
         _isCrafting = true;
     }
 
-    public void UpdateCraftingTime()
+    void UpdateCraftingTime()
     {
         _craftingTime = CraftingRecipyData.CraftingTime / (_building.BuildingData.SpeedEfficiency * CraftingTimeGain);
     }
@@ -85,16 +104,16 @@ public class CraftingModule : MonoBehaviour, IModule
     {
         if (CraftingRecipyData != null)
         {
-            _inputItemTypeNum = CraftingRecipyData.InputItemGroup.Count;
-            _outputItemTypeNum = CraftingRecipyData.OutputItemGroup.Count;
+            InputItemTypeNum = CraftingRecipyData.InputItemGroup.Count;
+            OutputItemTypeNum = CraftingRecipyData.OutputItemGroup.Count;
             UpdateCraftingTime();
 
-            for (int i = 0; i < _inputItemTypeNum; i++)
+            for (int i = 0; i < InputItemTypeNum; i++)
             {
                 _inputItemCellList.Add(new CellData(CraftingRecipyData.InputItemGroup[i].Id, true));
                 _inputItemRequiredList.Add(CraftingRecipyData.InputItemGroup[i].Count);
             }
-            for (int i = 0; i < _outputItemTypeNum; i++)
+            for (int i = 0; i < OutputItemTypeNum; i++)
             {
                 _outputItemCellList.Add(new CellData(CraftingRecipyData.OutputItemGroup[i].Id, true));
                 _outputItemRequiredList.Add(CraftingRecipyData.OutputItemGroup[i].Count);
@@ -102,8 +121,8 @@ public class CraftingModule : MonoBehaviour, IModule
         }
         else
         {
-            _inputItemTypeNum = 0;
-            _outputItemTypeNum = 0;
+            InputItemTypeNum = 0;
+            OutputItemTypeNum = 0;
             _craftingTime = 1;
 
             _inputItemCellList.Clear();
@@ -123,17 +142,19 @@ public class CraftingModule : MonoBehaviour, IModule
 
         if(CanCraftItem_InputItemCheck() && CanCraftItem_OutputItemCheck())
         {
-            for (int i = 0; i < _inputItemTypeNum; i++)
+            for (int i = 0; i < InputItemTypeNum; i++)
             {
-                _inputItemCellList[i].UseItem(_inputItemRequiredList[i]);
-            }
-            for (int i = 0; i < _outputItemTypeNum; i++)
+                _inputItemCellList[i].UseItem(_inputItemRequiredList[i]);                
+            }            
+            for (int i = 0; i < OutputItemTypeNum; i++)
             {
-                _outputItemCellList[i].AddItem(_outputItemCellList[i].Id, _outputItemRequiredList[i], out int remaining);
+                _outputItemCellList[i].AddItem(_outputItemCellList[i].Id, _outputItemRequiredList[i], out int remaining);                
             }
 
+            OnInputCellChanged?.Invoke(_inputItemCellList);
+            OnOutputCellChanged?.Invoke(_outputItemCellList);
+
             Debug.Log("제작 성공");
-            OnCraftingCompleted?.Invoke();
         }
         else
         {
@@ -144,7 +165,7 @@ public class CraftingModule : MonoBehaviour, IModule
     public bool CanCraftItem_InputItemCheck()
     {
         bool canCraftItem = true;
-        for (int i = 0; i < _inputItemTypeNum; i++)
+        for (int i = 0; i < InputItemTypeNum; i++)
         {
             if (_inputItemCellList[i].Count < _inputItemRequiredList[i])
             {
@@ -158,7 +179,7 @@ public class CraftingModule : MonoBehaviour, IModule
     public bool CanCraftItem_OutputItemCheck()
     {
         bool canCraftItem = true;
-        for (int i = 0; i < _outputItemTypeNum; i++)
+        for (int i = 0; i < OutputItemTypeNum; i++)
         {
             if (_outputItemCellList[i].CanItemAdd() == false)
             {
@@ -179,6 +200,7 @@ public class CraftingModule : MonoBehaviour, IModule
         {
             item.AddItem(100);
         }
+        OnInputCellChanged?.Invoke(_inputItemCellList);
     }
     private void Update()
     {
