@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CraftingModule : MonoBehaviour
+public class CraftingModule : MonoBehaviour, IModule
 {
     Building _building;
     RecipyData _craftingRecipyData;
@@ -14,7 +14,8 @@ public class CraftingModule : MonoBehaviour
             _craftingRecipyData = value;
             OnRecipyChanged?.Invoke(_craftingRecipyData);
         }
-    }
+    }    
+
     public Action<RecipyData> OnRecipyChanged;
     public Action OnCraftingCompleted;
 
@@ -29,6 +30,11 @@ public class CraftingModule : MonoBehaviour
     List<int> _inputItemRequiredList = new List<int>();
     List<CellData> _outputItemCellList = new List<CellData>();
     List<int> _outputItemRequiredList = new List<int>();
+
+    public void Active_Wdw()
+    {
+        UIManager.Instance.Actvie_ModuleWdw(UIManager.Instance.Prefab_CraftingModuleUIWdw, this);
+    }
 
     public void SetIsCrafting_OnStageChange()
     {

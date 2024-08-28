@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour
+public class Inventory : MonoBehaviour, IModule
 {
     [SerializeField] int inventoryMaxCount = 150;
     public int InventoryMaxCount() { return inventoryMaxCount; }
@@ -92,6 +92,11 @@ public class Inventory : MonoBehaviour
         }
 
         cellCorsor = firstEmptySlotIndex;
+    }
+
+    public void Active_Wdw()
+    {
+        
     }
 }
 

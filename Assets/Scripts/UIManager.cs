@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class UIManager : SceneSingleton<UIManager>
 {
-    [SerializeField] GameObject Prefab_InventoryUIWdw;
+    public GameObject Prefab_InventoryUIWdw;
+    public GameObject Prefab_CraftingModuleUIWdw;
+
     [SerializeField] Transform Trf_WindowParent;
 
     [SerializeField] MouseTrackUI _MouseTrackUI;
@@ -36,6 +38,22 @@ public class UIManager : SceneSingleton<UIManager>
             useInventoryUI.Add(inventory, newUI);
             return newUI;
         }
+    }
+    public void Actvie_ModuleWdw(GameObject windowPrefab, IModule module)
+    {
+        GameObject obj = ObjectPoolManager.Instance.DequeueObject(windowPrefab);
+        obj.transform.SetParent(Trf_WindowParent);
+
+        IWindow window = obj.GetComponent<IWindow>();
+        window.Active();
+        window.Init(module);
+    }
+    public void Active_BuildingMainModuleUIWdw(IModule module)
+    {
+        if(module != null)
+        {
+            module.Active_Wdw();
+        }        
     }
 
     public void SetCellData_MouseTrackUI_OnCellPointerEnter(CellData cellData)

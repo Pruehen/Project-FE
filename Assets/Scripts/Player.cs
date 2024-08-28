@@ -108,6 +108,10 @@ public class Player : SceneSingleton<Player>
         {
             Command_EndInteract();
         }
+        if(Input.GetMouseButtonDown(0))
+        {
+            Select_InteractableObject();
+        }
     }
 
     void InputKeyCheck_OnUpdate()
@@ -130,6 +134,13 @@ public class Player : SceneSingleton<Player>
         if (controlledCharactor != null)
         {
             controlledCharactor.SetLookPosVector(pos);
+        }
+    }
+    void Select_InteractableObject()
+    {
+        if(OnMouseObjectTemp != null)
+        {
+            OnMouseObjectTemp.Select();
         }
     }
     void Command_TryInteract()

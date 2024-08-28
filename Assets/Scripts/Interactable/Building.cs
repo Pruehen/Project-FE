@@ -5,6 +5,7 @@ public class Building : MonoBehaviour, IInteractable
     [SerializeField] string ItemKey;
     [SerializeField] string BuildingKey;
     BuildingData _buildingData;
+    IModule _MainModule;
 
     Outline _outline;
     Outline Outline
@@ -50,6 +51,10 @@ public class Building : MonoBehaviour, IInteractable
     {
         return 1;
     }
+    public void Select()
+    {
+        UIManager.Instance.Active_BuildingMainModuleUIWdw(_MainModule);
+    }
 
     public void MouseEnter()
     {
@@ -71,5 +76,10 @@ public class Building : MonoBehaviour, IInteractable
         {
             return true;
         }
+    }
+
+    private void Awake()
+    {
+        _MainModule = GetComponent<IModule>();
     }
 }

@@ -10,14 +10,14 @@ public class Wdw_InventoryView : MonoBehaviour, IWindow
     public bool IsActive { get; private set; } = false;
 
     Inventory _Inventory;
-    public void Init(Inventory inventory)
+    public void Init(IModule module)
     {
-        _Inventory = inventory;
-        for (int i = 0; i < inventory.InventoryMaxCount(); i++)
+        _Inventory = module as Inventory;
+        for (int i = 0; i < _Inventory.InventoryMaxCount(); i++)
         {
             ItemCell cell = Instantiate(Prefab_Cell, Trf_Contant).GetComponent<ItemCell>();
             cellList.Add(cell);
-            cell.Init(inventory.CellItemData(i));
+            cell.Init(_Inventory.CellItemData(i));
         }
     }
     public void CellChange(int index, CellData cellData)

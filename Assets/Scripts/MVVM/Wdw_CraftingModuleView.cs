@@ -56,4 +56,9 @@ public class Wdw_CraftingModuleView : MonoBehaviour, IWindow
             _vm = null;
         }
     }
+
+    public void Init(IModule module)
+    {
+        
+    }
 }
