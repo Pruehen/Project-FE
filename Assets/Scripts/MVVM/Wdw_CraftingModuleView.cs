@@ -2,7 +2,6 @@ using System.ComponentModel;
 using TMPro;
 using UI.Extension;
 using UnityEngine;
-using ViewModel.Extensions;
 
 public class Wdw_CraftingModuleView : MonoBehaviour, IWindow
 {
@@ -30,18 +29,17 @@ public class Wdw_CraftingModuleView : MonoBehaviour, IWindow
         
     }
 
-    public void Active()
+    public void Active(IModule craftingModule)
     {
         this.gameObject.SetActive(true);
-    }
-    public void Active(CraftingModule craftingModule)
-    {
+        _craftingModule = craftingModule as CraftingModule;
+
         if (_vm == null)
         {
             _vm = new Wdw_CraftingModuleViewModel();
             _vm.PropertyChanged += OnPropertyChanged;
 
-            _vm.OnCraftingModuleChanged(craftingModule);
+            //_vm.OnCraftingModuleChanged(craftingModule);
         }
     }
 
@@ -55,10 +53,7 @@ public class Wdw_CraftingModuleView : MonoBehaviour, IWindow
             _vm.PropertyChanged -= OnPropertyChanged;
             _vm = null;
         }
-    }
 
-    public void Init(IModule module)
-    {
-        
+        UIManager.Instance.OnDeActive_ModuleWdw(_craftingModule.gameObject.GetInstanceID());
     }
 }

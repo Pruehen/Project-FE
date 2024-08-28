@@ -12,13 +12,15 @@ public class UIManager : SceneSingleton<UIManager>
     [SerializeField] MouseTrackUI _MouseTrackUI;
 
     Dictionary<Inventory, Wdw_InventoryView> useInventoryUI = new Dictionary<Inventory, Wdw_InventoryView>();
+    HashSet<int> ActiveWdwModuleHashSet = new HashSet<int>();
+
     public Wdw_InventoryView Toggle_InventoryUIWdw(Inventory inventory)
     {
         if(useInventoryUI.ContainsKey(inventory))
         {
             if (useInventoryUI[inventory].IsActive == false)
             {
-                useInventoryUI[inventory].Active();
+                useInventoryUI[inventory].Active(inventory);
                 return useInventoryUI[inventory];
             }
             else
@@ -32,28 +34,37 @@ public class UIManager : SceneSingleton<UIManager>
             GameObject obj = ObjectPoolManager.Instance.DequeueObject(Prefab_InventoryUIWdw);
             obj.transform.SetParent(Trf_WindowParent);
 
-            Wdw_InventoryView newUI = obj.GetComponent<Wdw_InventoryView>();
-            newUI.Init(inventory);
-            newUI.Active();
+            Wdw_InventoryView newUI = obj.GetComponent<Wdw_InventoryView>();            
+            newUI.Active(inventory);
             useInventoryUI.Add(inventory, newUI);
             return newUI;
         }
     }
-    public void Actvie_ModuleWdw(GameObject windowPrefab, IModule module)
-    {
-        GameObject obj = ObjectPoolManager.Instance.DequeueObject(windowPrefab);
-        obj.transform.SetParent(Trf_WindowParent);
-
-        IWindow window = obj.GetComponent<IWindow>();
-        window.Active();
-        window.Init(module);
-    }
     public void Active_BuildingMainModuleUIWdw(IModule module)
     {
-        if(module != null)
+        if (module != null)
         {
             module.Active_Wdw();
+        }
+    }
+    public void Actvie_ModuleWdw<T>(GameObject windowPrefab, T module) where T : MonoBehaviour, IModule
+    {
+        int instanceId = module.gameObject.GetInstanceID();
+
+        if (ActiveWdwModuleHashSet.Contains(instanceId) == false)
+        {
+            GameObject obj = ObjectPoolManager.Instance.DequeueObject(windowPrefab);
+            obj.transform.SetParent(Trf_WindowParent);
+
+            IWindow window = obj.GetComponent<IWindow>();
+            window.Active(module);
+
+            ActiveWdwModuleHashSet.Add(instanceId);
         }        
+    }
+    public void OnDeActive_ModuleWdw(int moduleObjectId)
+    {
+        ActiveWdwModuleHashSet.Remove(moduleObjectId);
     }
 
     public void SetCellData_MouseTrackUI_OnCellPointerEnter(CellData cellData)

@@ -10,8 +10,16 @@ public class Wdw_InventoryView : MonoBehaviour, IWindow
     public bool IsActive { get; private set; } = false;
 
     Inventory _Inventory;
-    public void Init(IModule module)
+
+    public void CellChange(int index, CellData cellData)
     {
+        cellList[index].Init(cellData);
+    }
+    public void Active(IModule module)
+    {
+        this.gameObject.SetActive(true);
+        IsActive = true;
+
         _Inventory = module as Inventory;
         for (int i = 0; i < _Inventory.InventoryMaxCount(); i++)
         {
@@ -20,18 +28,11 @@ public class Wdw_InventoryView : MonoBehaviour, IWindow
             cell.Init(_Inventory.CellItemData(i));
         }
     }
-    public void CellChange(int index, CellData cellData)
-    {
-        cellList[index].Init(cellData);
-    }
-    public void Active()
-    {
-        this.gameObject.SetActive(true);
-        IsActive = true;
-    }
     public void Close()
     {
         this.gameObject.SetActive(false);
         IsActive = false;
+
+        UIManager.Instance.OnDeActive_ModuleWdw(_Inventory.gameObject.GetInstanceID());
     }
 }

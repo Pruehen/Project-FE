@@ -24,7 +24,6 @@ public interface ITable
 
 public interface IWindow
 {
-    public void Active();
-    public void Init(IModule module);
+    public void Active(IModule module);    
     public void Close();    
 }
