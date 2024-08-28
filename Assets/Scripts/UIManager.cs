@@ -24,7 +24,7 @@ public class UIManager : SceneSingleton<UIManager>
     {
         int instanceId = module.gameObject.GetInstanceID();
 
-        if (ActiveWdwModuleHashSet.Contains(instanceId) == false)
+        if (ActiveWdwModuleHashSet.Contains(instanceId) == false && ActiveWdwModuleHashSet.Count < 5)
         {
             GameObject obj = ObjectPoolManager.Instance.DequeueObject(windowPrefab);
             obj.transform.SetParent(Trf_WindowParent);
