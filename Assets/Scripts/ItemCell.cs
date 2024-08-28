@@ -29,6 +29,7 @@ public class ItemCell : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI TMP_ItemCount;
     [SerializeField] Image Image_ItemIcon;
+    [SerializeField] Image Image_FixedItemIcon;
 
     CellData _cellData;
 
@@ -51,12 +52,18 @@ public class ItemCell : MonoBehaviour
             TMP_ItemCount.text = cellData.Count.ToString();
             Image_ItemIcon.gameObject.SetActive(true);
             Image_ItemIcon.SetLoadSprite(item.Icon_Path);
+
+            Image_FixedItemIcon.gameObject.SetActive(cellData.FixedCell);
+            if (cellData.FixedCell)
+            {                
+                Image_FixedItemIcon.SetLoadSprite(item.Icon_Path);
+            }            
         }
     }
 
     public void Active_BtnMouseOverInfo_OnPointerEnter()
     {
-        if (_cellData.Id != null)
+        if (_cellData != null && _cellData.Id != null)
         {
             UIManager.Instance.SetCellData_MouseTrackUI_OnCellPointerEnter(_cellData);
         }
