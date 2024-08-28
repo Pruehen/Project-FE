@@ -2,6 +2,7 @@
 using EnumTypes;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI.Extension
 {
@@ -50,6 +51,11 @@ namespace UI.Extension
         public static string GetTextTable(this string id, Language languageType = Language.Kr)
         {
             return JsonDataManager.GetText(id, languageType);
+        }
+        public static void SetLoadSprite(this Image image, string path)
+        {
+            // Resources.Load를 사용하여 스프라이트를 로드합니다.
+            image.sprite = Resources.Load<Sprite>(path);
         }
 
         public static string SimplifyNumber(this float number)

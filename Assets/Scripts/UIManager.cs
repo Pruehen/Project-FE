@@ -7,7 +7,7 @@ public class UIManager : SceneSingleton<UIManager>
     [SerializeField] GameObject Prefab_InventoryUIWdw;
     [SerializeField] Transform Trf_WindowParent;
 
-    [SerializeField] MouseBtmOverInfo _BtnMouseOverInfo;
+    [SerializeField] MouseTrackUI _MouseTrackUI;
 
     Dictionary<Inventory, Wdw_InventoryView> useInventoryUI = new Dictionary<Inventory, Wdw_InventoryView>();
     public Wdw_InventoryView Toggle_InventoryUIWdw(Inventory inventory)
@@ -38,8 +38,16 @@ public class UIManager : SceneSingleton<UIManager>
         }
     }
 
-    public void Set_BtnMouseOverInfo(CellData cellData)
+    public void SetCellData_MouseTrackUI_OnCellPointerEnter(CellData cellData)
     {
-        _BtnMouseOverInfo.SetData(cellData);
+        _MouseTrackUI.SetCellData_OnCellPointerEnter(cellData);
+    }
+    public void SetIcon_MouseTrackUI_OnGrab(CellData cellData)
+    {
+        _MouseTrackUI.SetIcon_OnGrab(cellData);        
+    }
+    public void RemoveIcon_MouseTrackUI_OnDrop()
+    {
+        _MouseTrackUI.RemoveIcon_OnDrop();
     }
 }

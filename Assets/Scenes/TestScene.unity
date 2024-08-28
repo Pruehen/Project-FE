@@ -69672,7 +69672,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefab_InventoryUIWdw: {fileID: 1162125286898261070, guid: 9e2cb6e0c4c20ac45bbea3308b49fb0d, type: 3}
   Trf_WindowParent: {fileID: 7033304643879945949}
-  _BtnMouseOverInfo: {fileID: 7229599576495655565}
+  _MouseTrackUI: {fileID: 7229599576495655565}
 --- !u!1001 &3050120368860281375
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -70061,7 +70061,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2724439808428230716, guid: 4e8bb44738d47b449bcde28ad37e6d50, type: 3}
       propertyPath: m_Pivot.x
-      value: 0
+      value: -0.05
       objectReference: {fileID: 0}
     - target: {fileID: 2724439808428230716, guid: 4e8bb44738d47b449bcde28ad37e6d50, type: 3}
       propertyPath: m_Pivot.y
@@ -70121,7 +70121,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2724439808428230716, guid: 4e8bb44738d47b449bcde28ad37e6d50, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 969
+      value: 975
       objectReference: {fileID: 0}
     - target: {fileID: 2724439808428230716, guid: 4e8bb44738d47b449bcde28ad37e6d50, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -70139,13 +70139,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5131569020445641372, guid: 4e8bb44738d47b449bcde28ad37e6d50, type: 3}
-      propertyPath: m_RaycastTarget
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8703969094024352617, guid: 4e8bb44738d47b449bcde28ad37e6d50, type: 3}
       propertyPath: m_Name
-      value: MouseBtmOverInfo
+      value: MouseTrackUI
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
