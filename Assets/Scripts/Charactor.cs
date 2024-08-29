@@ -1,10 +1,10 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Inventory))]
+[RequireComponent(typeof(InventoryModule))]
 [RequireComponent(typeof(MiningDevice))]
 public class Charactor : MonoBehaviour
 {
-    Inventory _inventory;
+    InventoryModule _inventory;
     MiningDevice _miningDevice;
 
     Rigidbody _rigidbody;
@@ -12,6 +12,8 @@ public class Charactor : MonoBehaviour
     Vector3 _lookPos;
     float _speed;
     float _interactTime = 0;
+
+    bool _inventoryUIActive = false;
 
     [Range(1, 50)][SerializeField] float moveSpeed = 10;
     [Range(1, 50)][SerializeField] float interactionRange = 10;
@@ -25,7 +27,7 @@ public class Charactor : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         _lineRenderer = GetComponent<LineRenderer>();
-        _inventory = GetComponent<Inventory>();
+        _inventory = GetComponent<InventoryModule>();
         _miningDevice = GetComponent<MiningDevice>();
     }
 
@@ -76,7 +78,15 @@ public class Charactor : MonoBehaviour
     }
     public void InventoryToggle()
     {
-       _inventory.ToggleActiveUI();
+        _inventoryUIActive = !_inventoryUIActive;
+        if (_inventoryUIActive)
+        {
+            _inventory.Active_Wdw();
+        }       
+        else
+        {
+            _inventory.Close_Wdw();
+        }
     }
 
     void Move_OnFixedUpdate()

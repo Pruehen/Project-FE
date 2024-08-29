@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using TMPro;
-using UI.Extension;
 using UnityEngine;
 using UnityEngine.UI;
 using ViewModel.Extensions;
@@ -35,7 +34,7 @@ public class PlayerView : MonoBehaviour
 
     private void Update()
     {
-        UIExtension.SetUIPos_WorldToScreenPos(TMP_OnMouseObjectName.rectTransform, _originPos_TMP_OnMouseObjectName);
+        Extension.SetUIPos_WorldToScreenPos(TMP_OnMouseObjectName.rectTransform, _originPos_TMP_OnMouseObjectName);
     }
 
     void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -45,7 +44,7 @@ public class PlayerView : MonoBehaviour
             case nameof(_vm.OnMouseObjectName):
                 if (_vm.OnMouseObjectName != null)
                 {
-                    TMP_OnMouseObjectName.text = JsonDataManager.GetText(_vm.OnMouseObjectName, EnumTypes.Language.Kr);
+                    TMP_OnMouseObjectName.text = _vm.OnMouseObjectName.GetTextTable();
                 }
                 else
                 {

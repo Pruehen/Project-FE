@@ -3,38 +3,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class QueueExtensions
+public static class StackExtensions
 {
     // 오브젝트 풀에 오브젝트를 추가하는 확장 메서드
-    public static void EnqueuePool(this Queue<GameObject> queue, GameObject item)
+    public static void PushPool(this Stack<GameObject> stack, GameObject item)
     {
         item.gameObject.SetActive(false);
-        queue.Enqueue(item);
+        stack.Push(item);
     }
 
     // 오브젝트 풀에서 오브젝트를 가져오는 확장 메서드
-    public static GameObject DequeuePool(this Queue<GameObject> queue)
+    public static GameObject PopPool(this Stack<GameObject> stack)
     {
-        if (queue.Count == 0)
+        if (stack.Count == 0)
         {
             Debug.LogWarning("!!!queue.Count == 0!!!");
             return null;
         }
 
-        GameObject item = queue.Dequeue();
+        GameObject item = stack.Pop();
         item.gameObject.SetActive(true);
         return item;
     }
 
-    public static GameObject DequeuePool(this Queue<GameObject> queue, Vector3 pos)
+    public static GameObject PopPool(this Stack<GameObject> stack, Vector3 pos)
     {
-        if (queue.Count == 0)
+        if (stack.Count == 0)
         {
             Debug.LogWarning("!!!queue.Count == 0!!!");
             return null;
         }
 
-        GameObject item = queue.Dequeue();
+        GameObject item = stack.Pop();
         item.transform.position = pos;
         item.gameObject.SetActive(true);
         return item;
@@ -43,13 +43,13 @@ public static class QueueExtensions
 
 public class Pool//풀 관리 클래스
 {
-    public Queue<GameObject> queue;
+    public Stack<GameObject> stack;
     public int count;
     public Transform transform;
 
     public Pool(Transform transform)
     {
-        queue = new Queue<GameObject>();
+        stack = new Stack<GameObject>();
         count = 0;
         this.transform = transform;
     }
@@ -62,7 +62,7 @@ public class ObjectPoolManager : SceneSingleton<ObjectPoolManager>
     //생성할 프리팹 타입은 string으로 검사함.
     //이름이 같으면 동일한 프리팹으로 취급하기 때문에 이름 설정에 주의할 것.
 
-    public void CreatePool(GameObject prefab, int count = 10)//풀을 count만큼 생성.
+    public void CreatePool(GameObject prefab, int count = 2)//풀을 count만큼 생성.
     {
         string itemType = prefab.name;
         if (!objectPools.ContainsKey(itemType))//키가 없을 경우
@@ -78,7 +78,7 @@ public class ObjectPoolManager : SceneSingleton<ObjectPoolManager>
         {
             GameObject item = Instantiate(prefab, objectPools[itemType].transform);
             item.name = itemType;
-            objectPools[itemType].queue.EnqueuePool(item);
+            objectPools[itemType].stack.PushPool(item);
             objectPools[itemType].count++;
         }
     }
@@ -90,7 +90,7 @@ public class ObjectPoolManager : SceneSingleton<ObjectPoolManager>
             CreatePool(item);//자동으로 풀을 생성
         }
         item.transform.SetParent(objectPools[itemType].transform);
-        objectPools[itemType].queue.EnqueuePool(item);
+        objectPools[itemType].stack.PushPool(item);
     }
     public void AllDestroyObject(GameObject prefab)//prefab과 같은 타입의 모든 오브젝트를 큐에 다시 담음.
     {
@@ -117,11 +117,11 @@ public class ObjectPoolManager : SceneSingleton<ObjectPoolManager>
         {
             CreatePool(prefab);//자동으로 풀을 생성
         }
-        GameObject dequeneObject = objectPools[itemType].queue.DequeuePool();
+        GameObject dequeneObject = objectPools[itemType].stack.PopPool();
         //디큐 시도. 큐에 있는 모든 아이템이 사용중일경우 null을 반환함.
         if (dequeneObject != null)//큐에 내용물이 있을 경우
         {
-            //Debug.Log(objectPools[itemType].queue.Count);
+            //Debug.Log(objectPools[itemType].stack.Count);
             return dequeneObject;//해당 오브젝트를 반환
         }
         else//큐에 내용물이 없는 경우
@@ -137,17 +137,17 @@ public class ObjectPoolManager : SceneSingleton<ObjectPoolManager>
         {
             CreatePool(prefab);//자동으로 풀을 생성
         }
-        GameObject dequeneObject = objectPools[itemType].queue.DequeuePool(pos);
+        GameObject dequeneObject = objectPools[itemType].stack.PopPool(pos);
         //디큐 시도. 큐에 있는 모든 아이템이 사용중일경우 null을 반환함.
         if (dequeneObject != null)//큐에 내용물이 있을 경우
         {
-            //Debug.Log(objectPools[itemType].queue.Count);
+            //Debug.Log(objectPools[itemType].stack.Count);
             return dequeneObject;//해당 오브젝트를 반환
         }
         else//큐에 내용물이 없는 경우
         {
             CreatePool(prefab, objectPools[itemType].count);//풀 확장.
-            dequeneObject = objectPools[itemType].queue.DequeuePool(pos);
+            dequeneObject = objectPools[itemType].stack.PopPool(pos);
             return dequeneObject;
         }
     }

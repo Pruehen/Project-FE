@@ -30,6 +30,10 @@ public class Vein : MonoBehaviour, IInteractable
     {
         return extractTimeGain;
     }
+    public void Select()
+    {
+
+    }
     public bool TryInteract(Vector3 originPos, float checkRange)
     {
         if(Vector3.Distance(originPos, GetPos()) > checkRange)
