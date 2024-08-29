@@ -133,7 +133,7 @@ public class Inventory
     }
     void AddItem_FixedInventory(string id, int count, out int remaining)
     {
-        remaining = 0;
+        remaining = count;
         if (TryFindCell(id, out CellData targetCell))
         {
             targetCell.AddItem_FixedCell(targetCell.Id, count, out remaining);

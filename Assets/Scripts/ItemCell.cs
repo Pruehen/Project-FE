@@ -108,16 +108,19 @@ public class ItemCell : MonoBehaviour
 
     public void Set_OnMouseCell_OnPointerEnter()
     {
-        OnMouseCell = this;
+        if (this.CellData != null)
+        {
+            OnMouseCell = this;
+        }
     }
-    public void Remove_OnMouseCell_OnPointerExit()
+        public void Remove_OnMouseCell_OnPointerExit()
     {
         OnMouseCell = null;
     }
 
     public void ItemGrab_OnPointerDown()
     {
-        if (CellData.FixedCell && CellData.Count == 0)
+        if (CellData == null || (CellData.FixedCell && CellData.Count == 0) || CellData.Id == null)
             return;
         else
         {
@@ -131,9 +134,9 @@ public class ItemCell : MonoBehaviour
         Debug.Log("드랍");
         UIManager.Instance.RemoveIcon_MouseTrackUI_OnDrop();
 
-        if (OnMouseCell != null && SelectedCell != null)
+        if (OnMouseCell != null && SelectedCell != null && OnMouseCell != SelectedCell)
         {
-            Debug.Log($"아이템 이동  {SelectedCell} -> {OnMouseCell.name}");            
+            Debug.Log($"아이템 이동  {SelectedCell.name} -> {OnMouseCell.name}");            
             OnMouseCell.CellData.Inventory.AddItem(SelectedCell.CellData.Id, SelectedCell.CellData.Count, out int remaining);
             SelectedCell.CellData.UseItem(SelectedCell.CellData.Count - remaining);
         }
