@@ -30,10 +30,10 @@ public class ItemCell : MonoBehaviour
     [SerializeField] Image Image_FixedItemIcon;
 
     CellData _cellData;
-    CellData CellData
+    public CellData CellData
     {
         get { return _cellData; }
-        set
+        private set
         {
             if(_cellData != null)
             {
@@ -85,7 +85,7 @@ public class ItemCell : MonoBehaviour
                 break;
             case nameof(CellData.FixedCell):
                 Image_FixedItemIcon.gameObject.SetActive(CellData.FixedCell);
-                if(CellData.FixedCell)
+                if(CellData.FixedCell && CellData.Id != null)
                 {
                     ItemData item = JsonDataManager.GetItem(CellData.Id);
                     Image_FixedItemIcon.SetLoadSprite(item.Icon_Path);
@@ -117,9 +117,14 @@ public class ItemCell : MonoBehaviour
 
     public void ItemGrab_OnPointerDown()
     {
-        SelectedCell = this;
-        UIManager.Instance.SetIcon_MouseTrackUI_OnGrab(CellData);
-        Debug.Log("그랩");
+        if (CellData.FixedCell && CellData.Count == 0)
+            return;
+        else
+        {
+            SelectedCell = this;
+            UIManager.Instance.SetIcon_MouseTrackUI_OnGrab(CellData);
+            Debug.Log("그랩");
+        }
     }
     public void ItemDrop_OnPointerUp()
     {
@@ -128,7 +133,9 @@ public class ItemCell : MonoBehaviour
 
         if (OnMouseCell != null && SelectedCell != null)
         {
-            Debug.Log($"아이템 이동  {SelectedCell} -> {OnMouseCell.name}");
+            Debug.Log($"아이템 이동  {SelectedCell} -> {OnMouseCell.name}");            
+            OnMouseCell.CellData.Inventory.AddItem(SelectedCell.CellData.Id, SelectedCell.CellData.Count, out int remaining);
+            SelectedCell.CellData.UseItem(SelectedCell.CellData.Count - remaining);
         }
 
         SelectedCell = null;

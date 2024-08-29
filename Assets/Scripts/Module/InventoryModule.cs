@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Security.Cryptography;
 using UnityEngine;
 
 public class InventoryModule : MonoBehaviour, IModule
@@ -22,16 +21,16 @@ public class InventoryModule : MonoBehaviour, IModule
 
     private void Awake()
     {
-        Inventory = new Inventory(inventoryMaxCount);
+        Inventory = new Inventory(inventoryMaxCount, false);
     }
 
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Space)) 
         {
-            Inventory.AddItem("Item_Copper", 50);
-            Inventory.AddItem("Item_Iron", 50);
-            Inventory.AddItem("Item_IronPlate", 50);
+            Inventory.AddItem("Item_Copper", 50, out int r1);
+            Inventory.AddItem("Item_Iron", 50, out int r2);
+            Inventory.AddItem("Item_IronPlate", 50, out int r3);
         }
     }
 
@@ -54,15 +53,17 @@ public class Inventory
 {
     public List<CellData> CellDataList { get; private set; }
     int CellCorsor { get; set; }
+    bool FixedInventory { get; set; }
 
-    public Inventory(int maxCount)
+    public Inventory(int maxCount, bool fixedInventory)
     {
         CellDataList = new List<CellData>();
         for (int i = 0; i < maxCount; i++)
         {
-            CellDataList.Add(new CellData());
+            CellDataList.Add(new CellData(this, null, fixedInventory));
         }
         CellCorsor = 0;
+        FixedInventory = fixedInventory;
     }
 
     public void Clear()
@@ -73,7 +74,19 @@ public class Inventory
         }
     }
 
-    public void AddItem(string id, int count)
+    public void AddItem(string id, int count, out int remaining)
+    {
+        if (FixedInventory)
+        {
+            AddItem_FixedInventory(id, count, out remaining);
+        }
+        else
+        {
+            AddItem_NotFixedInventory(id, count, out remaining);
+        }
+    }
+
+    void AddItem_NotFixedInventory(string id, int count, out int remaining)
     {
         while (count > 0)
         {
@@ -96,26 +109,68 @@ public class Inventory
             }
 
             // 현재 셀에 아이템 추가 시도
-            int remaining = 0;
-            CellDataList[CellCorsor].AddItem(id, count, out remaining);
+            CellDataList[CellCorsor].AddItem_NotFixedCell(id, count, out int cellRemaining);
 
             // 남은 아이템 수가 있는 경우
-            if (remaining > 0)
+            if (cellRemaining > 0)
             {
                 // 남은 아이템 수를 다음 반복으로 전달
-                count = remaining;
+                count = cellRemaining;
                 // 다음 셀로 커서 이동
                 CellCorsor++;
             }
             else
             {
                 // 아이템이 모두 추가된 경우
+                count = 0;
                 break;
             }
         }
 
+        remaining = count;
         // 정렬
         CellDataList.InsertionCellSort();
+    }
+    void AddItem_FixedInventory(string id, int count, out int remaining)
+    {
+        remaining = 0;
+        if (TryFindCell(id, out CellData targetCell))
+        {
+            targetCell.AddItem_FixedCell(targetCell.Id, count, out remaining);
+        }        
+        
+    }
+    public bool CanUseItem(string id, int count)
+    {
+        if (TryFindCell(id, out CellData targetCell))
+        {
+            return (targetCell.Count >= count);
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public void UseItem_FixedInventory(string id, int count)
+    {
+        if(TryFindCell(id, out CellData targetCell))
+        {
+            targetCell.UseItem(count);
+        }
+    }
+    bool TryFindCell(string id, out CellData cell)
+    {
+        cell = null;
+        foreach (var item in CellDataList)
+        {
+            if (item.Id == id)
+            {
+                cell = item;
+                return true;
+            }
+        }
+        Debug.Log("해당하는 아이템 슬롯을 찾지 못했습니다.");
+        return false;
     }
 
     void SetCorsor(string searchId)
@@ -141,7 +196,8 @@ public class CellData : IComparable<CellData>
     string _id;
     int _count;
     int _maxCount;
-    bool fixedCell;
+    bool _fixedCell;
+    Inventory _inventory;
 
     public int CompareTo(CellData other)
     {
@@ -194,16 +250,27 @@ public class CellData : IComparable<CellData>
     }
     public bool FixedCell
     {
-        get { return fixedCell; }
+        get { return _fixedCell; }
         private set
         {
-            if (fixedCell != value)
+            if (_fixedCell != value)
             {
-                fixedCell = value;
+                _fixedCell = value;
                 OnPropertyChanged(nameof(FixedCell));
             }
         }
     }    //아이템 고정 변수. true일 시 아이템이 모두 제거되어도 Id가 null이 되지 않음.
+    public Inventory Inventory
+    {
+        get { return _inventory; }
+        private set
+        {
+            if (_inventory != value)
+            {
+                _inventory = value;                
+            }
+        }
+    }
     public bool CanItemAdd()
     {
         return MaxCount > Count;
@@ -216,43 +283,33 @@ public class CellData : IComparable<CellData>
         OnPropertyChanged(nameof(FixedCell));
     }
 
-
-    public CellData(string id, int count, int maxCount, bool fixedCell)
+    public CellData(Inventory inventory, string id = null, bool fixedCell = false)
     {
-        Id = id;
-        Count = count;
-        MaxCount = maxCount;
-        FixedCell = fixedCell;
-    }
-    public CellData(string id = null, bool fixedCell = false)
-    {
+        this.Inventory = inventory;
         FixedCell = fixedCell;
         Count = 0;
-        if (FixedCell && id != null)
-        {
-            SetItem(id);            
-        }
-        else
-        {
-            Id = null;
-            MaxCount = 0;
-        }
+        SetItem(id);
     }
     public void Clear()//Remove
     {
-        if(FixedCell == false)
-        {
-            Id = null;
-            MaxCount = 0;
-        }
-        Count = 0;        
+        Id = null;
+        Count = 0;
+        MaxCount = 0;             
     }
     public void SetItem(string id)
     {
         Id = id;
-        MaxCount = JsonDataManager.GetItem(id).MaxStack;
+        if(Id != null)
+        {
+            MaxCount = JsonDataManager.GetItem(id).MaxStack;
+        }        
+        else
+        {
+            MaxCount = 0;
+        }
     }
-    public void AddItem(string id, int count, out int remaining)
+
+    public void AddItem_NotFixedCell(string id, int count, out int remaining)
     {
         remaining = 0;
 
@@ -261,7 +318,7 @@ public class CellData : IComparable<CellData>
             SetItem(id);
             Debug.LogWarning("수신 셀이 비어있습니다. 아이템을 할당합니다.");
         }
-        else if(Id != id)
+        else if (Id != id)
         {
             Debug.LogError("다른 아이템이 추가되었습니다.");
             return;
@@ -269,30 +326,28 @@ public class CellData : IComparable<CellData>
 
         Count += count;
 
-        if (Count > MaxCount)
+        if (Count > MaxCount && FixedCell == false)
         {
             remaining = Count - MaxCount;
-            if(FixedCell == false)
-            {
-                Count = MaxCount;
-            }
+            Count = MaxCount;
         }
     }
-
-    public void AddItem(int count)//FixedCell 전용
-    {        
-        if(FixedCell == false)
+    public void AddItem_FixedCell(string id, int count, out int remaining)
+    {
+        remaining = count;
+        if (FixedCell == false)
         {
             Debug.LogWarning("고정 아이템 셀이 아닙니다.");
             return;
         }
         if (Id == null)//빈 칸일 경우
-        {            
+        {
             Debug.LogWarning("수신 셀이 비어있습니다.");
             return;
         }
 
-        Count += count;        
+        Count += count;
+        remaining = 0;
     }
     public void UseItem(int count)
     {
@@ -306,10 +361,13 @@ public class CellData : IComparable<CellData>
         if (Count == 0)
         {
             Debug.Log("셀 비워짐");
-            Clear();
+            if (FixedCell == false)
+            {
+                Clear();
+            }
         }        
     }
-    public void Swap(CellData target)//비고정 셀만 정렬 작업을 수행함
+    public void Swap_OnSort(CellData target)//비고정 셀만 정렬 작업을 수행함
     {
         if(FixedCell)
         {
@@ -324,41 +382,13 @@ public class CellData : IComparable<CellData>
         Count = target.Count;
         MaxCount = target.MaxCount;
 
-        target.Swap_SetData(idTemp, countTemp, maxCountTemp);
+        target.OnSwap_SetData(idTemp, countTemp, maxCountTemp);
     }
-    void Swap_SetData(string id, int count, int maxCount)
+    void OnSwap_SetData(string id, int count, int maxCount)
     {
         Id = id;
         Count = count;
         MaxCount = maxCount;
-    }
-    public void TransportItem(CellData targetCell, int transportCount)
-    {
-        if (Id == null || Count == 0)
-        {
-            Debug.LogWarning("발신 셀이 비어있습니다.");
-            return;
-        }
-
-        if(transportCount > Count)
-        {
-            transportCount = Count;
-            Debug.LogWarning("셀의 보유량을 초과하는 요청입니다. 운송 수량을 강제로 감소시킵니다.");
-        }
-        
-        targetCell.AddItem(Id, transportCount, out int remaining);
-        Count -= transportCount;
-
-        if (remaining > 0)
-        {
-            Debug.LogWarning($"셀 오버플로우 발생. {remaining} 개의 아이템 반환");
-            Count += remaining;
-        }
-        if(Count == 0)
-        {
-            Debug.Log("셀 비워짐");
-            Clear();
-        }
     }
 
     public event PropertyChangedEventHandler PropertyChanged;

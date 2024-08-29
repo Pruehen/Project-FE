@@ -20,7 +20,7 @@ public class Wdw_CraftingModuleView : MonoBehaviour, IWindow
             if (_craftingModule != value)
             {
                 _craftingModule = value;
-                Init();                
+                Init();
             }            
         }
     }
@@ -45,21 +45,21 @@ public class Wdw_CraftingModuleView : MonoBehaviour, IWindow
 
         for (int i = 0; i < inputCellList.Count; i++)
         {
-            inputCellList[i].gameObject.SetActive(CraftingModule.InputItemTypeNum > i);
+            inputCellList[i].gameObject.SetActive(CraftingModule.CraftingRecipyData.InputItemGroup.Count > i);
         }
         for (int i = 0; i < outputCellList.Count; i++)
         {
-            outputCellList[i].gameObject.SetActive(CraftingModule.OutputItemTypeNum > i);
+            outputCellList[i].gameObject.SetActive(CraftingModule.CraftingRecipyData.OutputItemGroup.Count > i);
         }
 
-        CraftingModule.GetData(out List<CellData> inputCellData, out List<CellData> outputCellData);
-        for (int i = 0; i < inputCellData.Count; i++)
+        CraftingModule.GetData(out Inventory inputInventory, out Inventory outputInventory);
+        for (int i = 0; i < inputInventory.CellDataList.Count; i++)
         {
-            inputCellList[i].RegisterCellData(inputCellData[i]);
+            inputCellList[i].RegisterCellData(inputInventory.CellDataList[i]);
         }
-        for (int i = 0; i < outputCellData.Count; i++)
+        for (int i = 0; i < outputInventory.CellDataList.Count; i++)
         {
-            outputCellList[i].RegisterCellData(outputCellData[i]);
+            outputCellList[i].RegisterCellData(outputInventory.CellDataList[i]);
         }
     }
 

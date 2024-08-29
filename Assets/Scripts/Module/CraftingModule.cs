@@ -1,6 +1,6 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class CraftingModule : MonoBehaviour, IModule
 {
@@ -9,7 +9,7 @@ public class CraftingModule : MonoBehaviour, IModule
     public RecipyData CraftingRecipyData
     {
         get { return _craftingRecipyData; }
-        set
+        private set
         { 
             _craftingRecipyData = value;
             OnRecipyChanged?.Invoke(_craftingRecipyData);
@@ -18,14 +18,11 @@ public class CraftingModule : MonoBehaviour, IModule
 
     public Action<RecipyData> OnRecipyChanged;
 
-    public void GetData(out List<CellData> inputCellData, out List<CellData> outputCellData)
+    public void GetData(out Inventory inputInventory, out Inventory outputInventory)
     {
-        inputCellData = _inputItemCellList;
-        outputCellData = _outputItemCellList;
+        inputInventory = InputInventory;
+        outputInventory = OutputInventory;
     }
-
-    public int InputItemTypeNum { get; private set; }
-    public int OutputItemTypeNum { get; private set; }
 
     float _craftingTime = 1;
     [SerializeField] float CraftingTimeGain = 1;
@@ -40,10 +37,26 @@ public class CraftingModule : MonoBehaviour, IModule
         }
     }
 
-    List<CellData> _inputItemCellList = new List<CellData>();
-    List<int> _inputItemRequiredList = new List<int>();
-    List<CellData> _outputItemCellList = new List<CellData>();
-    List<int> _outputItemRequiredList = new List<int>();
+    Inventory _inputInventory;
+    Inventory _outputInventory;
+
+    public Inventory InputInventory
+    {
+        get { return _inputInventory; }
+        private set
+        {
+            _inputInventory = value;
+        }
+    }
+
+    public Inventory OutputInventory
+    {
+        get { return _outputInventory; }
+        private set
+        {
+            _outputInventory = value;
+        }
+    }
 
     IWindow window;
     public void Active_Wdw()
@@ -98,31 +111,20 @@ public class CraftingModule : MonoBehaviour, IModule
     {
         if (CraftingRecipyData != null)
         {
-            InputItemTypeNum = CraftingRecipyData.InputItemGroup.Count;
-            OutputItemTypeNum = CraftingRecipyData.OutputItemGroup.Count;
             UpdateCraftingTime();
 
-            for (int i = 0; i < InputItemTypeNum; i++)
+            for (int i = 0; i < CraftingRecipyData.InputItemGroup.Count; i++)
             {
-                _inputItemCellList.Add(new CellData(CraftingRecipyData.InputItemGroup[i].Id, true));
-                _inputItemRequiredList.Add(CraftingRecipyData.InputItemGroup[i].Count);
+                InputInventory.CellDataList[i].SetItem(CraftingRecipyData.InputItemGroup[i].Id);
             }
-            for (int i = 0; i < OutputItemTypeNum; i++)
+            for (int i = 0; i < CraftingRecipyData.OutputItemGroup.Count; i++)
             {
-                _outputItemCellList.Add(new CellData(CraftingRecipyData.OutputItemGroup[i].Id, true));
-                _outputItemRequiredList.Add(CraftingRecipyData.OutputItemGroup[i].Count);
+                OutputInventory.CellDataList[i].SetItem(CraftingRecipyData.OutputItemGroup[i].Id);
             }
         }
         else
         {
-            InputItemTypeNum = 0;
-            OutputItemTypeNum = 0;
             _craftingTime = 1;
-
-            _inputItemCellList.Clear();
-            _inputItemRequiredList.Clear();
-            _outputItemCellList.Clear();
-            _outputItemRequiredList.Clear();
         }
     }
 
@@ -134,45 +136,39 @@ public class CraftingModule : MonoBehaviour, IModule
             return;
         }
 
-        if(CanCraftItem_InputItemCheck() && CanCraftItem_OutputItemCheck())
+        for (int i = 0; i < CraftingRecipyData.InputItemGroup.Count; i++)
         {
-            for (int i = 0; i < InputItemTypeNum; i++)
-            {
-                _inputItemCellList[i].UseItem(_inputItemRequiredList[i]);                
-            }            
-            for (int i = 0; i < OutputItemTypeNum; i++)
-            {
-                _outputItemCellList[i].AddItem(_outputItemCellList[i].Id, _outputItemRequiredList[i], out int remaining);                
-            }
+            InputInventory.UseItem_FixedInventory(CraftingRecipyData.InputItemGroup[i].Id, CraftingRecipyData.InputItemGroup[i].Count);
+        }
+        for (int i = 0; i < CraftingRecipyData.OutputItemGroup.Count; i++)
+        {
+            OutputInventory.AddItem(CraftingRecipyData.OutputItemGroup[i].Id, CraftingRecipyData.OutputItemGroup[i].Count, out int remaining);
+        }
 
-            Debug.Log("제작 성공");
-        }
-        else
-        {
-            Debug.Log("제작 실패");            
-        }
+        Debug.Log("제작 성공");
     }
 
     public bool CanCraftItem_InputItemCheck()
     {
         bool canCraftItem = true;
-        for (int i = 0; i < InputItemTypeNum; i++)
+        for (int i = 0; i < CraftingRecipyData.InputItemGroup.Count; i++)
         {
-            if (_inputItemCellList[i].Count < _inputItemRequiredList[i])
+            if(InputInventory.CanUseItem(CraftingRecipyData.InputItemGroup[i].Id, CraftingRecipyData.InputItemGroup[i].Count) == false)
             {
                 canCraftItem = false;
                 Debug.Log("인풋 아이템이 부족합니다.");
                 break;
-            }
+            }            
         }        
         return canCraftItem;
     }
     public bool CanCraftItem_OutputItemCheck()
     {
         bool canCraftItem = true;
-        for (int i = 0; i < OutputItemTypeNum; i++)
+
+        for (int i = 0; i < CraftingRecipyData.InputItemGroup.Count; i++)
         {
-            if (_outputItemCellList[i].CanItemAdd() == false)
+            if (OutputInventory.CellDataList[i].CanItemAdd() == false)
             {
                 canCraftItem = false;
                 Debug.Log("아웃풋이 가득 찼습니다.");
@@ -183,15 +179,15 @@ public class CraftingModule : MonoBehaviour, IModule
         return canCraftItem;
     }
 
-    private void Start()
+    private void Awake()
     {
-        SetCraftingRecipyData("Recipy_IronPlate");
+        InputInventory = new Inventory(4, true);
+        OutputInventory = new Inventory(4, true);
 
-        foreach (var item in _inputItemCellList)
-        {
-            item.AddItem(100);
-        }        
+        SetCraftingRecipyData("Recipy_IronPlate");
+        InputInventory.AddItem(InputInventory.CellDataList[0].Id, 100, out int remaining);
     }
+
     private void Update()
     {
         if (IsCrafting)

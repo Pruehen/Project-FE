@@ -24,7 +24,7 @@ public static class Extension
             // 위치가 i와 다를 경우에만 교환을 수행합니다.
             if (j + 1 != i)
             {
-                list[j + 1].Swap(list[i]);                
+                list[j + 1].Swap_OnSort(list[i]);                
             }
         }
     }
