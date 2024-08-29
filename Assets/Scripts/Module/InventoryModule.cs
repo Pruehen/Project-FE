@@ -77,8 +77,13 @@ public class Inventory
     {
         while (count > 0)
         {
+            if (CellCorsor >= CellDataList.Count)
+            {
+                Debug.LogWarning("인벤토리가 가득 찼습니다.");
+                break;
+            }
             // 현재 셀의 ID가 새로 추가할 아이템의 ID와 다르거나 아이템을 추가할 수 없는 경우
-            if (CellDataList[CellCorsor].Id != id || !CellDataList[CellCorsor].CanItemAdd())
+            if (CellDataList[CellCorsor].Id != id || CellDataList[CellCorsor].CanItemAdd() == false)
             {
                 SetCorsor(id);
             }
@@ -113,7 +118,7 @@ public class Inventory
         CellDataList.InsertionCellSort();
     }
 
-    void SetCorsor(string searchId)//모든 인벤토리가 가득 찼을 경우, cellCorsor가 -1이 됨.
+    void SetCorsor(string searchId)
     {
         for (CellCorsor = 0; CellCorsor < CellDataList.Count; CellCorsor++)
         {
