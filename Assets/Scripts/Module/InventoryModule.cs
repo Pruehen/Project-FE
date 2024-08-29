@@ -1,93 +1,40 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Security.Cryptography;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour, IModule
+public class InventoryModule : MonoBehaviour, IModule
 {
     [SerializeField] int inventoryMaxCount = 150;
     public int InventoryMaxCount() { return inventoryMaxCount; }
 
-    List<CellData> tempItemList = new List<CellData>();
-    int cellCorsor = 0;
-
-    public List<CellData> TempItemList() { return tempItemList; }
-    public CellData CellItemData(int index) { return tempItemList[index]; }
-
-    public Action<int, CellData> OnCellDataChanged;
+    Inventory _inventory;
+    public Inventory Inventory
+    {
+        get { return _inventory; }
+        private set
+        {
+            _inventory = value;
+        }
+    }
+    public CellData CellItemData(int index) { return Inventory.CellDataList[index]; }    
 
     private void Awake()
     {
-        for (int i = 0; i < inventoryMaxCount; i++)
-        {
-            tempItemList.Add(new CellData());
-        }
+        Inventory = new Inventory(inventoryMaxCount);
     }
 
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Space)) 
         {
-            AddItem("Item_Iron", 1500);
+            Inventory.AddItem("Item_Copper", 50);
+            Inventory.AddItem("Item_Iron", 50);
+            Inventory.AddItem("Item_IronPlate", 50);
         }
     }
 
-    public void Clear()
-    {
-        foreach (var item in tempItemList)
-        {
-            item.Clear();
-        }
-    }
-
-    public void AddItem(string id, int count)
-    {
-        if (cellCorsor == -1)
-        {
-            Debug.LogWarning("인벤토리가 가득 찼습니다.");
-            return;
-        }
-        if (tempItemList[cellCorsor].Id != id || tempItemList[cellCorsor].CanItemAdd() == false)
-        {
-            SetCorsor(id);
-        }
-        if (cellCorsor == -1)
-        {
-            Debug.LogWarning("인벤토리가 가득 찼습니다.");
-            return;
-        }
-
-        int remaining = 0;
-        tempItemList[cellCorsor].AddItem(id, count, out remaining);
-        
-        OnCellDataChanged?.Invoke(cellCorsor, tempItemList[cellCorsor]);
-
-        if (remaining > 0)
-        {
-            AddItem(id, remaining);
-        }
-    }
-
-    void SetCorsor(string id)//모든 인벤토리가 가득 찼을 경우, cellCorsor가 -1이 됨.
-    {
-        int firstEmptySlotIndex = -1;
-        for (int index = 0; index < tempItemList.Count; index++)
-        {
-            string slotId = tempItemList[index].Id;
-            if (tempItemList[index].Id == id && tempItemList[index].CanItemAdd())//목표 커서 아이템이 찾는 아이템과 같고, 아이템 추가가 가능할 경우
-            {
-                cellCorsor = index;
-                return;
-            }
-
-            if(firstEmptySlotIndex == -1 && slotId == null)
-            {
-                firstEmptySlotIndex = index;
-            }
-        }
-
-        cellCorsor = firstEmptySlotIndex;
-    }
 
     IWindow window;
     public void Active_Wdw()
@@ -103,12 +50,106 @@ public class Inventory : MonoBehaviour, IModule
     }
 }
 
-public class CellData
+public class Inventory
+{
+    public List<CellData> CellDataList { get; private set; }
+    int CellCorsor { get; set; }
+
+    public Inventory(int maxCount)
+    {
+        CellDataList = new List<CellData>();
+        for (int i = 0; i < maxCount; i++)
+        {
+            CellDataList.Add(new CellData());
+        }
+        CellCorsor = 0;
+    }
+
+    public void Clear()
+    {
+        foreach (var item in CellDataList)
+        {
+            item.Clear();
+        }
+    }
+
+    public void AddItem(string id, int count)
+    {
+        while (count > 0)
+        {
+            // 현재 셀의 ID가 새로 추가할 아이템의 ID와 다르거나 아이템을 추가할 수 없는 경우
+            if (CellDataList[CellCorsor].Id != id || !CellDataList[CellCorsor].CanItemAdd())
+            {
+                SetCorsor(id);
+            }
+
+            // 셀 데이터 리스트의 범위를 벗어나는 경우
+            if (CellCorsor >= CellDataList.Count)
+            {
+                Debug.LogWarning("인벤토리가 가득 찼습니다.");
+                break;
+            }
+
+            // 현재 셀에 아이템 추가 시도
+            int remaining = 0;
+            CellDataList[CellCorsor].AddItem(id, count, out remaining);
+
+            // 남은 아이템 수가 있는 경우
+            if (remaining > 0)
+            {
+                // 남은 아이템 수를 다음 반복으로 전달
+                count = remaining;
+                // 다음 셀로 커서 이동
+                CellCorsor++;
+            }
+            else
+            {
+                // 아이템이 모두 추가된 경우
+                break;
+            }
+        }
+
+        // 정렬
+        CellDataList.InsertionCellSort();
+    }
+
+    void SetCorsor(string searchId)//모든 인벤토리가 가득 찼을 경우, cellCorsor가 -1이 됨.
+    {
+        for (CellCorsor = 0; CellCorsor < CellDataList.Count; CellCorsor++)
+        {
+            string indexSlotId = CellDataList[CellCorsor].Id;
+            if (CellDataList[CellCorsor].CanItemAdd() && CellDataList[CellCorsor].Id == searchId)//목표 커서 아이템이 찾는 아이템과 같고, 아이템 추가가 가능할 경우
+            {
+                return;
+            }
+
+            if (indexSlotId == null)//빈 슬롯일 경우
+            {
+                return;
+            }
+        }
+    }
+}
+
+public class CellData : IComparable<CellData>
 {
     string _id;
     int _count;
     int _maxCount;
     bool fixedCell;
+
+    public int CompareTo(CellData other)
+    {
+        if (other == null)
+            return int.MaxValue; // Null은 비교할 수 없는 것으로 간주
+
+        // _id의 해시값을 기준으로 비교
+        int thisHashCode = (_id != null) ? _id.GetHashCode() - Count : int.MaxValue;
+        int otherHashCode = (other._id != null) ? other._id.GetHashCode() - other.Count : int.MaxValue;
+
+        return thisHashCode.CompareTo(otherHashCode);
+    }
+
 
     public string Id 
     { 
@@ -262,6 +303,29 @@ public class CellData
             Debug.Log("셀 비워짐");
             Clear();
         }        
+    }
+    public void Swap(CellData target)//비고정 셀만 정렬 작업을 수행함
+    {
+        if(FixedCell)
+        {
+            return;
+        }
+
+        string idTemp = Id;
+        int countTemp = Count;
+        int maxCountTemp = MaxCount;
+
+        Id = target.Id;
+        Count = target.Count;
+        MaxCount = target.MaxCount;
+
+        target.Swap_SetData(idTemp, countTemp, maxCountTemp);
+    }
+    void Swap_SetData(string id, int count, int maxCount)
+    {
+        Id = id;
+        Count = count;
+        MaxCount = maxCount;
     }
     public void TransportItem(CellData targetCell, int transportCount)
     {

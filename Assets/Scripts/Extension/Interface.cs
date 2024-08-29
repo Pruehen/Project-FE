@@ -16,7 +16,10 @@ public interface IModule
     public void Active_Wdw();
     public void Close_Wdw();
 }
+public interface ICellGroup
+{
 
+}
 
 public interface ITable
 {

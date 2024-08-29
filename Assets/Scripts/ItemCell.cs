@@ -1,9 +1,7 @@
 using System.ComponentModel;
 using TMPro;
-using UI.Extension;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class ItemCell : MonoBehaviour
 {

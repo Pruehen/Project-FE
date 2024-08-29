@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using TMPro;
-using UI.Extension;
 using UnityEngine;
 using UnityEngine.UI;
 using ViewModel.Extensions;
@@ -35,7 +34,7 @@ public class PlayerView : MonoBehaviour
 
     private void Update()
     {
-        UIExtension.SetUIPos_WorldToScreenPos(TMP_OnMouseObjectName.rectTransform, _originPos_TMP_OnMouseObjectName);
+        Extension.SetUIPos_WorldToScreenPos(TMP_OnMouseObjectName.rectTransform, _originPos_TMP_OnMouseObjectName);
     }
 
     void OnPropertyChanged(object sender, PropertyChangedEventArgs e)

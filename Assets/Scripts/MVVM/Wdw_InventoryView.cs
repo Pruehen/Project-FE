@@ -5,8 +5,8 @@ public class Wdw_InventoryView : MonoBehaviour, IWindow
 {    
     [SerializeField] List<ItemCell> cellList;
 
-    Inventory _Inventory;
-    Inventory Inventory
+    InventoryModule _Inventory;
+    InventoryModule Inventory
     {
         get { return _Inventory; }
         set
@@ -22,7 +22,7 @@ public class Wdw_InventoryView : MonoBehaviour, IWindow
     public void Active(IModule module)
     {
         this.gameObject.SetActive(true);
-        Inventory = module as Inventory;
+        Inventory = module as InventoryModule;
     }
     void Init()
     {
