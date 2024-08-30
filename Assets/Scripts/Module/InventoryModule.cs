@@ -54,6 +54,7 @@ public class Inventory
     public List<CellData> CellDataList { get; private set; }
     int CellCorsor { get; set; }
     bool FixedInventory { get; set; }
+    public Action OnInventoryChange;
 
     public Inventory(int maxCount, bool fixedInventory)
     {
@@ -72,6 +73,7 @@ public class Inventory
         {
             item.Clear();
         }
+        OnInventoryChange?.Invoke();
     }
 
     public void AddItem(string id, int count, out int remaining)
@@ -84,6 +86,7 @@ public class Inventory
         {
             AddItem_NotFixedInventory(id, count, out remaining);
         }
+        OnInventoryChange?.Invoke();
     }
 
     void AddItem_NotFixedInventory(string id, int count, out int remaining)
@@ -156,6 +159,7 @@ public class Inventory
         if(TryFindCell(id, out CellData targetCell))
         {
             targetCell.UseItem(count);
+            OnInventoryChange?.Invoke();
         }
     }
     bool TryFindCell(string id, out CellData cell)

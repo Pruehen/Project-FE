@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using System.ComponentModel;
 
 public static class Extension
 {
@@ -26,6 +27,16 @@ public static class Extension
             {
                 list[j + 1].Swap_OnSort(list[i]);                
             }
+        }
+    }
+
+    public class VM
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)//값이 변경되었을 때 이벤트를 발생시키기 위한 용도 (데이터 바인딩)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 
