@@ -7,6 +7,6 @@ public class Display : MonoBehaviour
 
     public void SetText(string msg)
     {
-        textField.text = msg;
+        textField.text = $"현재 상태 : {msg}";
     }
 }

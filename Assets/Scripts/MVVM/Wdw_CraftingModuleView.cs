@@ -58,19 +58,39 @@ public class Wdw_CraftingModuleView : MonoBehaviour, IWindow
                 }
                 break;
             case nameof(_vm.RecipyData):
-                display.SetText(_vm.RecipyData.Id);
-                for (int i = 0; i < inputCellList.Count; i++)
-                {
-                    inputCellList[i].gameObject.SetActive(_vm.RecipyData.InputItemGroup.Count > i);
-                }
-                for (int i = 0; i < outputCellList.Count; i++)
-                {
-                    outputCellList[i].gameObject.SetActive(_vm.RecipyData.OutputItemGroup.Count > i);
-                }
+                SetWdw(_vm.RecipyData);
                 break;
             case nameof(_vm.CraftValueRatio):
                 progressBar_Crafting.SetBarRatio(_vm.CraftValueRatio);
                 break;                
+        }
+    }
+
+    void SetWdw(RecipyData data)
+    {
+        if (data == null)
+        {
+            display.SetText("À¯ÈÞ");
+            for (int i = 0; i < inputCellList.Count; i++)
+            {
+                inputCellList[i].gameObject.SetActive(false);
+            }
+            for (int i = 0; i < outputCellList.Count; i++)
+            {
+                outputCellList[i].gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            display.SetText(data.Id);
+            for (int i = 0; i < inputCellList.Count; i++)
+            {
+                inputCellList[i].gameObject.SetActive(data.InputItemGroup.Count > i);
+            }
+            for (int i = 0; i < outputCellList.Count; i++)
+            {
+                outputCellList[i].gameObject.SetActive(data.OutputItemGroup.Count > i);
+            }
         }
     }
 }

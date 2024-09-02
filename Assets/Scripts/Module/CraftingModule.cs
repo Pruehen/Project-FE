@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CraftingModule : MonoBehaviour, IModule
@@ -24,8 +25,9 @@ public class CraftingModule : MonoBehaviour, IModule
     private void Awake()
     {
         model = ModelManager.NewModel<CraftingModuleModel>(this.gameObject.GetInstanceID());
+        model.Init_RecipyGroupKey(GetComponent<Building>().BuildingData.RecipyGroup);
 
-        model.SetCraftingRecipyData("Recipy_IronPlate");        
+        //model.SetCraftingRecipyData("Recipy_IronPlate");        
     }
 
     private void Update()
@@ -49,6 +51,8 @@ public class CraftingModuleModel
             }
         }
     }
+
+    List<string> recipyDataGroupList;
 
     Inventory inputInventory;
     Inventory outputInventory;
@@ -81,8 +85,6 @@ public class CraftingModuleModel
     {
         OnExecuteLogic -= callBack;
     }
-
-
     public CraftingModuleModel()
     {
         inputInventory = new Inventory(4, true);
@@ -90,7 +92,13 @@ public class CraftingModuleModel
 
         inputInventory.OnInventoryChange += SetIsCraftItem_OnInventoryChange;
         outputInventory.OnInventoryChange += SetIsCraftItem_OnInventoryChange;
+        SetIsCraftItem_OnInventoryChange();
     }
+    public void Init_RecipyGroupKey(string initKey)
+    {
+        recipyDataGroupList = JsonDataManager.GetRecipyGroupData(initKey);
+    }
+
     void UpdateCraftingTime(RecipyData recipyData)
     {
         if (recipyData != null)

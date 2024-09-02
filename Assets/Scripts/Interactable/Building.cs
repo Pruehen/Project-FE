@@ -31,6 +31,13 @@ public class Building : MonoBehaviour, IInteractable
             return _buildingData; 
         }
     }
+    public List<string> RecipyGroupData
+    {
+        get
+        {
+            return JsonDataManager.GetRecipyGroupData(BuildingData.RecipyGroup);
+        }
+    }
 
     public string GetName()
     {

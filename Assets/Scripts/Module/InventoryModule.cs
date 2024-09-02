@@ -173,7 +173,7 @@ public class Inventory
                 return true;
             }
         }
-        Debug.Log("해당하는 아이템 슬롯을 찾지 못했습니다.");
+        Debug.LogWarning($"해당하는 아이템 슬롯을 찾지 못했습니다. : {id}");
         return false;
     }
 
