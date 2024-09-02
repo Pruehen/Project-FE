@@ -61,7 +61,7 @@ public class Inventory
         CellDataList = new List<CellData>();
         for (int i = 0; i < maxCount; i++)
         {
-            CellDataList.Add(new CellData(this, null, fixedInventory));
+            CellDataList.Add(new CellData(this, null, 0, fixedInventory));
         }
         CellCorsor = 0;
         FixedInventory = fixedInventory;
@@ -220,10 +220,10 @@ public class CellData : IComparable<CellData>
     { 
         get { return _id; } 
         private set
-        {
+        {            
             if(_id != value)
             {
-                _id = value;
+                _id = value;                
                 OnPropertyChanged(nameof(Id));
             }
         }
@@ -287,11 +287,11 @@ public class CellData : IComparable<CellData>
         OnPropertyChanged(nameof(FixedCell));
     }
 
-    public CellData(Inventory inventory, string id = null, bool fixedCell = false)
+    public CellData(Inventory inventory, string id = null, int count = 0, bool fixedCell = false)
     {
         this.Inventory = inventory;
         FixedCell = fixedCell;
-        Count = 0;
+        Count = count;
         SetItem(id);
     }
     public void Clear()//Remove
@@ -300,12 +300,12 @@ public class CellData : IComparable<CellData>
         Count = 0;
         MaxCount = 0;             
     }
-    public void SetItem(string id)
+    public void SetItem(string itemId)
     {
-        Id = id;
+        Id = itemId;        
         if(Id != null)
         {
-            MaxCount = JsonDataManager.GetItem(id).MaxStack;
+            MaxCount = JsonDataManager.GetItem(itemId).MaxStack;
         }        
         else
         {
@@ -369,7 +369,8 @@ public class CellData : IComparable<CellData>
             {
                 Clear();
             }
-        }        
+        }
+        Inventory.OnInventoryChange?.Invoke();
     }
     public void Swap_OnSort(CellData target)//비고정 셀만 정렬 작업을 수행함
     {

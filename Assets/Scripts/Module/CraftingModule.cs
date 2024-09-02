@@ -22,12 +22,14 @@ public class CraftingModule : MonoBehaviour, IModule
         }
     }
 
+    public void SetCraftingRecipyData(string recipyKey)
+    {
+        model.SetCraftingRecipyData(recipyKey);
+    }
     private void Awake()
     {
         model = ModelManager.NewModel<CraftingModuleModel>(this.gameObject.GetInstanceID());
-        model.Init_RecipyGroupKey(GetComponent<Building>().BuildingData.RecipyGroup);
-
-        //model.SetCraftingRecipyData("Recipy_IronPlate");        
+        model.Init_RecipyGroupKey(GetComponent<Building>().BuildingData.RecipyGroup);       
     }
 
     private void Update()
@@ -46,8 +48,7 @@ public class CraftingModuleModel
         {
             if( _craftingRecipyData != value )
             {
-                _craftingRecipyData = value;
-                SetCraftModule(_craftingRecipyData);
+                _craftingRecipyData = value;                
             }
         }
     }
@@ -64,13 +65,12 @@ public class CraftingModuleModel
     float _craftingTimeGain = 1;
     float _craftingSpeedGain = 1;
 
-    Action<RecipyData, Inventory, Inventory> OnSetCraftingRecipyData;
-    public void Register_OnSetCraftingRecipyData(Action<RecipyData, Inventory, Inventory> callBack)
+    Action<RecipyData> OnSetCraftingRecipyData;
+    public void Register_OnSetCraftingRecipyData(Action<RecipyData> callBack)
     {
-        OnSetCraftingRecipyData += callBack;
-        OnSetCraftingRecipyData?.Invoke(CraftingRecipyData, inputInventory, outputInventory);
+        OnSetCraftingRecipyData += callBack;        
     }
-    public void UnRegister_OnSetCraftingRecipyData(Action<RecipyData, Inventory, Inventory> callBack)
+    public void UnRegister_OnSetCraftingRecipyData(Action<RecipyData> callBack)
     {
         OnSetCraftingRecipyData -= callBack;
     }
@@ -78,13 +78,18 @@ public class CraftingModuleModel
     Action<float, float> OnExecuteLogic;
     public void Register_OnExecuteLogic(Action<float, float> callBack)
     {
-        OnExecuteLogic += callBack;
-        OnExecuteLogic?.Invoke(craftingTimeValue, craftingTime);
+        OnExecuteLogic += callBack;        
     }
     public void UnRegister_OnExecuteLogic(Action<float, float> callBack)
     {
         OnExecuteLogic -= callBack;
     }
+
+    public void RefreshVM_OnWdwActive(Action<RecipyData, Inventory, Inventory, List<string>> callBack)
+    {
+        callBack.Invoke(CraftingRecipyData, inputInventory, outputInventory, recipyDataGroupList);
+    }
+
     public CraftingModuleModel()
     {
         inputInventory = new Inventory(4, true);
@@ -92,11 +97,12 @@ public class CraftingModuleModel
 
         inputInventory.OnInventoryChange += SetIsCraftItem_OnInventoryChange;
         outputInventory.OnInventoryChange += SetIsCraftItem_OnInventoryChange;
+
         SetIsCraftItem_OnInventoryChange();
     }
     public void Init_RecipyGroupKey(string initKey)
     {
-        recipyDataGroupList = JsonDataManager.GetRecipyGroupData(initKey);
+        recipyDataGroupList = JsonDataManager.GetRecipyGroupData(initKey);        
     }
 
     void UpdateCraftingTime(RecipyData recipyData)
@@ -111,24 +117,25 @@ public class CraftingModuleModel
         }
     }
 
-    public void SetCraftingRecipyData(string key)
+    public void SetCraftingRecipyData(string recipyKey)
     {
-        if(key == null)
+        if(recipyKey == null)
         {
             CraftingRecipyData = null;            
         }
         else
         {
-            CraftingRecipyData = JsonDataManager.GetRecipyData(key);
+            CraftingRecipyData = JsonDataManager.GetRecipyData(recipyKey);
             if (CraftingRecipyData == null)
             {
-                Debug.LogError($"잘못된 키가 입력되었습니다 : {key}");                
+                Debug.LogError($"잘못된 키가 입력되었습니다 : {recipyKey}");                
             }            
         }
-        OnSetCraftingRecipyData?.Invoke(CraftingRecipyData, inputInventory, outputInventory);
+        SetCraftModule_OnRecipyChange(CraftingRecipyData);
+        OnSetCraftingRecipyData?.Invoke(CraftingRecipyData);
     }
 
-    void SetCraftModule(RecipyData recipyData)
+    void SetCraftModule_OnRecipyChange(RecipyData recipyData)
     {
         inputInventory.Clear();
         outputInventory.Clear();
@@ -153,6 +160,7 @@ public class CraftingModuleModel
     {
         if (_isCrafting == false)
         {
+            craftingTimeValue = 0;
             return;            
         }
 
@@ -188,7 +196,7 @@ public class CraftingModuleModel
     }
 
     void SetIsCraftItem_OnInventoryChange()
-    {
+    {        
         if (CraftingRecipyData == null)
         {
             _isCrafting = false;

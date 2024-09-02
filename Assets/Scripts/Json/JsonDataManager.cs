@@ -77,7 +77,7 @@ public static class JsonDataManager
         }
         else
         {
-            Debug.LogError("존재하지 않는 아이템 키입니다.");
+            Debug.LogError($"존재하지 않는 아이템 키입니다. : {key}");
             return null;
         }
     }

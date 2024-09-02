@@ -40,12 +40,8 @@ public class ItemCell : MonoBehaviour
                 _cellData.PropertyChanged -= OnPropertyChanged;
             }
 
-            if(_cellData != value)
-            {
-                _cellData = value;
-                _cellData.PropertyChanged += OnPropertyChanged;
-            }
-
+            _cellData = value;
+            _cellData.PropertyChanged += OnPropertyChanged;
             _cellData.RefreshVM();
         }
     }
@@ -59,37 +55,32 @@ public class ItemCell : MonoBehaviour
     {
         switch (e.PropertyName)
         {
-            case nameof(CellData.Id):
-                if (CellData.Id == null)
-                {
-                    TMP_ItemCount.text = string.Empty;
-                    Image_ItemIcon.gameObject.SetActive(false);
+            case nameof(CellData.Id):                
+                if (CellData.Id != null)
+                {                                        
+                    ItemData item = JsonDataManager.GetItem(CellData.Id);
+                    Image_ItemIcon.SetLoadSprite(item.Icon_Path);
+                    Image_FixedItemIcon.SetLoadSprite(item.Icon_Path);
                 }
                 else
                 {
-                    ItemData item = JsonDataManager.GetItem(CellData.Id);
-                    Image_ItemIcon.gameObject.SetActive(true);
-                    Image_ItemIcon.SetLoadSprite(item.Icon_Path);
+                    Image_ItemIcon.gameObject.SetActive(false);
                 }
                 break;
             case nameof(CellData.Count):
-                if (CellData.Id != null)
+                if (CellData.Id != null && CellData.Count > 0)
                 {
-                    TMP_ItemCount.text = CellData.Count.ToString();
-                    Image_ItemIcon.gameObject.SetActive(CellData.Count > 0);
+                    Image_ItemIcon.gameObject.SetActive(true);
+                    TMP_ItemCount.text = CellData.Count.ToString();                    
                 }
                 else
                 {
+                    Image_ItemIcon.gameObject.SetActive(false);
                     TMP_ItemCount.text = string.Empty;
                 }
                 break;
             case nameof(CellData.FixedCell):
                 Image_FixedItemIcon.gameObject.SetActive(CellData.FixedCell);
-                if(CellData.FixedCell && CellData.Id != null)
-                {
-                    ItemData item = JsonDataManager.GetItem(CellData.Id);
-                    Image_FixedItemIcon.SetLoadSprite(item.Icon_Path);
-                }
                 break;
         }
     }
@@ -134,9 +125,9 @@ public class ItemCell : MonoBehaviour
         Debug.Log("드랍");
         UIManager.Instance.RemoveIcon_MouseTrackUI_OnDrop();
 
-        if (OnMouseCell != null && SelectedCell != null && OnMouseCell != SelectedCell)
+        if (OnMouseCell != null && SelectedCell != null && OnMouseCell.CellData.Inventory != SelectedCell.CellData.Inventory)
         {
-            Debug.Log($"아이템 이동  {SelectedCell.name} -> {OnMouseCell.name}");            
+            Debug.Log($"아이템 이동  {SelectedCell.name} -> {OnMouseCell.name}");
             OnMouseCell.CellData.Inventory.AddItem(SelectedCell.CellData.Id, SelectedCell.CellData.Count, out int remaining);
             SelectedCell.CellData.UseItem(SelectedCell.CellData.Count - remaining);
         }
