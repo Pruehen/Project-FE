@@ -43,6 +43,10 @@ public class UIManager : SceneSingleton<UIManager>
     {
         ActiveWdwModuleHashSet.Remove(module.gameObject.GetInstanceID());
     }
+    public void OnDeActive_ModuleWdw(int instanceId)
+    {
+        ActiveWdwModuleHashSet.Remove(instanceId);
+    }
 
     public void SetCellData_MouseTrackUI_OnCellPointerEnter(CellData cellData)
     {
