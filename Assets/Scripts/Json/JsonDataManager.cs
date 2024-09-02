@@ -4,6 +4,7 @@ using System.IO;
 using System;
 using System.Threading.Tasks;
 using EnumTypes;
+using System.Collections.Generic;
 
 public static class JsonDataManager
 {
@@ -104,6 +105,19 @@ public static class JsonDataManager
             return null;
         }
     }
+    public static List<string> GetRecipyGroupData(string key)
+    {
+        if (jsonCache.RecipyGroupDataTableCache.dic.ContainsKey(key))
+        {
+            return jsonCache.RecipyGroupDataTableCache.dic[key];
+        }
+        else
+        {
+            Debug.LogError("존재하지 않는 레시피 그룹 데이터 키입니다.");
+            return null;
+        }
+    }
+
     public static string GetText(string key, Language language)
     {
         return jsonCache.TextDataTableCache.dic[key].Text_Kr;

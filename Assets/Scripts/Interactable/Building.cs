@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Building : MonoBehaviour, IInteractable
 {
     [SerializeField] string ItemKey;
     [SerializeField] string BuildingKey;
+
     BuildingData _buildingData;
     IModule _MainModule;
 
@@ -80,6 +82,6 @@ public class Building : MonoBehaviour, IInteractable
 
     private void Awake()
     {
-        _MainModule = GetComponent<IModule>();
+        _MainModule = GetComponent<IModule>();        
     }
 }

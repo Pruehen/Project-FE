@@ -1,10 +1,12 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class CraftingModule : MonoBehaviour, IModule
 {
     Building _building;
+    List<string> _recipyGroup;
+
     RecipyData _craftingRecipyData;
     public RecipyData CraftingRecipyData
     {
@@ -93,11 +95,6 @@ public class CraftingModule : MonoBehaviour, IModule
 
         CraftingRecipyData = data;       
 
-        if (_building == null)
-        {
-            _building = GetComponent<Building>();
-        }
-
         SetCraftModule();
     }
 
@@ -181,9 +178,22 @@ public class CraftingModule : MonoBehaviour, IModule
 
     private void Awake()
     {
+        if (_building == null)
+        {
+            _building = GetComponent<Building>();
+        }
+
+        _recipyGroup = JsonDataManager.GetRecipyGroupData(this._building.BuildingData.RecipyGroup);
+
         InputInventory = new Inventory(4, true);
         OutputInventory = new Inventory(4, true);
 
+        foreach (var item in _recipyGroup)
+        {
+            Debug.Log(item);
+        }
+
+        //테스트 호출
         SetCraftingRecipyData("Recipy_IronPlate");
         InputInventory.AddItem(InputInventory.CellDataList[0].Id, 100, out int remaining);
     }
