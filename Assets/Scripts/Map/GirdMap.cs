@@ -6,7 +6,7 @@ public static class GirdMap
     {
         int x = Mathf.RoundToInt(vector.x); // x 값을 반올림하여 int로 변환
         int z = Mathf.RoundToInt(vector.z); // z 값을 반올림하여 int로 변환
-        int y = 0; // y 값을 0으로 설정
+        float y = Mathf.RoundToInt(vector.y) + 0.1f;
 
         return new Vector3(x, y, z); // 새로운 Vector3 반환
     }

@@ -4,8 +4,8 @@ using System.Collections.Generic;
 public class GridRenderer : SceneSingleton<GridRenderer>
 {
     const float gridSpacing = 1.0f; // 그리드 간격
-    const float lineWidth = 0.05f; // 기본 그리드 선 두께
-    const float lineWidth_Heavy = 0.15f; // 두꺼운 그리드 선 두께
+    const float lineWidth = 0.025f; // 기본 그리드 선 두께
+    const float lineWidth_Heavy = 0.075f; // 두꺼운 그리드 선 두께
 
     [SerializeField] Color gridColor = Color.gray; // 그리드 색상    
     [SerializeField] int gridSize = 100; // 그리드 크기
