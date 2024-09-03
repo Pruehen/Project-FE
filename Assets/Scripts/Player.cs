@@ -76,27 +76,46 @@ public class Player : SceneSingleton<Player>
     {        
         Vector3 mousePosition = Input.mousePosition;
         
-        Ray ray = Camera.main.ScreenPointToRay(mousePosition);
-        string mouseOverObjectName = null;
+        Ray ray = Camera.main.ScreenPointToRay(mousePosition);        
         
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            if(hit.collider.TryGetComponent(out IInteractable onMouseObject))
-            {
-                lookTargetPosVector = onMouseObject.GetPos();
-                mouseOverObjectName = onMouseObject.GetName();
-                OnMouseObjectTemp = onMouseObject;
-            }
-            else
-            {
-                OnMouseObjectTemp = null;
-                lookTargetPosVector = hit.point;
-                mouseOverObjectName = null;
-            }
-            OnLookTargetPosSet?.Invoke(lookTargetPosVector);
-            OnMouseObjectNameChanged?.Invoke(mouseOverObjectName);
+            IInteractableCheck_OnMousePosCheck(hit);
+            GridDraw_OnMousePosCheck(hit.point);
         }
     }
+    void IInteractableCheck_OnMousePosCheck(RaycastHit hit)
+    {
+        string mouseOverObjectName;
+
+        if (hit.collider.TryGetComponent(out IInteractable onMouseObject))
+        {
+            lookTargetPosVector = onMouseObject.GetPos();
+            mouseOverObjectName = onMouseObject.GetName();
+            OnMouseObjectTemp = onMouseObject;
+        }
+        else
+        {
+            OnMouseObjectTemp = null;
+            lookTargetPosVector = hit.point;
+            mouseOverObjectName = null;
+        }
+        OnLookTargetPosSet?.Invoke(lookTargetPosVector);
+        OnMouseObjectNameChanged?.Invoke(mouseOverObjectName);
+    }
+    void GridDraw_OnMousePosCheck(Vector3 hitPos)
+    {
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            Vector3 hitPoint_Grid = hitPos.ToIntVector();
+            GridRenderer.Instance.DrawGrid(hitPoint_Grid);
+        }
+        else
+        {
+            GridRenderer.Instance.HideAllGridLines();
+        }
+    }
+
 
     void MouseClickCheck_OnUpdate()
     {
