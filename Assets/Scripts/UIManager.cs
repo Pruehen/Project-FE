@@ -3,15 +3,19 @@ using UnityEngine;
 
 public class UIManager : SceneSingleton<UIManager>
 {
+    [Header("프리팹")]
     public GameObject Prefab_InventoryUIWdw;
     public GameObject Prefab_CraftingModuleUIWdw;
 
-    [SerializeField] Transform Trf_WindowParent;
-
+    [Header("하위 UI")]
+    [SerializeField] GameObject Label_BuildMode;
     [SerializeField] MouseTrackUI _MouseTrackUI;
+
+    [Header("기타")]
+    [SerializeField] Transform Trf_WindowParent;    
    
     HashSet<int> ActiveWdwModuleHashSet = new HashSet<int>();
-
+    //=============================================================================================================================
     public void Active_BuildingMainModuleUIWdw(IModule module)
     {
         if (module != null)
@@ -47,7 +51,7 @@ public class UIManager : SceneSingleton<UIManager>
     {
         ActiveWdwModuleHashSet.Remove(instanceId);
     }
-
+    //=============================================================================================================================
     public void SetCellData_MouseTrackUI_OnCellPointerEnter(CellData cellData)
     {
         _MouseTrackUI.SetCellData_OnCellPointerEnter(cellData);
@@ -59,5 +63,14 @@ public class UIManager : SceneSingleton<UIManager>
     public void RemoveIcon_MouseTrackUI_OnDrop()
     {
         _MouseTrackUI.RemoveIcon_OnDrop();
+    }
+    //=============================================================================================================================
+    public void SetActive_Label_BuildMode(bool value)
+    {
+        Label_BuildMode.SetActive(value);
+    }
+    private void Awake()
+    {
+        SetActive_Label_BuildMode(false);
     }
 }

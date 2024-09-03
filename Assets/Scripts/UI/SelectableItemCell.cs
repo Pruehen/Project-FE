@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using TMPro;
 using UnityEngine;
@@ -8,10 +9,16 @@ public class SelectableItemCell : MonoBehaviour
     [SerializeField] TextMeshProUGUI TMP_ItemCount;
     [SerializeField] Image Image_ItemIcon;
     [SerializeField] bool IsStaticCell;
-    [SerializeField] string StaticCell_ItemId;
+    [SerializeField] string StaticCell_ItemId;    
 
-    Wdw_CraftingModuleView wdw_CraftingModuleView;//추후 분리
     string recipyId;
+    string itemId;
+
+    Action<string> OnClick_CallBackRecipy;
+    public void Register_OnClick_CallBackRecipy(Action<string> callBack) { OnClick_CallBackRecipy = callBack; }        
+
+    Action<string> OnClick_CallBackItem;
+    public void Register_OnClick_CallBackItem(Action<string> callBack) { OnClick_CallBackItem = callBack; }    
 
     CellData _cellData;
     public CellData CellData
@@ -33,20 +40,17 @@ public class SelectableItemCell : MonoBehaviour
             _cellData.RefreshVM();
         }
     }
-
-    public void Register_CraftModule(Wdw_CraftingModuleView cm)//추후 분리
-    {
-        wdw_CraftingModuleView = cm;
-    }
     public void SetData_Recipy(string recipyId)//추후 모델 단에서 호출하도록 처리
     {
         this.recipyId = recipyId;
         RecipyData data = JsonDataManager.GetRecipyData(recipyId);
-        CellData = new CellData(null, data.OutputItem_1, data.OutputItemCount_1, false);
+
+        CellData = new CellData(null, data.OutputItem_1, data.OutputItemCount_1, false);        
     }
-    public void SetData(string itemId)
+    public void SetData_Item(string itemId)
     {
         CellData = new CellData(null, itemId, 0, true);
+        this.itemId = itemId;
     }
 
     void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -95,8 +99,9 @@ public class SelectableItemCell : MonoBehaviour
     public void SelectCell_OnClick()
     {
         if (this.CellData != null)
-        {
-            wdw_CraftingModuleView.Command_SetCraftingRecipyData(recipyId);
+        {            
+            OnClick_CallBackRecipy?.Invoke(recipyId);
+            OnClick_CallBackItem?.Invoke(itemId);
         }
         else
         {
@@ -108,7 +113,7 @@ public class SelectableItemCell : MonoBehaviour
     {
         if(IsStaticCell)
         {
-            SetData(StaticCell_ItemId);
+            SetData_Item(StaticCell_ItemId);
         }
     }
 }
