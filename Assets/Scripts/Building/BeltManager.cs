@@ -3,13 +3,15 @@ using UnityEngine;
 
 public class BeltNode
 {
-    public Vector3 gridPos { get; private set; }
+    public Vector3Int gridPos { get; private set; }
     BeltNode previousNode;
     BeltNode nextNode;
+    GameObject beltPart;
 
-    public BeltNode(Vector3 gridPos)
+    public BeltNode(Vector3Int gridPos)
     {
         this.gridPos = gridPos;
+        GridMap.beltDic.Add(gridPos, this);
     }
     public void Init(BeltNode previous, BeltNode next)
     {
@@ -62,8 +64,12 @@ public class BeltNode
             dir = Quaternion.LookRotation(next.gridPos - gridPos);
         }
 
-        GameObject obj = ObjectPoolManager.Instance.DequeueObject(beltPrefab, gridPos);
-        obj.transform.rotation = dir;
+        if (beltPart != null)
+        {
+            ObjectPoolManager.Instance.EnqueueObject(beltPart);
+        }
+        beltPart = ObjectPoolManager.Instance.DequeueObject(beltPrefab, gridPos);
+        beltPart.transform.rotation = dir;
     }
 }
 
@@ -82,16 +88,23 @@ public class Belt
         CheckBuildBelt(lastNode);
         beltNodes = new LinkedList<BeltNode>();
 
-        foreach (var item in path)
+        foreach (Vector3Int pos in path)
         {
-            beltNodes.AddLast(new BeltNode(item));
+            if(GridMap.beltDic.ContainsKey(pos) == false)
+            {
+                beltNodes.AddLast(new BeltNode(pos));
+            }
+            else
+            {
+                break;
+            }            
         }
 
         LinkedListNode<BeltNode> tempBeltNode = beltNodes.First;
         while(tempBeltNode != null)
         {
             BeltNode previousNode = (tempBeltNode.Previous != null) ? tempBeltNode.Previous.Value : null;
-            BeltNode nextNode = (tempBeltNode.Next != null) ? tempBeltNode.Next.Value : null;
+            BeltNode nextNode = (tempBeltNode.Next != null) ? tempBeltNode.Next.Value : null;            
 
             tempBeltNode.Value.Init(previousNode, nextNode);
 

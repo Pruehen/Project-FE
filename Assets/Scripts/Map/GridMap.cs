@@ -1,7 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public static class GirdMap
+public static class GridMap
 {
+    public static Dictionary<Vector3Int, BeltNode> beltDic = new Dictionary<Vector3Int, BeltNode>();
+
     public static Vector3Int ToIntVector(this Vector3 vector)
     {
         int x = Mathf.RoundToInt(vector.x); // x 값을 반올림하여 int로 변환
