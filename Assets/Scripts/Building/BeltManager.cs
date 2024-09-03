@@ -11,7 +11,7 @@ public class BeltNode
     public BeltNode(Vector3Int gridPos)
     {
         this.gridPos = gridPos;
-        GridMap.beltDic.Add(gridPos, this);
+        //GridMap.beltDic.Add(gridPos, this);
     }
     public void Init(BeltNode previous, BeltNode next)
     {
@@ -90,14 +90,7 @@ public class Belt
 
         foreach (Vector3Int pos in path)
         {
-            if(GridMap.beltDic.ContainsKey(pos) == false)
-            {
-                beltNodes.AddLast(new BeltNode(pos));
-            }
-            else
-            {
-                break;
-            }            
+            beltNodes.AddLast(new BeltNode(pos));
         }
 
         LinkedListNode<BeltNode> tempBeltNode = beltNodes.First;
