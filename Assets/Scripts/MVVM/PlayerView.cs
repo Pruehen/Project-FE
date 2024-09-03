@@ -34,7 +34,7 @@ public class PlayerView : MonoBehaviour
 
     private void Update()
     {
-        Extension.SetUIPos_WorldToScreenPos(TMP_OnMouseObjectName.rectTransform, _originPos_TMP_OnMouseObjectName);
+        TMP_OnMouseObjectName.rectTransform.SetUIPos_WorldToScreenPos(_originPos_TMP_OnMouseObjectName);
     }
 
     void OnPropertyChanged(object sender, PropertyChangedEventArgs e)

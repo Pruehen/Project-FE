@@ -2,12 +2,15 @@ using UnityEngine;
 
 public class WindowMove : MonoBehaviour
 {
+    RectTransform rectTransform;
+
     bool _isMoveMode = false;
     Vector3 mousePosTemp;
 
     private void Awake()
     {
-        this.GetComponent<RectTransform>().anchoredPosition = new Vector2 (Screen.width * 0.5f, Screen.height * 0.5f);
+        rectTransform = GetComponent<RectTransform>();
+        rectTransform.anchoredPosition = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
     }
 
     public void SetMoveMode(bool value)
@@ -26,6 +29,7 @@ public class WindowMove : MonoBehaviour
             this.transform.position += mousePos_Delta;
 
             mousePosTemp = mousePos;
+            rectTransform.ClampToScreen();
         }
     }
 }

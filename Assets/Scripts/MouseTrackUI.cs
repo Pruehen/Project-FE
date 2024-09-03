@@ -60,5 +60,6 @@ public class MouseTrackUI : MonoBehaviour
         Vector2 screenPoint = Input.mousePosition;
         Vector2 position = screenPoint - screenSize * 0.5f;
         _rectTransform.anchoredPosition = position;
+        _rectTransform.ClampToScreen();
     }
 }

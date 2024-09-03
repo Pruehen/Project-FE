@@ -61,6 +61,42 @@ public static class Extension
             rectTransform.anchoredPosition = position;
         }
     }
+    public static void ClampToScreen(this RectTransform rectTransform)
+    {
+        // 화면 크기 가져오기
+        float screenWidth = Screen.width;
+        float screenHeight = Screen.height;
+
+        // RectTransform의 부모 캔버스에서의 위치를 계산
+        Vector3[] corners = new Vector3[4];
+        rectTransform.GetWorldCorners(corners);
+
+        // RectTransform의 현재 앵커드 포지션 가져오기
+        Vector2 anchoredPosition = rectTransform.anchoredPosition;
+
+        // X 좌표 클램프 (왼쪽 및 오른쪽이 화면 밖으로 나가는 것을 방지)
+        if (corners[0].x < 0) // RectTransform의 왼쪽이 화면 밖으로 나간 경우
+        {
+            anchoredPosition.x += 0 - corners[0].x;
+        }
+        else if (corners[2].x > screenWidth) // RectTransform의 오른쪽이 화면 밖으로 나간 경우
+        {
+            anchoredPosition.x -= corners[2].x - screenWidth;
+        }
+
+        // Y 좌표 클램프 (위쪽 및 아래쪽이 화면 밖으로 나가는 것을 방지)
+        if (corners[0].y < 0) // RectTransform의 아래쪽이 화면 밖으로 나간 경우
+        {
+            anchoredPosition.y += 0 - corners[0].y;
+        }
+        else if (corners[1].y > screenHeight) // RectTransform의 위쪽이 화면 밖으로 나간 경우
+        {
+            anchoredPosition.y -= corners[1].y - screenHeight;
+        }
+
+        // 클램핑된 앵커드 포지션을 다시 설정
+        rectTransform.anchoredPosition = anchoredPosition;
+    }
 
     public static Camera GetHighestPriorityCamera()
     {

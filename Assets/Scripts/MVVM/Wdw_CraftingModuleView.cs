@@ -88,7 +88,7 @@ public class Wdw_CraftingModuleView : MonoBehaviour, IWindow
                     for (int i = 0; i < _vm.RecipyList.Count; i++)
                     {
                         recipySelectCellList[i].Register_CraftModule(this);
-                        recipySelectCellList[i].SetData(_vm.RecipyList[i]);
+                        recipySelectCellList[i].SetData_Recipy(_vm.RecipyList[i]);
                     }
                 }
                 break;

@@ -7,8 +7,10 @@ public class SelectableItemCell : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI TMP_ItemCount;
     [SerializeField] Image Image_ItemIcon;
+    [SerializeField] bool IsStaticCell;
+    [SerializeField] string StaticCell_ItemId;
 
-    Wdw_CraftingModuleView wdw_CraftingModuleView;
+    Wdw_CraftingModuleView wdw_CraftingModuleView;//추후 분리
     string recipyId;
 
     CellData _cellData;
@@ -32,15 +34,19 @@ public class SelectableItemCell : MonoBehaviour
         }
     }
 
-    public void Register_CraftModule(Wdw_CraftingModuleView cm)
+    public void Register_CraftModule(Wdw_CraftingModuleView cm)//추후 분리
     {
         wdw_CraftingModuleView = cm;
     }
-    public void SetData(string recipyId)
+    public void SetData_Recipy(string recipyId)//추후 모델 단에서 호출하도록 처리
     {
         this.recipyId = recipyId;
         RecipyData data = JsonDataManager.GetRecipyData(recipyId);
         CellData = new CellData(null, data.OutputItem_1, data.OutputItemCount_1, false);
+    }
+    public void SetData(string itemId)
+    {
+        CellData = new CellData(null, itemId, 0, true);
     }
 
     void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -95,6 +101,14 @@ public class SelectableItemCell : MonoBehaviour
         else
         {
             Debug.LogWarning("빈 셀 데이터를 선택했습니다.");
+        }
+    }
+
+    private void Awake()
+    {
+        if(IsStaticCell)
+        {
+            SetData(StaticCell_ItemId);
         }
     }
 }
