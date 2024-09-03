@@ -105,9 +105,11 @@ public class Player : SceneSingleton<Player>
     }
     void GridDraw_OnMousePosCheck(Vector3 hitPos)
     {
+        Vector3Int hitPoint_Grid = hitPos.ToIntVector();
+        BeltManager.Instance.OnMove(hitPoint_Grid);
+
         if (Input.GetKey(KeyCode.LeftControl))
         {
-            Vector3 hitPoint_Grid = hitPos.ToIntVector();
             GridRenderer.Instance.DrawGrid(hitPoint_Grid);
         }
         else
@@ -130,6 +132,7 @@ public class Player : SceneSingleton<Player>
         if(Input.GetMouseButtonDown(0))
         {
             Select_InteractableObject();
+            Select_GridNode();
         }
     }
 
@@ -160,6 +163,19 @@ public class Player : SceneSingleton<Player>
         if(OnMouseObjectTemp != null)
         {
             OnMouseObjectTemp.Select();
+        }
+    }
+    void Select_GridNode()
+    {
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                Vector3Int hitPoint_Grid = hit.point.ToIntVector();
+                BeltManager.Instance.OnClick(hitPoint_Grid);
+            }
         }
     }
     void Command_TryInteract()

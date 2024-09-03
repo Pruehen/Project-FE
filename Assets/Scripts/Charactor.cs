@@ -1,11 +1,8 @@
 using UnityEngine;
 
-[RequireComponent(typeof(InventoryModule))]
-[RequireComponent(typeof(MiningDevice))]
 public class Charactor : MonoBehaviour
 {
-    InventoryModule _inventory;
-    MiningDevice _miningDevice;
+    InventoryModule _inventory;    
 
     Rigidbody _rigidbody;
     Vector3 _moveVector;
@@ -27,8 +24,7 @@ public class Charactor : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         _lineRenderer = GetComponent<LineRenderer>();
-        _inventory = GetComponent<InventoryModule>();
-        _miningDevice = GetComponent<MiningDevice>();
+        _inventory = GetComponent<InventoryModule>();        
     }
 
     private void FixedUpdate()

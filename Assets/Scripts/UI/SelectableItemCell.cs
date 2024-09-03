@@ -13,12 +13,16 @@ public class SelectableItemCell : MonoBehaviour
 
     string recipyId;
     string itemId;
+    string buildingId;
 
     Action<string> OnClick_CallBackRecipy;
     public void Register_OnClick_CallBackRecipy(Action<string> callBack) { OnClick_CallBackRecipy = callBack; }        
 
     Action<string> OnClick_CallBackItem;
-    public void Register_OnClick_CallBackItem(Action<string> callBack) { OnClick_CallBackItem = callBack; }    
+    public void Register_OnClick_CallBackItem(Action<string> callBack) { OnClick_CallBackItem = callBack; }
+
+    Action<string> OnClick_CallBackBuilding;
+    public void Register_OnClick_CallBackBuilding(Action<string> callBack) { OnClick_CallBackBuilding = callBack; }
 
     CellData _cellData;
     public CellData CellData
@@ -44,13 +48,20 @@ public class SelectableItemCell : MonoBehaviour
     {
         this.recipyId = recipyId;
         RecipyData data = JsonDataManager.GetRecipyData(recipyId);
-
-        CellData = new CellData(null, data.OutputItem_1, data.OutputItemCount_1, false);        
+        
+        CellData = new CellData(null, data.OutputItem_1, data.OutputItemCount_1, true);        
     }
     public void SetData_Item(string itemId)
     {
-        CellData = new CellData(null, itemId, 0, true);
         this.itemId = itemId;
+        CellData = new CellData(null, itemId, 0, true);        
+    }
+    public void SetData_Building(string buildingId)
+    {
+        this.buildingId = buildingId;
+        string itemId = buildingId.Replace("Building_", "Item_");            
+
+        CellData = new CellData(null, itemId, 0, true);
     }
 
     void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -71,10 +82,9 @@ public class SelectableItemCell : MonoBehaviour
                 }
                 break;
             case nameof(CellData.Count):
-                if (CellData.Id != null)
+                if (CellData.Id != null && CellData.Count > 0)
                 {
                     TMP_ItemCount.text = CellData.Count.ToString();
-                    Image_ItemIcon.gameObject.SetActive(CellData.Count > 0);
                 }
                 else
                 {
@@ -102,6 +112,7 @@ public class SelectableItemCell : MonoBehaviour
         {            
             OnClick_CallBackRecipy?.Invoke(recipyId);
             OnClick_CallBackItem?.Invoke(itemId);
+            OnClick_CallBackBuilding?.Invoke(buildingId);
         }
         else
         {

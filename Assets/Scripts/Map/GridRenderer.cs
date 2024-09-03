@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class GridRenderer : SceneSingleton<GridRenderer>
 {
     const float gridSpacing = 1.0f; // 그리드 간격
+    const float gridFloat = 0.1f; // 그리드 선 부유 거리
     const float lineWidth = 0.025f; // 기본 그리드 선 두께
     const float lineWidth_Heavy = 0.075f; // 두꺼운 그리드 선 두께
 
@@ -32,14 +33,14 @@ public class GridRenderer : SceneSingleton<GridRenderer>
         for (float x = -gridSize + 1; x < gridSize; x += gridSpacing)
         {
             float width = Mathf.Abs(x + gridCenter.x) % 10 == 0 ? lineWidth_Heavy : lineWidth;
-            DrawLine(new Vector3(x, 0, -gridSize) + gridCenter, new Vector3(x, 0, gridSize) + gridCenter, width);
+            DrawLine(new Vector3(x, gridFloat, -gridSize) + gridCenter, new Vector3(x, gridFloat, gridSize) + gridCenter, width);
         }
 
         // Z 방향 라인 그리기 (X축에 평행한 라인)
         for (float z = -gridSize + 1; z < gridSize; z += gridSpacing)
         {
             float width = Mathf.Abs(z + gridCenter.z) % 10 == 0 ? lineWidth_Heavy : lineWidth;
-            DrawLine(new Vector3(-gridSize, 0, z) + gridCenter, new Vector3(gridSize, 0, z) + gridCenter, width);
+            DrawLine(new Vector3(-gridSize, gridFloat, z) + gridCenter, new Vector3(gridSize, gridFloat, z) + gridCenter, width);
         }
     }
 
