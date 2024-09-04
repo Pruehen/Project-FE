@@ -11,8 +11,7 @@ public class BuildLineRenderer : SceneSingleton<BuildLineRenderer>
     List<GameObject> pathNodes = new List<GameObject>(); // 그려진 라인을 저장할 리스트
 
     int currentLineIndex = 0; // 현재 재활용할 라인의 인덱스       
-
-    [SerializeField] GameObject Mesh_SelectNodePoint;
+    
     [SerializeField] GameObject Mesh_PathNodePoint;
 
     public void DrawBeltLine(List<Vector3> linePosList)

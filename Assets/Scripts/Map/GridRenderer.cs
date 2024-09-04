@@ -14,6 +14,9 @@ public class GridRenderer : SceneSingleton<GridRenderer>
     List<GameObject> gridLines = new List<GameObject>(); // 그려진 라인을 저장할 리스트
     int currentLineIndex = 0; // 현재 재활용할 라인의 인덱스
 
+    [SerializeField] GameObject Prefab_CenterNodePoint;
+    GameObject centerNode;
+
     Vector3 drawTemp;
     bool isDraw = false;
 
@@ -28,6 +31,13 @@ public class GridRenderer : SceneSingleton<GridRenderer>
 
         // 먼저 이전에 그렸던 라인들을 모두 비활성화
         HideAllGridLines();
+
+        if(centerNode == null)
+        {
+            centerNode = Instantiate(Prefab_CenterNodePoint, this.transform);
+        }
+        centerNode.SetActive(true);
+        centerNode.transform.position = gridCenter;
 
         // X 방향 라인 그리기 (Z축에 평행한 라인)
         for (float x = -gridSize + 1; x < gridSize; x += gridSpacing)
@@ -93,5 +103,10 @@ public class GridRenderer : SceneSingleton<GridRenderer>
 
         // 새로 그릴 때 처음부터 사용할 수 있도록 인덱스를 0으로 초기화
         currentLineIndex = 0;
+
+        if (centerNode != null)
+        {
+            centerNode.SetActive(false);
+        }
     }
 }

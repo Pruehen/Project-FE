@@ -46,3 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridColor: {r: 0, g: 1, b: 0, a: 1}
   gridSize: 10
+  Prefab_CenterNodePoint: {fileID: 8174954016971338286, guid: 5d5c8d0c3c74a5c43b0f11b29434f11c, type: 3}
