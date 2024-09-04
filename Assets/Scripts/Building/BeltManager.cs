@@ -75,7 +75,7 @@ public class BeltNode
     }
 }
 
-public class Belt
+public class BeltCreator
 {
     List<BeltNode> beltNodes;
 
@@ -186,7 +186,7 @@ public class BeltManager : SceneSingleton<BeltManager>
     public GameObject beltPart_Right;
     public GameObject beltPart_Merge;
 
-    Belt buildingBeltTemp;
+    BeltCreator buildingBeltTemp;
     Vector3Int posTemp;
 
     public void OnClick(Vector3Int pos)
@@ -211,7 +211,7 @@ public class BeltManager : SceneSingleton<BeltManager>
 
     void StartBuildBelt(Vector3Int firstNode)
     {
-        buildingBeltTemp = new Belt();
+        buildingBeltTemp = new BeltCreator();
         buildingBeltTemp.StartBuildBelt(firstNode);
     }
     void CheckBuildBelt(Vector3Int lastNode)
