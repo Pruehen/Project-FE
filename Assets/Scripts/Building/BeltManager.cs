@@ -88,7 +88,7 @@ public class Belt
     public void BuildBelt(Vector3Int lastNode)
     {
         CheckBuildBelt(lastNode);
-        BuildLineRenderer.Instance.HideAllGridLines();
+        BuildLineRenderer.Instance.HideAllGridLinesAndNodes();
 
         beltNodes = new List<BeltNode>();
 

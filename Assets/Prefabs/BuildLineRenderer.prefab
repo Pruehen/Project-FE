@@ -44,3 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4712ec25e46f0ee4ca31e5c5b5742eb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Mesh_SelectNodePoint: {fileID: 8174954016971338286, guid: 5d5c8d0c3c74a5c43b0f11b29434f11c, type: 3}
+  Mesh_PathNodePoint: {fileID: 2514251251833840964, guid: a937afbf6d62d4549b32d4a0ad1daa6b, type: 3}
