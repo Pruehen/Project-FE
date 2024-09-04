@@ -1,46 +1,35 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class GridRenderer : SceneSingleton<GridRenderer>
-{
-    const float gridSpacing = 1.0f; // 그리드 간격
-    const float gridFloat = 0.1f; // 그리드 선 부유 거리
-    const float lineWidth = 0.025f; // 기본 그리드 선 두께
+public class BuildLineRenderer : SceneSingleton<BuildLineRenderer>
+{    
+    const float lineFloat = 0.2f; // 그리드 선 부유 거리
+    const float lineWidth = 0.05f; // 기본 그리드 선 두께
     const float lineWidth_Heavy = 0.075f; // 두꺼운 그리드 선 두께
 
-    [SerializeField] Color gridColor = Color.gray; // 그리드 색상    
-    [SerializeField] int gridSize = 100; // 그리드 크기
-
     List<GameObject> gridLines = new List<GameObject>(); // 그려진 라인을 저장할 리스트
-    int currentLineIndex = 0; // 현재 재활용할 라인의 인덱스
+    int currentLineIndex = 0; // 현재 재활용할 라인의 인덱스   
 
-    Vector3 drawTemp;
-    bool isDraw = false;
-
-    public void DrawGrid(Vector3 gridCenter)
+    public void DrawBeltLine(List<Vector3> linePosList)
     {
-        if(isDraw == true && drawTemp == gridCenter)
-        {
-            return;
-        }
-        drawTemp = gridCenter;
-        isDraw = true;
-
         // 먼저 이전에 그렸던 라인들을 모두 비활성화
         HideAllGridLines();
 
-        // X 방향 라인 그리기 (Z축에 평행한 라인)
-        for (float x = -gridSize + 1; x < gridSize; x += gridSpacing)
+        //라인 경로 그리기
+        for (int i = 1; i < linePosList.Count; i++)
         {
-            float width = Mathf.Abs(x + gridCenter.x) % 10 == 0 ? lineWidth_Heavy : lineWidth;
-            DrawLine(new Vector3(x, gridFloat, -gridSize) + gridCenter, new Vector3(x, gridFloat, gridSize) + gridCenter, width);
+            DrawLine(linePosList[i - 1], linePosList[i], lineWidth);
         }
+    }
+    public void DrawBeltLine(List<Vector3Int> linePosList)
+    {
+        // 먼저 이전에 그렸던 라인들을 모두 비활성화
+        HideAllGridLines();
 
-        // Z 방향 라인 그리기 (X축에 평행한 라인)
-        for (float z = -gridSize + 1; z < gridSize; z += gridSpacing)
+        //라인 경로 그리기
+        for (int i = 1; i < linePosList.Count; i++)
         {
-            float width = Mathf.Abs(z + gridCenter.z) % 10 == 0 ? lineWidth_Heavy : lineWidth;
-            DrawLine(new Vector3(-gridSize, gridFloat, z) + gridCenter, new Vector3(gridSize, gridFloat, z) + gridCenter, width);
+            DrawLine(linePosList[i - 1], linePosList[i], lineWidth);
         }
     }
 
@@ -64,10 +53,13 @@ public class GridRenderer : SceneSingleton<GridRenderer>
             gridLines.Add(line); // 리스트에 추가
         }
 
+        start.y += lineFloat;
+        end.y += lineFloat;
+
         // BuildLineRenderer 설정
         LineRenderer lineRenderer = line.GetComponent<LineRenderer>();
-        lineRenderer.startColor = gridColor;
-        lineRenderer.endColor = gridColor;
+        lineRenderer.startColor = Color.green;
+        lineRenderer.endColor = Color.green;
         lineRenderer.startWidth = width;
         lineRenderer.endWidth = width;
         lineRenderer.SetPosition(0, start);
@@ -79,12 +71,6 @@ public class GridRenderer : SceneSingleton<GridRenderer>
 
     public void HideAllGridLines()
     {
-        if(isDraw == false)
-        {
-            return;
-        }
-        isDraw = true;
-
         // 그리드 라인을 모두 비활성화하고 재활용 준비
         for (int i = 0; i < gridLines.Count; i++)
         {

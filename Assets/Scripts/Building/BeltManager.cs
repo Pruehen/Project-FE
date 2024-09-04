@@ -1,47 +1,45 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class BeltNode
 {
     public Vector3Int gridPos { get; private set; }
-    BeltNode previousNode;
-    BeltNode nextNode;
+    public BeltNode PreviousNode { get; set; }
+    public BeltNode NextNode { get; set; }
     GameObject beltPart;
 
     public BeltNode(Vector3Int gridPos)
     {
         this.gridPos = gridPos;
-        //GridMap.beltDic.Add(gridPos, this);
+        GridMap.beltDic.Add(gridPos, this);
     }
-    public void Init(BeltNode previous, BeltNode next)
+    public void Init()
     {
-        previousNode = previous;
-        nextNode = next;
-
         GameObject beltPrefab;
         Quaternion dir = Quaternion.identity;
 
-        if (previousNode == null && nextNode == null)
+        if (PreviousNode == null && NextNode == null)
         {
             beltPrefab = BeltManager.Instance.beltPart_Mid;
         }
-        else if (previousNode == null)
+        else if (PreviousNode == null)
         {
             beltPrefab = BeltManager.Instance.beltPart_Start;
-            dir = Quaternion.LookRotation(next.gridPos - gridPos);
+            dir = Quaternion.LookRotation(NextNode.gridPos - gridPos);
         }
-        else if (nextNode == null)
+        else if (NextNode == null)
         {
             beltPrefab = BeltManager.Instance.beltPart_End;
-            dir = Quaternion.LookRotation(gridPos - previous.gridPos);
+            dir = Quaternion.LookRotation(gridPos - PreviousNode.gridPos);
         }
         else
         {
             // 이전 노드에서 현재 노드로 가는 벡터
-            Vector3 previousToCurrent = gridPos - previousNode.gridPos;
+            Vector3 previousToCurrent = gridPos - PreviousNode.gridPos;
 
             // 현재 노드에서 다음 노드로 가는 벡터
-            Vector3 currentToNext = nextNode.gridPos - gridPos;
+            Vector3 currentToNext = NextNode.gridPos - gridPos;
 
             // 외적을 계산하여 Y축 값을 확인
             float angle = Vector3.SignedAngle(previousToCurrent, currentToNext, Vector3.up);
@@ -61,7 +59,7 @@ public class BeltNode
                 // 직선 (변화 없음)
                 beltPrefab = BeltManager.Instance.beltPart_Mid;
             }
-            dir = Quaternion.LookRotation(next.gridPos - gridPos);
+            dir = Quaternion.LookRotation(NextNode.gridPos - gridPos);
         }
 
         if (beltPart != null)
@@ -75,7 +73,7 @@ public class BeltNode
 
 public class Belt
 {
-    LinkedList<BeltNode> beltNodes;
+    List<BeltNode> beltNodes;
 
     Vector3Int _firstNode;
     Vector3Int _lastNode;
@@ -86,22 +84,23 @@ public class Belt
     public void BuildBelt(Vector3Int lastNode)
     {
         CheckBuildBelt(lastNode);
-        beltNodes = new LinkedList<BeltNode>();
+        BuildLineRenderer.Instance.HideAllGridLines();
 
-        foreach (Vector3Int pos in path)
+        beltNodes = new List<BeltNode>();
+
+        for (int i = 0; i < path.Count; i++)
         {
-            beltNodes.AddLast(new BeltNode(pos));
+            beltNodes.Add(new BeltNode(path[i]));
+
+            if (i > 0)
+            {
+                beltNodes[i - 1].NextNode = beltNodes[i];
+                beltNodes[i].PreviousNode = beltNodes[i - 1];
+            }            
         }
-
-        LinkedListNode<BeltNode> tempBeltNode = beltNodes.First;
-        while(tempBeltNode != null)
+        foreach (var node in beltNodes)
         {
-            BeltNode previousNode = (tempBeltNode.Previous != null) ? tempBeltNode.Previous.Value : null;
-            BeltNode nextNode = (tempBeltNode.Next != null) ? tempBeltNode.Next.Value : null;            
-
-            tempBeltNode.Value.Init(previousNode, nextNode);
-
-            tempBeltNode = tempBeltNode.Next;
+            node.Init();
         }
     }
 
@@ -112,44 +111,57 @@ public class Belt
     public void CheckBuildBelt(Vector3Int lastNode)
     {
         _lastNode = lastNode;
-        path.Clear(); // 이전 경로를 지우고 새로 계산
+        
         CalculatePath(_firstNode, _lastNode);
     }
 
     private void CalculatePath(Vector3Int start, Vector3Int end)
     {
         path.Clear();
-        path.Add(start);
+        if (GridMap.beltDic.ContainsKey(start))
+        {
+            return;            
+        }
 
+        path.Add(start);
         Vector3Int posTemp = start;
 
-        while(posTemp != end)
+        while(posTemp != end && path.Count < 100)
         {
-            if(posTemp.x != end.x)
+            if (GridMap.beltDic.ContainsKey(posTemp))
             {
-                if(posTemp.x > end.x)
-                {
-                    posTemp.x--;                    
-                }
-                else
-                {
-                    posTemp.x++;                    
-                }
+                break;
             }
-            else if(posTemp.z != end.z)
+            else
             {
-                if (posTemp.z > end.z)
+                if (posTemp.x != end.x)
                 {
-                    posTemp.z--;
+                    if (posTemp.x > end.x)
+                    {
+                        posTemp.x--;
+                    }
+                    else
+                    {
+                        posTemp.x++;
+                    }
                 }
-                else
+                else if (posTemp.z != end.z)
                 {
-                    posTemp.z++;
+                    if (posTemp.z > end.z)
+                    {
+                        posTemp.z--;
+                    }
+                    else
+                    {
+                        posTemp.z++;
+                    }
                 }
-            }
 
-            path.Add(posTemp);
+                path.Add(posTemp);
+            }
         }
+
+        BuildLineRenderer.Instance.DrawBeltLine(path);
     }
 }
 
