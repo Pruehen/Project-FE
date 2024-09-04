@@ -32,6 +32,11 @@ public class BeltNode
             beltPrefab = BeltManager.Instance.beltPart_End;
             dir = Quaternion.LookRotation(gridPos - PreviousNode.gridPos);
         }
+        else if(NextNode.PreviousNode != this)
+        {
+            beltPrefab = BeltManager.Instance.beltPart_Merge;
+            dir = Quaternion.LookRotation(NextNode.gridPos - gridPos);
+        }
         else
         {
             // 이전 노드에서 현재 노드로 가는 벡터
@@ -89,14 +94,29 @@ public class Belt
 
         for (int i = 0; i < path.Count; i++)
         {
-            beltNodes.Add(new BeltNode(path[i]));
-
-            if (i > 0)
+            if (GridMap.beltDic.ContainsKey(path[i]))
             {
-                beltNodes[i - 1].NextNode = beltNodes[i];
-                beltNodes[i].PreviousNode = beltNodes[i - 1];
-            }            
+                if(i == 0)//시작점
+                {
+                    beltNodes.Add(GridMap.beltDic[path[i]]);
+                }
+                else if(i == path.Count - 1)//마지막점
+                {
+                    beltNodes[i - 1].NextNode = GridMap.beltDic[path[i]];
+                }
+            }
+            else
+            {
+                beltNodes.Add(new BeltNode(path[i]));
+
+                if (i > 0)
+                {
+                    beltNodes[i - 1].NextNode = beltNodes[i];
+                    beltNodes[i].PreviousNode = beltNodes[i - 1];
+                }
+            }
         }
+
         foreach (var node in beltNodes)
         {
             node.Init();
@@ -117,46 +137,39 @@ public class Belt
     private void CalculatePath(Vector3Int start, Vector3Int end)
     {
         path.Clear();
-        if (GridMap.beltDic.ContainsKey(start))
-        {
-            return;            
-        }
 
-        path.Add(start);
         Vector3Int posTemp = start;
+        path.Add(posTemp);
 
-        while(posTemp != end && path.Count < 100)
+        while (posTemp != end && path.Count < 100)
         {
+            if (posTemp.x != end.x)
+            {
+                if (posTemp.x > end.x)
+                {
+                    posTemp.x--;
+                }
+                else
+                {
+                    posTemp.x++;
+                }
+            }
+            else if (posTemp.z != end.z)
+            {
+                if (posTemp.z > end.z)
+                {
+                    posTemp.z--;
+                }
+                else
+                {
+                    posTemp.z++;
+                }
+            }
+
+            path.Add(posTemp);
             if (GridMap.beltDic.ContainsKey(posTemp))
             {
                 break;
-            }
-            else
-            {
-                if (posTemp.x != end.x)
-                {
-                    if (posTemp.x > end.x)
-                    {
-                        posTemp.x--;
-                    }
-                    else
-                    {
-                        posTemp.x++;
-                    }
-                }
-                else if (posTemp.z != end.z)
-                {
-                    if (posTemp.z > end.z)
-                    {
-                        posTemp.z--;
-                    }
-                    else
-                    {
-                        posTemp.z++;
-                    }
-                }
-
-                path.Add(posTemp);
             }
         }
 
@@ -171,6 +184,7 @@ public class BeltManager : SceneSingleton<BeltManager>
     public GameObject beltPart_Mid;
     public GameObject beltPart_Left;
     public GameObject beltPart_Right;
+    public GameObject beltPart_Merge;
 
     Belt buildingBeltTemp;
     Vector3Int posTemp;

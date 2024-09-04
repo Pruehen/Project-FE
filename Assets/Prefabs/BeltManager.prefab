@@ -49,3 +49,4 @@ MonoBehaviour:
   beltPart_Mid: {fileID: 3703350182797324864, guid: 0b86a2f0354fc8840899ac2420f59399, type: 3}
   beltPart_Left: {fileID: 7013061581283042042, guid: 7aab9695204333a4f939e781c340804b, type: 3}
   beltPart_Right: {fileID: 6766971585608345788, guid: bc4950c2709ff9f4ebca60db66b531ad, type: 3}
+  beltPart_Merge: {fileID: 6642412606424589900, guid: 23a539f68cff28e4d867c4e4e9ef7d08, type: 3}
