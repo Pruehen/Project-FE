@@ -6,6 +6,7 @@ public class UIManager : SceneSingleton<UIManager>
     [Header("«¡∏Æ∆’")]
     public GameObject Prefab_InventoryUIWdw;
     public GameObject Prefab_CraftingModuleUIWdw;
+    public GameObject Prefab_MinerModuleUIWdw;
 
     [Header("«œ¿ß UI")]
     [SerializeField] GameObject Label_BuildMode;

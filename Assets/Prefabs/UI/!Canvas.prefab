@@ -489,6 +489,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefab_InventoryUIWdw: {fileID: 1162125286898261070, guid: 9e2cb6e0c4c20ac45bbea3308b49fb0d, type: 3}
   Prefab_CraftingModuleUIWdw: {fileID: 1162125286898261070, guid: d2e96a96bb728334abe48457c4f00fc7, type: 3}
+  Prefab_MinerModuleUIWdw: {fileID: 1162125286898261070, guid: 771718213c29b704888ecc1208bbc62e, type: 3}
   Label_BuildMode: {fileID: 3498175524353692917}
   _MouseTrackUI: {fileID: 8481632738378134555}
   Trf_WindowParent: {fileID: 4922929150293218259}
@@ -502,7 +503,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -9019611530785561737, guid: 25cf2b18b68e31343a98c79a5d946cef, type: 3}
       propertyPath: IsStaticCell
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -9019611530785561737, guid: 25cf2b18b68e31343a98c79a5d946cef, type: 3}
       propertyPath: StaticCell_ItemId
@@ -612,7 +613,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -9019611530785561737, guid: 25cf2b18b68e31343a98c79a5d946cef, type: 3}
       propertyPath: IsStaticCell
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -9019611530785561737, guid: 25cf2b18b68e31343a98c79a5d946cef, type: 3}
       propertyPath: StaticCell_ItemId
@@ -722,7 +723,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -9019611530785561737, guid: 25cf2b18b68e31343a98c79a5d946cef, type: 3}
       propertyPath: IsStaticCell
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -9019611530785561737, guid: 25cf2b18b68e31343a98c79a5d946cef, type: 3}
       propertyPath: StaticCell_ItemId
@@ -945,7 +946,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -9019611530785561737, guid: 25cf2b18b68e31343a98c79a5d946cef, type: 3}
       propertyPath: IsStaticCell
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -9019611530785561737, guid: 25cf2b18b68e31343a98c79a5d946cef, type: 3}
       propertyPath: StaticCell_ItemId
@@ -1055,7 +1056,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -9019611530785561737, guid: 25cf2b18b68e31343a98c79a5d946cef, type: 3}
       propertyPath: IsStaticCell
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -9019611530785561737, guid: 25cf2b18b68e31343a98c79a5d946cef, type: 3}
       propertyPath: StaticCell_ItemId
@@ -1165,7 +1166,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -9019611530785561737, guid: 25cf2b18b68e31343a98c79a5d946cef, type: 3}
       propertyPath: IsStaticCell
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -9019611530785561737, guid: 25cf2b18b68e31343a98c79a5d946cef, type: 3}
       propertyPath: StaticCell_ItemId
@@ -1275,7 +1276,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -9019611530785561737, guid: 25cf2b18b68e31343a98c79a5d946cef, type: 3}
       propertyPath: IsStaticCell
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -9019611530785561737, guid: 25cf2b18b68e31343a98c79a5d946cef, type: 3}
       propertyPath: StaticCell_ItemId
@@ -1385,7 +1386,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -9019611530785561737, guid: 25cf2b18b68e31343a98c79a5d946cef, type: 3}
       propertyPath: IsStaticCell
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -9019611530785561737, guid: 25cf2b18b68e31343a98c79a5d946cef, type: 3}
       propertyPath: StaticCell_ItemId
@@ -1495,7 +1496,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -9019611530785561737, guid: 25cf2b18b68e31343a98c79a5d946cef, type: 3}
       propertyPath: IsStaticCell
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -9019611530785561737, guid: 25cf2b18b68e31343a98c79a5d946cef, type: 3}
       propertyPath: StaticCell_ItemId
@@ -1605,7 +1606,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -9019611530785561737, guid: 25cf2b18b68e31343a98c79a5d946cef, type: 3}
       propertyPath: IsStaticCell
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -9019611530785561737, guid: 25cf2b18b68e31343a98c79a5d946cef, type: 3}
       propertyPath: StaticCell_ItemId

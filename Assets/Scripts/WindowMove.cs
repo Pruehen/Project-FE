@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class WindowMove : MonoBehaviour
 {
+    const int WindowInterval = 10;
+    static int windowActiveCount = 0;
+
     RectTransform rectTransform;
 
     bool _isMoveMode = false;
@@ -10,7 +13,13 @@ public class WindowMove : MonoBehaviour
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
-        rectTransform.anchoredPosition = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
+        rectTransform.anchoredPosition = new Vector2(Screen.width * 0.5f + WindowInterval * windowActiveCount, Screen.height * 0.5f - WindowInterval * windowActiveCount);
+
+        windowActiveCount++;
+        if (windowActiveCount > 10)
+        {
+            windowActiveCount = 0;
+        }
     }
 
     public void SetMoveMode(bool value)
