@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8542323872652785472
+--- !u!1 &1112341657288002647
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,49 +8,50 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2225811287883118808}
-  - component: {fileID: 6537002867619430809}
-  - component: {fileID: 4545823854313060535}
-  - component: {fileID: 8483101530884699778}
-  - component: {fileID: 1367066941371238603}
-  - component: {fileID: -8595247537770108450}
+  - component: {fileID: 2887549897700665244}
+  - component: {fileID: 3607719911530112964}
+  - component: {fileID: 2480963745228497335}
+  - component: {fileID: 1570681320503234092}
+  - component: {fileID: 1774044772353328016}
+  - component: {fileID: -8096749106778028507}
+  - component: {fileID: -6799628280309421769}
   m_Layer: 0
-  m_Name: Item_Iron(Vein)
+  m_Name: Building_Refinery_T1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2225811287883118808
+--- !u!4 &2887549897700665244
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8542323872652785472}
+  m_GameObject: {fileID: 1112341657288002647}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 0.5, z: 5}
+  m_LocalPosition: {x: -15.34, y: 0.96, z: -36.39}
+  m_LocalScale: {x: 2, y: 1.5, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &6537002867619430809
+--- !u!33 &3607719911530112964
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8542323872652785472}
+  m_GameObject: {fileID: 1112341657288002647}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &4545823854313060535
+--- !u!23 &2480963745228497335
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8542323872652785472}
+  m_GameObject: {fileID: 1112341657288002647}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -64,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1c73e432c2e14fb48a8b424afe97f1ab, type: 2}
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -86,13 +87,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8483101530884699778
+--- !u!65 &1570681320503234092
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8542323872652785472}
+  m_GameObject: {fileID: 1112341657288002647}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -107,28 +108,41 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1367066941371238603
+--- !u!114 &1774044772353328016
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8542323872652785472}
+  m_GameObject: {fileID: 1112341657288002647}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b04fa4b20ca591e448dafe0b95367bae, type: 3}
+  m_Script: {fileID: 11500000, guid: c115586d0a669f841b18dadd2f14ee99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemKey: Item_Iron
-  extractTimeGain: 1
-  reserves: 10000
---- !u!114 &-8595247537770108450
+  ItemKey: Item_Refinery_T1
+  BuildingKey: Building_Refinery_T1
+--- !u!114 &-8096749106778028507
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8542323872652785472}
+  m_GameObject: {fileID: 1112341657288002647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b95819a3776e984b9b87a3aa14535ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CraftingTimeGain: 1
+  CraftingSpeedGain: 1
+--- !u!114 &-6799628280309421769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1112341657288002647}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
@@ -136,7 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0, g: 1, b: 0.1481998, a: 1}
-  outlineWidth: 10
+  outlineWidth: 2
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []

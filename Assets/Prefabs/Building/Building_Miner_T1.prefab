@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: 2480963745228497335}
   - component: {fileID: 1570681320503234092}
   - component: {fileID: 1774044772353328016}
-  - component: {fileID: -8096749106778028507}
+  - component: {fileID: 5528001285305971211}
   - component: {fileID: -6799628280309421769}
   m_Layer: 0
-  m_Name: Building_Crafter_T1
+  m_Name: Building_Miner_T1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -120,9 +120,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c115586d0a669f841b18dadd2f14ee99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemKey: Item_Crafter_T1
-  BuildingKey: Building_Crafter_T1
---- !u!114 &-8096749106778028507
+  ItemKey: Item_Miner_T1
+  BuildingKey: Building_Miner_T1
+--- !u!114 &5528001285305971211
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,11 +131,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1112341657288002647}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b95819a3776e984b9b87a3aa14535ab, type: 3}
+  m_Script: {fileID: 11500000, guid: fe0b98946c573e342ba7be9ccf0cdab4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CraftingTimeGain: 1
-  CraftingSpeedGain: 1
 --- !u!114 &-6799628280309421769
 MonoBehaviour:
   m_ObjectHideFlags: 0
