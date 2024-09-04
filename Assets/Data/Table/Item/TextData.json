@@ -271,6 +271,22 @@
     "Text_Recipy_Generator_T2_Desc": {
       "Id": "Text_Recipy_Generator_T2_Desc",
       "Text_Kr": "풍력 발전기 제작법 입니다."
+    },
+    "Text_ErrMsg_001": {
+      "Id": "Text_ErrMsg_001",
+      "Text_Kr": "대상 인벤토리에 빈 공간이 없습니다."
+    },
+    "Text_UI_CharacterInventory_Title": {
+      "Id": "Text_UI_CharacterInventory_Title",
+      "Text_Kr": "인벤토리"
+    },
+    "Text_UI_CharacterCrafting_Queue": {
+      "Id": "Text_UI_CharacterCrafting_Queue",
+      "Text_Kr": "제작 대기열"
+    },
+    "Text_UI_CharacterCrafting_Recipy": {
+      "Id": "Text_UI_CharacterCrafting_Recipy",
+      "Text_Kr": "제작법"
     }
   }
 }
