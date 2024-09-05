@@ -324,6 +324,7 @@ public class Outline : MonoBehaviour
 
     void ApplyOutlineMaterials()
     {
+        renderers = GetComponentsInChildren<Renderer>();
         foreach (var renderer in renderers)
         {
             // Append outline shaders

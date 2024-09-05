@@ -6,7 +6,7 @@ public class BeltNode
     public Vector3Int gridPos { get; private set; }
     public BeltNode PreviousNode { get; set; }
     public BeltNode NextNode { get; set; }
-    GameObject beltPart;
+    Belt beltPart;
 
     public BeltNode(Vector3Int gridPos)
     {
@@ -15,26 +15,26 @@ public class BeltNode
     }
     public void Init()
     {
-        GameObject beltPrefab;
+        BeltType beltType;
         Quaternion dir = Quaternion.identity;
 
         if (PreviousNode == null && NextNode == null)
         {
-            beltPrefab = BeltManager.Instance.beltPart_Mid;
+            beltType = BeltType.Mid;
         }
         else if (PreviousNode == null)
         {
-            beltPrefab = BeltManager.Instance.beltPart_Start;
+            beltType = BeltType.Start;
             dir = Quaternion.LookRotation(NextNode.gridPos - gridPos);
         }
         else if (NextNode == null)
         {
-            beltPrefab = BeltManager.Instance.beltPart_End;
+            beltType = BeltType.End;
             dir = Quaternion.LookRotation(gridPos - PreviousNode.gridPos);
         }
         else if(NextNode.PreviousNode != this)
         {
-            beltPrefab = BeltManager.Instance.beltPart_Merge;
+            beltType = BeltType.Merge;
             dir = Quaternion.LookRotation(NextNode.gridPos - gridPos);
         }
         else
@@ -51,34 +51,33 @@ public class BeltNode
             if (angle > 0)
             {
                 // 오른쪽으로 꺾임
-                beltPrefab = BeltManager.Instance.beltPart_Right;
+                beltType = BeltType.Right;
             }
             else if (angle < 0)
             {
                 // 왼쪽으로 꺾임
-                beltPrefab = BeltManager.Instance.beltPart_Left;
+                beltType = BeltType.Left;
             }
             else
             {
                 // 직선 (변화 없음)
-                beltPrefab = BeltManager.Instance.beltPart_Mid;
+                beltType = BeltType.Mid;
             }
             dir = Quaternion.LookRotation(NextNode.gridPos - gridPos);
         }
 
-        if (beltPart != null)
+        if (beltPart == null)
         {
-            ObjectPoolManager.Instance.EnqueueObject(beltPart);
+            beltPart = ObjectPoolManager.Instance.DequeueObject(BeltManager.Instance.beltPart, gridPos).GetComponent<Belt>();
         }
-        beltPart = ObjectPoolManager.Instance.DequeueObject(beltPrefab, gridPos);
+
         beltPart.transform.rotation = dir;
+        beltPart.SetBeltPart(beltType);
     }
 }
 
 public class BeltCreator
 {
-    List<BeltNode> beltNodes;
-
     Vector3Int _firstNode;
     Vector3Int _lastNode;
 
@@ -90,7 +89,7 @@ public class BeltCreator
         CheckBuildBelt(lastNode);
         BuildLineRenderer.Instance.HideAllGridLinesAndNodes();
 
-        beltNodes = new List<BeltNode>();
+        List<BeltNode> beltNodes = BeltManager.Instance.NewBeltNodeList();
 
         for (int i = 0; i < path.Count; i++)
         {
@@ -184,15 +183,12 @@ public class BeltCreator
 
 public class BeltManager : SceneSingleton<BeltManager>
 {
-    public GameObject beltPart_Start;
-    public GameObject beltPart_End;
-    public GameObject beltPart_Mid;
-    public GameObject beltPart_Left;
-    public GameObject beltPart_Right;
-    public GameObject beltPart_Merge;
+    public GameObject beltPart;
 
     BeltCreator buildingBeltTemp;
     Vector3Int posTemp;
+
+    List<List<BeltNode>> BeltNodeTemp = new List<List<BeltNode>>();
 
     public void OnClick(Vector3Int pos)
     {
@@ -241,5 +237,11 @@ public class BeltManager : SceneSingleton<BeltManager>
             buildingBeltTemp.BuildBelt(lastNode);
             buildingBeltTemp = null;
         }
+    }
+
+    public List<BeltNode> NewBeltNodeList()
+    {
+        BeltNodeTemp.Add(new List<BeltNode>());
+        return BeltNodeTemp[BeltNodeTemp.Count - 1];
     }
 }

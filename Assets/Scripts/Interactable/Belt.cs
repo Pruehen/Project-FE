@@ -2,10 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum BeltType
+{
+    Start,
+    End,
+    Mid,
+    Left,
+    Right,
+    Merge
+}
+
 public class Belt : MonoBehaviour, IInteractable
 {
     [SerializeField] string ItemKey;
     [SerializeField] string BuildingKey;
+
+    public List<GameObject> Prefab_BeltPart;
 
     BuildingData _buildingData;
     IModule _MainModule;
@@ -85,6 +97,14 @@ public class Belt : MonoBehaviour, IInteractable
         else
         {
             return true;
+        }
+    }
+
+    public void SetBeltPart(BeltType beltType)
+    {
+        for (int i = 0; i < Prefab_BeltPart.Count; i++)
+        {
+            Prefab_BeltPart[i].SetActive((int)beltType == i);
         }
     }
 

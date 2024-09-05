@@ -44,9 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f08e669a8b8b90b4e887f7b85c31f7db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beltPart_Start: {fileID: 7270927363674871674, guid: d02e8d7da5b683b49bc991014494ee21, type: 3}
-  beltPart_End: {fileID: 6642412606424589900, guid: d85858bc2c0ea2648835720e02132387, type: 3}
-  beltPart_Mid: {fileID: 3703350182797324864, guid: 0b86a2f0354fc8840899ac2420f59399, type: 3}
-  beltPart_Left: {fileID: 7013061581283042042, guid: 7aab9695204333a4f939e781c340804b, type: 3}
-  beltPart_Right: {fileID: 6766971585608345788, guid: bc4950c2709ff9f4ebca60db66b531ad, type: 3}
-  beltPart_Merge: {fileID: 6642412606424589900, guid: 23a539f68cff28e4d867c4e4e9ef7d08, type: 3}
+  beltPart: {fileID: 7270927363674871674, guid: c13a54bbd9c7f5747861c8958355d966, type: 3}
