@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +5,10 @@ public class Inserter : MonoBehaviour, IInteractable
 {
     [SerializeField] string ItemKey;
     [SerializeField] string BuildingKey;
+
+    [SerializeField] GameObject start;
+    [SerializeField] GameObject end;
+    [SerializeField] LineRenderer lineRenderer;
 
     BuildingData _buildingData;
     IModule _MainModule;
@@ -87,9 +90,16 @@ public class Inserter : MonoBehaviour, IInteractable
             return true;
         }
     }
+    public void Init(Vector3 startPos, Vector3 endPos)
+    {
+        start.transform.position = startPos + new Vector3(0, 0.8f, 0);
+        end.transform.position = endPos + new Vector3(0, 0.8f, 0);
+        lineRenderer.SetPosition(0, startPos + new Vector3(0, 0.6f, 0));
+        lineRenderer.SetPosition(1, endPos + new Vector3(0, 0.6f, 0));
+    }
 
     private void Awake()
     {
         _MainModule = GetComponent<IModule>();
-    }
+    }    
 }

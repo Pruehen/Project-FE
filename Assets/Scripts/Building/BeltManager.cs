@@ -2,17 +2,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using EnumTypes;
 
-public class BeltNode
+public class BeltNode : Node
 {
-    public Vector3Int gridPos { get; private set; }
-    public BeltNode PreviousNode { get; set; }
-    public BeltNode NextNode { get; set; }
-    Belt beltPart;
+    public Belt beltPart;
 
     public BeltNode(Vector3Int gridPos)
     {
         this.gridPos = gridPos;
         GridMap.beltDic.Add(gridPos, this);
+        BeltManager.Instance.AllNodeList.Add(this);
     }
     public void Init()
     {
@@ -47,8 +45,7 @@ public class BeltNode
             Vector3 currentToNext = NextNode.gridPos - gridPos;
 
             // 외적을 계산하여 Y축 값을 확인
-            float angle = Vector3.SignedAngle(previousToCurrent, currentToNext, Vector3.up);
-            Debug.Log(angle);
+            float angle = Vector3.SignedAngle(previousToCurrent, currentToNext, Vector3.up);            
             if (angle > 0)
             {
                 // 오른쪽으로 꺾임
@@ -73,7 +70,7 @@ public class BeltNode
         }
 
         beltPart.transform.rotation = dir;
-        beltPart.SetBeltPart(beltType);
+        beltPart.SetBeltPart(beltType, this);
     }
 }
 
@@ -90,19 +87,22 @@ public class BeltCreator
         CheckBuildBelt(lastNode);
         BuildLineRenderer.Instance.HideAllGridLinesAndNodes();
 
-        List<BeltNode> beltNodes = BeltManager.Instance.NewBeltNodeList();
+        List<BeltNode> beltNodes = new List<BeltNode>();
 
         for (int i = 0; i < path.Count; i++)
         {
             if (GridMap.beltDic.ContainsKey(path[i]))
             {
-                if(i == 0)//시작점
+                beltNodes.Add(GridMap.beltDic[path[i]]);
+
+                if (i == 0)//시작점
                 {
-                    beltNodes.Add(GridMap.beltDic[path[i]]);
+                    BeltManager.Instance.RootNodeDic.Remove(path[i]);
                 }
                 else if(i == path.Count - 1)//마지막점
                 {
                     beltNodes[i - 1].NextNode = GridMap.beltDic[path[i]];
+                    BeltManager.Instance.RootNodeDic.Add(path[i], beltNodes[i - 1]);
                 }
             }
             else
@@ -113,7 +113,12 @@ public class BeltCreator
                 {
                     beltNodes[i - 1].NextNode = beltNodes[i];
                     beltNodes[i].PreviousNode = beltNodes[i - 1];
-                }
+
+                    if(i == path.Count - 1)
+                    {
+                        BeltManager.Instance.RootNodeDic.Add(path[i], beltNodes[i]);
+                    }
+                }                
             }
         }
 
@@ -189,8 +194,22 @@ public class BeltManager : SceneSingleton<BeltManager>, IBuildTool
     BeltCreator buildingBeltTemp = new BeltCreator();
     Vector3Int posTemp;
 
-    List<List<BeltNode>> BeltNodeTemp = new List<List<BeltNode>>();
     bool isBuildMode = false;
+    public Dictionary<Vector3Int, BeltNode> RootNodeDic = new Dictionary<Vector3Int, BeltNode>();
+    public List<BeltNode> AllNodeList = new List<BeltNode>();
+
+    void Update()
+    {
+        foreach (var item in AllNodeList)
+        {
+            item.beltPart.LogicInit();
+        }
+        Debug.Log(RootNodeDic.Count);
+        foreach (var item in RootNodeDic)
+        {
+            item.Value.beltPart.ExcuteLogic_OnUpdate(Time.deltaTime);
+        }
+    }
 
     public void OnClick(Vector3Int pos)
     {
@@ -230,11 +249,5 @@ public class BeltManager : SceneSingleton<BeltManager>, IBuildTool
     void BuildBelt(Vector3Int lastNode)
     {
         buildingBeltTemp.BuildBelt(lastNode);
-    }
-
-    public List<BeltNode> NewBeltNodeList()
-    {
-        BeltNodeTemp.Add(new List<BeltNode>());
-        return BeltNodeTemp[BeltNodeTemp.Count - 1];
     }
 }

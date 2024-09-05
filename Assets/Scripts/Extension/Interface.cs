@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public interface IInteractable
@@ -22,7 +23,12 @@ public interface IBuildTool
     public void OnMove(Vector3Int pos);
     public void DeActive();
 }
-
+public abstract class Node
+{
+    public Vector3Int gridPos;
+    public Node PreviousNode = null;
+    public Node NextNode = null;
+}
 public interface IWindow
 {
     public void Active(IModule module);    

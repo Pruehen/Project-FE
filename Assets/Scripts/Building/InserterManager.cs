@@ -2,20 +2,18 @@ using EnumTypes;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InserterNode
+public class InserterNode : Node
 {
-    public Vector3Int gridPos { get; private set; }
-    public BeltNode PreviousNode { get; set; }
-    public BeltNode NextNode { get; set; }    
-
+    Inserter inserterPart;
     public InserterNode(Vector3Int gridPos)
     {
         this.gridPos = gridPos;
-        GridMap.inserterDic.Add(gridPos, this);
+        //GridMap.inserterDic.Add(gridPos, this);
     }
-    public void Init()
+    public void Init(Vector3 firstNode, Vector3 lastNode)
     {
-
+        inserterPart = ObjectPoolManager.Instance.DequeueObject(InserterManager.Instance.Prefab_inserterPart).GetComponent<Inserter>();
+        inserterPart.Init(firstNode, lastNode);
     }
 }
 
@@ -33,7 +31,7 @@ public class InserterCrafter
         BuildLineRenderer.Instance.HideAllGridLinesAndNodes();
 
         InserterNode inserterNode = new InserterNode(lastNode);
-        inserterNode.Init();
+        inserterNode.Init(_firstNode, _lastNode);
     }
 
     public void StartBuildInserter(Vector3Int firstNode)
