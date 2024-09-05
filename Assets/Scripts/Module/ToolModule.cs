@@ -1,16 +1,14 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
+using EnumTypes;
 
 public class ToolModule : MonoBehaviour
 {
     [SerializeField] List<SelectableItemCell> selectableItemCellList;
     [SerializeField] List<string> tool_buildingIdList;
 
-    Action<BuildingData> ActiveTool_OnToolSelect;
-    public void Register_ActiveTool_OnToolSelect(Action<BuildingData> callBack) { ActiveTool_OnToolSelect = callBack; }
-
     public bool IsBuildMode {  get; private set; }
+    string selectedToolTemp = null;
 
     Inventory _inventory;
     public Inventory Inventory
@@ -36,7 +34,34 @@ public class ToolModule : MonoBehaviour
 
     public void ToolSelect_OnSelectableCellClick(string buildingId)
     {
-        ActiveTool_OnToolSelect?.Invoke(JsonDataManager.GetBuilding(buildingId));
+        ToolSelect(buildingId);
+    }
+    public void ToolSelect_OnNumKeyClick(int index)
+    {
+        ToolSelect(tool_buildingIdList[index]);
+    }
+    void ToolSelect(string buildingId)
+    {
+        if (selectedToolTemp == buildingId)
+        {
+            selectedToolTemp = null;
+            SetBuildMode(false);
+        }
+        else
+        {
+            Debug.Log("Åø ¼¿·ºÆ®");
+            selectedToolTemp = buildingId;
+
+            BuildingData buildingData = JsonDataManager.GetBuilding(buildingId);
+            if (buildingData.BuildingType == BuildingType.Conveying)
+            {
+                SetBuildMode(true);
+            }
+            else
+            {
+                SetBuildMode(false);
+            }
+        }
     }
     
     public void SetBuildMode(bool value)

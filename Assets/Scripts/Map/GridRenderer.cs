@@ -8,7 +8,8 @@ public class GridRenderer : SceneSingleton<GridRenderer>
     const float lineWidth = 0.025f; // 기본 그리드 선 두께
     const float lineWidth_Heavy = 0.075f; // 두꺼운 그리드 선 두께
 
-    [SerializeField] Color gridColor = Color.gray; // 그리드 색상    
+    [SerializeField] Color gridColor; // 그리드 색상    
+    [SerializeField] Color gridCenterColor; // 그리드 색상    
     [SerializeField] int gridSize = 100; // 그리드 크기
 
     List<GameObject> gridLines = new List<GameObject>(); // 그려진 라인을 저장할 리스트
@@ -43,18 +44,32 @@ public class GridRenderer : SceneSingleton<GridRenderer>
         for (float x = -gridSize + 1; x < gridSize; x += gridSpacing)
         {
             float width = Mathf.Abs(x + gridCenter.x) % 10 == 0 ? lineWidth_Heavy : lineWidth;
-            DrawLine(new Vector3(x, gridFloat, -gridSize) + gridCenter, new Vector3(x, gridFloat, gridSize) + gridCenter, width);
+            if(x == 0)
+            {
+                DrawLine(new Vector3(x, gridFloat, -gridSize) + gridCenter, new Vector3(x, gridFloat, gridSize) + gridCenter, width + lineWidth, gridCenterColor);
+            }
+            else
+            {
+                DrawLine(new Vector3(x, gridFloat, -gridSize) + gridCenter, new Vector3(x, gridFloat, gridSize) + gridCenter, width, gridColor);
+            }            
         }
 
         // Z 방향 라인 그리기 (X축에 평행한 라인)
         for (float z = -gridSize + 1; z < gridSize; z += gridSpacing)
         {
             float width = Mathf.Abs(z + gridCenter.z) % 10 == 0 ? lineWidth_Heavy : lineWidth;
-            DrawLine(new Vector3(-gridSize, gridFloat, z) + gridCenter, new Vector3(gridSize, gridFloat, z) + gridCenter, width);
+            if(z == 0)
+            {
+                DrawLine(new Vector3(-gridSize, gridFloat, z) + gridCenter, new Vector3(gridSize, gridFloat, z) + gridCenter, width + lineWidth, gridCenterColor);
+            }
+            else
+            {
+                DrawLine(new Vector3(-gridSize, gridFloat, z) + gridCenter, new Vector3(gridSize, gridFloat, z) + gridCenter, width, gridColor);
+            }            
         }
     }
 
-    void DrawLine(Vector3 start, Vector3 end, float width)
+    void DrawLine(Vector3 start, Vector3 end, float width, Color color)
     {
         GameObject line;
 
@@ -76,8 +91,8 @@ public class GridRenderer : SceneSingleton<GridRenderer>
 
         // BuildLineRenderer 설정
         LineRenderer lineRenderer = line.GetComponent<LineRenderer>();
-        lineRenderer.startColor = gridColor;
-        lineRenderer.endColor = gridColor;
+        lineRenderer.startColor = color;
+        lineRenderer.endColor = color;
         lineRenderer.startWidth = width;
         lineRenderer.endWidth = width;
         lineRenderer.SetPosition(0, start);
@@ -87,14 +102,19 @@ public class GridRenderer : SceneSingleton<GridRenderer>
         currentLineIndex++; // 인덱스를 증가시켜 다음 라인을 처리
     }
 
-    public void HideAllGridLines()
+    public void Command_HideAllGridLines()
     {
         if(isDraw == false)
         {
             return;
         }
-        isDraw = true;
+        isDraw = false;
 
+        HideAllGridLines();
+    }
+
+    void HideAllGridLines()
+    {
         // 그리드 라인을 모두 비활성화하고 재활용 준비
         for (int i = 0; i < gridLines.Count; i++)
         {

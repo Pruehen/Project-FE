@@ -1060,6 +1060,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 863e88e9637349440be6b841ddf5b9f6, type: 3}
+--- !u!1001 &1374052823
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2735000197979240696, guid: 6e45abcfe26a873459b491c6b34da344, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2735000197979240696, guid: 6e45abcfe26a873459b491c6b34da344, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2735000197979240696, guid: 6e45abcfe26a873459b491c6b34da344, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -42
+      objectReference: {fileID: 0}
+    - target: {fileID: 2735000197979240696, guid: 6e45abcfe26a873459b491c6b34da344, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2735000197979240696, guid: 6e45abcfe26a873459b491c6b34da344, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2735000197979240696, guid: 6e45abcfe26a873459b491c6b34da344, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2735000197979240696, guid: 6e45abcfe26a873459b491c6b34da344, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2735000197979240696, guid: 6e45abcfe26a873459b491c6b34da344, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2735000197979240696, guid: 6e45abcfe26a873459b491c6b34da344, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -180
+      objectReference: {fileID: 0}
+    - target: {fileID: 2735000197979240696, guid: 6e45abcfe26a873459b491c6b34da344, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6642412606424589900, guid: 6e45abcfe26a873459b491c6b34da344, type: 3}
+      propertyPath: m_Name
+      value: Building_Inserter_T1 (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6e45abcfe26a873459b491c6b34da344, type: 3}
 --- !u!114 &1382526752 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1298265751549286660, guid: b1e3c324dc24a7f4899ef0da7f24bb27, type: 3}
@@ -1567,6 +1624,34 @@ PrefabInstance:
     - target: {fileID: 2664294086132294787, guid: 433e4b93153a0fc479e34ba35ea4d5c4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4300875816459203871, guid: 433e4b93153a0fc479e34ba35ea4d5c4, type: 3}
+      propertyPath: gridColor.b
+      value: 0.5896226
+      objectReference: {fileID: 0}
+    - target: {fileID: 4300875816459203871, guid: 433e4b93153a0fc479e34ba35ea4d5c4, type: 3}
+      propertyPath: gridColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4300875816459203871, guid: 433e4b93153a0fc479e34ba35ea4d5c4, type: 3}
+      propertyPath: gridColor.r
+      value: 0.5896226
+      objectReference: {fileID: 0}
+    - target: {fileID: 4300875816459203871, guid: 433e4b93153a0fc479e34ba35ea4d5c4, type: 3}
+      propertyPath: gridCenterColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4300875816459203871, guid: 433e4b93153a0fc479e34ba35ea4d5c4, type: 3}
+      propertyPath: gridCenterColor.b
+      value: 0.39215684
+      objectReference: {fileID: 0}
+    - target: {fileID: 4300875816459203871, guid: 433e4b93153a0fc479e34ba35ea4d5c4, type: 3}
+      propertyPath: gridCenterColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4300875816459203871, guid: 433e4b93153a0fc479e34ba35ea4d5c4, type: 3}
+      propertyPath: gridCenterColor.r
+      value: 0.8872685
       objectReference: {fileID: 0}
     - target: {fileID: 8891990432084508830, guid: 433e4b93153a0fc479e34ba35ea4d5c4, type: 3}
       propertyPath: m_Name
@@ -2191,3 +2276,4 @@ SceneRoots:
   - {fileID: 709935102}
   - {fileID: 1564612809}
   - {fileID: 66819165}
+  - {fileID: 1374052823}

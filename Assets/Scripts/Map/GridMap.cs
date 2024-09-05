@@ -9,7 +9,7 @@ public static class GridMap
     {
         int x = Mathf.RoundToInt(vector.x); // x 값을 반올림하여 int로 변환
         int z = Mathf.RoundToInt(vector.z); // z 값을 반올림하여 int로 변환
-        int y = Mathf.RoundToInt(vector.y);
+        int y = 0;// Mathf.RoundToInt(vector.y);
 
         return new Vector3Int(x, y, z); // 새로운 Vector3 반환
     }

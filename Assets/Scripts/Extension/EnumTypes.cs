@@ -27,4 +27,15 @@ namespace EnumTypes
     {
         Kr
     }
+
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum BeltType
+    {
+        Start,
+        End,
+        Mid,
+        Left,
+        Right,
+        Merge
+    }
 }

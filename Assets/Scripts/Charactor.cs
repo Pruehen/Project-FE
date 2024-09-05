@@ -39,6 +39,21 @@ public class Charactor : MonoBehaviour
         _tool = GetComponent<ToolModule>();
 
         Player.Instance.PropertyChanged += OnPropertyChanged;
+        Register_OnStart();
+    }
+
+    void Register_OnStart()
+    {
+        Player.Instance.Register_KeyAction(KeyCode.Alpha1, () => _tool.ToolSelect_OnNumKeyClick(0));
+        Player.Instance.Register_KeyAction(KeyCode.Alpha2, () => _tool.ToolSelect_OnNumKeyClick(1));
+        Player.Instance.Register_KeyAction(KeyCode.Alpha3, () => _tool.ToolSelect_OnNumKeyClick(2));
+        Player.Instance.Register_KeyAction(KeyCode.Alpha4, () => _tool.ToolSelect_OnNumKeyClick(3));
+        Player.Instance.Register_KeyAction(KeyCode.Alpha5, () => _tool.ToolSelect_OnNumKeyClick(4));
+        Player.Instance.Register_KeyAction(KeyCode.Alpha6, () => _tool.ToolSelect_OnNumKeyClick(5));
+        Player.Instance.Register_KeyAction(KeyCode.Alpha7, () => _tool.ToolSelect_OnNumKeyClick(6));
+        Player.Instance.Register_KeyAction(KeyCode.Alpha8, () => _tool.ToolSelect_OnNumKeyClick(7));
+        Player.Instance.Register_KeyAction(KeyCode.Alpha9, () => _tool.ToolSelect_OnNumKeyClick(8));
+        Player.Instance.Register_KeyAction(KeyCode.Alpha0, () => _tool.ToolSelect_OnNumKeyClick(9));
     }
 
     void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -47,7 +62,7 @@ public class Charactor : MonoBehaviour
         {
             case nameof(Player.Instance.LookTargetPosVector):
                 _lookPos = Player.Instance.LookTargetPosVector;
-                GridDraw_OnMouseMove();
+                //GridDraw_OnMouseMove();
                 break;
             case nameof(Player.Instance.InputVector_Move):
                 _moveVector = new UnityEngine.Vector3(Player.Instance.InputVector_Move.x, 0, Player.Instance.InputVector_Move.y);
@@ -75,17 +90,10 @@ public class Charactor : MonoBehaviour
             RemoveBeam();
         }
 
-        if (Input.GetKey(KeyCode.LeftControl))
-        {
-            _tool.SetBuildMode(true);
-        }
-        else
-        {
-            _tool.SetBuildMode(false);
-        }
+        GridDraw_OnMouseMove();
     }
 
-    public void GridDraw_OnMouseMove()
+    void GridDraw_OnMouseMove()
     {
         if (IsBuildMode)
         {
@@ -95,9 +103,23 @@ public class Charactor : MonoBehaviour
         }
         else
         {
-            GridRenderer.Instance.HideAllGridLines();
+            GridRenderer.Instance.Command_HideAllGridLines();
             BeltManager.Instance.DeActive();
         }
+    }
+
+    public void Select_OnMouseLeftClick()
+    {
+        if (IsBuildMode)
+        {
+            Vector3Int hitPoint_Grid = _lookPos.ToIntVector();
+            BeltManager.Instance.OnClick(hitPoint_Grid);
+        }
+        else
+        {
+            onMouseObjectTemp?.Select();
+        }
+
     }
 
     public void TryInteract()

@@ -43,7 +43,7 @@ public class Player : SceneSingleton<Player>
 
     public Action<Vector3> OnLookTargetPosSet;
     public Action<string> OnMouseObjectNameChanged;
-    public Action<KeyCode> OnKeyClickDown;
+    Action<KeyCode> OnKeyClickDown;
 
     Dictionary<KeyCode, Action> keyActions;
     public void Register_KeyAction(KeyCode key, Action callBack) { keyActions[key] += callBack; }
@@ -143,8 +143,7 @@ public class Player : SceneSingleton<Player>
         }
         if (Input.GetMouseButtonDown(0))
         {
-            Command_Select_InteractableObject();
-            Command_Select_GridNode();
+            controlledCharactor?.Select_OnMouseLeftClick();
         }
     }
 
@@ -159,23 +158,7 @@ public class Player : SceneSingleton<Player>
             }
         }
     }
-    void Command_Select_InteractableObject()
-    {
-        OnMouseObjectTemp?.Select();
-    }
-    void Command_Select_GridNode()
-    {
-        if (Input.GetKey(KeyCode.LeftControl))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out RaycastHit hit))
-            {
-                Vector3Int hitPoint_Grid = hit.point.ToIntVector();
-                BeltManager.Instance.OnClick(hitPoint_Grid);
-            }
-        }
-    }
     void Command_TryInteract()
     {
         if (controlledCharactor != null)

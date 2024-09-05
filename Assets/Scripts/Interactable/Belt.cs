@@ -1,16 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public enum BeltType
-{
-    Start,
-    End,
-    Mid,
-    Left,
-    Right,
-    Merge
-}
+using EnumTypes;
 
 public class Belt : MonoBehaviour, IInteractable
 {
