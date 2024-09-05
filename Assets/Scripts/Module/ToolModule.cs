@@ -2,23 +2,15 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ToolModule : MonoBehaviour, IModule
+public class ToolModule : MonoBehaviour
 {
-    public void Active_Wdw()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void Close_Wdw()
-    {
-        throw new System.NotImplementedException();
-    }
-
     [SerializeField] List<SelectableItemCell> selectableItemCellList;
     [SerializeField] List<string> tool_buildingIdList;
 
     Action<BuildingData> ActiveTool_OnToolSelect;
     public void Register_ActiveTool_OnToolSelect(Action<BuildingData> callBack) { ActiveTool_OnToolSelect = callBack; }
+
+    public bool IsBuildMode {  get; private set; }
 
     Inventory _inventory;
     public Inventory Inventory
@@ -38,12 +30,17 @@ public class ToolModule : MonoBehaviour, IModule
         for (int i = 0; i < selectableItemCellList.Count; i++)
         {
             selectableItemCellList[i].Register_OnClick_CallBackBuilding(ToolSelect_OnSelectableCellClick);
-            selectableItemCellList[i].SetData_Building(tool_buildingIdList[i]);
+            selectableItemCellList[i].SetData_StaticCell(tool_buildingIdList[i], i + 1);
         }
     }
 
     public void ToolSelect_OnSelectableCellClick(string buildingId)
     {
         ActiveTool_OnToolSelect?.Invoke(JsonDataManager.GetBuilding(buildingId));
+    }
+    
+    public void SetBuildMode(bool value)
+    {
+        IsBuildMode = value;
     }
 }

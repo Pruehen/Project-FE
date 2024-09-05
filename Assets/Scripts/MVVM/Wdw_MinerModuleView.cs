@@ -95,7 +95,7 @@ public class MinerModuleViewModel : VM
     public Inventory OutputInventory
     {
         get { return _onputInventory; }
-        set
+        private set
         {
             _onputInventory = value;
             OnPropertyChanged(nameof(OutputInventory));
@@ -104,7 +104,7 @@ public class MinerModuleViewModel : VM
     public ItemData ExtractItem
     {
         get { return _extractItem; }
-        set
+        private set
         {
             _extractItem = value;
             OnPropertyChanged(nameof(ExtractItem));
@@ -113,7 +113,7 @@ public class MinerModuleViewModel : VM
     public float CraftValueRatio
     {
         get { return _craftValueRatio; }
-        set
+        private set
         {
             if (_craftValueRatio != value)
             {

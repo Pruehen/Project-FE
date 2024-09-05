@@ -5,6 +5,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using System.ComponentModel;
+using Unity.VisualScripting;
 
 public static class Extension
 {
@@ -123,7 +124,11 @@ public static class Extension
     public static void SetLoadSprite(this Image image, string path)
     {
         // Resources.Load를 사용하여 스프라이트를 로드합니다.
-        image.sprite = Resources.Load<Sprite>(path);
+        Sprite lodeSprite = Resources.Load<Sprite>(path);
+        if(lodeSprite != null)
+        {
+            image.sprite = lodeSprite;
+        }
     }
 
     public static string SimplifyNumber(this float number)

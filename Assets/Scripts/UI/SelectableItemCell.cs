@@ -8,8 +8,6 @@ public class SelectableItemCell : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI TMP_ItemCount;
     [SerializeField] Image Image_ItemIcon;
-    [SerializeField] bool IsStaticCell;
-    [SerializeField] string StaticCell_ItemId;    
 
     string recipyId;
     string itemId;
@@ -62,6 +60,13 @@ public class SelectableItemCell : MonoBehaviour
         string itemId = buildingId.Replace("Building_", "Item_");            
 
         CellData = new CellData(null, itemId, 0, true);
+    }
+    public void SetData_StaticCell(string buildingId, int count)
+    {
+        this.buildingId = buildingId;
+        string itemId = buildingId.Replace("Building_", "Item_");
+
+        CellData = new CellData(null, itemId, count, true);
     }
 
     void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -117,14 +122,6 @@ public class SelectableItemCell : MonoBehaviour
         else
         {
             Debug.LogWarning("빈 셀 데이터를 선택했습니다.");
-        }
-    }
-
-    private void Awake()
-    {
-        if(IsStaticCell)
-        {
-            SetData_Item(StaticCell_ItemId);
         }
     }
 }

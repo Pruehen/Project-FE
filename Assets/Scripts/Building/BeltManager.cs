@@ -133,6 +133,11 @@ public class BeltCreator
         
         CalculatePath(_firstNode, _lastNode);
     }
+    public void DeActive()
+    {
+        path.Clear();
+        BuildLineRenderer.Instance.DrawBeltLine(path);
+    }
 
     private void CalculatePath(Vector3Int start, Vector3Int end)
     {
@@ -206,6 +211,14 @@ public class BeltManager : SceneSingleton<BeltManager>
         {
             posTemp = pos;
             CheckBuildBelt(pos);
+        }
+    }
+    public void DeActive()
+    {
+        if (buildingBeltTemp != null)
+        {
+            buildingBeltTemp.DeActive();
+            buildingBeltTemp = null;
         }
     }
 

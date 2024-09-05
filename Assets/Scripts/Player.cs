@@ -1,171 +1,169 @@
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 public class Player : SceneSingleton<Player>
 {
-    public Vector2 inputVector_Move { get; private set; }
-    public Vector3 lookTargetPosVector { get; private set; }
+    public Vector2 InputVector_Move { get; private set; }
 
-    Action<Vector2> onInput_Move;
-
-    public Action<Vector3> OnLookTargetPosSet;
-    public Action<string> OnMouseObjectNameChanged;
-    public Action<float> OnInteractRatioChanged;
-
-    [SerializeField] Charactor controlledCharactor;
+    Vector3 _lookTargetPosVector;
+    public Vector3 LookTargetPosVector
+    {
+        get { return _lookTargetPosVector; }
+        private set
+        {
+            if(_lookTargetPosVector != value)
+            {
+                _lookTargetPosVector = value;
+                OnLookTargetPosSet?.Invoke(_lookTargetPosVector);
+                OnPropertyChanged(nameof(LookTargetPosVector));
+            }
+        }
+    }
 
     IInteractable _onMouseObjectTemp;
-    IInteractable OnMouseObjectTemp
+    public IInteractable OnMouseObjectTemp
     {
         get { return _onMouseObjectTemp; }
-        set
+        private set
         {
             if (_onMouseObjectTemp != null)
             {
                 _onMouseObjectTemp.MouseExit();
             }
             _onMouseObjectTemp = value;
+            OnPropertyChanged(nameof(OnMouseObjectTemp));
             if (_onMouseObjectTemp != null)
             {
                 _onMouseObjectTemp.MouseEnter();
             }
         }
-    }
+    }    
+
+    public Action<Vector3> OnLookTargetPosSet;
+    public Action<string> OnMouseObjectNameChanged;
+    public Action<KeyCode> OnKeyClickDown;
+
+    Dictionary<KeyCode, Action> keyActions;
+    public void Register_KeyAction(KeyCode key, Action callBack) { keyActions[key] += callBack; }
+    public void UnRegister_KeyAction(KeyCode key, Action callBack) { keyActions[key] -= callBack; }
+
+
+    [SerializeField] Charactor controlledCharactor;
 
     private void Start()
     {
-        onInput_Move += Command_CharactorMove;
-        OnLookTargetPosSet += Command_SetCharactorLookPos;
+        keyActions = new Dictionary<KeyCode, Action>
+        {
+            { KeyCode.Tab, Command_InventoryToggle },
+            { KeyCode.Alpha1, () => OnKeyClickDown?.Invoke(KeyCode.Alpha1) },
+            { KeyCode.Alpha2, () => OnKeyClickDown?.Invoke(KeyCode.Alpha2) },
+            { KeyCode.Alpha3, () => OnKeyClickDown?.Invoke(KeyCode.Alpha3) },
+            { KeyCode.Alpha4, () => OnKeyClickDown?.Invoke(KeyCode.Alpha4) },
+            { KeyCode.Alpha5, () => OnKeyClickDown?.Invoke(KeyCode.Alpha5) },
+            { KeyCode.Alpha6, () => OnKeyClickDown?.Invoke(KeyCode.Alpha6) },
+            { KeyCode.Alpha7, () => OnKeyClickDown?.Invoke(KeyCode.Alpha7) },
+            { KeyCode.Alpha8, () => OnKeyClickDown?.Invoke(KeyCode.Alpha8) },
+            { KeyCode.Alpha9, () => OnKeyClickDown?.Invoke(KeyCode.Alpha9) },
+            { KeyCode.Alpha0, () => OnKeyClickDown?.Invoke(KeyCode.Alpha0) }
+        };
     }
     // Update is called once per frame
     void Update()
     {
-        PlayerInput_OnUpdate();
-        MousePosCheck_OnUpdate();
-        MouseClickCheck_OnUpdate();
+        OnPlayerMoveInput_OnUpdate();
+        OnMouseMove_OnUpdate();
+        OnMouseClick_OnUpdate();
 
-        InputKeyCheck_OnUpdate();
-    }    
+        OnKeyDown_OnUpdate();
+    }
 
-    void PlayerInput_OnUpdate()
+    void OnPlayerMoveInput_OnUpdate()
     {
-        inputVector_Move = Vector2.zero;
+        InputVector_Move = Vector2.zero;
 
         if (Input.GetKey(KeyCode.W))
         {
-            inputVector_Move += new Vector2(0, 1);
+            InputVector_Move += new Vector2(0, 1);
         }
         if (Input.GetKey(KeyCode.S))
         {
-            inputVector_Move += new Vector2(0, -1);
+            InputVector_Move += new Vector2(0, -1);
         }
         if (Input.GetKey(KeyCode.A))
         {
-            inputVector_Move += new Vector2(-1, 0);
+            InputVector_Move += new Vector2(-1, 0);
         }
         if (Input.GetKey(KeyCode.D))
         {
-            inputVector_Move += new Vector2(1, 0);
+            InputVector_Move += new Vector2(1, 0);
         }
 
-        inputVector_Move = inputVector_Move.normalized;
-        onInput_Move?.Invoke(inputVector_Move);
+        InputVector_Move = InputVector_Move.normalized;
+        OnPropertyChanged(nameof(InputVector_Move));
     }
 
-    void MousePosCheck_OnUpdate()
-    {        
+    void OnMouseMove_OnUpdate()
+    {
         Vector3 mousePosition = Input.mousePosition;
-        
-        Ray ray = Camera.main.ScreenPointToRay(mousePosition);        
-        
+
+        Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            IInteractableCheck_OnMousePosCheck(hit);
-            GridDraw_OnMousePosCheck(hit.point);
-        }
-    }
-    void IInteractableCheck_OnMousePosCheck(RaycastHit hit)
-    {
-        string mouseOverObjectName;
+            string mouseOverObjectName;
 
-        if (hit.collider.TryGetComponent(out IInteractable onMouseObject))
-        {
-            lookTargetPosVector = onMouseObject.GetPos();
-            mouseOverObjectName = onMouseObject.GetName();
-            OnMouseObjectTemp = onMouseObject;
-        }
-        else
-        {
-            OnMouseObjectTemp = null;
-            lookTargetPosVector = hit.point;
-            mouseOverObjectName = null;
-        }
-        OnLookTargetPosSet?.Invoke(lookTargetPosVector);
-        OnMouseObjectNameChanged?.Invoke(mouseOverObjectName);
-    }
-    void GridDraw_OnMousePosCheck(Vector3 hitPos)
-    {
-        Vector3Int hitPoint_Grid = hitPos.ToIntVector();
-        BeltManager.Instance.OnMove(hitPoint_Grid);
-
-        if (Input.GetKey(KeyCode.LeftControl))
-        {
-            GridRenderer.Instance.DrawGrid(hitPoint_Grid);
-        }
-        else
-        {
-            GridRenderer.Instance.HideAllGridLines();
+            if (hit.collider.TryGetComponent(out IInteractable onMouseObject))
+            {
+                LookTargetPosVector = onMouseObject.GetPos();
+                mouseOverObjectName = onMouseObject.GetName();
+                OnMouseObjectTemp = onMouseObject;
+            }
+            else
+            {
+                OnMouseObjectTemp = null;
+                LookTargetPosVector = hit.point;
+                mouseOverObjectName = null;
+            }            
+            OnMouseObjectNameChanged?.Invoke(mouseOverObjectName);         
         }
     }
 
 
-    void MouseClickCheck_OnUpdate()
+    void OnMouseClick_OnUpdate()
     {
-        if(Input.GetMouseButton(1))
+        if (Input.GetMouseButton(1))
         {
             Command_TryInteract();
         }
-        if(Input.GetMouseButtonUp(1))
+        if (Input.GetMouseButtonUp(1))
         {
             Command_EndInteract();
         }
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
-            Select_InteractableObject();
-            Select_GridNode();
+            Command_Select_InteractableObject();
+            Command_Select_GridNode();
         }
     }
 
-    void InputKeyCheck_OnUpdate()
+    void OnKeyDown_OnUpdate()
     {
-        if(Input.GetKeyDown(KeyCode.Tab))
+        foreach (var keyAction in keyActions)
         {
-            Command_InventoryToggle();
+            if (Input.GetKeyDown(keyAction.Key))
+            {
+                keyAction.Value.Invoke();
+                Debug.Log(keyAction.Key);
+            }
         }
     }
-
-    void Command_CharactorMove(Vector2 inputVector)
+    void Command_Select_InteractableObject()
     {
-        if(controlledCharactor != null)
-        {
-            controlledCharactor.SetMoveVector(new Vector3(inputVector.x, 0, inputVector.y));
-        }
+        OnMouseObjectTemp?.Select();
     }
-    void Command_SetCharactorLookPos(Vector3 pos)
-    {
-        if (controlledCharactor != null)
-        {
-            controlledCharactor.SetLookPosVector(pos);
-        }
-    }
-    void Select_InteractableObject()
-    {
-        if(OnMouseObjectTemp != null)
-        {
-            OnMouseObjectTemp.Select();
-        }
-    }
-    void Select_GridNode()
+    void Command_Select_GridNode()
     {
         if (Input.GetKey(KeyCode.LeftControl))
         {
@@ -182,22 +180,21 @@ public class Player : SceneSingleton<Player>
     {
         if (controlledCharactor != null)
         {
-            controlledCharactor.TryInteract(OnMouseObjectTemp, out float interactRatio);
-            OnInteractRatioChanged?.Invoke(interactRatio);
+            controlledCharactor.TryInteract();
         }
     }
     void Command_EndInteract()
     {
-        if (controlledCharactor != null)
-        {
-            controlledCharactor.EndInteract();
-        }
+        controlledCharactor?.EndInteract();
     }
     void Command_InventoryToggle()
+    {        
+        controlledCharactor?.InventoryToggle();
+    }
+
+    public event PropertyChangedEventHandler PropertyChanged;
+    protected void OnPropertyChanged(string propertyName)//값이 변경되었을 때 이벤트를 발생시키기 위한 용도 (데이터 바인딩)
     {
-        if (controlledCharactor != null)
-        {
-            controlledCharactor.InventoryToggle();
-        }
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

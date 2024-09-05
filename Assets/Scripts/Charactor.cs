@@ -1,12 +1,22 @@
+using System.ComponentModel;
 using UnityEngine;
 
 public class Charactor : MonoBehaviour
 {
     InventoryModule _inventory;    
+    ToolModule _tool;
+
+    bool IsBuildMode
+    {
+        get 
+        {
+            return _tool.IsBuildMode;
+        }
+    }
 
     Rigidbody _rigidbody;
-    Vector3 _moveVector;
-    Vector3 _lookPos;
+    UnityEngine.Vector3 _moveVector;
+    UnityEngine.Vector3 _lookPos;
     float _speed;
     float _interactTime = 0;
 
@@ -18,13 +28,34 @@ public class Charactor : MonoBehaviour
 
     LineRenderer _lineRenderer;
     IInteractable onInteractObject;
+    IInteractable onMouseObjectTemp;
 
     // Start is called before the first frame update
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _lineRenderer = GetComponent<LineRenderer>();
-        _inventory = GetComponent<InventoryModule>();        
+        _inventory = GetComponent<InventoryModule>();
+        _tool = GetComponent<ToolModule>();
+
+        Player.Instance.PropertyChanged += OnPropertyChanged;
+    }
+
+    void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        switch (e.PropertyName)
+        {
+            case nameof(Player.Instance.LookTargetPosVector):
+                _lookPos = Player.Instance.LookTargetPosVector;
+                GridDraw_OnMouseMove();
+                break;
+            case nameof(Player.Instance.InputVector_Move):
+                _moveVector = new UnityEngine.Vector3(Player.Instance.InputVector_Move.x, 0, Player.Instance.InputVector_Move.y);
+                break;
+            case nameof(Player.Instance.OnMouseObjectTemp):
+                onMouseObjectTemp = Player.Instance.OnMouseObjectTemp;
+                break;
+        }
     }
 
     private void FixedUpdate()
@@ -35,7 +66,7 @@ public class Charactor : MonoBehaviour
 
     private void Update()
     {
-        if(onInteractObject != null)
+        if (onInteractObject != null)
         {
             DrawBeam(onInteractObject.GetPos());
         }
@@ -43,29 +74,43 @@ public class Charactor : MonoBehaviour
         {
             RemoveBeam();
         }
+
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            _tool.SetBuildMode(true);
+        }
+        else
+        {
+            _tool.SetBuildMode(false);
+        }
     }
 
-    public void SetMoveVector(Vector3 vector)
+    public void GridDraw_OnMouseMove()
     {
-        _moveVector = vector;
-    }
-    public void SetLookPosVector(Vector3 vector)
-    {
-        _lookPos = vector;
-    }
-    public void TryInteract(IInteractable interactableObject, out float interactRatio)
-    {        
-        if(interactableObject != null && interactableObject.TryInteract(this.transform.position, interactionRange))
+        if (IsBuildMode)
         {
-            onInteractObject = interactableObject;
+            Vector3Int hitPoint_Grid = _lookPos.ToIntVector();
+            GridRenderer.Instance.DrawGrid(hitPoint_Grid);
+            BeltManager.Instance.OnMove(hitPoint_Grid);
+        }
+        else
+        {
+            GridRenderer.Instance.HideAllGridLines();
+            BeltManager.Instance.DeActive();
+        }
+    }
+
+    public void TryInteract()
+    {        
+        if(onMouseObjectTemp != null && onMouseObjectTemp.TryInteract(this.transform.position, interactionRange))
+        {
+            onInteractObject = onMouseObjectTemp;
             _interactTime += Time.deltaTime;            
         }
         else
         {
             EndInteract();
         }
-
-        interactRatio = _interactTime;
     }
     public void EndInteract()
     {
@@ -87,7 +132,7 @@ public class Charactor : MonoBehaviour
 
     void Move_OnFixedUpdate()
     {        
-        if (_moveVector != Vector3.zero)
+        if (_moveVector != UnityEngine.Vector3.zero)
         {
             _speed = _rigidbody.velocity.magnitude;
             if (_speed < moveSpeed)
@@ -106,7 +151,7 @@ public class Charactor : MonoBehaviour
 
     void PointLook_OnFixedUpdate()
     {
-        if(_lookPos != Vector3.zero)
+        if(_lookPos != UnityEngine.Vector3.zero)
         {
             this.transform.LookAt(_lookPos);
         }
@@ -116,7 +161,7 @@ public class Charactor : MonoBehaviour
         }
     }
 
-    void DrawBeam(Vector3 targetPos)
+    void DrawBeam(UnityEngine.Vector3 targetPos)
     {
         _lineRenderer.SetPosition(0, this.transform.position);
         _lineRenderer.SetPosition(1, targetPos);
