@@ -68,7 +68,7 @@
     },
     "Building_Inserter_T1": {
       "Id": "Building_Inserter_T1",
-      "BuildingType": "Conveying",
+      "BuildingType": "Inserter",
       "RecipyGroup": null,
       "DeploySizeX": 1.0,
       "DeploySizeY": 1.0,
@@ -79,7 +79,7 @@
     },
     "Building_Inserter_T2": {
       "Id": "Building_Inserter_T2",
-      "BuildingType": "Conveying",
+      "BuildingType": "Inserter",
       "RecipyGroup": null,
       "DeploySizeX": 1.0,
       "DeploySizeY": 1.0,

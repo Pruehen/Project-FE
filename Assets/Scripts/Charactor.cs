@@ -1,3 +1,4 @@
+using EnumTypes;
 using System.ComponentModel;
 using UnityEngine;
 
@@ -6,11 +7,11 @@ public class Charactor : MonoBehaviour
     InventoryModule _inventory;    
     ToolModule _tool;
 
-    bool IsBuildMode
+    BuildMode BuildMode
     {
         get 
         {
-            return _tool.IsBuildMode;
+            return _tool.BuildMode;
         }
     }
 
@@ -95,25 +96,19 @@ public class Charactor : MonoBehaviour
 
     void GridDraw_OnMouseMove()
     {
-        if (IsBuildMode)
+        if (BuildMode != BuildMode.None)
         {
             Vector3Int hitPoint_Grid = _lookPos.ToIntVector();
-            GridRenderer.Instance.DrawGrid(hitPoint_Grid);
-            BeltManager.Instance.OnMove(hitPoint_Grid);
-        }
-        else
-        {
-            GridRenderer.Instance.Command_HideAllGridLines();
-            BeltManager.Instance.DeActive();
+            _tool.ToolOnMove(hitPoint_Grid);
         }
     }
 
     public void Select_OnMouseLeftClick()
     {
-        if (IsBuildMode)
+        if (BuildMode != BuildMode.None)
         {
             Vector3Int hitPoint_Grid = _lookPos.ToIntVector();
-            BeltManager.Instance.OnClick(hitPoint_Grid);
+            _tool.ToolOnClick(hitPoint_Grid);
         }
         else
         {

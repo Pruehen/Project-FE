@@ -8,8 +8,7 @@ public class UIManager : SceneSingleton<UIManager>
     public GameObject Prefab_CraftingModuleUIWdw;
     public GameObject Prefab_MinerModuleUIWdw;
 
-    [Header("하위 UI")]
-    [SerializeField] GameObject Label_BuildMode;
+    [Header("하위 UI")]    
     [SerializeField] MouseTrackUI _MouseTrackUI;
 
     [Header("기타")]
@@ -68,7 +67,7 @@ public class UIManager : SceneSingleton<UIManager>
     //=============================================================================================================================
     public void SetActive_Label_BuildMode(bool value)
     {
-        Label_BuildMode.SetActive(value);
+        //Label_BuildMode.SetActive(value);
     }
     private void Awake()
     {

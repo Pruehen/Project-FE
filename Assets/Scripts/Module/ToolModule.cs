@@ -1,13 +1,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 using EnumTypes;
+using TMPro;
 
 public class ToolModule : MonoBehaviour
 {
     [SerializeField] List<SelectableItemCell> selectableItemCellList;
     [SerializeField] List<string> tool_buildingIdList;
 
-    public bool IsBuildMode {  get; private set; }
+    [SerializeField] TextMeshProUGUI testText_BuildMode;
+
+    public BuildMode BuildMode {  get; private set; }
+    IBuildTool _selectTool;
+    public IBuildTool SelectTool
+    {
+        get { return _selectTool; }
+        private set
+        {
+            if (_selectTool != null)
+            {
+                GridRenderer.Instance.Command_HideAllGridLines();
+                _selectTool.DeActive();
+                testText_BuildMode.text = "";
+            }
+            _selectTool = value;            
+        }
+    }
     string selectedToolTemp = null;
 
     Inventory _inventory;
@@ -45,27 +63,64 @@ public class ToolModule : MonoBehaviour
         if (selectedToolTemp == buildingId)
         {
             selectedToolTemp = null;
-            SetBuildMode(false);
+            SetBuildMode(BuildMode.None);
         }
         else
         {
-            Debug.Log("툴 셀렉트");
             selectedToolTemp = buildingId;
 
             BuildingData buildingData = JsonDataManager.GetBuilding(buildingId);
             if (buildingData.BuildingType == BuildingType.Conveying)
             {
-                SetBuildMode(true);
+                SetBuildMode(BuildMode.Belt);
+            }
+            else if (buildingData.BuildingType == BuildingType.Inserter)
+            {
+                SetBuildMode(BuildMode.Inserter);
             }
             else
             {
-                SetBuildMode(false);
+                SetBuildMode(BuildMode.None);
             }
         }
     }
     
-    public void SetBuildMode(bool value)
+    public void SetBuildMode(BuildMode value)
     {
-        IsBuildMode = value;
+        this.BuildMode = value;
+
+        GridRenderer.Instance.Command_HideAllGridLines();
+        BeltManager.Instance.DeActive();
+
+        switch (BuildMode)
+        {
+            case BuildMode.None:
+                SelectTool = null;
+                break;
+            case BuildMode.Belt:
+                SelectTool = BeltManager.Instance;
+                testText_BuildMode.text = "벨트";
+                break;
+            case BuildMode.Inserter:
+                SelectTool = InserterManager.Instance;
+                testText_BuildMode.text = "투입기";
+                break;
+            case BuildMode.Building:
+                SelectTool = null;
+                break;
+            default:
+                SelectTool = null;
+                break;
+        }
+    }
+
+    public void ToolOnClick(Vector3Int gridPos)
+    {
+        SelectTool.OnClick(gridPos);
+    }
+    public void ToolOnMove(Vector3Int gridPos)
+    {
+        GridRenderer.Instance.DrawGrid(gridPos);        
+        SelectTool.OnMove(gridPos);
     }
 }

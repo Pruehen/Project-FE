@@ -182,29 +182,32 @@ public class BeltCreator
     }
 }
 
-public class BeltManager : SceneSingleton<BeltManager>
+public class BeltManager : SceneSingleton<BeltManager>, IBuildTool
 {
     public GameObject beltPart;
 
-    BeltCreator buildingBeltTemp;
+    BeltCreator buildingBeltTemp = new BeltCreator();
     Vector3Int posTemp;
 
     List<List<BeltNode>> BeltNodeTemp = new List<List<BeltNode>>();
+    bool isBuildMode = false;
 
     public void OnClick(Vector3Int pos)
     {
-        if(buildingBeltTemp == null)
+        if(isBuildMode == false)
         {
+            isBuildMode = true;
             StartBuildBelt(pos);
         }
         else
         {
+            isBuildMode = false;
             BuildBelt(pos);
         }
     }
     public void OnMove(Vector3Int pos)
     {
-        if (buildingBeltTemp != null && posTemp != pos)
+        if (isBuildMode == true && posTemp != pos)
         {
             posTemp = pos;
             CheckBuildBelt(pos);
@@ -212,32 +215,21 @@ public class BeltManager : SceneSingleton<BeltManager>
     }
     public void DeActive()
     {
-        if (buildingBeltTemp != null)
-        {
-            buildingBeltTemp.DeActive();
-            buildingBeltTemp = null;
-        }
+        buildingBeltTemp.DeActive();
+        isBuildMode = false;
     }
 
     void StartBuildBelt(Vector3Int firstNode)
     {
-        buildingBeltTemp = new BeltCreator();
         buildingBeltTemp.StartBuildBelt(firstNode);
     }
     void CheckBuildBelt(Vector3Int lastNode)
     {
-        if(buildingBeltTemp != null)
-        {
-            buildingBeltTemp.CheckBuildBelt(lastNode);
-        }
+        buildingBeltTemp.CheckBuildBelt(lastNode);
     }
     void BuildBelt(Vector3Int lastNode)
     {
-        if (buildingBeltTemp != null)
-        {
-            buildingBeltTemp.BuildBelt(lastNode);
-            buildingBeltTemp = null;
-        }
+        buildingBeltTemp.BuildBelt(lastNode);
     }
 
     public List<BeltNode> NewBeltNodeList()

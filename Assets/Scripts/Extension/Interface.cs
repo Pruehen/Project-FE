@@ -16,14 +16,11 @@ public interface IModule
     public void Active_Wdw();
     public void Close_Wdw();
 }
-public interface ICellGroup
+public interface IBuildTool
 {
-
-}
-
-public interface ITable
-{
-    public string FilePath();
+    public void OnClick(Vector3Int pos);
+    public void OnMove(Vector3Int pos);
+    public void DeActive();
 }
 
 public interface IWindow

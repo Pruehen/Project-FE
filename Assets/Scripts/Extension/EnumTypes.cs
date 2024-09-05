@@ -18,6 +18,7 @@ namespace EnumTypes
         Refinery,
         Mining,
         Conveying,
+        Inserter,
         Generator,
         Storage
     }
@@ -37,5 +38,13 @@ namespace EnumTypes
         Left,
         Right,
         Merge
+    }
+
+    public enum BuildMode
+    { 
+        None,
+        Belt,
+        Inserter,
+        Building
     }
 }
