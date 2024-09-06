@@ -6,6 +6,7 @@ public class Building : MonoBehaviour, IInteractable
     [SerializeField] string ItemKey;
     [SerializeField] string BuildingKey;
     [SerializeField] List<Transform> validGridPos;
+    Dictionary<Vector3Int, BuildingNode> buildingNodeDicTemp = new Dictionary<Vector3Int, BuildingNode>();
 
     BuildingData _buildingData;
     IModule _MainModule;
@@ -97,6 +98,20 @@ public class Building : MonoBehaviour, IInteractable
 
     private void Awake()
     {
-        _MainModule = GetComponent<IModule>();        
+        _MainModule = GetComponent<IModule>();
+
+        foreach (var item in validGridPos)
+        {
+            buildingNodeDicTemp.Add(item.position.ToIntVector(), new BuildingNode(item.position.ToIntVector()));
+        }
+    }
+}
+public class BuildingNode : Node
+{
+    public BuildingNode(Vector3Int gridPos)
+    {
+        this.nodeType = EnumTypes.NodeType.BuildingNode;
+        this.gridPos = gridPos;
+        GridMap.NodeDic_NormalDepth.Add(gridPos, this);
     }
 }

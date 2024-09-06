@@ -3,8 +3,8 @@ using UnityEngine;
 
 public static class GridMap
 {
-    public static Dictionary<Vector3Int, BeltNode> beltDic = new Dictionary<Vector3Int, BeltNode>();
-    public static Dictionary<Vector3Int, InserterNode> inserterDic = new Dictionary<Vector3Int, InserterNode>();
+    public static Dictionary<Vector3Int, Node> NodeDic_NormalDepth = new Dictionary<Vector3Int, Node>();//벨트, 구조물 등의 계층
+    public static Dictionary<Vector3Int, Node> NodeDic_InteractableDepth = new Dictionary<Vector3Int, Node>();//투입기 등의 계층
     public static Vector3Int ToIntVector(this Vector3 vector)
     {
         int x = Mathf.RoundToInt(vector.x); // x 값을 반올림하여 int로 변환

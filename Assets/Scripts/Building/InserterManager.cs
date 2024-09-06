@@ -5,15 +5,26 @@ using UnityEngine;
 public class InserterNode : Node
 {
     Inserter inserterPart;
-    public InserterNode(Vector3Int gridPos)
+    public InserterNode(Vector3Int firstPos, Vector3Int lastPos)
     {
-        this.gridPos = gridPos;
-        //GridMap.inserterDic.Add(gridPos, this);
+        nodeType = NodeType.InserterNode;
+        this.gridPos = firstPos;
+        //GridMap.NodeDic_InteractableDepth.Add(firstPos, this);
+        //GridMap.NodeDic_InteractableDepth.Add(lastPos, this);
     }
-    public void Init(Vector3 firstNode, Vector3 lastNode)
+    public void Init(Vector3Int firstNode, Vector3Int lastNode)
     {
         inserterPart = ObjectPoolManager.Instance.DequeueObject(InserterManager.Instance.Prefab_inserterPart).GetComponent<Inserter>();
         inserterPart.Init(firstNode, lastNode);
+
+        if (GridMap.NodeDic_NormalDepth.ContainsKey(firstNode))
+        {
+
+        }
+        if (GridMap.NodeDic_NormalDepth.ContainsKey(lastNode))
+        {
+
+        }
     }
 }
 
@@ -30,7 +41,7 @@ public class InserterCrafter
         CheckBuildInserter(lastNode);
         BuildLineRenderer.Instance.HideAllGridLinesAndNodes();
 
-        InserterNode inserterNode = new InserterNode(lastNode);
+        InserterNode inserterNode = new InserterNode(_firstNode, _lastNode);
         inserterNode.Init(_firstNode, _lastNode);
     }
 

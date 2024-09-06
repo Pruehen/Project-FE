@@ -1,3 +1,4 @@
+using EnumTypes;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,6 +26,7 @@ public interface IBuildTool
 }
 public abstract class Node
 {
+    public NodeType nodeType;
     public Vector3Int gridPos;
     public Node PreviousNode = null;
     public Node NextNode = null;

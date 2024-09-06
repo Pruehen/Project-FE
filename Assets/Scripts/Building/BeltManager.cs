@@ -8,8 +8,9 @@ public class BeltNode : Node
 
     public BeltNode(Vector3Int gridPos)
     {
+        nodeType = NodeType.BeltNode;
         this.gridPos = gridPos;
-        GridMap.beltDic.Add(gridPos, this);
+        GridMap.NodeDic_NormalDepth.Add(gridPos, this);
         BeltManager.Instance.AllNodeList.Add(this);
     }
     public void Init()
@@ -91,9 +92,9 @@ public class BeltCreator
 
         for (int i = 0; i < path.Count; i++)
         {
-            if (GridMap.beltDic.ContainsKey(path[i]))
+            if (GridMap.NodeDic_NormalDepth.ContainsKey(path[i]))
             {
-                beltNodes.Add(GridMap.beltDic[path[i]]);
+                beltNodes.Add(GridMap.NodeDic_NormalDepth[path[i]] as BeltNode);
 
                 if (i == 0)//시작점
                 {
@@ -101,7 +102,7 @@ public class BeltCreator
                 }
                 else if(i == path.Count - 1)//마지막점
                 {
-                    beltNodes[i - 1].NextNode = GridMap.beltDic[path[i]];
+                    beltNodes[i - 1].NextNode = GridMap.NodeDic_NormalDepth[path[i]];
                     BeltManager.Instance.RootNodeDic.Add(path[i], beltNodes[i - 1]);
                 }
             }
@@ -148,6 +149,12 @@ public class BeltCreator
     {
         path.Clear();
 
+        if (GridMap.NodeDic_NormalDepth.ContainsKey(start) && GridMap.NodeDic_NormalDepth[start].nodeType == NodeType.BuildingNode)
+        {
+            BuildLineRenderer.Instance.DrawBeltLine(path);
+            return;
+        }
+
         Vector3Int posTemp = start;
         path.Add(posTemp);
 
@@ -176,10 +183,14 @@ public class BeltCreator
                 }
             }
 
-            path.Add(posTemp);
-            if (GridMap.beltDic.ContainsKey(posTemp))
+            if (GridMap.NodeDic_NormalDepth.ContainsKey(posTemp))
             {
+                if (GridMap.NodeDic_NormalDepth[posTemp].nodeType == NodeType.BeltNode) { path.Add(posTemp); }
                 break;
+            }
+            else
+            {
+                path.Add(posTemp);
             }
         }
 

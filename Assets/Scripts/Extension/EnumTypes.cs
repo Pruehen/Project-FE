@@ -39,6 +39,12 @@ namespace EnumTypes
         Right,
         Merge
     }
+    public enum NodeType
+    {
+        BeltNode,
+        BuildingNode,
+        InserterNode
+    }
 
     public enum BuildMode
     { 
