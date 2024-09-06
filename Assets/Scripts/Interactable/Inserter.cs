@@ -1,14 +1,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Inserter : MonoBehaviour, IInteractable
+public class Inserter : MonoBehaviour, IInteractable, ITransporter
 {
+    InserterNode node;
+
     [SerializeField] string ItemKey;
     [SerializeField] string BuildingKey;
 
     [SerializeField] GameObject start;
     [SerializeField] GameObject end;
+    [SerializeField] GameObject grab;
     [SerializeField] LineRenderer lineRenderer;
+
+    public GameObject TestPrefab_ItemObject;
+    ItemObject _grabObject;
+
+    float moveLogicSpeed = 1f;
+    float moveLogicTime;
+
+    Vector3 itemStayPoint_First;
+    Vector3 itemStayPoint_Last;
 
     BuildingData _buildingData;
     IModule _MainModule;
@@ -90,16 +102,132 @@ public class Inserter : MonoBehaviour, IInteractable
             return true;
         }
     }
-    public void Init(Vector3 startPos, Vector3 endPos)
+    public void Init(Vector3 startPos, Vector3 endPos, InserterNode inserterNode)
     {
+        node = inserterNode;
+
         start.transform.position = startPos + new Vector3(0, 0.8f, 0);
         end.transform.position = endPos + new Vector3(0, 0.8f, 0);
+
         lineRenderer.SetPosition(0, startPos + new Vector3(0, 0.6f, 0));
         lineRenderer.SetPosition(1, endPos + new Vector3(0, 0.6f, 0));
+
+        itemStayPoint_First = startPos + new Vector3(0, 0.6f, 0);
+        itemStayPoint_Last = endPos + new Vector3(0, 0.6f, 0);
+
+        ItemIn(Instantiate(TestPrefab_ItemObject).GetComponent<ItemObject>());
     }
 
     private void Awake()
     {
         _MainModule = GetComponent<IModule>();
-    }    
+        moveLogicSpeed *= 2f;
+        moveLogicTime = 1 / moveLogicSpeed;
+    }
+    void Update()
+    {
+        LogicInit();
+        ExcuteLogic_OnUpdate(Time.deltaTime);
+    }
+
+    public ItemObject GrabObject
+    {
+        get { return _grabObject; }
+        set
+        {
+            _grabObject = value;
+            if (_grabObject != null)
+            {
+                _grabObject.SetPos(itemStayPoint_First, itemStayPoint_Last);
+            }
+        }
+    }
+
+    bool isExcuteLogic = false;
+    bool State_ItemTransport = true;
+    float timeValue;
+
+    public bool TryItemOut(ITransporter nextNode)
+    {
+        if (nextNode == null) return false;
+        if (nextNode.CanItemIn() == false) return false;
+        if (GrabObject == null) return false;
+
+        nextNode.ItemIn(GrabObject);
+        GrabObject = null;
+        return true;
+    }
+    public bool CanItemIn()
+    {
+        return GrabObject == null;
+    }
+    public void ItemIn(ItemObject inItem)
+    {
+        GrabObject = inItem;
+    }
+    public void LogicInit()
+    {
+        isExcuteLogic = false;
+    }
+    public void ExcuteLogic_OnUpdate(float deltaTime)
+    {
+        if (isExcuteLogic)
+            return;
+        isExcuteLogic = true;
+
+        Node nextNode = node.NextNode;
+
+        if (timeValue >= moveLogicTime)//아이템이 도착했는지
+        {
+            if (State_ItemTransport)
+            {
+                if (nextNode != null && TryItemOut(nextNode.transporter))
+                {
+                    State_ItemTransport = false;
+                    timeValue -= moveLogicTime;                    
+                }
+                else
+                {
+                    timeValue = moveLogicTime;
+                }
+            }
+            else
+            {
+                ItemIn(Instantiate(TestPrefab_ItemObject).GetComponent<ItemObject>());
+                if (GrabObject != null)
+                {
+                    State_ItemTransport = true;
+                    timeValue -= moveLogicTime;
+                }
+                else
+                {
+                    timeValue = moveLogicTime;
+                }
+            }
+        }
+
+        GrabMove(timeValue * moveLogicSpeed);
+
+        if (GrabObject != null && State_ItemTransport)
+        {
+            GrabObject.ItemMove(timeValue * moveLogicSpeed);            
+            timeValue += deltaTime;
+        }
+        else if(GrabObject == null && State_ItemTransport == false)
+        {
+            timeValue += deltaTime;
+        }
+    }
+
+    void GrabMove(float lerpValue)
+    {
+        if (State_ItemTransport)
+        {
+            grab.transform.position = Vector3.Lerp(itemStayPoint_First, itemStayPoint_Last, lerpValue);
+        }
+        else
+        {
+            grab.transform.position = Vector3.Lerp(itemStayPoint_Last, itemStayPoint_First, lerpValue);
+        }
+    }
 }

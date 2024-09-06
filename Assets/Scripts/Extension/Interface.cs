@@ -1,5 +1,4 @@
 using EnumTypes;
-using System.Collections.Generic;
 using UnityEngine;
 
 public interface IInteractable
@@ -27,6 +26,7 @@ public interface IBuildTool
 public abstract class Node
 {
     public NodeType nodeType;
+    public ITransporter transporter;
     public Vector3Int gridPos;
     public Node PreviousNode = null;
     public Node NextNode = null;
@@ -35,4 +35,13 @@ public interface IWindow
 {
     public void Active(IModule module);    
     public void Close();    
+}
+
+public interface ITransporter
+{
+    public bool TryItemOut(ITransporter nextNode);
+    public bool CanItemIn();
+    public void ItemIn(ItemObject item);
+    public void LogicInit();
+    public void ExcuteLogic_OnUpdate(float deltaTime);
 }

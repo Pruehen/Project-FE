@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Building : MonoBehaviour, IInteractable
+public class Building : MonoBehaviour, IInteractable, ITransporter
 {
     [SerializeField] string ItemKey;
     [SerializeField] string BuildingKey;
@@ -102,16 +102,36 @@ public class Building : MonoBehaviour, IInteractable
 
         foreach (var item in validGridPos)
         {
-            buildingNodeDicTemp.Add(item.position.ToIntVector(), new BuildingNode(item.position.ToIntVector()));
+            buildingNodeDicTemp.Add(item.position.ToIntVector(), new BuildingNode(item.position.ToIntVector(), this));
         }
     }
+
+    public bool TryItemOut(ITransporter nextNode)
+    {
+        return true;
+    }
+
+    public bool CanItemIn()
+    {
+        return true;
+    }
+
+    public void ItemIn(ItemObject item)
+    {
+        
+    }
+
+    public void LogicInit() { }   
+    public void ExcuteLogic_OnUpdate(float deltaTime) { }
 }
 public class BuildingNode : Node
 {
-    public BuildingNode(Vector3Int gridPos)
+    public BuildingNode(Vector3Int gridPos, Building building)
     {
         this.nodeType = EnumTypes.NodeType.BuildingNode;
         this.gridPos = gridPos;
         GridMap.NodeDic_NormalDepth.Add(gridPos, this);
+
+        transporter = building;
     }
 }

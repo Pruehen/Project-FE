@@ -9,22 +9,24 @@ public class InserterNode : Node
     {
         nodeType = NodeType.InserterNode;
         this.gridPos = firstPos;
-        //GridMap.NodeDic_InteractableDepth.Add(firstPos, this);
-        //GridMap.NodeDic_InteractableDepth.Add(lastPos, this);
-    }
-    public void Init(Vector3Int firstNode, Vector3Int lastNode)
-    {
+        GridMap.NodeDic_InteractableDepth.Add(firstPos, this);
+        GridMap.NodeDic_InteractableDepth.Add(lastPos, this);
+
+        if (GridMap.NodeDic_NormalDepth.ContainsKey(firstPos))
+        {
+            this.PreviousNode = GridMap.NodeDic_NormalDepth[firstPos];
+            Debug.Log("이전 노드 연결");
+        }
+        if (GridMap.NodeDic_NormalDepth.ContainsKey(lastPos))
+        {
+            this.NextNode = GridMap.NodeDic_NormalDepth[lastPos];
+            Debug.Log("다음 노드 연결");
+        }
+
         inserterPart = ObjectPoolManager.Instance.DequeueObject(InserterManager.Instance.Prefab_inserterPart).GetComponent<Inserter>();
-        inserterPart.Init(firstNode, lastNode);
+        inserterPart.Init(firstPos, lastPos, this);
 
-        if (GridMap.NodeDic_NormalDepth.ContainsKey(firstNode))
-        {
-
-        }
-        if (GridMap.NodeDic_NormalDepth.ContainsKey(lastNode))
-        {
-
-        }
+        transporter = inserterPart;
     }
 }
 
@@ -35,14 +37,14 @@ public class InserterCrafter
 
     // 경로를 저장할 리스트
     List<Vector3Int> path = new List<Vector3Int>();
+    InserterNode inserterNodeTemp;
 
     public void BuildInserter(Vector3Int lastNode)
     {
         CheckBuildInserter(lastNode);
         BuildLineRenderer.Instance.HideAllGridLinesAndNodes();
 
-        InserterNode inserterNode = new InserterNode(_firstNode, _lastNode);
-        inserterNode.Init(_firstNode, _lastNode);
+        inserterNodeTemp = new InserterNode(_firstNode, _lastNode);
     }
 
     public void StartBuildInserter(Vector3Int firstNode)

@@ -72,6 +72,8 @@ public class BeltNode : Node
 
         beltPart.transform.rotation = dir;
         beltPart.SetBeltPart(beltType, this);
+
+        transporter = beltPart;
     }
 }
 
@@ -215,7 +217,7 @@ public class BeltManager : SceneSingleton<BeltManager>, IBuildTool
         {
             item.beltPart.LogicInit();
         }
-        Debug.Log(RootNodeDic.Count);
+        
         foreach (var item in RootNodeDic)
         {
             item.Value.beltPart.ExcuteLogic_OnUpdate(Time.deltaTime);

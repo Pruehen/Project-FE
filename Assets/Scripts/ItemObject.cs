@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemObject : MonoBehaviour
@@ -16,5 +15,9 @@ public class ItemObject : MonoBehaviour
     {
         this.startPos = this.targetPos;
         this.targetPos = targetPos;
+    }
+    public void ItemMove(float lerpValue)
+    {
+        this.transform.position = Vector3.Lerp(startPos, targetPos, lerpValue);
     }
 }
