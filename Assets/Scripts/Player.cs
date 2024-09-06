@@ -116,7 +116,7 @@ public class Player : SceneSingleton<Player>
 
             if (hit.collider.TryGetComponent(out IInteractable onMouseObject))
             {
-                LookTargetPosVector = onMouseObject.GetPos();
+                LookTargetPosVector = onMouseObject.GetPos(hit.point);
                 mouseOverObjectName = onMouseObject.GetName();
                 OnMouseObjectTemp = onMouseObject;
             }

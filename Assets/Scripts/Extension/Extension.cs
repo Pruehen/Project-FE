@@ -5,10 +5,34 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using System.ComponentModel;
-using Unity.VisualScripting;
 
 public static class Extension
 {
+    public static Transform FindClosest(this List<Transform> transforms, Vector3 position)
+    {
+        if (transforms == null || transforms.Count == 0)
+        {
+            Debug.LogWarning("The transforms list is empty or null.");
+            return null;
+        }
+
+        Transform closestTransform = null;
+        float closestDistanceSqr = Mathf.Infinity;
+
+        foreach (Transform t in transforms)
+        {
+            float distanceSqr = (t.position - position).sqrMagnitude;
+
+            if (distanceSqr < closestDistanceSqr)
+            {
+                closestDistanceSqr = distanceSqr;
+                closestTransform = t;
+            }
+        }
+
+        return closestTransform;
+    }
+
     public static void InsertionCellSort<T>(this List<T> list) where T : CellData, IComparable<T>
     {
         for (int i = 1; i < list.Count; i++)

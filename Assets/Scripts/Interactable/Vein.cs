@@ -22,7 +22,7 @@ public class Vein : MonoBehaviour, IInteractable
         string name = JsonDataManager.GetItem(itemKey).Name;
         return name;
     }
-    public Vector3 GetPos()
+    public Vector3 GetPos(Vector3 hitPos)
     {
         return this.transform.position;
     }
@@ -34,9 +34,9 @@ public class Vein : MonoBehaviour, IInteractable
     {
 
     }
-    public bool TryInteract(Vector3 originPos, float checkRange)
+    public bool TryInteract(Vector3 hitPos, Vector3 originPos, float checkRange)
     {
-        if(Vector3.Distance(originPos, GetPos()) > checkRange)
+        if(Vector3.Distance(originPos, this.transform.position) > checkRange)
         {
             return false;
         }

@@ -5,6 +5,7 @@ public class Building : MonoBehaviour, IInteractable
 {
     [SerializeField] string ItemKey;
     [SerializeField] string BuildingKey;
+    [SerializeField] List<Transform> validGridPos;
 
     BuildingData _buildingData;
     IModule _MainModule;
@@ -52,9 +53,16 @@ public class Building : MonoBehaviour, IInteractable
             return "키를 찾을 수 없음";
         }
     }
-    public Vector3 GetPos()
+    public Vector3 GetPos(Vector3 hitPos)
     {
-        return this.transform.position;
+        if (validGridPos.Count > 0)
+        {
+            return validGridPos.FindClosest(hitPos).position;
+        }
+        else
+        {
+            return this.transform.position;
+        }
     }
     public float InteractSpeedGain()
     {
@@ -75,9 +83,9 @@ public class Building : MonoBehaviour, IInteractable
         Outline.IsOutlineEnabled = false;
     }
 
-    public bool TryInteract(Vector3 originPos, float checkRange)
+    public bool TryInteract(Vector3 hitPos, Vector3 originPos, float checkRange)
     {
-        if(Vector3.Distance(originPos, GetPos()) > checkRange)
+        if(Vector3.Distance(originPos, GetPos(hitPos)) > checkRange)
         {
             return false;
         }

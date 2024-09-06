@@ -4,9 +4,9 @@ using UnityEngine;
 public interface IInteractable
 {
     public string GetName();
-    public Vector3 GetPos();
+    public Vector3 GetPos(Vector3 hitPos);
     public float InteractSpeedGain();
-    public bool TryInteract(Vector3 originPos, float checkRange);
+    public bool TryInteract(Vector3 hitPos, Vector3 originPos, float checkRange);
     public void Select();
     public void MouseEnter();
     public void MouseExit();

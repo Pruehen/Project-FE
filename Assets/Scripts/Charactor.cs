@@ -84,7 +84,7 @@ public class Charactor : MonoBehaviour
     {
         if (onInteractObject != null)
         {
-            DrawBeam(onInteractObject.GetPos());
+            DrawBeam(onInteractObject.GetPos(_lookPos));
         }
         else
         {
@@ -119,7 +119,7 @@ public class Charactor : MonoBehaviour
 
     public void TryInteract()
     {        
-        if(onMouseObjectTemp != null && onMouseObjectTemp.TryInteract(this.transform.position, interactionRange))
+        if(onMouseObjectTemp != null && onMouseObjectTemp.TryInteract(_lookPos, this.transform.position, interactionRange))
         {
             onInteractObject = onMouseObjectTemp;
             _interactTime += Time.deltaTime;            

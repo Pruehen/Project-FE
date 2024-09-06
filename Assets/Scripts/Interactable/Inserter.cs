@@ -56,7 +56,7 @@ public class Inserter : MonoBehaviour, IInteractable
             return "키를 찾을 수 없음";
         }
     }
-    public Vector3 GetPos()
+    public Vector3 GetPos(Vector3 hitPos)
     {
         return this.transform.position;
     }
@@ -79,9 +79,9 @@ public class Inserter : MonoBehaviour, IInteractable
         Outline.IsOutlineEnabled = false;
     }
 
-    public bool TryInteract(Vector3 originPos, float checkRange)
+    public bool TryInteract(Vector3 hitPos, Vector3 originPos, float checkRange)
     {
-        if (Vector3.Distance(originPos, GetPos()) > checkRange)
+        if (Vector3.Distance(originPos, GetPos(hitPos)) > checkRange)
         {
             return false;
         }
