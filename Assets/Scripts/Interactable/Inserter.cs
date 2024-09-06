@@ -115,14 +115,15 @@ public class Inserter : MonoBehaviour, IInteractable, ITransporter
         itemStayPoint_First = startPos + new Vector3(0, 0.6f, 0);
         itemStayPoint_Last = endPos + new Vector3(0, 0.6f, 0);
 
+        moveLogicSpeed *= 2f / Vector3.Distance(itemStayPoint_First, itemStayPoint_Last);
+        moveLogicTime = 1 / moveLogicSpeed;
+
         ItemIn(Instantiate(TestPrefab_ItemObject).GetComponent<ItemObject>());
     }
 
     private void Awake()
     {
         _MainModule = GetComponent<IModule>();
-        moveLogicSpeed *= 2f;
-        moveLogicTime = 1 / moveLogicSpeed;
     }
     void Update()
     {
