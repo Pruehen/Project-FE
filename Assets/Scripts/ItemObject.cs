@@ -3,18 +3,14 @@ using UnityEngine;
 
 public class ItemObject : MonoBehaviour
 {
-    public Vector3 startPos;
-    public Vector3 targetPos;
+    Vector3 startPos = Vector3.zero;
+    Vector3 targetPos = Vector3.zero;
 
     public void SetPos(Vector3 startPos, Vector3 targetPos)
     {
         this.startPos = startPos;
         this.targetPos = targetPos;
-    }
-    public void SetPos(Vector3 targetPos)
-    {
-        this.startPos = this.targetPos;
-        this.targetPos = targetPos;
+        this.transform.position = startPos;
     }
     public void ItemMove(float lerpValue)
     {

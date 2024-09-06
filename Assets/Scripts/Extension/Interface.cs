@@ -41,7 +41,7 @@ public interface ITransporter
 {
     public bool TryItemOut(ITransporter nextNode);
     public bool CanItemIn();
-    public void ItemIn(ItemObject item);
+    public void ItemIn(int itemId, Vector3 inPos);
     public void LogicInit();
     public void ExcuteLogic_OnUpdate(float deltaTime);
 }

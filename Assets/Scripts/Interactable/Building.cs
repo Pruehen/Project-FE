@@ -116,7 +116,7 @@ public class Building : MonoBehaviour, IInteractable, ITransporter
         return true;
     }
 
-    public void ItemIn(ItemObject item)
+    public void ItemIn(int itemId, Vector3 inPos)
     {
         
     }

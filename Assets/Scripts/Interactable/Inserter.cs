@@ -12,11 +12,11 @@ public class Inserter : MonoBehaviour, IInteractable, ITransporter
     [SerializeField] GameObject end;
     [SerializeField] GameObject grab;
     [SerializeField] LineRenderer lineRenderer;
+    
+    [SerializeField] ItemObject grabObject;        
+    int _grab_id;
 
-    public GameObject TestPrefab_ItemObject;
-    ItemObject _grabObject;
-
-    float moveLogicSpeed = 1f;
+    float moveLogicSpeed = 6f;
     float moveLogicTime;
 
     Vector3 itemStayPoint_First;
@@ -106,6 +106,7 @@ public class Inserter : MonoBehaviour, IInteractable, ITransporter
     {
         node = inserterNode;
 
+        this.transform.position = startPos;
         start.transform.position = startPos + new Vector3(0, 0.8f, 0);
         end.transform.position = endPos + new Vector3(0, 0.8f, 0);
 
@@ -118,7 +119,7 @@ public class Inserter : MonoBehaviour, IInteractable, ITransporter
         moveLogicSpeed *= 2f / Vector3.Distance(itemStayPoint_First, itemStayPoint_Last);
         moveLogicTime = 1 / moveLogicSpeed;
 
-        ItemIn(Instantiate(TestPrefab_ItemObject).GetComponent<ItemObject>());
+        ItemIn(1, Vector3.zero);
     }
 
     private void Awake()
@@ -131,16 +132,13 @@ public class Inserter : MonoBehaviour, IInteractable, ITransporter
         ExcuteLogic_OnUpdate(Time.deltaTime);
     }
 
-    public ItemObject GrabObject
+    public int GrabObject
     {
-        get { return _grabObject; }
+        get { return _grab_id; }
         set
         {
-            _grabObject = value;
-            if (_grabObject != null)
-            {
-                _grabObject.SetPos(itemStayPoint_First, itemStayPoint_Last);
-            }
+            _grab_id = value;
+            grabObject.gameObject.SetActive(_grab_id != 0);
         }
     }
 
@@ -152,19 +150,22 @@ public class Inserter : MonoBehaviour, IInteractable, ITransporter
     {
         if (nextNode == null) return false;
         if (nextNode.CanItemIn() == false) return false;
-        if (GrabObject == null) return false;
+        if (GrabObject == 0) return false;
 
-        nextNode.ItemIn(GrabObject);
-        GrabObject = null;
+        nextNode.ItemIn(GrabObject, itemStayPoint_Last);
+        GrabObject = 0;
+        State_ItemTransport = false;
         return true;
     }
     public bool CanItemIn()
     {
-        return GrabObject == null;
+        return GrabObject == 0;
     }
-    public void ItemIn(ItemObject inItem)
+    public void ItemIn(int itemId, Vector3 inPos)
     {
-        GrabObject = inItem;
+        GrabObject = itemId;
+        grabObject.SetPos(itemStayPoint_First, itemStayPoint_Last);
+        State_ItemTransport = true;
     }
     public void LogicInit()
     {
@@ -184,7 +185,6 @@ public class Inserter : MonoBehaviour, IInteractable, ITransporter
             {
                 if (nextNode != null && TryItemOut(nextNode.transporter))
                 {
-                    State_ItemTransport = false;
                     timeValue -= moveLogicTime;                    
                 }
                 else
@@ -194,10 +194,9 @@ public class Inserter : MonoBehaviour, IInteractable, ITransporter
             }
             else
             {
-                ItemIn(Instantiate(TestPrefab_ItemObject).GetComponent<ItemObject>());
-                if (GrabObject != null)
+                ItemIn(1, Vector3.zero);
+                if (GrabObject != 0)
                 {
-                    State_ItemTransport = true;
                     timeValue -= moveLogicTime;
                 }
                 else
@@ -209,12 +208,12 @@ public class Inserter : MonoBehaviour, IInteractable, ITransporter
 
         GrabMove(timeValue * moveLogicSpeed);
 
-        if (GrabObject != null && State_ItemTransport)
+        if (GrabObject != 0 && State_ItemTransport)
         {
-            GrabObject.ItemMove(timeValue * moveLogicSpeed);            
+            grabObject.ItemMove(timeValue * moveLogicSpeed);            
             timeValue += deltaTime;
         }
-        else if(GrabObject == null && State_ItemTransport == false)
+        else if(GrabObject == 0 && State_ItemTransport == false)
         {
             timeValue += deltaTime;
         }

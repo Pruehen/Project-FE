@@ -83,20 +83,19 @@ public class BeltCreator
     Vector3Int _lastNode;
 
     // 경로를 저장할 리스트
-    List<Vector3Int> path = new List<Vector3Int>();    
+    List<Vector3Int> path = new List<Vector3Int>();
+    List<BeltNode> buildBeltNodeList = new List<BeltNode>();
 
     public void BuildBelt(Vector3Int lastNode)
     {
         CheckBuildBelt(lastNode);
         BuildLineRenderer.Instance.HideAllGridLinesAndNodes();
 
-        List<BeltNode> beltNodes = new List<BeltNode>();
-
         for (int i = 0; i < path.Count; i++)
         {
             if (GridMap.NodeDic_NormalDepth.ContainsKey(path[i]))
             {
-                beltNodes.Add(GridMap.NodeDic_NormalDepth[path[i]] as BeltNode);
+                buildBeltNodeList.Add(GridMap.NodeDic_NormalDepth[path[i]] as BeltNode);
 
                 if (i == 0)//시작점
                 {
@@ -104,31 +103,33 @@ public class BeltCreator
                 }
                 else if(i == path.Count - 1)//마지막점
                 {
-                    beltNodes[i - 1].NextNode = GridMap.NodeDic_NormalDepth[path[i]];
-                    BeltManager.Instance.RootNodeDic.Add(path[i], beltNodes[i - 1]);
+                    buildBeltNodeList[i - 1].NextNode = GridMap.NodeDic_NormalDepth[path[i]];
+                    BeltManager.Instance.RootNodeDic.Add(path[i], buildBeltNodeList[i - 1]);
                 }
             }
             else
             {
-                beltNodes.Add(new BeltNode(path[i]));
+                buildBeltNodeList.Add(new BeltNode(path[i]));
 
                 if (i > 0)
                 {
-                    beltNodes[i - 1].NextNode = beltNodes[i];
-                    beltNodes[i].PreviousNode = beltNodes[i - 1];
+                    buildBeltNodeList[i - 1].NextNode = buildBeltNodeList[i];
+                    buildBeltNodeList[i].PreviousNode = buildBeltNodeList[i - 1];
 
                     if(i == path.Count - 1)
                     {
-                        BeltManager.Instance.RootNodeDic.Add(path[i], beltNodes[i]);
+                        BeltManager.Instance.RootNodeDic.Add(path[i], buildBeltNodeList[i]);
                     }
                 }                
             }
         }
 
-        foreach (var node in beltNodes)
+        foreach (var node in buildBeltNodeList)
         {
             node.Init();
         }
+
+        buildBeltNodeList.Clear();
     }
 
     public void StartBuildBelt(Vector3Int firstNode)
