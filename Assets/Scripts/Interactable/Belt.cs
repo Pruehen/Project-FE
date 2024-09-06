@@ -117,30 +117,11 @@ public class Belt : MonoBehaviour, IInteractable, ITransporter
             Prefab_BeltPart[i].SetActive((int)beltType == i);
         }
 
-        switch (beltType)
-        {
-            case BeltType.Start:
-            case BeltType.End:
-            case BeltType.Mid:
-            case BeltType.Merge:
-                itemStayPointMid = ItemStayPointList[1];
-                itemStayPointLast = ItemStayPointList[2];
-                break;
-            case BeltType.Left:
-                itemStayPointMid = ItemStayPointList[1];
-                itemStayPointLast = ItemStayPointList[2];
-                break;
-            case BeltType.Right:
-                itemStayPointMid = ItemStayPointList[1];
-                itemStayPointLast = ItemStayPointList[2];
-                break;
-            default:
-                break;
-        }
-
         nextBelt = node.NextNode as BeltNode;
         previousNode = node.PreviousNode as BeltNode;
 
+        itemStayPointMid = ItemStayPointList[0];
+        itemStayPointLast = ItemStayPointList[1];
         midToLastObject.SetPos(itemStayPointMid.position, itemStayPointLast.position);
     }
 

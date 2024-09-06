@@ -37,7 +37,7 @@ namespace EnumTypes
         Mid,
         Left,
         Right,
-        Merge
+        Splitter
     }
     public enum NodeType
     {

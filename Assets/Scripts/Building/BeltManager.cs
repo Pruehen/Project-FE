@@ -5,37 +5,46 @@ using EnumTypes;
 public class BeltNode : Node
 {
     public Belt beltPart;
+    public bool isSplitter = false;
 
     public BeltNode(Vector3Int gridPos)
     {
         nodeType = NodeType.BeltNode;
         this.gridPos = gridPos;
+        isSplitter = false;
+
         GridMap.NodeDic_NormalDepth.Add(gridPos, this);
         BeltManager.Instance.AllNodeList.Add(this);
     }
     public void Init()
+    {        
+        if(isSplitter == false)
+        {
+            Init_Belt();
+        }
+        else
+        {
+            Init_Splitter();
+        }
+    }
+
+    void Init_Belt()
     {
-        BeltType beltType;
         Quaternion dir = Quaternion.identity;
 
         if (PreviousNode == null && NextNode == null)
         {
-            beltType = BeltType.Mid;
+            SetBeltType(BeltType.Mid, dir);
         }
         else if (PreviousNode == null)
         {
-            beltType = BeltType.Start;
             dir = Quaternion.LookRotation(NextNode.gridPos - gridPos);
+            SetBeltType(BeltType.Start, dir);
         }
         else if (NextNode == null)
         {
-            beltType = BeltType.End;
             dir = Quaternion.LookRotation(gridPos - PreviousNode.gridPos);
-        }
-        else if(NextNode.PreviousNode != this)
-        {
-            beltType = BeltType.Merge;
-            dir = Quaternion.LookRotation(NextNode.gridPos - gridPos);
+            SetBeltType(BeltType.End, dir);
         }
         else
         {
@@ -46,32 +55,41 @@ public class BeltNode : Node
             Vector3 currentToNext = NextNode.gridPos - gridPos;
 
             // 외적을 계산하여 Y축 값을 확인
-            float angle = Vector3.SignedAngle(previousToCurrent, currentToNext, Vector3.up);            
+            float angle = Vector3.SignedAngle(previousToCurrent, currentToNext, Vector3.up);
+            dir = Quaternion.LookRotation(NextNode.gridPos - gridPos);
+
             if (angle > 0)
             {
                 // 오른쪽으로 꺾임
-                beltType = BeltType.Right;
+                SetBeltType(BeltType.Right, dir);
             }
             else if (angle < 0)
             {
-                // 왼쪽으로 꺾임
-                beltType = BeltType.Left;
+                // 왼쪽으로 꺾임                
+                SetBeltType(BeltType.Left, dir);
             }
             else
             {
-                // 직선 (변화 없음)
-                beltType = BeltType.Mid;
+                // 직선 (변화 없음)                
+                SetBeltType(BeltType.Mid, dir);
             }
-            dir = Quaternion.LookRotation(NextNode.gridPos - gridPos);
         }
+    }
+    void Init_Splitter()
+    {
+        SetBeltType(BeltType.Splitter, Quaternion.identity);
+    }
 
+
+    void SetBeltType(BeltType type, Quaternion dir)
+    {
         if (beltPart == null)
         {
             beltPart = ObjectPoolManager.Instance.DequeueObject(BeltManager.Instance.beltPart, gridPos).GetComponent<Belt>();
         }
 
         beltPart.transform.rotation = dir;
-        beltPart.SetBeltPart(beltType, this);
+        beltPart.SetBeltPart(type, this);
 
         transporter = beltPart;
     }
@@ -93,17 +111,31 @@ public class BeltCreator
 
         for (int i = 0; i < path.Count; i++)
         {
-            if (GridMap.NodeDic_NormalDepth.ContainsKey(path[i]))
+            if (GridMap.NodeDic_NormalDepth.ContainsKey(path[i]))//경로상에 이미 벨트가 있음
             {
                 buildBeltNodeList.Add(GridMap.NodeDic_NormalDepth[path[i]] as BeltNode);
 
                 if (i == 0)//시작점
                 {
+                    if (buildBeltNodeList[i].NextNode != null)//중간 노드에서 시작하는 경우 : 병합기 생성
+                    {
+                        buildBeltNodeList[i].isSplitter = true;
+                    }
                     BeltManager.Instance.RootNodeDic.Remove(path[i]);
                 }
-                else if(i == path.Count - 1)//마지막점
+                else if(i == path.Count - 1)//연결점 (마지막 노드)
                 {
-                    buildBeltNodeList[i - 1].NextNode = GridMap.NodeDic_NormalDepth[path[i]];
+                    buildBeltNodeList[i - 1].NextNode = buildBeltNodeList[i];//이전 노드와 연결 작업
+
+                    if (buildBeltNodeList[i].PreviousNode == null)//맨 끝단 노드에 연결하는 경우 : 경로를 자연스럽게 이어줌
+                    {
+                        buildBeltNodeList[i].PreviousNode = buildBeltNodeList[i - 1];
+                    }
+                    else//중간 노드에 연결하는 경우 : 병합기 생성
+                    {
+                        buildBeltNodeList[i].isSplitter = true;
+                    }   
+                    
                     BeltManager.Instance.RootNodeDic.Add(path[i], buildBeltNodeList[i - 1]);
                 }
             }
@@ -111,12 +143,12 @@ public class BeltCreator
             {
                 buildBeltNodeList.Add(new BeltNode(path[i]));
 
-                if (i > 0)
+                if (i > 0)//시작점을 제외한 모든 노드
                 {
                     buildBeltNodeList[i - 1].NextNode = buildBeltNodeList[i];
                     buildBeltNodeList[i].PreviousNode = buildBeltNodeList[i - 1];
 
-                    if(i == path.Count - 1)
+                    if(i == path.Count - 1)//마지막 노드 : 루트 노드로 등록
                     {
                         BeltManager.Instance.RootNodeDic.Add(path[i], buildBeltNodeList[i]);
                     }

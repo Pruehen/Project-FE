@@ -9,8 +9,29 @@ public static class GridMap
     {
         int x = Mathf.RoundToInt(vector.x); // x 값을 반올림하여 int로 변환
         int z = Mathf.RoundToInt(vector.z); // z 값을 반올림하여 int로 변환
-        int y = 0;// Mathf.RoundToInt(vector.y);
+        int y = 0;// Mathf.RoundToInt(vector.y);        
 
         return new Vector3Int(x, y, z); // 새로운 Vector3 반환
+    }
+
+    public static Vector3Int Up(this Vector3Int vector3Int)
+    {
+        vector3Int.z++;
+        return vector3Int;
+    }
+    public static Vector3Int Down(this Vector3Int vector3Int)
+    {
+        vector3Int.z--;
+        return vector3Int;
+    }
+    public static Vector3Int Left(this Vector3Int vector3Int)
+    {
+        vector3Int.x--;
+        return vector3Int;
+    }
+    public static Vector3Int Right(this Vector3Int vector3Int)
+    {
+        vector3Int.x++;
+        return vector3Int;
     }
 }

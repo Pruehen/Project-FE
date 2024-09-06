@@ -687,7 +687,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7270927363674871674, guid: d02e8d7da5b683b49bc991014494ee21, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -754,11 +754,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6642412606424589900, guid: 23a539f68cff28e4d867c4e4e9ef7d08, type: 3}
       propertyPath: m_Name
-      value: Belt_Merge
-      objectReference: {fileID: 0}
-    - target: {fileID: 6642412606424589900, guid: 23a539f68cff28e4d867c4e4e9ef7d08, type: 3}
-      propertyPath: m_IsActive
-      value: 0
+      value: Splitter
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
