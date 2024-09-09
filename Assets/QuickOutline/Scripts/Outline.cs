@@ -150,17 +150,17 @@ public class Outline : MonoBehaviour
         }
     }
 
-    void OnDisable()
-    {
-        RemoveOutlineMaterials();
-    }
+    //void OnDisable()
+    //{
+    //    RemoveOutlineMaterials();
+    //}
 
-    void OnDestroy()
-    {
-        // Destroy material instances
-        Destroy(outlineMaskMaterial);
-        Destroy(outlineFillMaterial);
-    }
+    //void OnDestroy()
+    //{
+    //    // Destroy material instances
+    //    Destroy(outlineMaskMaterial);
+    //    Destroy(outlineFillMaterial);
+    //}
 
     void Bake()
     {

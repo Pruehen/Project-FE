@@ -131,6 +131,11 @@ public class Belt : MonoBehaviour, IInteractable, ITransporter
         moveLogicSpeed *= 2;
         moveLogicTime = 1 / moveLogicSpeed;
     }    
+    void Update()
+    {
+        LogicInit();
+        ExcuteLogic_OnUpdate(Time.deltaTime);
+    }
 
     public int FirstToMidId
     {

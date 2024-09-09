@@ -6,8 +6,11 @@ public class InserterNode : Node
 {
     Inserter inserterPart;
 
-    public override Node PreviousNode { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-    public override Node NextNode { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    Node _previousNode;
+    Node _nextNode;
+
+    public override Node PreviousNode { get { return _previousNode; } set { _previousNode = value; } }
+    public override Node NextNode { get { return _nextNode; } set { _nextNode = value; } }
     public InserterNode(Vector3Int firstPos, Vector3Int lastPos)
     {
         nodeType = NodeType.InserterNode;
