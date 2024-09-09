@@ -28,8 +28,9 @@ public abstract class Node
     public NodeType nodeType;
     public ITransporter transporter;
     public Vector3Int gridPos;
-    public Node PreviousNode = null;
-    public Node NextNode = null;
+    public abstract Node PreviousNode { get; set; }
+    public abstract Node NextNode { get; set; }
+    public abstract void Init();
 }
 public interface IWindow
 {

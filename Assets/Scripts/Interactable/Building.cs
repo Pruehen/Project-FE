@@ -126,6 +126,9 @@ public class Building : MonoBehaviour, IInteractable, ITransporter
 }
 public class BuildingNode : Node
 {
+    public override Node PreviousNode { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    public override Node NextNode { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+
     public BuildingNode(Vector3Int gridPos, Building building)
     {
         this.nodeType = EnumTypes.NodeType.BuildingNode;
@@ -133,5 +136,9 @@ public class BuildingNode : Node
         GridMap.NodeDic_NormalDepth.Add(gridPos, this);
 
         transporter = building;
+    }
+    public override void Init()
+    {
+
     }
 }

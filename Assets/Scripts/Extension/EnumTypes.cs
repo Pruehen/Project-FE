@@ -42,6 +42,7 @@ namespace EnumTypes
     public enum NodeType
     {
         BeltNode,
+        SorterNode,
         BuildingNode,
         InserterNode
     }

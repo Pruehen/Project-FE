@@ -5,6 +5,9 @@ using UnityEngine;
 public class InserterNode : Node
 {
     Inserter inserterPart;
+
+    public override Node PreviousNode { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    public override Node NextNode { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
     public InserterNode(Vector3Int firstPos, Vector3Int lastPos)
     {
         nodeType = NodeType.InserterNode;
@@ -27,6 +30,11 @@ public class InserterNode : Node
         inserterPart.Init(firstPos, lastPos, this);
 
         transporter = inserterPart;
+    }
+
+    public override void Init()
+    {
+
     }
 }
 

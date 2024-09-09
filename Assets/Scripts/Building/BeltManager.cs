@@ -4,31 +4,21 @@ using EnumTypes;
 
 public class BeltNode : Node
 {
+    Node _previousNode;
+    Node _nextNode;
+
     public Belt beltPart;
-    public bool isSplitter = false;
 
     public BeltNode(Vector3Int gridPos)
     {
-        nodeType = NodeType.BeltNode;
         this.gridPos = gridPos;
-        isSplitter = false;
-
-        GridMap.NodeDic_NormalDepth.Add(gridPos, this);
-        BeltManager.Instance.AllNodeList.Add(this);
-    }
-    public void Init()
-    {        
-        if(isSplitter == false)
-        {
-            Init_Belt();
-        }
-        else
-        {
-            Init_Splitter();
-        }
+        nodeType = NodeType.BeltNode;        
     }
 
-    void Init_Belt()
+    public override Node PreviousNode { get { return _previousNode; } set { _previousNode = value; }  }
+    public override Node NextNode { get { return _nextNode; } set { _nextNode = value; } }
+
+    public override void Init()
     {
         Quaternion dir = Quaternion.identity;
 
@@ -75,10 +65,6 @@ public class BeltNode : Node
             }
         }
     }
-    void Init_Splitter()
-    {
-        SetBeltType(BeltType.Splitter, Quaternion.identity);
-    }
 
 
     void SetBeltType(BeltType type, Quaternion dir)
@@ -95,6 +81,70 @@ public class BeltNode : Node
     }
 }
 
+public class SorterNode : Node
+{
+    public Belt beltPart;
+
+    List<Node> inputNodeList = new List<Node>();
+    List<Node> outputNodeList = new List<Node>();
+    int _usePort = 0;
+    public override Node PreviousNode 
+    { 
+        get 
+        { 
+            return (inputNodeList.Count > 0) ? inputNodeList[0] : null; 
+        } 
+        set 
+        {
+            if (_usePort <= 4)
+            {
+                inputNodeList.Add(value);
+                _usePort++;
+            }
+            else
+            {
+                Debug.Log("소터에 더 이상 포트를 추가할 수 없습니다.");
+            }
+        }     
+    }
+    public override Node NextNode 
+    { 
+        get 
+        { 
+            return (outputNodeList.Count > 0) ? outputNodeList[0] : null; 
+        } 
+        set 
+        {
+            if (_usePort <= 4)
+            {
+                outputNodeList.Add(value);
+                _usePort++;
+            }
+            else
+            {
+                Debug.Log("소터에 더 이상 포트를 추가할 수 없습니다.");
+            }
+        } 
+    }
+
+    public SorterNode(Vector3Int gridPos)
+    {
+        this.gridPos = gridPos;
+        nodeType = NodeType.SorterNode;
+    }
+    public override void Init()
+    {
+        if (beltPart == null)
+        {
+            beltPart = ObjectPoolManager.Instance.DequeueObject(BeltManager.Instance.beltPart, gridPos).GetComponent<Belt>();
+        }
+        
+        beltPart.SetBeltPart(BeltType.Splitter, new BeltNode(gridPos));
+
+        transporter = beltPart;
+    }
+}
+
 public class BeltCreator
 {
     Vector3Int _firstNode;
@@ -102,7 +152,7 @@ public class BeltCreator
 
     // 경로를 저장할 리스트
     List<Vector3Int> path = new List<Vector3Int>();
-    List<BeltNode> buildBeltNodeList = new List<BeltNode>();
+    List<Node> buildBeltNodeList = new List<Node>();
 
     public void BuildBelt(Vector3Int lastNode)
     {
@@ -111,52 +161,49 @@ public class BeltCreator
 
         for (int i = 0; i < path.Count; i++)
         {
-            if (GridMap.NodeDic_NormalDepth.ContainsKey(path[i]))//경로상에 이미 벨트가 있음
+            if (GridMap.NodeDic_NormalDepth.ContainsKey(path[i]))//경로상에 이미 노드가 있음
             {
-                buildBeltNodeList.Add(GridMap.NodeDic_NormalDepth[path[i]] as BeltNode);
+                Node selectNode = GridMap.NodeDic_NormalDepth[path[i]];
 
-                if (i == 0)//시작점
+                if (i == 0 && selectNode.NextNode == null)//전방 말단 노드와 연결하는 경우
                 {
-                    if (buildBeltNodeList[i].NextNode != null)//중간 노드에서 시작하는 경우 : 병합기 생성
-                    {
-                        buildBeltNodeList[i].isSplitter = true;
-                    }
-                    BeltManager.Instance.RootNodeDic.Remove(path[i]);
+                    //buildBeltNodeList.Add(selectNode);
                 }
-                else if(i == path.Count - 1)//연결점 (마지막 노드)
+                else if (i == path.Count - 1 && selectNode.PreviousNode == null)//후방 말단 노드와 연결하는 경우
                 {
-                    buildBeltNodeList[i - 1].NextNode = buildBeltNodeList[i];//이전 노드와 연결 작업
-
-                    if (buildBeltNodeList[i].PreviousNode == null)//맨 끝단 노드에 연결하는 경우 : 경로를 자연스럽게 이어줌
-                    {
-                        buildBeltNodeList[i].PreviousNode = buildBeltNodeList[i - 1];
-                    }
-                    else//중간 노드에 연결하는 경우 : 병합기 생성
-                    {
-                        buildBeltNodeList[i].isSplitter = true;
-                    }   
-                    
-                    BeltManager.Instance.RootNodeDic.Add(path[i], buildBeltNodeList[i - 1]);
+                    //buildBeltNodeList.Add(selectNode);
                 }
+                else//중단 노드에 연결하는 경우 : 병합기 생성
+                {
+                    if(selectNode.nodeType == NodeType.BeltNode)
+                    {
+                        //병합기 생성 로직
+                        selectNode = GridMap.CreateSorter(path[i]);
+                    }
+                    else if(selectNode.nodeType == NodeType.SorterNode)
+                    {
+                        //기존 병합기에 연결 로직
+                    }
+                    else
+                    {
+                        Debug.LogError("잘못된 노드 연결입니다.");
+                    }
+                }
+                buildBeltNodeList.Add(selectNode);
             }
             else
             {
-                buildBeltNodeList.Add(new BeltNode(path[i]));
+                buildBeltNodeList.Add(GridMap.CreateBelt(path[i]));
+            }            
 
-                if (i > 0)//시작점을 제외한 모든 노드
-                {
-                    buildBeltNodeList[i - 1].NextNode = buildBeltNodeList[i];
-                    buildBeltNodeList[i].PreviousNode = buildBeltNodeList[i - 1];
-
-                    if(i == path.Count - 1)//마지막 노드 : 루트 노드로 등록
-                    {
-                        BeltManager.Instance.RootNodeDic.Add(path[i], buildBeltNodeList[i]);
-                    }
-                }                
+            if (i > 0)//시작점을 제외한 모든 노드
+            {
+                buildBeltNodeList[i - 1].NextNode = buildBeltNodeList[i];
+                buildBeltNodeList[i].PreviousNode = buildBeltNodeList[i - 1];
             }
-        }
+        }        
 
-        foreach (var node in buildBeltNodeList)
+        foreach (Node node in buildBeltNodeList)
         {
             node.Init();
         }
@@ -241,20 +288,18 @@ public class BeltManager : SceneSingleton<BeltManager>, IBuildTool
     Vector3Int posTemp;
 
     bool isBuildMode = false;
-    public Dictionary<Vector3Int, BeltNode> RootNodeDic = new Dictionary<Vector3Int, BeltNode>();
-    public List<BeltNode> AllNodeList = new List<BeltNode>();
 
     void Update()
     {
-        foreach (var item in AllNodeList)
-        {
-            item.beltPart.LogicInit();
-        }
+        //foreach (var item in AllNodeList)
+        //{
+        //    item.beltPart.LogicInit();
+        //}
         
-        foreach (var item in RootNodeDic)
-        {
-            item.Value.beltPart.ExcuteLogic_OnUpdate(Time.deltaTime);
-        }
+        //foreach (var item in RootNodeDic)
+        //{
+        //    item.Value.beltPart.ExcuteLogic_OnUpdate(Time.deltaTime);
+        //}
     }
 
     public void OnClick(Vector3Int pos)

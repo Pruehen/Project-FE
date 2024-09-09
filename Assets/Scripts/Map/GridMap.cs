@@ -5,6 +5,26 @@ public static class GridMap
 {
     public static Dictionary<Vector3Int, Node> NodeDic_NormalDepth = new Dictionary<Vector3Int, Node>();//벨트, 구조물 등의 계층
     public static Dictionary<Vector3Int, Node> NodeDic_InteractableDepth = new Dictionary<Vector3Int, Node>();//투입기 등의 계층
+
+    public static BeltNode CreateBelt(Vector3Int gridPos)
+    {
+        BeltNode node = new BeltNode(gridPos);
+
+        NodeDic_NormalDepth.Add(gridPos, node);
+        return node;
+    }
+    public static SorterNode CreateSorter(Vector3Int gridPos)
+    {
+        SorterNode sorterNode = new SorterNode(gridPos);
+        sorterNode.PreviousNode = NodeDic_NormalDepth[gridPos].PreviousNode;
+        sorterNode.NextNode = NodeDic_NormalDepth[gridPos].NextNode;
+
+        NodeDic_NormalDepth.Remove(gridPos);
+        NodeDic_NormalDepth.Add(gridPos, sorterNode);
+
+        return sorterNode;
+    }
+
     public static Vector3Int ToIntVector(this Vector3 vector)
     {
         int x = Mathf.RoundToInt(vector.x); // x 값을 반올림하여 int로 변환
