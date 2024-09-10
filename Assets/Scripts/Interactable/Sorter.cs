@@ -265,6 +265,4 @@ public class Sorter : MonoBehaviour, IInteractable, ITransporter
             }
         }
     }
-
-    public Action OnItemPosMid;
 }
