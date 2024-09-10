@@ -5,24 +5,17 @@ using System;
 
 public class Belt : MonoBehaviour, IInteractable, ITransporter
 {
-    BeltNode node;
-    BeltNode nextBelt;
-    BeltNode previousNode;
+    BeltNode beltNode;    
 
     [SerializeField] string ItemKey;
     [SerializeField] string BuildingKey;
-    [SerializeField] List<Transform> ItemStayPointList;
 
-    public Transform itemStayPointMid {  get; private set; }
-    public Transform itemStayPointLast { get; private set; }
+    [SerializeField] ItemObject moveItemObject;
+    [SerializeField] Transform itemStayPoint;    
 
-    [SerializeField] ItemObject firstToMidObject;
-    [SerializeField] ItemObject midToLastObject;
+    int _mi_id;    
 
-    int _fm_id;
-    int _ml_id;
-
-    float moveLogicSpeed = 6f;
+    float moveLogicSpeed = 2f;
     float moveLogicTime;
 
     public List<GameObject> Prefab_BeltPart;
@@ -110,25 +103,18 @@ public class Belt : MonoBehaviour, IInteractable, ITransporter
 
     public void SetBeltPart(BeltType beltType, BeltNode beltNode)
     {
-        node = beltNode;
-
         for (int i = 0; i < Prefab_BeltPart.Count; i++)
         {
             Prefab_BeltPart[i].SetActive((int)beltType == i);
         }
 
-        nextBelt = node.NextNode as BeltNode;
-        previousNode = node.PreviousNode as BeltNode;
-
-        itemStayPointMid = ItemStayPointList[0];
-        itemStayPointLast = ItemStayPointList[1];
-        midToLastObject.SetPos(itemStayPointMid.position, itemStayPointLast.position);
+        this.beltNode = beltNode;
     }
 
     private void Awake()
     {
         _MainModule = GetComponent<IModule>();
-        moveLogicSpeed *= 2;
+        //moveLogicSpeed *= 2;
         moveLogicTime = 1 / moveLogicSpeed;
     }    
     void Update()
@@ -137,22 +123,13 @@ public class Belt : MonoBehaviour, IInteractable, ITransporter
         ExcuteLogic_OnUpdate(Time.deltaTime);
     }
 
-    public int FirstToMidId
+    public int MoveItemKey
     {
-        get { return _fm_id; }
+        get { return _mi_id; }
         set
         {
-            _fm_id = value;
-            firstToMidObject.gameObject.SetActive(_fm_id != 0);
-        }
-    }
-    public int MidToLastId
-    {
-        get { return _ml_id; }
-        set
-        {
-            _ml_id = value;
-            midToLastObject.gameObject.SetActive(_ml_id != 0);
+            _mi_id = value;
+            moveItemObject.gameObject.SetActive(_mi_id != 0);
         }
     }
 
@@ -160,24 +137,23 @@ public class Belt : MonoBehaviour, IInteractable, ITransporter
     {
         if (nextNode == null) return false;
         if (nextNode.CanItemIn() == false) return false;
-        if (MidToLastId == 0) return false;
+        if (MoveItemKey == 0) return false;
 
-        nextNode.ItemIn(MidToLastId, itemStayPointLast.position);
-        MidToLastId = 0;
+        nextNode.ItemIn(MoveItemKey, itemStayPoint.position);
+        MoveItemKey = 0;
         return true;
     }
     public bool CanItemIn()
     {
-        return FirstToMidId == 0;
+        return MoveItemKey == 0;
     }
     public void ItemIn(int itemId, Vector3 inPos)
-    {
-        FirstToMidId = itemId;
-        firstToMidObject.SetPos(inPos, itemStayPointMid.position);
+                                                                {
+        MoveItemKey = itemId;
+        moveItemObject.SetPos(inPos, itemStayPoint.position);
     }
 
-    float timeValue_firstToMid = 0;
-    float timeValue_midToLast = 0;
+    float timeValue_ItemMove = 0;
     bool isExcuteLogic = false;
     public void LogicInit()
     {
@@ -189,46 +165,33 @@ public class Belt : MonoBehaviour, IInteractable, ITransporter
             return;
 
         isExcuteLogic = true;
-        
-        if (timeValue_midToLast > moveLogicTime)//마지막 아이템이 도착했는지
+
+        if (beltNode.NextNode != null)
         {
-            if (nextBelt != null && TryItemOut(nextBelt.beltPart))
-            {
-                timeValue_midToLast -= moveLogicTime;
-            }
-            else
-            {
-                timeValue_midToLast = moveLogicTime;
-            }
+            beltNode.NextNode.transporter.ExcuteLogic_OnUpdate(deltaTime);
         }
-        if (timeValue_firstToMid > moveLogicTime)//중간 아이템이 도착했는지 : 해당 아이템을 인서터가 잡을 수 있는지
+
+        if (timeValue_ItemMove > moveLogicTime)//아이템이 도착했는지
         {
-            if (FirstToMidId != 0 && MidToLastId == 0)
+            if (beltNode.NextNode != null && TryItemOut(beltNode.NextNode.transporter))
             {
-                MidToLastId = FirstToMidId;
-                FirstToMidId = 0;
-                timeValue_firstToMid -= moveLogicTime;
+                timeValue_ItemMove -= moveLogicTime;
             }
             else
             {
-                timeValue_firstToMid = moveLogicTime;
+                timeValue_ItemMove = moveLogicTime;
             }
         }
 
-        if (FirstToMidId != 0)
+        if (MoveItemKey != 0)
         {            
-            firstToMidObject.ItemMove(timeValue_firstToMid * moveLogicSpeed);
-            timeValue_firstToMid += deltaTime;
+            moveItemObject.ItemMove(timeValue_ItemMove * moveLogicSpeed);
+            timeValue_ItemMove += deltaTime;
         }
-        if (MidToLastId != 0)
-        {                        
-            midToLastObject.ItemMove(timeValue_midToLast * moveLogicSpeed);
-            timeValue_midToLast += deltaTime;
-        }
-        
-        if (previousNode != null)
+
+        if (beltNode.PreviousNode != null)
         {
-            previousNode.beltPart.ExcuteLogic_OnUpdate(deltaTime);
+            beltNode.PreviousNode.transporter.ExcuteLogic_OnUpdate(deltaTime);
         }
     }
 

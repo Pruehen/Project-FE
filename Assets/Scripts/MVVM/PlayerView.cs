@@ -24,12 +24,12 @@ public class PlayerView : MonoBehaviour
     }
     private void OnDisable()
     {
-        if (_vm != null)
-        {
-            _vm.UnRegister_OnMouseObjectNameChanged();
-            _vm.PropertyChanged -= OnPropertyChanged;
-            _vm = null;
-        }
+        //if (_vm != null)
+        //{
+        //    _vm.UnRegister_OnMouseObjectNameChanged();
+        //    _vm.PropertyChanged -= OnPropertyChanged;
+        //    _vm = null;
+        //}
     }
 
     private void Update()

@@ -272,7 +272,7 @@ public class Outline : MonoBehaviour
             return;
         }
 
-        // Skip if submesh count exceeds material count
+        // Skip if submesh itemHaveCount exceeds material itemHaveCount
         if (mesh.subMeshCount > materials.Length)
         {
             return;

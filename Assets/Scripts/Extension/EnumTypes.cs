@@ -32,12 +32,10 @@ namespace EnumTypes
     [JsonConverter(typeof(StringEnumConverter))]
     public enum BeltType
     {
-        Start,
-        End,
         Mid,
         Left,
         Right,
-        Splitter
+        Sorter
     }
     public enum NodeType
     {

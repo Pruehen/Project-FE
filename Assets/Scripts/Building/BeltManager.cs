@@ -29,12 +29,12 @@ public class BeltNode : Node
         else if (PreviousNode == null)
         {
             dir = Quaternion.LookRotation(NextNode.gridPos - gridPos);
-            SetBeltType(BeltType.Start, dir);
+            SetBeltType(BeltType.Mid, dir);
         }
         else if (NextNode == null)
         {
             dir = Quaternion.LookRotation(gridPos - PreviousNode.gridPos);
-            SetBeltType(BeltType.End, dir);
+            SetBeltType(BeltType.Mid, dir);
         }
         else
         {
@@ -65,6 +65,15 @@ public class BeltNode : Node
             }
         }
     }
+    public override void Remove() 
+    {
+        if (beltPart != null)
+        {
+            ObjectPoolManager.Instance.EnqueueObject(beltPart.gameObject);
+        }
+        beltPart = null;
+        transporter = null;
+    }
 
 
     void SetBeltType(BeltType type, Quaternion dir)
@@ -83,7 +92,7 @@ public class BeltNode : Node
 
 public class SorterNode : Node
 {
-    public Belt beltPart;
+    public Sorter sorterPart;
 
     List<Node> inputNodeList = new List<Node>();
     List<Node> outputNodeList = new List<Node>();
@@ -96,9 +105,10 @@ public class SorterNode : Node
         } 
         set 
         {
-            if (_usePort <= 4)
+            if (_usePort <= 4 && value != null)
             {
                 inputNodeList.Add(value);
+                Debug.Log($"소터에 인포트를 추가합니다. {value.gridPos}");
                 _usePort++;
             }
             else
@@ -115,9 +125,10 @@ public class SorterNode : Node
         } 
         set 
         {
-            if (_usePort <= 4)
+            if (_usePort <= 4 && value != null)
             {
                 outputNodeList.Add(value);
+                Debug.Log($"소터에 아웃포트를 추가합니다. {value.gridPos}");
                 _usePort++;
             }
             else
@@ -134,14 +145,23 @@ public class SorterNode : Node
     }
     public override void Init()
     {
-        if (beltPart == null)
+        if (sorterPart == null)
         {
-            beltPart = ObjectPoolManager.Instance.DequeueObject(BeltManager.Instance.beltPart, gridPos).GetComponent<Belt>();
+            sorterPart = ObjectPoolManager.Instance.DequeueObject(BeltManager.Instance.sorterPart, gridPos).GetComponent<Sorter>();
         }
         
-        beltPart.SetBeltPart(BeltType.Splitter, new BeltNode(gridPos));
+        sorterPart.SetSorterPart(inputNodeList, outputNodeList);
 
-        transporter = beltPart;
+        transporter = sorterPart;
+    }
+    public override void Remove() 
+    {
+        if (sorterPart != null)
+        {
+            ObjectPoolManager.Instance.EnqueueObject(sorterPart.gameObject);
+        }
+        sorterPart = null;
+        transporter = null;
     }
 }
 
@@ -177,12 +197,12 @@ public class BeltCreator
                 {
                     if(selectNode.nodeType == NodeType.BeltNode)
                     {
-                        //병합기 생성 로직
                         selectNode = GridMap.CreateSorter(path[i]);
+                        Debug.Log("신규 병합기 생성");
                     }
                     else if(selectNode.nodeType == NodeType.SorterNode)
                     {
-                        //기존 병합기에 연결 로직
+                        Debug.Log("기존 병합기에 연결");
                     }
                     else
                     {
@@ -283,6 +303,7 @@ public class BeltCreator
 public class BeltManager : SceneSingleton<BeltManager>, IBuildTool
 {
     public GameObject beltPart;
+    public GameObject sorterPart;
 
     BeltCreator buildingBeltTemp = new BeltCreator();
     Vector3Int posTemp;
@@ -293,12 +314,12 @@ public class BeltManager : SceneSingleton<BeltManager>, IBuildTool
     {
         //foreach (var item in AllNodeList)
         //{
-        //    item.beltPart.LogicInit();
+        //    item.sorterPart.LogicInit();
         //}
         
         //foreach (var item in RootNodeDic)
         //{
-        //    item.Value.beltPart.ExcuteLogic_OnUpdate(Time.deltaTime);
+        //    item.Value.sorterPart.ExcuteLogic_OnUpdate(Time.deltaTime);
         //}
     }
 

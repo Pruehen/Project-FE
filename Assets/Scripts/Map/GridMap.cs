@@ -15,12 +15,30 @@ public static class GridMap
     }
     public static SorterNode CreateSorter(Vector3Int gridPos)
     {
-        SorterNode sorterNode = new SorterNode(gridPos);
-        sorterNode.PreviousNode = NodeDic_NormalDepth[gridPos].PreviousNode;
-        sorterNode.NextNode = NodeDic_NormalDepth[gridPos].NextNode;
+        Node nodeTemp = NodeDic_NormalDepth[gridPos];
+        Node previousNode = nodeTemp.PreviousNode;
+        Node nextNode = nodeTemp.NextNode;
 
+        //벨트와 소터 교체
+        nodeTemp.Remove();
         NodeDic_NormalDepth.Remove(gridPos);
+
+        SorterNode sorterNode = new SorterNode(gridPos);
         NodeDic_NormalDepth.Add(gridPos, sorterNode);
+        sorterNode.Init();
+
+        //소터와 기존 벨트간의 연결
+        sorterNode.PreviousNode = previousNode;
+        sorterNode.NextNode = nextNode;
+
+        if (previousNode != null)
+        {
+            previousNode.NextNode = sorterNode;
+        }
+        if(nextNode != null)
+        {
+            nextNode.PreviousNode = sorterNode;
+        }            
 
         return sorterNode;
     }

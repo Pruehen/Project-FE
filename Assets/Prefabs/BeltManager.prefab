@@ -45,3 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   beltPart: {fileID: 7270927363674871674, guid: c13a54bbd9c7f5747861c8958355d966, type: 3}
+  sorterPart: {fileID: 6642412606424589900, guid: 23a539f68cff28e4d867c4e4e9ef7d08, type: 3}

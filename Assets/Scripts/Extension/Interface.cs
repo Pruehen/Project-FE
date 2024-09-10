@@ -25,12 +25,13 @@ public interface IBuildTool
 }
 public abstract class Node
 {
-    public NodeType nodeType;
+    public NodeType nodeType { get; protected set; }
     public ITransporter transporter;
     public Vector3Int gridPos;
     public abstract Node PreviousNode { get; set; }
     public abstract Node NextNode { get; set; }
     public abstract void Init();
+    public abstract void Remove();
 }
 public interface IWindow
 {

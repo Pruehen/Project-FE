@@ -141,4 +141,5 @@ public class BuildingNode : Node
     {
 
     }
+    public override void Remove() { }
 }

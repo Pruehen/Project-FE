@@ -39,6 +39,7 @@ public class InserterNode : Node
     {
 
     }
+    public override void Remove() { }
 }
 
 public class InserterCrafter
