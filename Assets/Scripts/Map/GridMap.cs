@@ -42,6 +42,14 @@ public static class GridMap
 
         return sorterNode;
     }
+    public static InserterNode CreateInserter(Vector3Int firstPos, Vector3Int lastPos)
+    {
+        InserterNode node = new InserterNode(firstPos, lastPos);
+
+        NodeDic_InteractableDepth.Add(firstPos, node);
+        NodeDic_InteractableDepth.Add(lastPos, node);
+        return node;
+    }
 
     public static Vector3Int ToIntVector(this Vector3 vector)
     {

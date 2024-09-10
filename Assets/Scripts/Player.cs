@@ -150,7 +150,7 @@ public class Player : SceneSingleton<Player>
         }
         if (Input.GetMouseButtonDown(0))
         {
-            controlledCharactor?.Select_OnMouseLeftClick();
+            controlledCharactor?.OnMouseLeftClick();
         }
     }
 

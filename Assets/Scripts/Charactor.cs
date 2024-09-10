@@ -55,6 +55,7 @@ public class Charactor : MonoBehaviour
         Player.Instance.Register_KeyAction(KeyCode.Alpha8, () => _tool.ToolSelect_OnNumKeyClick(7));
         Player.Instance.Register_KeyAction(KeyCode.Alpha9, () => _tool.ToolSelect_OnNumKeyClick(8));
         Player.Instance.Register_KeyAction(KeyCode.Alpha0, () => _tool.ToolSelect_OnNumKeyClick(9));
+        Player.Instance.Register_KeyAction(KeyCode.R, () => OnKeyDown(KeyCode.R));
     }
 
     void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -103,7 +104,7 @@ public class Charactor : MonoBehaviour
         }
     }
 
-    public void Select_OnMouseLeftClick()
+    public void OnMouseLeftClick()
     {
         if (BuildMode != BuildMode.None)
         {
@@ -114,7 +115,14 @@ public class Charactor : MonoBehaviour
         {
             onMouseObjectTemp?.Select();
         }
+    }
 
+    void OnKeyDown(KeyCode key)
+    {
+        if (BuildMode != BuildMode.None)
+        {
+            _tool.ToolOnKeyDown(key);
+        }
     }
 
     public void TryInteract()

@@ -52,4 +52,11 @@ namespace EnumTypes
         Inserter,
         Building
     }
+    public enum GridDir
+    {
+        Top,
+        Right,
+        Bottom,
+        Left
+    }
 }

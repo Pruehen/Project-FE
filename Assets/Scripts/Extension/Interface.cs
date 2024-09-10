@@ -21,6 +21,7 @@ public interface IBuildTool
 {
     public void OnClick(Vector3Int pos);
     public void OnMove(Vector3Int pos);
+    public void OnKeyDown(KeyCode key);
     public void DeActive();
 }
 public abstract class Node

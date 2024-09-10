@@ -344,6 +344,10 @@ public class BeltManager : SceneSingleton<BeltManager>, IBuildTool
             CheckBuildBelt(pos);
         }
     }
+    public void OnKeyDown(KeyCode key)
+    {
+
+    }
     public void DeActive()
     {
         buildingBeltTemp.DeActive();

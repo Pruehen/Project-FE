@@ -5,6 +5,7 @@ using UnityEngine;
 public class InserterNode : Node
 {
     Inserter inserterPart;
+    Vector3Int lastPos;
 
     Node _previousNode;
     Node _nextNode;
@@ -15,12 +16,14 @@ public class InserterNode : Node
     {
         nodeType = NodeType.InserterNode;
         this.gridPos = firstPos;
-        GridMap.NodeDic_InteractableDepth.Add(firstPos, this);
-        GridMap.NodeDic_InteractableDepth.Add(lastPos, this);
+        this.lastPos = lastPos;
+    }
 
-        if (GridMap.NodeDic_NormalDepth.ContainsKey(firstPos))
+    public override void Init()
+    {
+        if (GridMap.NodeDic_NormalDepth.ContainsKey(gridPos))
         {
-            this.PreviousNode = GridMap.NodeDic_NormalDepth[firstPos];
+            this.PreviousNode = GridMap.NodeDic_NormalDepth[gridPos];
             Debug.Log("이전 노드 연결");
         }
         if (GridMap.NodeDic_NormalDepth.ContainsKey(lastPos))
@@ -29,15 +32,13 @@ public class InserterNode : Node
             Debug.Log("다음 노드 연결");
         }
 
-        inserterPart = ObjectPoolManager.Instance.DequeueObject(InserterManager.Instance.Prefab_inserterPart).GetComponent<Inserter>();
-        inserterPart.Init(firstPos, lastPos, this);
+        if (inserterPart == null)
+        {
+            inserterPart = ObjectPoolManager.Instance.DequeueObject(InserterManager.Instance.Prefab_inserterPart).GetComponent<Inserter>();
+        }
 
+        inserterPart.Init(gridPos, lastPos, this);
         transporter = inserterPart;
-    }
-
-    public override void Init()
-    {
-
     }
     public override void Remove() { }
 }
@@ -48,24 +49,40 @@ public class InserterCrafter
     Vector3Int _lastNode;
 
     // 경로를 저장할 리스트
-    List<Vector3Int> path = new List<Vector3Int>();
-    InserterNode inserterNodeTemp;
+    List<Vector3Int> path = new List<Vector3Int>();    
 
-    public void BuildInserter(Vector3Int lastNode)
+    public void BuildInserter(Vector3Int firstNode, GridDir gridDir)
     {
-        CheckBuildInserter(lastNode);
+        CheckBuildInserter(firstNode, gridDir);
         BuildLineRenderer.Instance.HideAllGridLinesAndNodes();
 
-        inserterNodeTemp = new InserterNode(_firstNode, _lastNode);
+        InserterNode createNode = GridMap.CreateInserter(_firstNode, _lastNode);
+        createNode.Init();
     }
 
-    public void StartBuildInserter(Vector3Int firstNode)
+    public void CheckBuildInserter(Vector3Int firstNode, GridDir gridDir)
     {
         _firstNode = firstNode;
-    }
-    public void CheckBuildInserter(Vector3Int lastNode)
-    {
-        _lastNode = lastNode;
+        _lastNode = firstNode;
+
+        switch (gridDir)
+        {
+            case GridDir.Top:
+                _lastNode.z++;
+                break;
+            case GridDir.Right:
+                _lastNode.x++;
+                break;
+            case GridDir.Bottom:
+                _lastNode.z--;
+                break;
+            case GridDir.Left:
+                _lastNode.x--;
+                break;
+            default:
+                break;
+        }
+
         CalculatePath(_firstNode, _lastNode);
     }
     public void DeActive()
@@ -80,7 +97,7 @@ public class InserterCrafter
         
         path.Add(start);
         path.Add(end);
-        
+
         BuildLineRenderer.Instance.DrawBeltLine(path);
     }
 }
@@ -91,46 +108,43 @@ public class InserterManager : SceneSingleton<InserterManager>, IBuildTool
 
     InserterCrafter inserterCrafter = new InserterCrafter();
     Vector3Int posTemp;
-
-    bool isBuildMode = false;
+    GridDir buildDir;
 
     public void OnClick(Vector3Int pos)
     {
-        if (isBuildMode == false)
-        {
-            isBuildMode = true;
-            StartBuildInserter(pos);
-        }
-        else
-        {
-            isBuildMode = false;
-            BuildInserter(pos);
-        }
+        BuildInserter(pos);
     }
     public void OnMove(Vector3Int pos)
     {
-        if (isBuildMode == true && posTemp != pos)
+        if (posTemp != pos)
         {
             posTemp = pos;
             CheckBuildInserter(pos);
         }
     }
+    public void OnKeyDown(KeyCode key)//건설 방향을 바꿈
+    {
+        if(key == KeyCode.R)
+        {
+            buildDir++;
+            if ((int)buildDir >= 4)
+            {
+                buildDir = 0;
+            }
+            CheckBuildInserter(posTemp);
+        }
+    }
     public void DeActive()
     {
         inserterCrafter.DeActive();
-        isBuildMode = false;
     }
 
-    void StartBuildInserter(Vector3Int firstNode)
-    {        
-        inserterCrafter.StartBuildInserter(firstNode);
-    }
-    void CheckBuildInserter(Vector3Int lastNode)
+    void CheckBuildInserter(Vector3Int mouseNode)
     {
-        inserterCrafter.CheckBuildInserter(lastNode);
+        inserterCrafter.CheckBuildInserter(mouseNode, buildDir);
     }
     void BuildInserter(Vector3Int lastNode)
     {
-        inserterCrafter.BuildInserter(lastNode);
+        inserterCrafter.BuildInserter(lastNode, buildDir);
     }
 }
