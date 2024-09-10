@@ -39,6 +39,8 @@ public class InserterNode : Node
 
         inserterPart.Init(gridPos, lastPos, this);
         transporter = inserterPart;
+
+        GameLogicManager.Instance.InserterNodeSet.Add(this);
     }
     public override void Remove() { }
 }
@@ -57,7 +59,7 @@ public class InserterCrafter
         BuildLineRenderer.Instance.HideAllGridLinesAndNodes();
 
         InserterNode createNode = GridMap.CreateInserter(_firstNode, _lastNode);
-        createNode.Init();
+        createNode.Init();        
     }
 
     public void CheckBuildInserter(Vector3Int firstNode, GridDir gridDir)

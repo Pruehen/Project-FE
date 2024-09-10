@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Inserter : MonoBehaviour, IInteractable, ITransporter
@@ -16,7 +17,7 @@ public class Inserter : MonoBehaviour, IInteractable, ITransporter
     [SerializeField] ItemObject grabObject;        
     int _grab_id;
 
-    float moveLogicSpeed = 6f;
+    float moveLogicSpeed = 1f;
     float moveLogicTime;
 
     Vector3 itemStayPoint_First;
@@ -119,17 +120,13 @@ public class Inserter : MonoBehaviour, IInteractable, ITransporter
         moveLogicSpeed *= 2f / Vector3.Distance(itemStayPoint_First, itemStayPoint_Last);
         moveLogicTime = 1 / moveLogicSpeed;
 
+        timeValue = 0;
         ItemIn(1, Vector3.zero);
     }
 
     private void Awake()
     {
         _MainModule = GetComponent<IModule>();
-    }
-    void Update()
-    {
-        LogicInit();
-        ExcuteLogic_OnUpdate(Time.deltaTime);
     }
 
     public int GrabObject
@@ -144,18 +141,21 @@ public class Inserter : MonoBehaviour, IInteractable, ITransporter
 
     bool isExcuteLogic = false;
     bool State_ItemTransport = true;
-    float timeValue;
+    float timeValue = 0;
 
-    public bool TryItemOut(ITransporter nextNode)
+    public bool CanItemOut(ITransporter nextNode)
     {
         if (nextNode == null) return false;
         if (nextNode.CanItemIn() == false) return false;
         if (GrabObject == 0) return false;
 
+        return true;
+    }
+    public void ItemOut(ITransporter nextNode)
+    {
         nextNode.ItemIn(GrabObject, itemStayPoint_Last);
         GrabObject = 0;
-        State_ItemTransport = false;
-        return true;
+        State_ItemTransport = false;        
     }
     public bool CanItemIn()
     {
@@ -164,8 +164,19 @@ public class Inserter : MonoBehaviour, IInteractable, ITransporter
     public void ItemIn(int itemId, Vector3 inPos)
     {
         GrabObject = itemId;
-        grabObject.SetPos(itemStayPoint_First, itemStayPoint_Last);
+        grabObject.SetPos(inPos, itemStayPoint_Last);
         State_ItemTransport = true;
+    }
+    void TryGrapItem()
+    {
+        if (node.PreviousNode == null)
+            return;
+
+        ITransporter grabTarget = node.PreviousNode.transporter;
+        if (grabTarget.CanItemOut(this))
+        {
+            grabTarget.ItemOut(this);
+        }
     }
     public void LogicInit()
     {
@@ -175,16 +186,15 @@ public class Inserter : MonoBehaviour, IInteractable, ITransporter
     {
         if (isExcuteLogic)
             return;
-        isExcuteLogic = true;
-
-        Node nextNode = node.NextNode;
+        isExcuteLogic = true;        
 
         if (timeValue >= moveLogicTime)//아이템이 도착했는지
         {
             if (State_ItemTransport)
             {
-                if (nextNode != null && TryItemOut(nextNode.transporter))
+                if (node.NextNode != null && CanItemOut(node.NextNode.transporter))
                 {
+                    ItemOut(node.NextNode.transporter);
                     timeValue -= moveLogicTime;                    
                 }
                 else
@@ -194,7 +204,7 @@ public class Inserter : MonoBehaviour, IInteractable, ITransporter
             }
             else
             {
-                ItemIn(1, Vector3.zero);
+                TryGrapItem();
                 if (GrabObject != 0)
                 {
                     timeValue -= moveLogicTime;

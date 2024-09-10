@@ -42,7 +42,8 @@ public interface IWindow
 
 public interface ITransporter
 {
-    public bool TryItemOut(ITransporter nextNode);
+    public bool CanItemOut(ITransporter nextNode);
+    public void ItemOut(ITransporter nextNode);
     public bool CanItemIn();
     public void ItemIn(int itemId, Vector3 inPos);
     public void LogicInit();

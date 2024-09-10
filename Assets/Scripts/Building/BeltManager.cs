@@ -87,6 +87,11 @@ public class BeltNode : Node
         beltPart.SetBeltPart(type, this);
 
         transporter = beltPart;
+
+        if(NextNode == null || PreviousNode == null)
+        {
+            GameLogicManager.Instance.RootBeltNodeSet.Add(this);
+        }
     }
 }
 
@@ -151,8 +156,8 @@ public class SorterNode : Node
         }
         
         sorterPart.SetSorterPart(inputNodeList, outputNodeList);
-
         transporter = sorterPart;
+        GameLogicManager.Instance.SorterNodeSet.Add(this);
     }
     public override void Remove() 
     {
@@ -307,21 +312,9 @@ public class BeltManager : SceneSingleton<BeltManager>, IBuildTool
 
     BeltCreator buildingBeltTemp = new BeltCreator();
     Vector3Int posTemp;
+    
 
     bool isBuildMode = false;
-
-    void Update()
-    {
-        //foreach (var item in AllNodeList)
-        //{
-        //    item.sorterPart.LogicInit();
-        //}
-        
-        //foreach (var item in RootNodeDic)
-        //{
-        //    item.Value.sorterPart.ExcuteLogic_OnUpdate(Time.deltaTime);
-        //}
-    }
 
     public void OnClick(Vector3Int pos)
     {

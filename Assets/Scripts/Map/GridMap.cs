@@ -50,7 +50,17 @@ public static class GridMap
         NodeDic_InteractableDepth.Add(lastPos, node);
         return node;
     }
-
+    public static void Command_LogicInit_OnUpdate()
+    {
+        foreach (var item in NodeDic_NormalDepth)
+        {
+            item.Value.transporter.LogicInit();
+        }
+        foreach (var item in NodeDic_InteractableDepth)
+        {
+            item.Value.transporter.LogicInit();
+        }
+    }
     public static Vector3Int ToIntVector(this Vector3 vector)
     {
         int x = Mathf.RoundToInt(vector.x); // x 값을 반올림하여 int로 변환

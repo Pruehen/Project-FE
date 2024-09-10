@@ -106,9 +106,13 @@ public class Building : MonoBehaviour, IInteractable, ITransporter
         }
     }
 
-    public bool TryItemOut(ITransporter nextNode)
+    public bool CanItemOut(ITransporter nextNode)
     {
         return true;
+    }
+    public void ItemOut(ITransporter nextNode)
+    {
+        
     }
 
     public bool CanItemIn()

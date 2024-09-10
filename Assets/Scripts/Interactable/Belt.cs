@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using EnumTypes;
-using System;
 
 public class Belt : MonoBehaviour, IInteractable, ITransporter
 {
@@ -109,6 +108,7 @@ public class Belt : MonoBehaviour, IInteractable, ITransporter
         }
 
         this.beltNode = beltNode;
+        timeValue_ItemMove = 0;        
     }
 
     private void Awake()
@@ -117,11 +117,6 @@ public class Belt : MonoBehaviour, IInteractable, ITransporter
         //moveLogicSpeed *= 2;
         moveLogicTime = 1 / moveLogicSpeed;
     }    
-    void Update()
-    {
-        LogicInit();
-        ExcuteLogic_OnUpdate(Time.deltaTime);
-    }
 
     public int MoveItemKey
     {
@@ -132,23 +127,28 @@ public class Belt : MonoBehaviour, IInteractable, ITransporter
             moveItemObject.gameObject.SetActive(_mi_id != 0);
         }
     }
-
-    public bool TryItemOut(ITransporter nextNode)
+    
+    public bool CanItemOut(ITransporter nextNode)
     {
         if (nextNode == null) return false;
         if (nextNode.CanItemIn() == false) return false;
         if (MoveItemKey == 0) return false;
+        if (timeValue_ItemMove <= moveLogicTime) return false;
 
+        return true;
+    }
+    public void ItemOut(ITransporter nextNode)
+    {
         nextNode.ItemIn(MoveItemKey, itemStayPoint.position);
         MoveItemKey = 0;
-        return true;
+        timeValue_ItemMove -= moveLogicTime;
     }
     public bool CanItemIn()
     {
         return MoveItemKey == 0;
     }
     public void ItemIn(int itemId, Vector3 inPos)
-                                                                {
+    {
         MoveItemKey = itemId;
         moveItemObject.SetPos(inPos, itemStayPoint.position);
     }
@@ -159,6 +159,7 @@ public class Belt : MonoBehaviour, IInteractable, ITransporter
     {
         isExcuteLogic = false;
     }
+
     public void ExcuteLogic_OnUpdate(float deltaTime)
     {
         if (isExcuteLogic)
@@ -173,9 +174,9 @@ public class Belt : MonoBehaviour, IInteractable, ITransporter
 
         if (timeValue_ItemMove > moveLogicTime)//아이템이 도착했는지
         {
-            if (beltNode.NextNode != null && TryItemOut(beltNode.NextNode.transporter))
+            if (beltNode.NextNode != null && CanItemOut(beltNode.NextNode.transporter))
             {
-                timeValue_ItemMove -= moveLogicTime;
+                ItemOut(beltNode.NextNode.transporter);
             }
             else
             {
@@ -192,8 +193,6 @@ public class Belt : MonoBehaviour, IInteractable, ITransporter
         if (beltNode.PreviousNode != null)
         {
             beltNode.PreviousNode.transporter.ExcuteLogic_OnUpdate(deltaTime);
-        }
+        }        
     }
-
-    public Action OnItemPosMid;
 }
