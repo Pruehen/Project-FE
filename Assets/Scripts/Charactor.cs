@@ -1,15 +1,23 @@
+using EnumTypes;
+using System.ComponentModel;
 using UnityEngine;
 
-[RequireComponent(typeof(InventoryModule))]
-[RequireComponent(typeof(MiningDevice))]
 public class Charactor : MonoBehaviour
 {
-    InventoryModule _inventory;
-    MiningDevice _miningDevice;
+    InventoryModule _inventory;    
+    ToolModule _tool;
+
+    BuildMode BuildMode
+    {
+        get 
+        {
+            return _tool.BuildMode;
+        }
+    }
 
     Rigidbody _rigidbody;
-    Vector3 _moveVector;
-    Vector3 _lookPos;
+    UnityEngine.Vector3 _moveVector;
+    UnityEngine.Vector3 _lookPos;
     float _speed;
     float _interactTime = 0;
 
@@ -21,6 +29,7 @@ public class Charactor : MonoBehaviour
 
     LineRenderer _lineRenderer;
     IInteractable onInteractObject;
+    IInteractable onMouseObjectTemp;
 
     // Start is called before the first frame update
     void Start()
@@ -28,7 +37,41 @@ public class Charactor : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _lineRenderer = GetComponent<LineRenderer>();
         _inventory = GetComponent<InventoryModule>();
-        _miningDevice = GetComponent<MiningDevice>();
+        _tool = GetComponent<ToolModule>();
+
+        Player.Instance.PropertyChanged += OnPropertyChanged;
+        Register_OnStart();
+    }
+
+    void Register_OnStart()
+    {
+        Player.Instance.Register_KeyAction(KeyCode.Alpha1, () => _tool.ToolSelect_OnNumKeyClick(0));
+        Player.Instance.Register_KeyAction(KeyCode.Alpha2, () => _tool.ToolSelect_OnNumKeyClick(1));
+        Player.Instance.Register_KeyAction(KeyCode.Alpha3, () => _tool.ToolSelect_OnNumKeyClick(2));
+        Player.Instance.Register_KeyAction(KeyCode.Alpha4, () => _tool.ToolSelect_OnNumKeyClick(3));
+        Player.Instance.Register_KeyAction(KeyCode.Alpha5, () => _tool.ToolSelect_OnNumKeyClick(4));
+        Player.Instance.Register_KeyAction(KeyCode.Alpha6, () => _tool.ToolSelect_OnNumKeyClick(5));
+        Player.Instance.Register_KeyAction(KeyCode.Alpha7, () => _tool.ToolSelect_OnNumKeyClick(6));
+        Player.Instance.Register_KeyAction(KeyCode.Alpha8, () => _tool.ToolSelect_OnNumKeyClick(7));
+        Player.Instance.Register_KeyAction(KeyCode.Alpha9, () => _tool.ToolSelect_OnNumKeyClick(8));
+        Player.Instance.Register_KeyAction(KeyCode.Alpha0, () => _tool.ToolSelect_OnNumKeyClick(9));
+    }
+
+    void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        switch (e.PropertyName)
+        {
+            case nameof(Player.Instance.LookTargetPosVector):
+                _lookPos = Player.Instance.LookTargetPosVector;
+                //GridDraw_OnMouseMove();
+                break;
+            case nameof(Player.Instance.InputVector_Move):
+                _moveVector = new UnityEngine.Vector3(Player.Instance.InputVector_Move.x, 0, Player.Instance.InputVector_Move.y);
+                break;
+            case nameof(Player.Instance.OnMouseObjectTemp):
+                onMouseObjectTemp = Player.Instance.OnMouseObjectTemp;
+                break;
+        }
     }
 
     private void FixedUpdate()
@@ -39,37 +82,52 @@ public class Charactor : MonoBehaviour
 
     private void Update()
     {
-        if(onInteractObject != null)
+        if (onInteractObject != null)
         {
-            DrawBeam(onInteractObject.GetPos());
+            DrawBeam(onInteractObject.GetPos(_lookPos));
         }
         else
         {
             RemoveBeam();
         }
+
+        GridDraw_OnMouseMove();
     }
 
-    public void SetMoveVector(Vector3 vector)
+    void GridDraw_OnMouseMove()
     {
-        _moveVector = vector;
-    }
-    public void SetLookPosVector(Vector3 vector)
-    {
-        _lookPos = vector;
-    }
-    public void TryInteract(IInteractable interactableObject, out float interactRatio)
-    {        
-        if(interactableObject != null && interactableObject.TryInteract(this.transform.position, interactionRange))
+        if (BuildMode != BuildMode.None)
         {
-            onInteractObject = interactableObject;
+            Vector3Int hitPoint_Grid = _lookPos.ToIntVector();
+            _tool.ToolOnMove(hitPoint_Grid);
+        }
+    }
+
+    public void Select_OnMouseLeftClick()
+    {
+        if (BuildMode != BuildMode.None)
+        {
+            Vector3Int hitPoint_Grid = _lookPos.ToIntVector();
+            _tool.ToolOnClick(hitPoint_Grid);
+        }
+        else
+        {
+            onMouseObjectTemp?.Select();
+        }
+
+    }
+
+    public void TryInteract()
+    {        
+        if(onMouseObjectTemp != null && onMouseObjectTemp.TryInteract(_lookPos, this.transform.position, interactionRange))
+        {
+            onInteractObject = onMouseObjectTemp;
             _interactTime += Time.deltaTime;            
         }
         else
         {
             EndInteract();
         }
-
-        interactRatio = _interactTime;
     }
     public void EndInteract()
     {
@@ -91,7 +149,7 @@ public class Charactor : MonoBehaviour
 
     void Move_OnFixedUpdate()
     {        
-        if (_moveVector != Vector3.zero)
+        if (_moveVector != UnityEngine.Vector3.zero)
         {
             _speed = _rigidbody.velocity.magnitude;
             if (_speed < moveSpeed)
@@ -110,7 +168,7 @@ public class Charactor : MonoBehaviour
 
     void PointLook_OnFixedUpdate()
     {
-        if(_lookPos != Vector3.zero)
+        if(_lookPos != UnityEngine.Vector3.zero)
         {
             this.transform.LookAt(_lookPos);
         }
@@ -120,7 +178,7 @@ public class Charactor : MonoBehaviour
         }
     }
 
-    void DrawBeam(Vector3 targetPos)
+    void DrawBeam(UnityEngine.Vector3 targetPos)
     {
         _lineRenderer.SetPosition(0, this.transform.position);
         _lineRenderer.SetPosition(1, targetPos);

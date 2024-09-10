@@ -162,6 +162,10 @@ public class Inventory
             OnInventoryChange?.Invoke();
         }
     }
+    public void OnUseItem_NonFixedInventory()
+    {
+        CellDataList.InsertionCellSort();
+    }
     bool TryFindCell(string id, out CellData cell)
     {
         cell = null;
@@ -369,8 +373,12 @@ public class CellData : IComparable<CellData>
             {
                 Clear();
             }
+        }        
+        if(Inventory != null)
+        {
+            Inventory.OnInventoryChange?.Invoke();
+            Inventory.OnUseItem_NonFixedInventory();
         }
-        Inventory.OnInventoryChange?.Invoke();
     }
     public void Swap_OnSort(CellData target)//비고정 셀만 정렬 작업을 수행함
     {

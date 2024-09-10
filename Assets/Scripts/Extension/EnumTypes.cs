@@ -18,6 +18,7 @@ namespace EnumTypes
         Refinery,
         Mining,
         Conveying,
+        Inserter,
         Generator,
         Storage
     }
@@ -26,5 +27,29 @@ namespace EnumTypes
     public enum Language
     {
         Kr
+    }
+
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum BeltType
+    {
+        Mid,
+        Left,
+        Right,
+        Sorter
+    }
+    public enum NodeType
+    {
+        BeltNode,
+        SorterNode,
+        BuildingNode,
+        InserterNode
+    }
+
+    public enum BuildMode
+    { 
+        None,
+        Belt,
+        Inserter,
+        Building
     }
 }

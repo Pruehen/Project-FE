@@ -286,6 +286,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TMP_ItemCount: {fileID: 5995909818139904232}
   Image_ItemIcon: {fileID: 6877457649893639566}
+  IsStaticCell: 0
+  StaticCell_ItemId: 
+  StaticCell_Count: 0
 --- !u!114 &5339052536490540184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -396,7 +399,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

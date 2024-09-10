@@ -150,17 +150,17 @@ public class Outline : MonoBehaviour
         }
     }
 
-    void OnDisable()
-    {
-        RemoveOutlineMaterials();
-    }
+    //void OnDisable()
+    //{
+    //    RemoveOutlineMaterials();
+    //}
 
-    void OnDestroy()
-    {
-        // Destroy material instances
-        Destroy(outlineMaskMaterial);
-        Destroy(outlineFillMaterial);
-    }
+    //void OnDestroy()
+    //{
+    //    // Destroy material instances
+    //    Destroy(outlineMaskMaterial);
+    //    Destroy(outlineFillMaterial);
+    //}
 
     void Bake()
     {
@@ -272,7 +272,7 @@ public class Outline : MonoBehaviour
             return;
         }
 
-        // Skip if submesh count exceeds material count
+        // Skip if submesh itemHaveCount exceeds material itemHaveCount
         if (mesh.subMeshCount > materials.Length)
         {
             return;
@@ -324,6 +324,7 @@ public class Outline : MonoBehaviour
 
     void ApplyOutlineMaterials()
     {
+        renderers = GetComponentsInChildren<Renderer>();
         foreach (var renderer in renderers)
         {
             // Append outline shaders

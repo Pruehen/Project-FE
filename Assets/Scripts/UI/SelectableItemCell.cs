@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using TMPro;
 using UnityEngine;
@@ -8,8 +9,18 @@ public class SelectableItemCell : MonoBehaviour
     [SerializeField] TextMeshProUGUI TMP_ItemCount;
     [SerializeField] Image Image_ItemIcon;
 
-    Wdw_CraftingModuleView wdw_CraftingModuleView;
     string recipyId;
+    string itemId;
+    string buildingId;
+
+    Action<string> OnClick_CallBackRecipy;
+    public void Register_OnClick_CallBackRecipy(Action<string> callBack) { OnClick_CallBackRecipy = callBack; }        
+
+    Action<string> OnClick_CallBackItem;
+    public void Register_OnClick_CallBackItem(Action<string> callBack) { OnClick_CallBackItem = callBack; }
+
+    Action<string> OnClick_CallBackBuilding;
+    public void Register_OnClick_CallBackBuilding(Action<string> callBack) { OnClick_CallBackBuilding = callBack; }
 
     CellData _cellData;
     public CellData CellData
@@ -31,16 +42,31 @@ public class SelectableItemCell : MonoBehaviour
             _cellData.RefreshVM();
         }
     }
-
-    public void Register_CraftModule(Wdw_CraftingModuleView cm)
-    {
-        wdw_CraftingModuleView = cm;
-    }
-    public void SetData(string recipyId)
+    public void SetData_Recipy(string recipyId)//추후 모델 단에서 호출하도록 처리
     {
         this.recipyId = recipyId;
         RecipyData data = JsonDataManager.GetRecipyData(recipyId);
-        CellData = new CellData(null, data.OutputItem_1, data.OutputItemCount_1, false);
+        
+        CellData = new CellData(null, data.OutputItem_1, data.OutputItemCount_1, true);        
+    }
+    public void SetData_Item(string itemId)
+    {
+        this.itemId = itemId;
+        CellData = new CellData(null, itemId, 0, true);        
+    }
+    public void SetData_Building(string buildingId)
+    {
+        this.buildingId = buildingId;
+        string itemId = buildingId.Replace("Building_", "Item_");            
+
+        CellData = new CellData(null, itemId, 0, true);
+    }
+    public void SetData_StaticCell(string buildingId, int count)
+    {
+        this.buildingId = buildingId;
+        string itemId = buildingId.Replace("Building_", "Item_");
+
+        CellData = new CellData(null, itemId, count, true);
     }
 
     void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -61,10 +87,9 @@ public class SelectableItemCell : MonoBehaviour
                 }
                 break;
             case nameof(CellData.Count):
-                if (CellData.Id != null)
+                if (CellData.Id != null && CellData.Count > 0)
                 {
                     TMP_ItemCount.text = CellData.Count.ToString();
-                    Image_ItemIcon.gameObject.SetActive(CellData.Count > 0);
                 }
                 else
                 {
@@ -89,8 +114,10 @@ public class SelectableItemCell : MonoBehaviour
     public void SelectCell_OnClick()
     {
         if (this.CellData != null)
-        {
-            wdw_CraftingModuleView.Command_SetCraftingRecipyData(recipyId);
+        {            
+            OnClick_CallBackRecipy?.Invoke(recipyId);
+            OnClick_CallBackItem?.Invoke(itemId);
+            OnClick_CallBackBuilding?.Invoke(buildingId);
         }
         else
         {
