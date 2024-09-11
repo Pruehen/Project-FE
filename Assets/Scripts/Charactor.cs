@@ -182,11 +182,11 @@ public class Charactor : MonoBehaviour
     {
         _lineRenderer.SetPosition(0, this.transform.position);
         _lineRenderer.SetPosition(1, targetPos);
-
-        _lineRenderer.widthMultiplier = 1;
+        _lineRenderer.startWidth = 0;
+        _lineRenderer.endWidth = 0.5f;
     }
     void RemoveBeam()
     {
-        _lineRenderer.widthMultiplier = 0;
+        _lineRenderer.endWidth = 0;
     }
 }

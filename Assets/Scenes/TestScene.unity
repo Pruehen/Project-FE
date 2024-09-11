@@ -2095,6 +2095,10 @@ PrefabInstance:
       propertyPath: selectableItemCellList.Array.data[9]
       value: 
       objectReference: {fileID: 1688246962}
+    - target: {fileID: 5952094297687269389, guid: 11507a6c415fc8141823e9d71955d5d6, type: 3}
+      propertyPath: m_Parameters.widthMultiplier
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6885329667244045231, guid: 11507a6c415fc8141823e9d71955d5d6, type: 3}
       propertyPath: m_Name
       value: Charactor
