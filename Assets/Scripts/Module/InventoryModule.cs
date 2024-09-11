@@ -24,17 +24,6 @@ public class InventoryModule : MonoBehaviour, IModule
         Inventory = new Inventory(inventoryMaxCount, false);
     }
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Space)) 
-        {
-            Inventory.AddItem("Item_Copper".GetHashCode(), 50, out int r1);
-            Inventory.AddItem("Item_Iron".GetHashCode(), 50, out int r2);
-            Inventory.AddItem("Item_IronPlate".GetHashCode(), 50, out int r3);
-        }
-    }
-
-
     IWindow window;
     public void Active_Wdw()
     {

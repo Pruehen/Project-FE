@@ -1236,6 +1236,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SelectableCell
       objectReference: {fileID: 0}
+    - target: {fileID: 7846142446234597417, guid: 25cf2b18b68e31343a98c79a5d946cef, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
