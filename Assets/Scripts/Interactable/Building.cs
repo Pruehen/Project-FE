@@ -132,14 +132,38 @@ public class Building : MonoBehaviour, IInteractable, ITransporter
         }
     }
 
-    public bool CanItemIn()
+    public bool CanItemIn(int itemId)
     {
-        return true;
+        Inventory inputInventory = _MainModule.TryGetInputInventory();
+        if (inputInventory != null)
+        {
+            return inputInventory.CanAddItem(itemId, 1);
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public void ItemIn(int itemId, Vector3 inPos)
     {
-        
+        Inventory inputInventory = _MainModule.TryGetInputInventory();
+        if (inputInventory != null)
+        {
+            inputInventory.AddItem(itemId, 1, out int r);
+        }
+    }
+    public int GetItem()
+    {
+        Inventory outputinventory = _MainModule.TryGetOutputInventory();
+        if (outputinventory != null)
+        {
+            return outputinventory.GetNextGrabItem();
+        }
+        else
+        {
+            return 0;
+        }
     }
 
     public void LogicInit() { }   

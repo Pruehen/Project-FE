@@ -3,9 +3,10 @@ using UnityEngine;
 
 public class GameLogicManager : SceneSingleton<GameLogicManager>
 {
+    public HashSet<Node> InserterNodeSet = new HashSet<Node>();
     public HashSet<Node> SorterNodeSet = new HashSet<Node>();
     public HashSet<Node> RootBeltNodeSet = new HashSet<Node>();
-    public HashSet<Node> InserterNodeSet = new HashSet<Node>();
+
     // Update is called once per frame
     void Update()
     {

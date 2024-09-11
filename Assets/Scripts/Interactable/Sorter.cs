@@ -123,10 +123,14 @@ public class Sorter : MonoBehaviour, IInteractable, ITransporter
     public bool CanItemOut(ITransporter nextNode)
     {
         if (nextNode == null) return false;
-        if (nextNode.CanItemIn() == false) return false;
-        if (moveItemIdArray[nextInItemIndex] == 0) return false;
+        if (moveItemIdArray[nextOutItemIndex] == 0) return false;
+        if (nextNode.CanItemIn(moveItemIdArray[nextOutItemIndex]) == false) return false;        
 
         return true;
+    }
+    public int GetItem()
+    {
+        return moveItemIdArray[nextOutItemIndex];
     }
     public void ItemOut(ITransporter nextNode)
     {
@@ -141,7 +145,7 @@ public class Sorter : MonoBehaviour, IInteractable, ITransporter
 
         itemHaveCount--;
     }
-    public bool CanItemIn()
+    public bool CanItemIn(int itemId)
     {
         return itemHaveCount < 4;
     }
@@ -197,7 +201,7 @@ public class Sorter : MonoBehaviour, IInteractable, ITransporter
         ITransporter transporter = null;
         for (int i = 0; i < outputNodeList.Count; i++)
         {
-            if (outputNodeList[nextOutPortIndex].transporter.CanItemIn())
+            if (outputNodeList[nextOutPortIndex].transporter.CanItemIn(0))
             {
                 transporter = outputNodeList[nextOutPortIndex].transporter;
                 Add_NextOutPortIndex();

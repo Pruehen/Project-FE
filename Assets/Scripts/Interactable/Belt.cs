@@ -131,8 +131,8 @@ public class Belt : MonoBehaviour, IInteractable, ITransporter
     public bool CanItemOut(ITransporter nextNode)
     {
         if (nextNode == null) return false;
-        if (nextNode.CanItemIn() == false) return false;
         if (MoveItemKey == 0) return false;
+        if (nextNode.CanItemIn(MoveItemKey) == false) return false;        
         if (timeValue_ItemMove <= moveLogicTime) return false;
 
         return true;
@@ -143,7 +143,7 @@ public class Belt : MonoBehaviour, IInteractable, ITransporter
         MoveItemKey = 0;
         timeValue_ItemMove -= moveLogicTime;
     }
-    public bool CanItemIn()
+    public bool CanItemIn(int itemId)
     {
         return MoveItemKey == 0;
     }
@@ -151,6 +151,10 @@ public class Belt : MonoBehaviour, IInteractable, ITransporter
     {
         MoveItemKey = itemId;
         moveItemObject.SetPos(inPos, itemStayPoint.position);
+    }
+    public int GetItem()
+    {
+        return MoveItemKey;
     }
 
     float timeValue_ItemMove = 0;

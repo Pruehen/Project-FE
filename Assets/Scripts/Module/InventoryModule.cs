@@ -83,6 +83,66 @@ public class Inventory
         }
         OnInventoryChange?.Invoke();
     }
+    public bool CanAddItem(int id, int count)//인벤토리에 아이템을 추가할 수 있는지 판별함
+    {
+        if (FixedInventory)
+        {
+            if(TryFindCell(id, out CellData cell))
+            {
+                return cell.CanItemAdd();
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            int cellCorsorTemp = CellCorsor;
+            bool canAddItem = false;
+
+            while (count > 0)
+            {
+                if (CellCorsor >= CellDataList.Count)
+                {
+                    canAddItem = false;
+                    break;
+                }
+                // 현재 셀의 ID가 새로 추가할 아이템의 ID와 다르거나 아이템을 추가할 수 없는 경우
+                if (CellDataList[CellCorsor].Id != id || CellDataList[CellCorsor].CanItemAdd() == false)
+                {
+                    SetCorsor_FindValidCellIndex(id);
+                }
+
+                // 셀 데이터 리스트의 범위를 벗어나는 경우
+                if (CellCorsor >= CellDataList.Count)
+                {
+                    canAddItem = false;
+                    break;
+                }
+
+                int cellRemaining = count - CellDataList[CellCorsor].Count;
+
+                // 남은 아이템 수가 있는 경우
+                if (cellRemaining > 0)
+                {
+                    // 남은 아이템 수를 다음 반복으로 전달
+                    count = cellRemaining;
+                    // 다음 셀로 커서 이동
+                    CellCorsor++;
+                }
+                else
+                {
+                    // 아이템이 모두 추가된 경우
+                    canAddItem = true;
+                    break;
+                }
+            }
+
+            CellCorsor = cellCorsorTemp;        
+            return canAddItem;
+        }
+    }
     public void AddItem(int id, int count, out int remaining)//인벤토리를 찾아서 아이템 추가를 시도함. 아이템이 다 안 들어가면 remaining으로 남은 수량이 반환됨.
     {
         if (FixedInventory)
@@ -145,6 +205,17 @@ public class Inventory
 
         Debug.LogError("수송 실패");
     }
+    public int GetNextGrabItem()
+    {
+        foreach (CellData cell in CellDataList)
+        {
+            if (cell.Id != 0 && cell.Count > 0)
+            {
+                return cell.Id;
+            }
+        }
+        return 0;
+    }//다음에 투입기로 잡을 아이템이 뭔지 확인함
 
     void AddItem_NotFixedInventory(int id, int count, out int remaining)
     {
@@ -158,7 +229,7 @@ public class Inventory
             // 현재 셀의 ID가 새로 추가할 아이템의 ID와 다르거나 아이템을 추가할 수 없는 경우
             if (CellDataList[CellCorsor].Id != id || CellDataList[CellCorsor].CanItemAdd() == false)
             {
-                SetCorsor(id);
+                SetCorsor_FindValidCellIndex(id);
             }
 
             // 셀 데이터 리스트의 범위를 벗어나는 경우
@@ -214,7 +285,7 @@ public class Inventory
         Debug.LogWarning($"해당하는 아이템 슬롯을 찾지 못했습니다. : {id}");
         return false;
     }
-    void SetCorsor(int searchId)
+    void SetCorsor_FindValidCellIndex(int searchId)
     {
         for (CellCorsor = 0; CellCorsor < CellDataList.Count; CellCorsor++)
         {

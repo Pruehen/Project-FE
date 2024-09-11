@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Inserter : MonoBehaviour, IInteractable, ITransporter
@@ -124,7 +123,6 @@ public class Inserter : MonoBehaviour, IInteractable, ITransporter
         moveLogicTime = 1 / moveLogicSpeed;
 
         timeValue = 0;
-        ItemIn(1, Vector3.zero);
     }
 
     private void Awake()
@@ -143,14 +141,14 @@ public class Inserter : MonoBehaviour, IInteractable, ITransporter
     }
 
     bool isExcuteLogic = false;
-    bool State_ItemTransport = true;
+    bool State_ItemTransport = false;
     float timeValue = 0;
 
     public bool CanItemOut(ITransporter nextNode)
     {
         if (nextNode == null) return false;
-        if (nextNode.CanItemIn() == false) return false;
         if (GrabObject == 0) return false;
+        if (nextNode.CanItemIn(GrabObject) == false) return false;        
 
         return true;
     }
@@ -160,7 +158,7 @@ public class Inserter : MonoBehaviour, IInteractable, ITransporter
         GrabObject = 0;
         State_ItemTransport = false;        
     }
-    public bool CanItemIn()
+    public bool CanItemIn(int itemId)
     {
         return GrabObject == 0;
     }
@@ -170,16 +168,25 @@ public class Inserter : MonoBehaviour, IInteractable, ITransporter
         grabObject.SetPos((inPos == Vector3.zero) ? itemStayPoint_First : inPos, itemStayPoint_Last);
         State_ItemTransport = true;
     }
+    public int GetItem()
+    {
+        return GrabObject;
+    }
     void TryGrapItem()
     {
         if (node.PreviousNode == null)
             return;
 
-        ITransporter grabTarget = node.PreviousNode.transporter;
-        if (grabTarget.CanItemOut(this))
+        ITransporter grabTarget = node.PreviousNode?.transporter;
+        ITransporter dropTarget = node.NextNode?.transporter;
+
+        if (grabTarget != null && dropTarget != null)
         {
-            grabTarget.ItemOut(this);
-        }
+            if (grabTarget.CanItemOut(this) && dropTarget.CanItemIn(grabTarget.GetItem()))
+            {
+                grabTarget.ItemOut(this);
+            }
+        }        
     }
     public void LogicInit()
     {
