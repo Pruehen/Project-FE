@@ -111,13 +111,11 @@ public class Building : MonoBehaviour, IInteractable, ITransporter
     }
 
     public bool CanItemOut(ITransporter nextNode)
-    {
-        return false;
-        
+    {        
         Inventory outputinventory = _MainModule.TryGetOutputInventory();
         if(outputinventory != null)
         {
-
+            return outputinventory.CanGrabItem();
         }
         else
         {
@@ -126,7 +124,12 @@ public class Building : MonoBehaviour, IInteractable, ITransporter
     }
     public void ItemOut(ITransporter nextNode)
     {
-        
+        Inventory outputinventory = _MainModule.TryGetOutputInventory();
+        if (outputinventory != null)
+        {
+            outputinventory.GrabItem(out int itemId, out int itemCount);
+            nextNode.ItemIn(itemId, Vector3.zero);
+        }
     }
 
     public bool CanItemIn()

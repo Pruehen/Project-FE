@@ -167,7 +167,7 @@ public class Inserter : MonoBehaviour, IInteractable, ITransporter
     public void ItemIn(int itemId, Vector3 inPos)
     {
         GrabObject = itemId;
-        grabObject.SetPos(inPos, itemStayPoint_Last);
+        grabObject.SetPos((inPos == Vector3.zero) ? itemStayPoint_First : inPos, itemStayPoint_Last);
         State_ItemTransport = true;
     }
     void TryGrapItem()

@@ -75,7 +75,7 @@ public class Inventory
         FixedInventory = fixedInventory;
     }
 
-    public void Clear()
+    public void Clear()//인벤토리의 내용물을 싹 지워버림
     {
         foreach (var item in CellDataList)
         {
@@ -83,8 +83,7 @@ public class Inventory
         }
         OnInventoryChange?.Invoke();
     }
-
-    public void AddItem(int id, int count, out int remaining)
+    public void AddItem(int id, int count, out int remaining)//인벤토리를 찾아서 아이템 추가를 시도함. 아이템이 다 안 들어가면 remaining으로 남은 수량이 반환됨.
     {
         if (FixedInventory)
         {
@@ -95,6 +94,56 @@ public class Inventory
             AddItem_NotFixedInventory(id, count, out remaining);
         }
         OnInventoryChange?.Invoke();
+    }
+    public bool CanUseItem(int id, int count)//아이템 소모가 가능한지를 체크함
+    {
+        if (TryFindCell(id, out CellData targetCell))
+        {
+            return (targetCell.Count >= count);
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public void UseItem_FixedInventory(int id, int count)//아이템을 소모함. 이 메서드 호출 이전에 CanUseItem 메서드를 한번 호출하는걸 권장함. 내부적으로 검사를 하긴 하지만
+    {
+        if (TryFindCell(id, out CellData targetCell))
+        {
+            targetCell.UseItem(count);
+            OnInventoryChange?.Invoke();
+        }
+    }
+    public void OnUseItem_NonFixedInventory()//아이템이 소모되었을 때 호출됨. 외부에서 호출할 필요 없음.
+    {
+        CellDataList.InsertionCellSort();
+    }
+    public bool CanGrabItem()//아이템을 투입기 등으로 잡을 수 있는지 체크함. 아이템 종류를 가리지 않음.
+    {
+        foreach (CellData cell in CellDataList)
+        {
+            if(cell.Id != 0 && cell.Count > 0) return true;
+        }
+
+        return false;
+    }
+    public void GrabItem(out int id, out int count)//아이템을 투입기 등으로 잡아서 옮김.
+    {
+        id = 0;
+        count = 0;
+
+        foreach (CellData cell in CellDataList)
+        {
+            if (cell.Id != 0 && cell.Count > 0)
+            {
+                id = cell.Id;
+                count = 1;
+                cell.UseItem(count);
+                return;
+            }
+        }
+
+        Debug.LogError("수송 실패");
     }
 
     void AddItem_NotFixedInventory(int id, int count, out int remaining)
@@ -151,29 +200,6 @@ public class Inventory
         }        
         
     }
-    public bool CanUseItem(int id, int count)
-    {
-        if (TryFindCell(id, out CellData targetCell))
-        {
-            return (targetCell.Count >= count);
-        }
-        else
-        {
-            return false;
-        }
-    }
-    public void UseItem_FixedInventory(int id, int count)
-    {
-        if(TryFindCell(id, out CellData targetCell))
-        {
-            targetCell.UseItem(count);
-            OnInventoryChange?.Invoke();
-        }
-    }
-    public void OnUseItem_NonFixedInventory()
-    {
-        CellDataList.InsertionCellSort();
-    }
     bool TryFindCell(int id, out CellData cell)
     {
         cell = null;
@@ -188,7 +214,6 @@ public class Inventory
         Debug.LogWarning($"해당하는 아이템 슬롯을 찾지 못했습니다. : {id}");
         return false;
     }
-
     void SetCorsor(int searchId)
     {
         for (CellCorsor = 0; CellCorsor < CellDataList.Count; CellCorsor++)
