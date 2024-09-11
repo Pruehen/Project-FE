@@ -6,6 +6,8 @@ public class Charactor : MonoBehaviour
 {
     InventoryModule _inventory;    
     ToolModule _tool;
+    CraftingModule _crafting;
+    MinerModule _miner;
 
     BuildMode BuildMode
     {
@@ -36,8 +38,11 @@ public class Charactor : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         _lineRenderer = GetComponent<LineRenderer>();
+
         _inventory = GetComponent<InventoryModule>();
         _tool = GetComponent<ToolModule>();
+        _crafting = GetComponent<CraftingModule>();
+        _miner = GetComponent<MinerModule>();
 
         Player.Instance.PropertyChanged += OnPropertyChanged;
         Register_OnStart();

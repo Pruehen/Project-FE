@@ -5,8 +5,8 @@ public class MinerModule : MonoBehaviour, IModule
 {
     MinerModuleModel model;
 
-    [SerializeField] float CraftingTimeGain = 1;
-    [SerializeField] float CraftingSpeedGain = 1;
+    [SerializeField] float MiningTimeGain = 1;
+    [SerializeField] float MiningSpeedGain = 1;
 
     IWindow window;
     public void Active_Wdw()
