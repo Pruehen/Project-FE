@@ -182,6 +182,11 @@ public class Player : SceneSingleton<Player>
     {
         controlledCharactor?.EndInteract();
     }
+
+    public void Command_CharactorInventoryOpen()
+    {
+        controlledCharactor?.InventoryOpen();
+    }
     void Command_CharactorInventoryToggle()
     {        
         controlledCharactor?.InventoryToggle();

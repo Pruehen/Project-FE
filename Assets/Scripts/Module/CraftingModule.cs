@@ -16,10 +16,7 @@ public class CraftingModule : MonoBehaviour, IModule
     }
     public void Close_Wdw()
     {
-        if (window != null)
-        {
-            window.Close();
-        }
+        window.Close();
     }
     public Inventory TryGetInputInventory()
     {

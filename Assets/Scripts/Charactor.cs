@@ -147,6 +147,12 @@ public class Charactor : MonoBehaviour
         onInteractObject = null;
         _interactTime = 0;
     }
+
+    public void InventoryOpen()
+    {
+        _inventoryUIActive = true;
+        _inventory.Active_Wdw();
+    }
     public void InventoryToggle()
     {
         _inventoryUIActive = !_inventoryUIActive;

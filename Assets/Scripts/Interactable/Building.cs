@@ -72,6 +72,7 @@ public class Building : MonoBehaviour, IInteractable, ITransporter
     public void Select()
     {
         UIManager.Instance.Active_BuildingMainModuleUIWdw(_MainModule);
+        Player.Instance.Command_CharactorInventoryOpen();
     }
 
     public void MouseEnter()

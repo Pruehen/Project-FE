@@ -75,7 +75,6 @@ public class Belt : MonoBehaviour, IInteractable, ITransporter
     }
     public void Select()
     {
-        UIManager.Instance.Active_BuildingMainModuleUIWdw(_MainModule);
     }
 
     public void MouseEnter()

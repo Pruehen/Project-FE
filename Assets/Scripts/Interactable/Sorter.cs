@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 public class Sorter : MonoBehaviour, IInteractable, ITransporter
 {
@@ -73,7 +72,6 @@ public class Sorter : MonoBehaviour, IInteractable, ITransporter
     }
     public void Select()
     {
-        UIManager.Instance.Active_BuildingMainModuleUIWdw(_MainModule);
     }
 
     public void MouseEnter()
