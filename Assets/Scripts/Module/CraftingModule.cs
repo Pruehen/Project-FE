@@ -12,11 +12,18 @@ public class CraftingModule : MonoBehaviour, IModule
     IWindow window;
     public void Active_Wdw()
     {
-        window = UIManager.Instance.Actvie_ModuleWdw(UIManager.Instance.Prefab_CraftingModuleUIWdw, this);
+        if (window == null)
+        {
+            window = UIManager.Instance.Actvie_ModuleWdw(UIManager.Instance.Prefab_CraftingModuleUIWdw, this);
+        }
     }
     public void Close_Wdw()
     {
-        window.Close();
+        if(window != null)
+        {
+            window.Close();
+            window = null;
+        }        
     }
     public Inventory TryGetInputInventory()
     {

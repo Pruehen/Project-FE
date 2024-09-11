@@ -593,7 +593,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6931205734975342818}
         m_TargetAssemblyTypeName: Wdw_CraftingModuleView, Assembly-CSharp
-        m_MethodName: Close
+        m_MethodName: Command_Close
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

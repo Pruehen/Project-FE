@@ -51,6 +51,10 @@ public class Wdw_CraftingModuleView : MonoBehaviour, IWindow
         UIManager.Instance.OnDeActive_ModuleWdw(instanceId);
         module = null;
     }
+    public void Command_Close()
+    {
+        module.Close_Wdw();
+    }
 
     void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
     {

@@ -42,4 +42,8 @@ public class Wdw_InventoryView : MonoBehaviour, IWindow
 
         UIManager.Instance.OnDeActive_ModuleWdw(_Inventory);
     }
+    public void Command_Close()
+    {
+        _Inventory.Close_Wdw();
+    }
 }

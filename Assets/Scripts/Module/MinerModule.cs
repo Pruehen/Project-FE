@@ -11,11 +11,18 @@ public class MinerModule : MonoBehaviour, IModule
     IWindow window;
     public void Active_Wdw()
     {
-        window = UIManager.Instance.Actvie_ModuleWdw(UIManager.Instance.Prefab_MinerModuleUIWdw, this);
+        if (window == null)
+        {
+            window = UIManager.Instance.Actvie_ModuleWdw(UIManager.Instance.Prefab_MinerModuleUIWdw, this);
+        }
     }
     public void Close_Wdw()
     {
-        window.Close();
+        if (window != null)
+        {
+            window.Close();
+            window = null;
+        }
     }
     public Inventory TryGetInputInventory()
     {

@@ -39,7 +39,8 @@ public abstract class Node
 public interface IWindow
 {
     public void Active(IModule module);    
-    public void Close();    
+    public void Close();
+    public void Command_Close();
 }
 
 public interface ITransporter

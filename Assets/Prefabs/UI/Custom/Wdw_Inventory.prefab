@@ -104,7 +104,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c520a3d01f1009b45bb1a067843e7158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Trf_Contant: {fileID: 2465123966305572871}
   cellList:
   - {fileID: 1950792516242723008}
   - {fileID: 8501382631532133884}
@@ -775,7 +774,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7724374113683370940}
         m_TargetAssemblyTypeName: Wdw_InventoryView, Assembly-CSharp
-        m_MethodName: Close
+        m_MethodName: Command_Close
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
