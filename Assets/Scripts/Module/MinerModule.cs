@@ -20,6 +20,14 @@ public class MinerModule : MonoBehaviour, IModule
             window.Close();
         }
     }
+    public Inventory TryGetInputInventory()
+    {
+        return null;
+    }
+    public Inventory TryGetOutputInventory()
+    {
+        return model.OutputInventory;
+    }
 
     private void Awake()
     {
@@ -35,7 +43,7 @@ public class MinerModule : MonoBehaviour, IModule
 
 public class MinerModuleModel
 {    
-    Inventory outputInventory;
+    public Inventory OutputInventory { get; private set; }
     ItemData extractItem;
 
     float craftingTime = 1;
@@ -54,19 +62,19 @@ public class MinerModuleModel
 
     public void RefreshVM_OnWdwActive(Action<Inventory, ItemData> callBack)
     {
-        callBack.Invoke(outputInventory, extractItem);
+        callBack.Invoke(OutputInventory, extractItem);
     }
 
     public MinerModuleModel()
     {        
-        outputInventory = new Inventory(1, true);
+        OutputInventory = new Inventory(1, true);
         
-        outputInventory.OnInventoryChange += SetIsCraftItem_OnInventoryChange;
+        OutputInventory.OnInventoryChange += SetIsCraftItem_OnInventoryChange;
     }
     public void Init_ExtractItem(string itemKey)
     {
         extractItem = JsonDataManager.GetItem(itemKey);
-        outputInventory.CellDataList[0].SetItem(extractItem.Id);
+        OutputInventory.CellDataList[0].SetItem(extractItem.Id);
 
         SetIsCraftItem_OnInventoryChange();
     }
@@ -98,7 +106,7 @@ public class MinerModuleModel
             return;
         }
 
-        outputInventory.AddItem(extractItem.Id, 1, out int remaining);
+        OutputInventory.AddItem(extractItem.Id, 1, out int remaining);
 
         Debug.Log("Ã¤±¼ ¼º°ø");
     }
@@ -113,7 +121,7 @@ public class MinerModuleModel
         {
             _isCrafting = true;
 
-            if (outputInventory.CellDataList[0].CanItemAdd() == false)
+            if (OutputInventory.CellDataList[0].CanItemAdd() == false)
             {
                 _isCrafting = false;
                 Debug.Log("¾Æ¿ôÇ²ÀÌ °¡µæ Ã¡½À´Ï´Ù.");

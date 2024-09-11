@@ -47,6 +47,14 @@ public class InventoryModule : MonoBehaviour, IModule
             window.Close();
         }
     }
+    public Inventory TryGetInputInventory()
+    {
+        return Inventory;
+    }
+    public Inventory TryGetOutputInventory()
+    {
+        return Inventory;
+    }
 }
 
 public class Inventory

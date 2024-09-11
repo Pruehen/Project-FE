@@ -16,6 +16,8 @@ public interface IModule
 {
     public void Active_Wdw();
     public void Close_Wdw();
+    public Inventory TryGetInputInventory();
+    public Inventory TryGetOutputInventory();
 }
 public interface IBuildTool
 {
