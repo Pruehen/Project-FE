@@ -28,9 +28,9 @@ public class InventoryModule : MonoBehaviour, IModule
     {
         if(Input.GetKeyDown(KeyCode.Space)) 
         {
-            Inventory.AddItem("Item_Copper", 50, out int r1);
-            Inventory.AddItem("Item_Iron", 50, out int r2);
-            Inventory.AddItem("Item_IronPlate", 50, out int r3);
+            Inventory.AddItem("Item_Copper".GetHashCode(), 50, out int r1);
+            Inventory.AddItem("Item_Iron".GetHashCode(), 50, out int r2);
+            Inventory.AddItem("Item_IronPlate".GetHashCode(), 50, out int r3);
         }
     }
 
@@ -69,7 +69,7 @@ public class Inventory
         CellDataList = new List<CellData>();
         for (int i = 0; i < maxCount; i++)
         {
-            CellDataList.Add(new CellData(this, null, 0, fixedInventory));
+            CellDataList.Add(new CellData(this, 0, 0, fixedInventory));
         }
         CellCorsor = 0;
         FixedInventory = fixedInventory;
@@ -84,7 +84,7 @@ public class Inventory
         OnInventoryChange?.Invoke();
     }
 
-    public void AddItem(string id, int count, out int remaining)
+    public void AddItem(int id, int count, out int remaining)
     {
         if (FixedInventory)
         {
@@ -97,7 +97,7 @@ public class Inventory
         OnInventoryChange?.Invoke();
     }
 
-    void AddItem_NotFixedInventory(string id, int count, out int remaining)
+    void AddItem_NotFixedInventory(int id, int count, out int remaining)
     {
         while (count > 0)
         {
@@ -142,7 +142,7 @@ public class Inventory
         // 정렬
         CellDataList.InsertionCellSort();
     }
-    void AddItem_FixedInventory(string id, int count, out int remaining)
+    void AddItem_FixedInventory(int id, int count, out int remaining)
     {
         remaining = count;
         if (TryFindCell(id, out CellData targetCell))
@@ -151,7 +151,7 @@ public class Inventory
         }        
         
     }
-    public bool CanUseItem(string id, int count)
+    public bool CanUseItem(int id, int count)
     {
         if (TryFindCell(id, out CellData targetCell))
         {
@@ -162,7 +162,7 @@ public class Inventory
             return false;
         }
     }
-    public void UseItem_FixedInventory(string id, int count)
+    public void UseItem_FixedInventory(int id, int count)
     {
         if(TryFindCell(id, out CellData targetCell))
         {
@@ -174,7 +174,7 @@ public class Inventory
     {
         CellDataList.InsertionCellSort();
     }
-    bool TryFindCell(string id, out CellData cell)
+    bool TryFindCell(int id, out CellData cell)
     {
         cell = null;
         foreach (var item in CellDataList)
@@ -189,17 +189,17 @@ public class Inventory
         return false;
     }
 
-    void SetCorsor(string searchId)
+    void SetCorsor(int searchId)
     {
         for (CellCorsor = 0; CellCorsor < CellDataList.Count; CellCorsor++)
         {
-            string indexSlotId = CellDataList[CellCorsor].Id;
+            int indexSlotId = CellDataList[CellCorsor].Id;
             if (CellDataList[CellCorsor].CanItemAdd() && CellDataList[CellCorsor].Id == searchId)//목표 커서 아이템이 찾는 아이템과 같고, 아이템 추가가 가능할 경우
             {
                 return;
             }
 
-            if (indexSlotId == null)//빈 슬롯일 경우
+            if (indexSlotId == 0)//빈 슬롯일 경우
             {
                 return;
             }
@@ -209,7 +209,7 @@ public class Inventory
 
 public class CellData : IComparable<CellData>
 {
-    string _id;
+    int _id;
     int _count;
     int _maxCount;
     bool _fixedCell;
@@ -221,14 +221,14 @@ public class CellData : IComparable<CellData>
             return int.MaxValue; // Null은 비교할 수 없는 것으로 간주
 
         // _id의 해시값을 기준으로 비교
-        int thisHashCode = (_id != null) ? _id.GetHashCode() - Count : int.MaxValue;
-        int otherHashCode = (other._id != null) ? other._id.GetHashCode() - other.Count : int.MaxValue;
+        int thisHashCode = (_id != 0) ? _id - Count : int.MaxValue;
+        int otherHashCode = (other._id != 0) ? other._id - other.Count : int.MaxValue;
 
         return thisHashCode.CompareTo(otherHashCode);
     }
 
 
-    public string Id 
+    public int Id 
     { 
         get { return _id; } 
         private set
@@ -299,23 +299,24 @@ public class CellData : IComparable<CellData>
         OnPropertyChanged(nameof(FixedCell));
     }
 
-    public CellData(Inventory inventory, string id = null, int count = 0, bool fixedCell = false)
+    public CellData(Inventory inventory, int id = 0, int count = 0, bool fixedCell = false)
     {
         this.Inventory = inventory;
         FixedCell = fixedCell;
         Count = count;
+        
         SetItem(id);
     }
     public void Clear()//Remove
     {
-        Id = null;
+        Id = 0;
         Count = 0;
         MaxCount = 0;             
     }
-    public void SetItem(string itemId)
+    public void SetItem(int itemId)
     {
         Id = itemId;        
-        if(Id != null)
+        if(Id != 0)
         {
             MaxCount = JsonDataManager.GetItem(itemId).MaxStack;
         }        
@@ -325,11 +326,11 @@ public class CellData : IComparable<CellData>
         }
     }
 
-    public void AddItem_NotFixedCell(string id, int count, out int remaining)
+    public void AddItem_NotFixedCell(int id, int count, out int remaining)
     {
         remaining = 0;
 
-        if (Id == null)//빈 칸일 경우
+        if (Id == 0)//빈 칸일 경우
         {
             SetItem(id);
             Debug.LogWarning("수신 셀이 비어있습니다. 아이템을 할당합니다.");
@@ -348,7 +349,7 @@ public class CellData : IComparable<CellData>
             Count = MaxCount;
         }
     }
-    public void AddItem_FixedCell(string id, int count, out int remaining)
+    public void AddItem_FixedCell(int id, int count, out int remaining)
     {
         remaining = count;
         if (FixedCell == false)
@@ -356,7 +357,7 @@ public class CellData : IComparable<CellData>
             Debug.LogWarning("고정 아이템 셀이 아닙니다.");
             return;
         }
-        if (Id == null)//빈 칸일 경우
+        if (Id == 0)//빈 칸일 경우
         {
             Debug.LogWarning("수신 셀이 비어있습니다.");
             return;
@@ -395,7 +396,7 @@ public class CellData : IComparable<CellData>
             return;
         }
 
-        string idTemp = Id;
+        int idTemp = Id;
         int countTemp = Count;
         int maxCountTemp = MaxCount;
 
@@ -405,7 +406,7 @@ public class CellData : IComparable<CellData>
 
         target.OnSwap_SetData(idTemp, countTemp, maxCountTemp);
     }
-    void OnSwap_SetData(string id, int count, int maxCount)
+    void OnSwap_SetData(int id, int count, int maxCount)
     {
         Id = id;
         Count = count;

@@ -5,8 +5,8 @@ public class Building : MonoBehaviour, IInteractable, ITransporter
 {
     [SerializeField] string ItemKey;
     [SerializeField] string BuildingKey;
-    [SerializeField] List<Transform> validGridPos;
-    Dictionary<Vector3Int, BuildingNode> buildingNodeDicTemp = new Dictionary<Vector3Int, BuildingNode>();
+    
+    List<Node> nodeTempList = new List<Node>();
 
     BuildingData _buildingData;
     IModule _MainModule;
@@ -56,9 +56,9 @@ public class Building : MonoBehaviour, IInteractable, ITransporter
     }
     public Vector3 GetPos(Vector3 hitPos)
     {
-        if (validGridPos.Count > 0)
+        if (nodeTempList.Count > 0)
         {
-            return validGridPos.FindClosest(hitPos).position;
+            return nodeTempList.FindClosest(hitPos).gridPos;
         }
         else
         {
@@ -99,16 +99,28 @@ public class Building : MonoBehaviour, IInteractable, ITransporter
     private void Awake()
     {
         _MainModule = GetComponent<IModule>();
+        Vector3Int deployPos = this.transform.position.ToIntVector();
 
-        foreach (var item in validGridPos)
+        for (int x = 0; x < BuildingData.DeploySizeX; x++)
         {
-            buildingNodeDicTemp.Add(item.position.ToIntVector(), new BuildingNode(item.position.ToIntVector(), this));
+            for (int z = 0; z < BuildingData.DeploySizeZ; z++)
+            {
+                nodeTempList.Add(GridMap.CreateBuildingNode(deployPos + new Vector3Int(x, 0, z), this));
+            }
         }
     }
 
     public bool CanItemOut(ITransporter nextNode)
     {
-        return true;
+        Inventory outputinventory = _MainModule.TryGetOutputInventory();
+        if(outputinventory != null)
+        {
+
+        }
+        else
+        {
+            return false;
+        }        
     }
     public void ItemOut(ITransporter nextNode)
     {
@@ -130,20 +142,23 @@ public class Building : MonoBehaviour, IInteractable, ITransporter
 }
 public class BuildingNode : Node
 {
-    public override Node PreviousNode { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
-    public override Node NextNode { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+    public override Node PreviousNode { get { return null; } set { } }
+    public override Node NextNode { get { return null; } set { } }
 
     public BuildingNode(Vector3Int gridPos, Building building)
     {
         this.nodeType = EnumTypes.NodeType.BuildingNode;
         this.gridPos = gridPos;
-        GridMap.NodeDic_NormalDepth.Add(gridPos, this);
-
-        transporter = building;
+        this.transporter = building;
     }
+
     public override void Init()
     {
 
     }
-    public override void Remove() { }
+
+    public override void Remove() 
+    { 
+
+    }
 }

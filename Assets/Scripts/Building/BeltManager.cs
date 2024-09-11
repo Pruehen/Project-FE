@@ -202,7 +202,7 @@ public class BeltCreator
                 {
                     if(selectNode.nodeType == NodeType.BeltNode)
                     {
-                        selectNode = GridMap.CreateSorter(path[i]);
+                        selectNode = GridMap.CreateSorterNode(path[i]);
                         Debug.Log("신규 병합기 생성");
                     }
                     else if(selectNode.nodeType == NodeType.SorterNode)
@@ -218,7 +218,7 @@ public class BeltCreator
             }
             else
             {
-                buildBeltNodeList.Add(GridMap.CreateBelt(path[i]));
+                buildBeltNodeList.Add(GridMap.CreateBeltNode(path[i]));
             }            
 
             if (i > 0)//시작점을 제외한 모든 노드

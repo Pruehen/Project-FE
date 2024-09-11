@@ -107,13 +107,16 @@ public class Inserter : MonoBehaviour, IInteractable, ITransporter
     {
         node = inserterNode;
 
+        //인서터 파츠의 좌표 설정
         this.transform.position = startPos;
         start.transform.position = startPos + new Vector3(0, 0.8f, 0);
         end.transform.position = endPos + new Vector3(0, 0.8f, 0);
 
+        //파츠간의 라인을 그리는 임시 기능
         lineRenderer.SetPosition(0, startPos + new Vector3(0, 0.6f, 0));
         lineRenderer.SetPosition(1, endPos + new Vector3(0, 0.6f, 0));
 
+        //아이템이 이동할 포지션
         itemStayPoint_First = startPos + new Vector3(0, 0.6f, 0);
         itemStayPoint_Last = endPos + new Vector3(0, 0.6f, 0);
 

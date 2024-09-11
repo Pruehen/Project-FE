@@ -8,25 +8,25 @@ using System.ComponentModel;
 
 public static class Extension
 {
-    public static Transform FindClosest(this List<Transform> transforms, Vector3 position)
+    public static Node FindClosest(this List<Node> list, Vector3 position)
     {
-        if (transforms == null || transforms.Count == 0)
+        if (list == null || list.Count == 0)
         {
             Debug.LogWarning("The transforms list is empty or null.");
             return null;
         }
 
-        Transform closestTransform = null;
+        Node closestTransform = null;
         float closestDistanceSqr = Mathf.Infinity;
 
-        foreach (Transform t in transforms)
+        foreach (Node node in list)
         {
-            float distanceSqr = (t.position - position).sqrMagnitude;
+            float distanceSqr = (node.gridPos - position).sqrMagnitude;
 
             if (distanceSqr < closestDistanceSqr)
             {
                 closestDistanceSqr = distanceSqr;
-                closestTransform = t;
+                closestTransform = node;
             }
         }
 

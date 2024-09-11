@@ -6,14 +6,14 @@ public static class GridMap
     public static Dictionary<Vector3Int, Node> NodeDic_NormalDepth = new Dictionary<Vector3Int, Node>();//벨트, 구조물 등의 계층
     public static Dictionary<Vector3Int, Node> NodeDic_InteractableDepth = new Dictionary<Vector3Int, Node>();//투입기 등의 계층
 
-    public static BeltNode CreateBelt(Vector3Int gridPos)
+    public static BeltNode CreateBeltNode(Vector3Int gridPos)
     {
         BeltNode node = new BeltNode(gridPos);
 
         NodeDic_NormalDepth.Add(gridPos, node);
         return node;
     }
-    public static SorterNode CreateSorter(Vector3Int gridPos)
+    public static SorterNode CreateSorterNode(Vector3Int gridPos)
     {
         Node nodeTemp = NodeDic_NormalDepth[gridPos];
         Node previousNode = nodeTemp.PreviousNode;
@@ -42,6 +42,13 @@ public static class GridMap
 
         return sorterNode;
     }
+    public static BuildingNode CreateBuildingNode(Vector3Int gridPos, Building building)
+    {
+        BuildingNode node = new BuildingNode(gridPos, building);
+
+        NodeDic_NormalDepth.Add(gridPos, node);
+        return node;
+    }
     public static InserterNode CreateInserter(Vector3Int firstPos, Vector3Int lastPos)
     {
         InserterNode node = new InserterNode(firstPos, lastPos);
@@ -52,11 +59,11 @@ public static class GridMap
     }
     public static void Command_LogicInit_OnUpdate()
     {
-        foreach (var item in NodeDic_NormalDepth)
+        foreach (var item in NodeDic_InteractableDepth)
         {
             item.Value.transporter.LogicInit();
         }
-        foreach (var item in NodeDic_InteractableDepth)
+        foreach (var item in NodeDic_NormalDepth)
         {
             item.Value.transporter.LogicInit();
         }

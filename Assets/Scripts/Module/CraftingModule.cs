@@ -152,11 +152,11 @@ public class CraftingModuleModel
         {
             for (int i = 0; i < recipyData.InputItemGroup.Count; i++)
             {
-                InputInventory.CellDataList[i].SetItem(recipyData.InputItemGroup[i].Id);
+                InputInventory.CellDataList[i].SetItem(recipyData.InputItemGroup[i].Id.GetHashCode());
             }
             for (int i = 0; i < recipyData.OutputItemGroup.Count; i++)
             {
-                OutputInventory.CellDataList[i].SetItem(recipyData.OutputItemGroup[i].Id);
+                OutputInventory.CellDataList[i].SetItem(recipyData.OutputItemGroup[i].Id.GetHashCode());
             }
         }
 
@@ -193,11 +193,11 @@ public class CraftingModuleModel
 
         for (int i = 0; i < _craftingRecipyData.InputItemGroup.Count; i++)
         {
-            InputInventory.UseItem_FixedInventory(_craftingRecipyData.InputItemGroup[i].Id, _craftingRecipyData.InputItemGroup[i].Count);
+            InputInventory.UseItem_FixedInventory(_craftingRecipyData.InputItemGroup[i].Id.GetHashCode(), _craftingRecipyData.InputItemGroup[i].Count);
         }
         for (int i = 0; i < _craftingRecipyData.OutputItemGroup.Count; i++)
         {
-            OutputInventory.AddItem(_craftingRecipyData.OutputItemGroup[i].Id, _craftingRecipyData.OutputItemGroup[i].Count, out int remaining);
+            OutputInventory.AddItem(_craftingRecipyData.OutputItemGroup[i].Id.GetHashCode(), _craftingRecipyData.OutputItemGroup[i].Count, out int remaining);
         }
 
         Debug.Log("제작 성공");
@@ -214,7 +214,7 @@ public class CraftingModuleModel
             _isCrafting = true;
             for (int i = 0; i < CraftingRecipyData.InputItemGroup.Count; i++)
             {
-                if (InputInventory.CanUseItem(CraftingRecipyData.InputItemGroup[i].Id, CraftingRecipyData.InputItemGroup[i].Count) == false)
+                if (InputInventory.CanUseItem(CraftingRecipyData.InputItemGroup[i].Id.GetHashCode(), CraftingRecipyData.InputItemGroup[i].Count) == false)
                 {
                     _isCrafting = false;
                     Debug.Log("인풋 아이템이 부족합니다.");

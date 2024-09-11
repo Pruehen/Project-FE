@@ -10,14 +10,14 @@ public class SelectableItemCell : MonoBehaviour
     [SerializeField] Image Image_ItemIcon;
 
     string recipyId;
-    string itemId;
+    int itemId;
     string buildingId;
 
     Action<string> OnClick_CallBackRecipy;
     public void Register_OnClick_CallBackRecipy(Action<string> callBack) { OnClick_CallBackRecipy = callBack; }        
 
-    Action<string> OnClick_CallBackItem;
-    public void Register_OnClick_CallBackItem(Action<string> callBack) { OnClick_CallBackItem = callBack; }
+    Action<int> OnClick_CallBackItem;
+    public void Register_OnClick_CallBackItem(Action<int> callBack) { OnClick_CallBackItem = callBack; }
 
     Action<string> OnClick_CallBackBuilding;
     public void Register_OnClick_CallBackBuilding(Action<string> callBack) { OnClick_CallBackBuilding = callBack; }
@@ -47,9 +47,9 @@ public class SelectableItemCell : MonoBehaviour
         this.recipyId = recipyId;
         RecipyData data = JsonDataManager.GetRecipyData(recipyId);
         
-        CellData = new CellData(null, data.OutputItem_1, data.OutputItemCount_1, true);        
+        CellData = new CellData(null, data.OutputItem_1.GetHashCode(), data.OutputItemCount_1, true);        
     }
-    public void SetData_Item(string itemId)
+    public void SetData_Item(int itemId)
     {
         this.itemId = itemId;
         CellData = new CellData(null, itemId, 0, true);        
@@ -59,14 +59,14 @@ public class SelectableItemCell : MonoBehaviour
         this.buildingId = buildingId;
         string itemId = buildingId.Replace("Building_", "Item_");            
 
-        CellData = new CellData(null, itemId, 0, true);
+        CellData = new CellData(null, itemId.GetHashCode(), 0, true);
     }
     public void SetData_StaticCell(string buildingId, int count)
     {
         this.buildingId = buildingId;
         string itemId = buildingId.Replace("Building_", "Item_");
 
-        CellData = new CellData(null, itemId, count, true);
+        CellData = new CellData(null, itemId.GetHashCode(), count, true);
     }
 
     void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -74,7 +74,7 @@ public class SelectableItemCell : MonoBehaviour
         switch (e.PropertyName)
         {
             case nameof(CellData.Id):
-                if (CellData.Id == null)
+                if (CellData.Id == 0)
                 {
                     TMP_ItemCount.text = string.Empty;
                     Image_ItemIcon.gameObject.SetActive(false);
@@ -87,7 +87,7 @@ public class SelectableItemCell : MonoBehaviour
                 }
                 break;
             case nameof(CellData.Count):
-                if (CellData.Id != null && CellData.Count > 0)
+                if (CellData.Id != 0 && CellData.Count > 0)
                 {
                     TMP_ItemCount.text = CellData.Count.ToString();
                 }
@@ -101,7 +101,7 @@ public class SelectableItemCell : MonoBehaviour
 
     public void Active_BtnMouseOverInfo_OnPointerEnter()
     {
-        if (CellData != null && CellData.Id != null)
+        if (CellData != null && CellData.Id != 0)
         {
             UIManager.Instance.SetCellData_MouseTrackUI_OnCellPointerEnter(CellData);
         }
