@@ -195,7 +195,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4206016800663993425, guid: 11507a6c415fc8141823e9d71955d5d6, type: 3}
   m_PrefabInstance: {fileID: 5352818131234118340}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 5352818131234118341}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2f1b9de9b798bfb48b39d911bedeebca, type: 3}
@@ -2111,8 +2111,47 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6885329667244045231, guid: 11507a6c415fc8141823e9d71955d5d6, type: 3}
+      insertIndex: 5
+      addedObject: {fileID: 5352818131234118343}
+    - targetCorrespondingSourceObject: {fileID: 6885329667244045231, guid: 11507a6c415fc8141823e9d71955d5d6, type: 3}
+      insertIndex: 6
+      addedObject: {fileID: 5352818131234118342}
   m_SourcePrefab: {fileID: 100100000, guid: 11507a6c415fc8141823e9d71955d5d6, type: 3}
+--- !u!1 &5352818131234118341 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6885329667244045231, guid: 11507a6c415fc8141823e9d71955d5d6, type: 3}
+  m_PrefabInstance: {fileID: 5352818131234118340}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5352818131234118342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5352818131234118341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe0b98946c573e342ba7be9ccf0cdab4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MiningTimeGain: 1
+  MiningSpeedGain: 1
+--- !u!114 &5352818131234118343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5352818131234118341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b95819a3776e984b9b87a3aa14535ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CraftingTimeGain: 1
+  CraftingSpeedGain: 1
 --- !u!1001 &5794153001699760307
 PrefabInstance:
   m_ObjectHideFlags: 0

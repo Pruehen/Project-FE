@@ -159,6 +159,11 @@ public class Charactor : MonoBehaviour
             _inventory.Close_Wdw();
         }
     }
+    public void InventoryClose()
+    {
+        _inventoryUIActive = false;
+        _inventory.Close_Wdw();
+    }
 
     void Move_OnFixedUpdate()
     {        

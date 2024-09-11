@@ -73,7 +73,9 @@ public class Player : SceneSingleton<Player>
             { KeyCode.Alpha0, () => OnKeyClickDown?.Invoke(KeyCode.Alpha0) }
         };
 
-        Register_KeyAction(KeyCode.Tab, Command_InventoryToggle);
+        Register_KeyAction(KeyCode.Tab, Command_CharactorInventoryToggle);
+        Register_KeyAction(KeyCode.I, Command_CharactorInventoryToggle);
+        Register_KeyAction(KeyCode.Escape, Command_CharactorInventoryClose);
         //foreach (KeyCode value in Enum.GetValues(typeof(KeyCode)))
         //{
         //    keyActions.Add(value, () => OnKeyClickDown?.Invoke(value));
@@ -180,9 +182,13 @@ public class Player : SceneSingleton<Player>
     {
         controlledCharactor?.EndInteract();
     }
-    void Command_InventoryToggle()
+    void Command_CharactorInventoryToggle()
     {        
         controlledCharactor?.InventoryToggle();
+    }
+    void Command_CharactorInventoryClose()
+    {
+        controlledCharactor?.InventoryClose();
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
