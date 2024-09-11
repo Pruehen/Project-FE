@@ -87,6 +87,11 @@ public class BeltNode : Node
         beltPart.SetBeltPart(type, this);
 
         transporter = beltPart;
+
+        if(NextNode == null || PreviousNode == null)
+        {
+            GameLogicManager.Instance.RootBeltNodeSet.Add(this);
+        }
     }
 }
 
@@ -151,8 +156,8 @@ public class SorterNode : Node
         }
         
         sorterPart.SetSorterPart(inputNodeList, outputNodeList);
-
         transporter = sorterPart;
+        GameLogicManager.Instance.SorterNodeSet.Add(this);
     }
     public override void Remove() 
     {
@@ -197,7 +202,7 @@ public class BeltCreator
                 {
                     if(selectNode.nodeType == NodeType.BeltNode)
                     {
-                        selectNode = GridMap.CreateSorter(path[i]);
+                        selectNode = GridMap.CreateSorterNode(path[i]);
                         Debug.Log("신규 병합기 생성");
                     }
                     else if(selectNode.nodeType == NodeType.SorterNode)
@@ -213,7 +218,7 @@ public class BeltCreator
             }
             else
             {
-                buildBeltNodeList.Add(GridMap.CreateBelt(path[i]));
+                buildBeltNodeList.Add(GridMap.CreateBeltNode(path[i]));
             }            
 
             if (i > 0)//시작점을 제외한 모든 노드
@@ -307,21 +312,9 @@ public class BeltManager : SceneSingleton<BeltManager>, IBuildTool
 
     BeltCreator buildingBeltTemp = new BeltCreator();
     Vector3Int posTemp;
+    
 
     bool isBuildMode = false;
-
-    void Update()
-    {
-        //foreach (var item in AllNodeList)
-        //{
-        //    item.sorterPart.LogicInit();
-        //}
-        
-        //foreach (var item in RootNodeDic)
-        //{
-        //    item.Value.sorterPart.ExcuteLogic_OnUpdate(Time.deltaTime);
-        //}
-    }
 
     public void OnClick(Vector3Int pos)
     {
@@ -343,6 +336,10 @@ public class BeltManager : SceneSingleton<BeltManager>, IBuildTool
             posTemp = pos;
             CheckBuildBelt(pos);
         }
+    }
+    public void OnKeyDown(KeyCode key)
+    {
+
     }
     public void DeActive()
     {

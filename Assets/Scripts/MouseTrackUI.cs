@@ -41,7 +41,7 @@ public class MouseTrackUI : MonoBehaviour
 
     public void SetIcon_OnGrab(CellData cellData)
     {
-        if (cellData != null && cellData.Id != null)
+        if (cellData != null && cellData.Id != 0)
         {
             Icon_GrabItem.gameObject.SetActive(true);            
             Icon_GrabItem.SetLoadSprite(JsonDataManager.GetItem(cellData.Id).Icon_Path);

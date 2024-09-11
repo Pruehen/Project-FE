@@ -16,11 +16,14 @@ public interface IModule
 {
     public void Active_Wdw();
     public void Close_Wdw();
+    public Inventory TryGetInputInventory();
+    public Inventory TryGetOutputInventory();
 }
 public interface IBuildTool
 {
     public void OnClick(Vector3Int pos);
     public void OnMove(Vector3Int pos);
+    public void OnKeyDown(KeyCode key);
     public void DeActive();
 }
 public abstract class Node
@@ -41,9 +44,11 @@ public interface IWindow
 
 public interface ITransporter
 {
-    public bool TryItemOut(ITransporter nextNode);
-    public bool CanItemIn();
+    public bool CanItemOut(ITransporter nextNode);
+    public void ItemOut(ITransporter nextNode);
+    public bool CanItemIn(int itemId);
     public void ItemIn(int itemId, Vector3 inPos);
+    public int GetItem();
     public void LogicInit();
     public void ExcuteLogic_OnUpdate(float deltaTime);
 }

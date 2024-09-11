@@ -28,9 +28,9 @@ public class InventoryModule : MonoBehaviour, IModule
     {
         if(Input.GetKeyDown(KeyCode.Space)) 
         {
-            Inventory.AddItem("Item_Copper", 50, out int r1);
-            Inventory.AddItem("Item_Iron", 50, out int r2);
-            Inventory.AddItem("Item_IronPlate", 50, out int r3);
+            Inventory.AddItem("Item_Copper".GetHashCode(), 50, out int r1);
+            Inventory.AddItem("Item_Iron".GetHashCode(), 50, out int r2);
+            Inventory.AddItem("Item_IronPlate".GetHashCode(), 50, out int r3);
         }
     }
 
@@ -47,6 +47,14 @@ public class InventoryModule : MonoBehaviour, IModule
             window.Close();
         }
     }
+    public Inventory TryGetInputInventory()
+    {
+        return Inventory;
+    }
+    public Inventory TryGetOutputInventory()
+    {
+        return Inventory;
+    }
 }
 
 public class Inventory
@@ -61,13 +69,13 @@ public class Inventory
         CellDataList = new List<CellData>();
         for (int i = 0; i < maxCount; i++)
         {
-            CellDataList.Add(new CellData(this, null, 0, fixedInventory));
+            CellDataList.Add(new CellData(this, 0, 0, fixedInventory));
         }
         CellCorsor = 0;
         FixedInventory = fixedInventory;
     }
 
-    public void Clear()
+    public void Clear()//인벤토리의 내용물을 싹 지워버림
     {
         foreach (var item in CellDataList)
         {
@@ -75,8 +83,67 @@ public class Inventory
         }
         OnInventoryChange?.Invoke();
     }
+    public bool CanAddItem(int id, int count)//인벤토리에 아이템을 추가할 수 있는지 판별함
+    {
+        if (FixedInventory)
+        {
+            if(TryFindCell(id, out CellData cell))
+            {
+                return cell.CanItemAdd();
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            int cellCorsorTemp = CellCorsor;
+            bool canAddItem = false;
 
-    public void AddItem(string id, int count, out int remaining)
+            while (count > 0)
+            {
+                if (CellCorsor >= CellDataList.Count)
+                {
+                    canAddItem = false;
+                    break;
+                }
+                // 현재 셀의 ID가 새로 추가할 아이템의 ID와 다르거나 아이템을 추가할 수 없는 경우
+                if (CellDataList[CellCorsor].Id != id || CellDataList[CellCorsor].CanItemAdd() == false)
+                {
+                    SetCorsor_FindValidCellIndex(id);
+                }
+
+                // 셀 데이터 리스트의 범위를 벗어나는 경우
+                if (CellCorsor >= CellDataList.Count)
+                {
+                    canAddItem = false;
+                    break;
+                }
+
+                int cellRemaining = count - CellDataList[CellCorsor].Count;
+
+                // 남은 아이템 수가 있는 경우
+                if (cellRemaining > 0)
+                {
+                    // 남은 아이템 수를 다음 반복으로 전달
+                    count = cellRemaining;
+                    // 다음 셀로 커서 이동
+                    CellCorsor++;
+                }
+                else
+                {
+                    // 아이템이 모두 추가된 경우
+                    canAddItem = true;
+                    break;
+                }
+            }
+
+            CellCorsor = cellCorsorTemp;        
+            return canAddItem;
+        }
+    }
+    public void AddItem(int id, int count, out int remaining)//인벤토리를 찾아서 아이템 추가를 시도함. 아이템이 다 안 들어가면 remaining으로 남은 수량이 반환됨.
     {
         if (FixedInventory)
         {
@@ -88,8 +155,69 @@ public class Inventory
         }
         OnInventoryChange?.Invoke();
     }
+    public bool CanUseItem(int id, int count)//아이템 소모가 가능한지를 체크함
+    {
+        if (TryFindCell(id, out CellData targetCell))
+        {
+            return (targetCell.Count >= count);
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public void UseItem_FixedInventory(int id, int count)//아이템을 소모함. 이 메서드 호출 이전에 CanUseItem 메서드를 한번 호출하는걸 권장함. 내부적으로 검사를 하긴 하지만
+    {
+        if (TryFindCell(id, out CellData targetCell))
+        {
+            targetCell.UseItem(count);
+            OnInventoryChange?.Invoke();
+        }
+    }
+    public void OnUseItem_NonFixedInventory()//아이템이 소모되었을 때 호출됨. 외부에서 호출할 필요 없음.
+    {
+        CellDataList.InsertionCellSort();
+    }
+    public bool CanGrabItem()//아이템을 투입기 등으로 잡을 수 있는지 체크함. 아이템 종류를 가리지 않음.
+    {
+        foreach (CellData cell in CellDataList)
+        {
+            if(cell.Id != 0 && cell.Count > 0) return true;
+        }
 
-    void AddItem_NotFixedInventory(string id, int count, out int remaining)
+        return false;
+    }
+    public void GrabItem(out int id, out int count)//아이템을 투입기 등으로 잡아서 옮김.
+    {
+        id = 0;
+        count = 0;
+
+        foreach (CellData cell in CellDataList)
+        {
+            if (cell.Id != 0 && cell.Count > 0)
+            {
+                id = cell.Id;
+                count = 1;
+                cell.UseItem(count);
+                return;
+            }
+        }
+
+        Debug.LogError("수송 실패");
+    }
+    public int GetNextGrabItem()
+    {
+        foreach (CellData cell in CellDataList)
+        {
+            if (cell.Id != 0 && cell.Count > 0)
+            {
+                return cell.Id;
+            }
+        }
+        return 0;
+    }//다음에 투입기로 잡을 아이템이 뭔지 확인함
+
+    void AddItem_NotFixedInventory(int id, int count, out int remaining)
     {
         while (count > 0)
         {
@@ -101,7 +229,7 @@ public class Inventory
             // 현재 셀의 ID가 새로 추가할 아이템의 ID와 다르거나 아이템을 추가할 수 없는 경우
             if (CellDataList[CellCorsor].Id != id || CellDataList[CellCorsor].CanItemAdd() == false)
             {
-                SetCorsor(id);
+                SetCorsor_FindValidCellIndex(id);
             }
 
             // 셀 데이터 리스트의 범위를 벗어나는 경우
@@ -134,7 +262,7 @@ public class Inventory
         // 정렬
         CellDataList.InsertionCellSort();
     }
-    void AddItem_FixedInventory(string id, int count, out int remaining)
+    void AddItem_FixedInventory(int id, int count, out int remaining)
     {
         remaining = count;
         if (TryFindCell(id, out CellData targetCell))
@@ -143,30 +271,7 @@ public class Inventory
         }        
         
     }
-    public bool CanUseItem(string id, int count)
-    {
-        if (TryFindCell(id, out CellData targetCell))
-        {
-            return (targetCell.Count >= count);
-        }
-        else
-        {
-            return false;
-        }
-    }
-    public void UseItem_FixedInventory(string id, int count)
-    {
-        if(TryFindCell(id, out CellData targetCell))
-        {
-            targetCell.UseItem(count);
-            OnInventoryChange?.Invoke();
-        }
-    }
-    public void OnUseItem_NonFixedInventory()
-    {
-        CellDataList.InsertionCellSort();
-    }
-    bool TryFindCell(string id, out CellData cell)
+    bool TryFindCell(int id, out CellData cell)
     {
         cell = null;
         foreach (var item in CellDataList)
@@ -180,18 +285,17 @@ public class Inventory
         Debug.LogWarning($"해당하는 아이템 슬롯을 찾지 못했습니다. : {id}");
         return false;
     }
-
-    void SetCorsor(string searchId)
+    void SetCorsor_FindValidCellIndex(int searchId)
     {
         for (CellCorsor = 0; CellCorsor < CellDataList.Count; CellCorsor++)
         {
-            string indexSlotId = CellDataList[CellCorsor].Id;
+            int indexSlotId = CellDataList[CellCorsor].Id;
             if (CellDataList[CellCorsor].CanItemAdd() && CellDataList[CellCorsor].Id == searchId)//목표 커서 아이템이 찾는 아이템과 같고, 아이템 추가가 가능할 경우
             {
                 return;
             }
 
-            if (indexSlotId == null)//빈 슬롯일 경우
+            if (indexSlotId == 0)//빈 슬롯일 경우
             {
                 return;
             }
@@ -201,7 +305,7 @@ public class Inventory
 
 public class CellData : IComparable<CellData>
 {
-    string _id;
+    int _id;
     int _count;
     int _maxCount;
     bool _fixedCell;
@@ -213,14 +317,14 @@ public class CellData : IComparable<CellData>
             return int.MaxValue; // Null은 비교할 수 없는 것으로 간주
 
         // _id의 해시값을 기준으로 비교
-        int thisHashCode = (_id != null) ? _id.GetHashCode() - Count : int.MaxValue;
-        int otherHashCode = (other._id != null) ? other._id.GetHashCode() - other.Count : int.MaxValue;
+        int thisHashCode = (_id != 0) ? _id - Count : int.MaxValue;
+        int otherHashCode = (other._id != 0) ? other._id - other.Count : int.MaxValue;
 
         return thisHashCode.CompareTo(otherHashCode);
     }
 
 
-    public string Id 
+    public int Id 
     { 
         get { return _id; } 
         private set
@@ -291,23 +395,24 @@ public class CellData : IComparable<CellData>
         OnPropertyChanged(nameof(FixedCell));
     }
 
-    public CellData(Inventory inventory, string id = null, int count = 0, bool fixedCell = false)
+    public CellData(Inventory inventory, int id = 0, int count = 0, bool fixedCell = false)
     {
         this.Inventory = inventory;
         FixedCell = fixedCell;
         Count = count;
+        
         SetItem(id);
     }
     public void Clear()//Remove
     {
-        Id = null;
+        Id = 0;
         Count = 0;
         MaxCount = 0;             
     }
-    public void SetItem(string itemId)
+    public void SetItem(int itemId)
     {
         Id = itemId;        
-        if(Id != null)
+        if(Id != 0)
         {
             MaxCount = JsonDataManager.GetItem(itemId).MaxStack;
         }        
@@ -317,11 +422,11 @@ public class CellData : IComparable<CellData>
         }
     }
 
-    public void AddItem_NotFixedCell(string id, int count, out int remaining)
+    public void AddItem_NotFixedCell(int id, int count, out int remaining)
     {
         remaining = 0;
 
-        if (Id == null)//빈 칸일 경우
+        if (Id == 0)//빈 칸일 경우
         {
             SetItem(id);
             Debug.LogWarning("수신 셀이 비어있습니다. 아이템을 할당합니다.");
@@ -340,7 +445,7 @@ public class CellData : IComparable<CellData>
             Count = MaxCount;
         }
     }
-    public void AddItem_FixedCell(string id, int count, out int remaining)
+    public void AddItem_FixedCell(int id, int count, out int remaining)
     {
         remaining = count;
         if (FixedCell == false)
@@ -348,7 +453,7 @@ public class CellData : IComparable<CellData>
             Debug.LogWarning("고정 아이템 셀이 아닙니다.");
             return;
         }
-        if (Id == null)//빈 칸일 경우
+        if (Id == 0)//빈 칸일 경우
         {
             Debug.LogWarning("수신 셀이 비어있습니다.");
             return;
@@ -387,7 +492,7 @@ public class CellData : IComparable<CellData>
             return;
         }
 
-        string idTemp = Id;
+        int idTemp = Id;
         int countTemp = Count;
         int maxCountTemp = MaxCount;
 
@@ -397,7 +502,7 @@ public class CellData : IComparable<CellData>
 
         target.OnSwap_SetData(idTemp, countTemp, maxCountTemp);
     }
-    void OnSwap_SetData(string id, int count, int maxCount)
+    void OnSwap_SetData(int id, int count, int maxCount)
     {
         Id = id;
         Count = count;

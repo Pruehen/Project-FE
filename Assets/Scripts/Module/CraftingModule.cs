@@ -21,6 +21,14 @@ public class CraftingModule : MonoBehaviour, IModule
             window.Close();
         }
     }
+    public Inventory TryGetInputInventory()
+    {
+        return model.InputInventory;
+    }
+    public Inventory TryGetOutputInventory()
+    {
+        return model.OutputInventory;
+    }
 
     public void SetCraftingRecipyData(string recipyKey)
     {
@@ -55,8 +63,8 @@ public class CraftingModuleModel
 
     List<string> recipyDataGroupList;
 
-    Inventory inputInventory;
-    Inventory outputInventory;
+    public Inventory InputInventory { get; private set; }
+    public Inventory OutputInventory { get; private set; }
 
     float craftingTime = 1;
     float craftingTimeValue;
@@ -87,16 +95,16 @@ public class CraftingModuleModel
 
     public void RefreshVM_OnWdwActive(Action<RecipyData, Inventory, Inventory, List<string>> callBack)
     {
-        callBack.Invoke(CraftingRecipyData, inputInventory, outputInventory, recipyDataGroupList);
+        callBack.Invoke(CraftingRecipyData, InputInventory, OutputInventory, recipyDataGroupList);
     }
 
     public CraftingModuleModel()
     {
-        inputInventory = new Inventory(4, true);
-        outputInventory = new Inventory(4, true);
+        InputInventory = new Inventory(4, true);
+        OutputInventory = new Inventory(4, true);
 
-        inputInventory.OnInventoryChange += SetIsCraftItem_OnInventoryChange;
-        outputInventory.OnInventoryChange += SetIsCraftItem_OnInventoryChange;
+        InputInventory.OnInventoryChange += SetIsCraftItem_OnInventoryChange;
+        OutputInventory.OnInventoryChange += SetIsCraftItem_OnInventoryChange;
 
         SetIsCraftItem_OnInventoryChange();
     }
@@ -137,18 +145,18 @@ public class CraftingModuleModel
 
     void SetCraftModule_OnRecipyChange(RecipyData recipyData)
     {
-        inputInventory.Clear();
-        outputInventory.Clear();
+        InputInventory.Clear();
+        OutputInventory.Clear();
 
         if (recipyData != null)
         {
             for (int i = 0; i < recipyData.InputItemGroup.Count; i++)
             {
-                inputInventory.CellDataList[i].SetItem(recipyData.InputItemGroup[i].Id);
+                InputInventory.CellDataList[i].SetItem(recipyData.InputItemGroup[i].Id.GetHashCode());
             }
             for (int i = 0; i < recipyData.OutputItemGroup.Count; i++)
             {
-                outputInventory.CellDataList[i].SetItem(recipyData.OutputItemGroup[i].Id);
+                OutputInventory.CellDataList[i].SetItem(recipyData.OutputItemGroup[i].Id.GetHashCode());
             }
         }
 
@@ -185,11 +193,11 @@ public class CraftingModuleModel
 
         for (int i = 0; i < _craftingRecipyData.InputItemGroup.Count; i++)
         {
-            inputInventory.UseItem_FixedInventory(_craftingRecipyData.InputItemGroup[i].Id, _craftingRecipyData.InputItemGroup[i].Count);
+            InputInventory.UseItem_FixedInventory(_craftingRecipyData.InputItemGroup[i].Id.GetHashCode(), _craftingRecipyData.InputItemGroup[i].Count);
         }
         for (int i = 0; i < _craftingRecipyData.OutputItemGroup.Count; i++)
         {
-            outputInventory.AddItem(_craftingRecipyData.OutputItemGroup[i].Id, _craftingRecipyData.OutputItemGroup[i].Count, out int remaining);
+            OutputInventory.AddItem(_craftingRecipyData.OutputItemGroup[i].Id.GetHashCode(), _craftingRecipyData.OutputItemGroup[i].Count, out int remaining);
         }
 
         Debug.Log("Á¦ÀÛ ¼º°ø");
@@ -206,7 +214,7 @@ public class CraftingModuleModel
             _isCrafting = true;
             for (int i = 0; i < CraftingRecipyData.InputItemGroup.Count; i++)
             {
-                if (inputInventory.CanUseItem(CraftingRecipyData.InputItemGroup[i].Id, CraftingRecipyData.InputItemGroup[i].Count) == false)
+                if (InputInventory.CanUseItem(CraftingRecipyData.InputItemGroup[i].Id.GetHashCode(), CraftingRecipyData.InputItemGroup[i].Count) == false)
                 {
                     _isCrafting = false;
                     Debug.Log("ÀÎÇ² ¾ÆÀÌÅÛÀÌ ºÎÁ·ÇÕ´Ï´Ù.");
@@ -216,7 +224,7 @@ public class CraftingModuleModel
 
             for (int i = 0; i < CraftingRecipyData.InputItemGroup.Count; i++)
             {
-                if (outputInventory.CellDataList[i].CanItemAdd() == false)
+                if (OutputInventory.CellDataList[i].CanItemAdd() == false)
                 {
                     _isCrafting = false;
                     Debug.Log("¾Æ¿ôÇ²ÀÌ °¡µæ Ã¡½À´Ï´Ù.");

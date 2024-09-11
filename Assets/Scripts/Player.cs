@@ -56,7 +56,7 @@ public class Player : SceneSingleton<Player>
     {
         keyActions = new Dictionary<KeyCode, Action>
         {
-            { KeyCode.Tab, Command_InventoryToggle },
+            { KeyCode.Tab, () => OnKeyClickDown?.Invoke(KeyCode.Tab) },
             { KeyCode.Alpha1, () => OnKeyClickDown?.Invoke(KeyCode.Alpha1) },
             { KeyCode.Alpha2, () => OnKeyClickDown?.Invoke(KeyCode.Alpha2) },
             { KeyCode.Alpha3, () => OnKeyClickDown?.Invoke(KeyCode.Alpha3) },
@@ -66,8 +66,15 @@ public class Player : SceneSingleton<Player>
             { KeyCode.Alpha7, () => OnKeyClickDown?.Invoke(KeyCode.Alpha7) },
             { KeyCode.Alpha8, () => OnKeyClickDown?.Invoke(KeyCode.Alpha8) },
             { KeyCode.Alpha9, () => OnKeyClickDown?.Invoke(KeyCode.Alpha9) },
-            { KeyCode.Alpha0, () => OnKeyClickDown?.Invoke(KeyCode.Alpha0) }
+            { KeyCode.Alpha0, () => OnKeyClickDown?.Invoke(KeyCode.Alpha0) },
+            { KeyCode.R, () => OnKeyClickDown?.Invoke(KeyCode.R) }
         };
+
+        Register_KeyAction(KeyCode.Tab, Command_InventoryToggle);
+        //foreach (KeyCode value in Enum.GetValues(typeof(KeyCode)))
+        //{
+        //    keyActions.Add(value, () => OnKeyClickDown?.Invoke(value));
+        //}
     }
     // Update is called once per frame
     void Update()
@@ -143,7 +150,7 @@ public class Player : SceneSingleton<Player>
         }
         if (Input.GetMouseButtonDown(0))
         {
-            controlledCharactor?.Select_OnMouseLeftClick();
+            controlledCharactor?.OnMouseLeftClick();
         }
     }
 

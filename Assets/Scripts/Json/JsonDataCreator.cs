@@ -6,6 +6,7 @@ using UnityEngine;
 public class ItemData
 {
     [JsonProperty] public string Id { get; private set; }
+    [JsonIgnore] public int Id_Int { get; private set; }
     [JsonProperty] public ItemType ItemType { get; private set; }
     [JsonProperty] public string Name { get; private set; }
     [JsonProperty] public string Desc { get; private set; }
@@ -20,6 +21,7 @@ public class ItemData
     public ItemData(string id, ItemType itemType, string name, string desc, int maxStack, float energyReserves, string iconPath, string itemMeshPath, string dropMeshPath )
     {
         Id = id;
+        Id_Int = id.GetHashCode();
         ItemType = itemType;
         Name = name;
         Desc = desc;
@@ -56,11 +58,18 @@ public class ItemData
 }
 public class ItemDataTable
 {
-    public Dictionary<string, ItemData> dic;
+    [JsonProperty] public Dictionary<string, ItemData> dic;
+    [JsonIgnore] public Dictionary<int, ItemData> dic_int;
     [JsonConstructor]
     public ItemDataTable(Dictionary<string, ItemData> dic)
     {
         this.dic = dic;
+
+        dic_int = new Dictionary<int, ItemData>();
+        foreach (var item in dic)
+        {
+            dic_int.Add(item.Key.GetHashCode(), item.Value);
+        }
     }
     public ItemDataTable()
     {

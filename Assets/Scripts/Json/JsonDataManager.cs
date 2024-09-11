@@ -81,6 +81,19 @@ public static class JsonDataManager
             return null;
         }
     }
+    public static ItemData GetItem(int key)
+    {
+        if (jsonCache.ItemDataTableCache.dic_int.ContainsKey(key))
+        {
+            return jsonCache.ItemDataTableCache.dic_int[key];
+        }
+        else
+        {
+            Debug.LogError($"존재하지 않는 아이템 키입니다. : {key}");
+            return null;
+        }
+    }
+
     public static BuildingData GetBuilding(string key)
     {
         if (jsonCache.BuildingDataTableCache.dic.ContainsKey(key))

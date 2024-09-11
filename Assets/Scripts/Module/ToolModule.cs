@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using EnumTypes;
 using TMPro;
+using System;
+using System.Linq;
 
 public class ToolModule : MonoBehaviour
 {
@@ -11,6 +13,7 @@ public class ToolModule : MonoBehaviour
     [SerializeField] TextMeshProUGUI testText_BuildMode;
 
     public BuildMode BuildMode {  get; private set; }
+
     IBuildTool _selectTool;
     public IBuildTool SelectTool
     {
@@ -58,6 +61,7 @@ public class ToolModule : MonoBehaviour
     {
         ToolSelect(tool_buildingIdList[index]);
     }
+
     void ToolSelect(string buildingId)
     {
         if (selectedToolTemp == buildingId)
@@ -122,5 +126,9 @@ public class ToolModule : MonoBehaviour
     {
         GridRenderer.Instance.DrawGrid(gridPos);        
         SelectTool.OnMove(gridPos);
+    }
+    public void ToolOnKeyDown(KeyCode key)
+    {
+        SelectTool.OnKeyDown(key);
     }
 }
