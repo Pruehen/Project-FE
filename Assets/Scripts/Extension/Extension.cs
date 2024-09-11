@@ -149,10 +149,7 @@ public static class Extension
     {
         // Resources.Load를 사용하여 스프라이트를 로드합니다.
         Sprite lodeSprite = Resources.Load<Sprite>(path);
-        if(lodeSprite != null)
-        {
-            image.sprite = lodeSprite;
-        }
+        image.sprite = lodeSprite;
     }
 
     public static string SimplifyNumber(this float number)

@@ -112,6 +112,8 @@ public class Building : MonoBehaviour, IInteractable, ITransporter
 
     public bool CanItemOut(ITransporter nextNode)
     {
+        return false;
+        
         Inventory outputinventory = _MainModule.TryGetOutputInventory();
         if(outputinventory != null)
         {

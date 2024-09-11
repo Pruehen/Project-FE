@@ -47,7 +47,7 @@ public class SelectableItemCell : MonoBehaviour
         this.recipyId = recipyId;
         RecipyData data = JsonDataManager.GetRecipyData(recipyId);
         
-        CellData = new CellData(null, data.OutputItem_1.GetHashCode(), data.OutputItemCount_1, true);        
+        CellData = new CellData(null, (data.OutputItem_1 == null) ? 0 : data.OutputItem_1.GetHashCode(), data.OutputItemCount_1, true);
     }
     public void SetData_Item(int itemId)
     {

@@ -56,7 +56,7 @@ public class ItemCell : MonoBehaviour
         switch (e.PropertyName)
         {
             case nameof(CellData.Id):                
-                if (CellData.Id != null)
+                if (CellData.Id != 0)
                 {                                        
                     ItemData item = JsonDataManager.GetItem(CellData.Id);
                     Image_ItemIcon.SetLoadSprite(item.Icon_Path);
@@ -68,7 +68,7 @@ public class ItemCell : MonoBehaviour
                 }
                 break;
             case nameof(CellData.Count):
-                if (CellData.Id != null && CellData.Count > 0)
+                if (CellData.Id != 0 && CellData.Count > 0)
                 {
                     Image_ItemIcon.gameObject.SetActive(true);
                     TMP_ItemCount.text = CellData.Count.ToString();                    
@@ -94,7 +94,7 @@ public class ItemCell : MonoBehaviour
 
     public void Active_BtnMouseOverInfo_OnPointerEnter()
     {
-        if (CellData != null && CellData.Id != null)
+        if (CellData != null && CellData.Id != 0)
         {
             UIManager.Instance.SetCellData_MouseTrackUI_OnCellPointerEnter(CellData);
         }
@@ -118,7 +118,7 @@ public class ItemCell : MonoBehaviour
 
     public void ItemGrab_OnPointerDown()
     {
-        if (CellData == null || (CellData.FixedCell && CellData.Count == 0) || CellData.Id == null)
+        if (CellData == null || (CellData.FixedCell && CellData.Count == 0) || CellData.Id == 0)
             return;
         else
         {
