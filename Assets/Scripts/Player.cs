@@ -75,7 +75,7 @@ public class Player : SceneSingleton<Player>
 
         Register_KeyAction(KeyCode.Tab, Command_CharactorInventoryToggle);
         Register_KeyAction(KeyCode.I, Command_CharactorInventoryToggle);
-        Register_KeyAction(KeyCode.Escape, Command_CharactorInventoryClose);
+        Register_KeyAction(KeyCode.Escape, Command_CharactorInventoryClose_OnEscClick);
         //foreach (KeyCode value in Enum.GetValues(typeof(KeyCode)))
         //{
         //    keyActions.Add(value, () => OnKeyClickDown?.Invoke(value));
@@ -183,7 +183,7 @@ public class Player : SceneSingleton<Player>
         controlledCharactor?.EndInteract();
     }
 
-    public void Command_CharactorInventoryOpen()
+    public void Command_CharactorInventoryOpen_OnBuildingClick()
     {
         controlledCharactor?.InventoryOpen();
     }
@@ -191,7 +191,7 @@ public class Player : SceneSingleton<Player>
     {        
         controlledCharactor?.InventoryToggle();
     }
-    void Command_CharactorInventoryClose()
+    void Command_CharactorInventoryClose_OnEscClick()
     {
         controlledCharactor?.InventoryClose();
     }
