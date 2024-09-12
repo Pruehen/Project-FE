@@ -2,6 +2,7 @@
   "dic": {
     "Item_Iron": {
       "Id": "Item_Iron",
+      "Id_Short": 1,
       "ItemType": "Resource",
       "Name": "Text_Item_Iron_Name",
       "Desc": "Text_Item_Iron_Desc",
@@ -13,6 +14,7 @@
     },
     "Item_Copper": {
       "Id": "Item_Copper",
+      "Id_Short": 2,
       "ItemType": "Resource",
       "Name": "Text_Item_Copper_Name",
       "Desc": "Text_Item_Copper_Desc",
@@ -24,6 +26,7 @@
     },
     "Item_IronPlate": {
       "Id": "Item_IronPlate",
+      "Id_Short": 3,
       "ItemType": "Parts",
       "Name": "Text_Item_IronPlate_Name",
       "Desc": "Text_Item_IronPlate_Desc",
@@ -35,6 +38,7 @@
     },
     "Item_CopperPlate": {
       "Id": "Item_CopperPlate",
+      "Id_Short": 4,
       "ItemType": "Resource",
       "Name": "Text_Item_CopperPlate_Name",
       "Desc": "Text_Item_CopperPlate_Desc",
@@ -46,6 +50,7 @@
     },
     "Item_BioSludge": {
       "Id": "Item_BioSludge",
+      "Id_Short": 5,
       "ItemType": "Parts",
       "Name": "Text_Item_BioSludge_Name",
       "Desc": "Text_Item_BioSludge_Desc",
@@ -57,6 +62,7 @@
     },
     "Item_Crafter_T1": {
       "Id": "Item_Crafter_T1",
+      "Id_Short": 6,
       "ItemType": "Building",
       "Name": "Text_Item_Crafter_T1_Name",
       "Desc": "Text_Item_Crafter_T1_Desc",
@@ -68,6 +74,7 @@
     },
     "Item_Crater_T2": {
       "Id": "Item_Crater_T2",
+      "Id_Short": 7,
       "ItemType": "Building",
       "Name": "Text_Item_Crater_T2_Name",
       "Desc": "Text_Item_Crater_T2_Desc",
@@ -79,6 +86,7 @@
     },
     "Item_Refinery_T1": {
       "Id": "Item_Refinery_T1",
+      "Id_Short": 8,
       "ItemType": "Building",
       "Name": "Text_Item_Refinery_T1_Name",
       "Desc": "Text_Item_Refinery_T1_Desc",
@@ -90,6 +98,7 @@
     },
     "Item_Refinery_T2": {
       "Id": "Item_Refinery_T2",
+      "Id_Short": 9,
       "ItemType": "Building",
       "Name": "Text_Item_Refinery_T2_Name",
       "Desc": "Text_Item_Refinery_T2_Desc",
@@ -101,6 +110,7 @@
     },
     "Item_Miner_T1": {
       "Id": "Item_Miner_T1",
+      "Id_Short": 10,
       "ItemType": "Building",
       "Name": "Text_Item_Miner_T1_Name",
       "Desc": "Text_Item_Miner_T1_Desc",
@@ -112,6 +122,7 @@
     },
     "Item_Miner_T2": {
       "Id": "Item_Miner_T2",
+      "Id_Short": 11,
       "ItemType": "Building",
       "Name": "Text_Item_Miner_T2_Name",
       "Desc": "Text_Item_Miner_T2_Desc",
@@ -123,6 +134,7 @@
     },
     "Item_Inserter_T1": {
       "Id": "Item_Inserter_T1",
+      "Id_Short": 12,
       "ItemType": "Building",
       "Name": "Text_Item_Inserter_T1_Name",
       "Desc": "Text_Item_Inserter_T1_Desc",
@@ -134,6 +146,7 @@
     },
     "Item_Inserter_T2": {
       "Id": "Item_Inserter_T2",
+      "Id_Short": 13,
       "ItemType": "Building",
       "Name": "Text_Item_Inserter_T2_Name",
       "Desc": "Text_Item_Inserter_T2_Desc",
@@ -145,6 +158,7 @@
     },
     "Item_Belt_T1": {
       "Id": "Item_Belt_T1",
+      "Id_Short": 14,
       "ItemType": "Building",
       "Name": "Text_Item_Belt_T1_Name",
       "Desc": "Text_Item_Belt_T1_Desc",
@@ -156,6 +170,7 @@
     },
     "Item_Belt_T2": {
       "Id": "Item_Belt_T2",
+      "Id_Short": 15,
       "ItemType": "Building",
       "Name": "Text_Item_Belt_T2_Name",
       "Desc": "Text_Item_Belt_T2_Desc",
@@ -167,6 +182,7 @@
     },
     "Item_Generator_T1": {
       "Id": "Item_Generator_T1",
+      "Id_Short": 16,
       "ItemType": "Building",
       "Name": "Text_Item_Generator_T1_Name",
       "Desc": "Text_Item_Generator_T1_Desc",
@@ -178,6 +194,7 @@
     },
     "Item_Generator_T2": {
       "Id": "Item_Generator_T2",
+      "Id_Short": 17,
       "ItemType": "Building",
       "Name": "Text_Item_Generator_T2_Name",
       "Desc": "Text_Item_Generator_T2_Desc",
@@ -189,6 +206,7 @@
     },
     "Item_BioFuel": {
       "Id": "Item_BioFuel",
+      "Id_Short": 18,
       "ItemType": "Resource",
       "Name": "Text_Item_BioFuel_Name",
       "Desc": "Text_Item_BioFuel_Desc",
