@@ -89,6 +89,15 @@ public class Player : SceneSingleton<Player>
         OnMouseClick_OnUpdate();
 
         OnKeyDown_OnUpdate();
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            Time.timeScale = 50;
+        }
+        if(Input.GetKeyUp(KeyCode.Space))
+        {
+            Time.timeScale = 1;
+        }
     }
 
     void OnPlayerMoveInput_OnUpdate()

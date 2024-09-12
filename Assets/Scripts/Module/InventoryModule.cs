@@ -311,7 +311,7 @@ public class Inventory
         remaining = count;
         if (TryFindCell(id, out CellData targetCell))
         {
-            targetCell.AddItem_FixedCell(targetCell.Id, count, out remaining);
+            targetCell.AddItem_FixedCell(count, out remaining);
         }        
         
     }
@@ -489,7 +489,7 @@ public class CellData : IComparable<CellData>
             Count = MaxCount;
         }
     }
-    public void AddItem_FixedCell(ushort id, int count, out int remaining)
+    public void AddItem_FixedCell(int count, out int remaining)
     {
         remaining = count;
         if (FixedCell == false)
@@ -501,10 +501,18 @@ public class CellData : IComparable<CellData>
         {
             Debug.LogWarning("수신 셀이 비어있습니다.");
             return;
-        }
+        }        
 
         Count += count;
-        remaining = 0;
+        if(Count > MaxCount)
+        {
+            remaining = Count - MaxCount;
+            Count = MaxCount;
+        }
+        else
+        {
+            remaining = 0;
+        }
     }
     public void UseItem(int count)
     {
