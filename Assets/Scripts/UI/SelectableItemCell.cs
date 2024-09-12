@@ -47,9 +47,9 @@ public class SelectableItemCell : MonoBehaviour
         this.recipyId = recipyId;
         RecipyData data = JsonDataManager.GetRecipyData(recipyId);
         
-        CellData = new CellData(null, (data.OutputItem_1 == null) ? 0 : data.OutputItem_1.GetHashCode(), data.OutputItemCount_1, true);
+        CellData = new CellData(null, (data.OutputItemGroup.Count == 0) ? (short)0 : data.OutputItemGroup[0].data.Id_Short, data.OutputItemCount_1, true);
     }
-    public void SetData_Item(int itemId)
+    public void SetData_Item(short itemId)
     {
         this.itemId = itemId;
         CellData = new CellData(null, itemId, 0, true);        
@@ -59,14 +59,14 @@ public class SelectableItemCell : MonoBehaviour
         this.buildingId = buildingId;
         string itemId = buildingId.Replace("Building_", "Item_");            
 
-        CellData = new CellData(null, itemId.GetHashCode(), 0, true);
+        CellData = new CellData(null, JsonDataManager.GetItem(itemId).Id_Short, 0, true);
     }
     public void SetData_StaticCell(string buildingId, int count)
     {
         this.buildingId = buildingId;
         string itemId = buildingId.Replace("Building_", "Item_");
 
-        CellData = new CellData(null, itemId.GetHashCode(), count, true);
+        CellData = new CellData(null, JsonDataManager.GetItem(itemId).Id_Short, count, true);
     }
 
     void OnPropertyChanged(object sender, PropertyChangedEventArgs e)

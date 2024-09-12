@@ -81,11 +81,11 @@ public static class JsonDataManager
             return null;
         }
     }
-    public static ItemData GetItem(int key)
+    public static ItemData GetItem(short key)
     {
-        if (jsonCache.ItemDataTableCache.dic_int.ContainsKey(key))
+        if (jsonCache.ItemDataTableCache.dic_Short.ContainsKey(key))
         {
-            return jsonCache.ItemDataTableCache.dic_int[key];
+            return jsonCache.ItemDataTableCache.dic_Short[key];
         }
         else
         {

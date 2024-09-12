@@ -6,7 +6,7 @@ using UnityEngine;
 public class ItemData
 {
     [JsonProperty] public string Id { get; private set; }
-    [JsonIgnore] public int Id_Int { get; private set; }
+    [JsonProperty] public short Id_Short { get; private set; }
     [JsonProperty] public ItemType ItemType { get; private set; }
     [JsonProperty] public string Name { get; private set; }
     [JsonProperty] public string Desc { get; private set; }
@@ -18,10 +18,10 @@ public class ItemData
     [JsonProperty("DropMesh")] public string DropMesh_Path { get; private set; }
 
     [JsonConstructor]
-    public ItemData(string id, ItemType itemType, string name, string desc, int maxStack, float energyReserves, string iconPath, string itemMeshPath, string dropMeshPath )
+    public ItemData(string id, short id_short, ItemType itemType, string name, string desc, int maxStack, float energyReserves, string iconPath, string itemMeshPath, string dropMeshPath )
     {
         Id = id;
-        Id_Int = id.GetHashCode();
+        Id_Short = id_short;
         ItemType = itemType;
         Name = name;
         Desc = desc;
@@ -59,16 +59,16 @@ public class ItemData
 public class ItemDataTable
 {
     [JsonProperty] public Dictionary<string, ItemData> dic;
-    [JsonIgnore] public Dictionary<int, ItemData> dic_int;
+    [JsonIgnore] public Dictionary<short, ItemData> dic_Short;
     [JsonConstructor]
     public ItemDataTable(Dictionary<string, ItemData> dic)
     {
         this.dic = dic;
 
-        dic_int = new Dictionary<int, ItemData>();
+        dic_Short = new Dictionary<short, ItemData>();
         foreach (var item in dic)
         {
-            dic_int.Add(item.Key.GetHashCode(), item.Value);
+            dic_Short.Add(item.Value.Id_Short, item.Value);
         }
     }
     public ItemDataTable()
@@ -325,12 +325,12 @@ public class RecipyData
 }
 public struct ItemGroup_UsedInRecipe
 {
-    public string Id;
+    public ItemData data;
     public int Count;
 
     public ItemGroup_UsedInRecipe(string id, int count)
     {
-        Id = id;
+        data = JsonDataManager.GetItem(id);
         Count = count;
     }
 }

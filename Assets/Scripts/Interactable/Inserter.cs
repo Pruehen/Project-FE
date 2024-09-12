@@ -13,8 +13,8 @@ public class Inserter : MonoBehaviour, IInteractable, ITransporter
     [SerializeField] GameObject grab;
     [SerializeField] LineRenderer lineRenderer;
     
-    [SerializeField] ItemObject grabObject;        
-    int _grab_id;
+    [SerializeField] ItemObject grabObject;
+    short _grab_id;
 
     float moveLogicSpeed = 1f;
     float moveLogicTime;
@@ -129,7 +129,7 @@ public class Inserter : MonoBehaviour, IInteractable, ITransporter
         _MainModule = GetComponent<IModule>();
     }
 
-    public int GrabObject
+    public short GrabObject
     {
         get { return _grab_id; }
         set
@@ -157,17 +157,17 @@ public class Inserter : MonoBehaviour, IInteractable, ITransporter
         GrabObject = 0;
         State_ItemTransport = false;        
     }
-    public bool CanItemIn(int itemId)
+    public bool CanItemIn(short itemId)
     {
         return GrabObject == 0;
     }
-    public void ItemIn(int itemId, Vector3 inPos)
+    public void ItemIn(short itemId, Vector3 inPos)
     {
         GrabObject = itemId;
         grabObject.SetPos((inPos == Vector3.zero) ? itemStayPoint_First : inPos, itemStayPoint_Last);
         State_ItemTransport = true;
     }
-    public int GetItem()
+    public short GetItem()
     {
         return GrabObject;
     }

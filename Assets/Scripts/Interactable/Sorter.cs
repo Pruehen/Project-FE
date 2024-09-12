@@ -126,7 +126,7 @@ public class Sorter : MonoBehaviour, IInteractable, ITransporter
 
         return true;
     }
-    public int GetItem()
+    public short GetItem()
     {
         return moveItemIdArray[nextOutItemIndex];
     }
@@ -143,11 +143,11 @@ public class Sorter : MonoBehaviour, IInteractable, ITransporter
 
         itemHaveCount--;
     }
-    public bool CanItemIn(int itemId)
+    public bool CanItemIn(short itemId)
     {
         return itemHaveCount < 4;
     }
-    public void ItemIn(int itemId, Vector3 inPos)
+    public void ItemIn(short itemId, Vector3 inPos)
     {
         Add_NextOInItemIndex();//nextInItemIndex 변경됨
 
@@ -164,7 +164,7 @@ public class Sorter : MonoBehaviour, IInteractable, ITransporter
     
     int itemHaveCount = 0;
     float[] timeValueArray_ItemMove = { 0, 0, 0, 0 };
-    int[] moveItemIdArray = { 0, 0, 0, 0 };
+    short[] moveItemIdArray = { 0, 0, 0, 0 };
 
     int nextInItemIndex = 0;//선입 선출을 위한 인덱스 변수
     int nextOutItemIndex = 0;//선입 선출을 위한 인덱스 변수

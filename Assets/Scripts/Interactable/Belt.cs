@@ -10,9 +10,9 @@ public class Belt : MonoBehaviour, IInteractable, ITransporter
     [SerializeField] string BuildingKey;
 
     [SerializeField] ItemObject moveItemObject;
-    [SerializeField] Transform itemStayPoint;    
+    [SerializeField] Transform itemStayPoint;
 
-    int _mi_id;    
+    short _mi_id;    
 
     float moveLogicSpeed = 2f;
     float moveLogicTime;
@@ -117,7 +117,7 @@ public class Belt : MonoBehaviour, IInteractable, ITransporter
         moveLogicTime = 1 / moveLogicSpeed;
     }    
 
-    public int MoveItemKey
+    public short MoveItemKey
     {
         get { return _mi_id; }
         set
@@ -142,16 +142,16 @@ public class Belt : MonoBehaviour, IInteractable, ITransporter
         MoveItemKey = 0;
         timeValue_ItemMove -= moveLogicTime;
     }
-    public bool CanItemIn(int itemId)
+    public bool CanItemIn(short itemId)
     {
         return MoveItemKey == 0;
     }
-    public void ItemIn(int itemId, Vector3 inPos)
+    public void ItemIn(short itemId, Vector3 inPos)
     {
         MoveItemKey = itemId;
         moveItemObject.SetPos(inPos, itemStayPoint.position);
     }
-    public int GetItem()
+    public short GetItem()
     {
         return MoveItemKey;
     }
