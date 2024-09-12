@@ -7,7 +7,8 @@ public interface IInteractable
     public Vector3 GetPos(Vector3 hitPos);
     public float InteractSpeedGain();
     public bool TryInteract(Vector3 hitPos, Vector3 originPos, float checkRange);
-    public void Select();
+    public bool TrySelect(Vector3 hitPos, Vector3 originPos, float checkRange);
+    public void DeSelect();
     public void MouseEnter();
     public void MouseExit();
 }

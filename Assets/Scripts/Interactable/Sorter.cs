@@ -70,8 +70,13 @@ public class Sorter : MonoBehaviour, IInteractable, ITransporter
     {
         return 1;
     }
-    public void Select()
+    public bool TrySelect(Vector3 hitPos, Vector3 originPos, float checkRange)
     {
+        return false;
+    }
+    public void DeSelect()
+    {
+
     }
 
     public void MouseEnter()

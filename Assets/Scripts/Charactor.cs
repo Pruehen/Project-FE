@@ -32,6 +32,7 @@ public class Charactor : MonoBehaviour
     LineRenderer _lineRenderer;
     IInteractable onInteractObject;
     IInteractable onMouseObjectTemp;
+    IInteractable onSelectObject;
 
     // Start is called before the first frame update
     void Start()
@@ -97,6 +98,15 @@ public class Charactor : MonoBehaviour
             RemoveBeam();
         }
 
+        if(onSelectObject != null)
+        {
+            if(Vector3.Distance(this.transform.position, onSelectObject.GetPos(this.transform.position)) > interactionRange)
+            {
+                onSelectObject.DeSelect();
+                onSelectObject = null;
+            }
+        }
+
         GridDraw_OnMouseMove();
     }
 
@@ -118,7 +128,11 @@ public class Charactor : MonoBehaviour
         }
         else
         {
-            onMouseObjectTemp?.Select();
+            if(onMouseObjectTemp != null && onMouseObjectTemp.TrySelect(_lookPos, this.transform.position, interactionRange))
+            {
+                onSelectObject?.DeSelect();
+                onSelectObject = onMouseObjectTemp;
+            }
         }
     }
 

@@ -69,10 +69,22 @@ public class Building : MonoBehaviour, IInteractable, ITransporter
     {
         return 1;
     }
-    public void Select()
+    public bool TrySelect(Vector3 hitPos, Vector3 originPos, float checkRange)
     {
-        UIManager.Instance.Active_BuildingMainModuleUIWdw(_MainModule);
-        Player.Instance.Command_CharactorInventoryOpen_OnBuildingClick();
+        if (Vector3.Distance(originPos, GetPos(hitPos)) < checkRange)
+        {
+            _MainModule.Active_Wdw();
+            Player.Instance.Command_CharactorInventoryOpen_OnBuildingClick();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public void DeSelect()
+    {
+        _MainModule.Close_Wdw();
     }
 
     public void MouseEnter()
@@ -87,13 +99,13 @@ public class Building : MonoBehaviour, IInteractable, ITransporter
 
     public bool TryInteract(Vector3 hitPos, Vector3 originPos, float checkRange)
     {
-        if(Vector3.Distance(originPos, GetPos(hitPos)) > checkRange)
-        {
-            return false;
+        if(Vector3.Distance(originPos, GetPos(hitPos)) < checkRange)
+        {            
+            return true;
         }
         else
         {
-            return true;
+            return false;
         }
     }
 

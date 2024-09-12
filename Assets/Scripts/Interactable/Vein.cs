@@ -30,7 +30,11 @@ public class Vein : MonoBehaviour, IInteractable
     {
         return extractTimeGain;
     }
-    public void Select()
+    public bool TrySelect(Vector3 hitPos, Vector3 originPos, float checkRange)
+    {
+        return false;
+    }
+    public void DeSelect()
     {
 
     }
