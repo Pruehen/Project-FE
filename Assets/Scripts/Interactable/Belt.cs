@@ -9,8 +9,8 @@ public class Belt : MonoBehaviour, IInteractable, ITransporter
     [SerializeField] string ItemKey;
     [SerializeField] string BuildingKey;
 
-    [SerializeField] ItemObject moveItemObject;
     [SerializeField] Transform itemStayPoint;
+    ItemObject moveItemObject;
 
     ushort _mi_id;    
 
@@ -128,7 +128,14 @@ public class Belt : MonoBehaviour, IInteractable, ITransporter
         set
         {
             _mi_id = value;
-            moveItemObject.gameObject.SetActive(_mi_id != 0);
+            if(_mi_id == 0)
+            {
+                ObjectPoolManager.Instance.EnqueueObject(moveItemObject.gameObject);
+            }
+            else
+            {
+                moveItemObject = ObjectPoolManager.Instance.DequeueObject(JsonDataManager.GetItem(_mi_id).GetItemPrefab()).GetComponent<ItemObject>();
+            }            
         }
     }
     

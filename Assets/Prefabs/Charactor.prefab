@@ -367,10 +367,10 @@ MonoBehaviour:
   tool_buildingIdList:
   - Building_Belt_T1
   - Building_Inserter_T1
-  - Building_Belt_T1
-  - Building_Belt_T1
-  - Building_Belt_T1
-  - Building_Belt_T1
+  - Building_Crafter_T1
+  - Building_Refinery_T1
+  - Building_Miner_T1
+  - Building_Generator_T1
   - Building_Belt_T1
   - Building_Belt_T1
   - Building_Belt_T1

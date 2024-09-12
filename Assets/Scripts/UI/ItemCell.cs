@@ -9,7 +9,7 @@ public class ItemCell : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     static ItemCell _selectedCell;
     static ItemCell _onMouseCell;
 
-    static ItemCell SelectedCell
+    public static ItemCell SelectedCell
     {
         get { return _selectedCell; }
         set
@@ -17,7 +17,7 @@ public class ItemCell : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             _selectedCell = value;
         }
     }
-    static ItemCell OnMouseCell
+    public static ItemCell OnMouseCell
     {
         get { return _onMouseCell; }
         set

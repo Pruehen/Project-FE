@@ -55,6 +55,10 @@ public class ItemData
         ItemMesh_Path = "Prefabs/Iron";
         DropMesh_Path = "Prefabs/Fe";
     }
+    public GameObject GetItemPrefab()
+    {
+        return Resources.Load<GameObject>($"Prefabs/{Id}");
+    }
 }
 public class ItemDataTable
 {
