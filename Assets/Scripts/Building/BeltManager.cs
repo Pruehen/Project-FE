@@ -73,6 +73,7 @@ public class BeltNode : Node
         }
         beltPart = null;
         transporter = null;
+        GameLogicManager.Instance.RootBeltNodeSet.Remove(this);
     }
 
 
