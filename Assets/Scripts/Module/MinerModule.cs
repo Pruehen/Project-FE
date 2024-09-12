@@ -78,7 +78,7 @@ public class MinerModuleModel
     public void Init_ExtractItem(string itemKey)
     {
         extractItem = JsonDataManager.GetItem(itemKey);
-        OutputInventory.CellDataList[0].SetItem(extractItem.Id_Short);
+        OutputInventory.CellDataList[0].SetItem(extractItem.Id_UShort);
 
         SetIsCraftItem_OnInventoryChange();
     }
@@ -110,7 +110,7 @@ public class MinerModuleModel
             return;
         }
 
-        OutputInventory.AddItem(extractItem.Id_Short, 1, out int remaining);
+        OutputInventory.AddItem(extractItem.Id_UShort, 1, out int remaining);
 
         Debug.Log("Ã¤±¼ ¼º°ø");
     }

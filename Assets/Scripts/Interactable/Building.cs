@@ -128,12 +128,12 @@ public class Building : MonoBehaviour, IInteractable, ITransporter
         Inventory outputinventory = _MainModule.TryGetOutputInventory();
         if (outputinventory != null)
         {
-            outputinventory.GrabItem(out short itemId, out int itemCount);
+            outputinventory.GrabItem(out ushort itemId, out int itemCount);
             nextNode.ItemIn(itemId, Vector3.zero);
         }
     }
 
-    public bool CanItemIn(short itemId)
+    public bool CanItemIn(ushort itemId)
     {
         Inventory inputInventory = _MainModule.TryGetInputInventory();
         if (inputInventory != null)
@@ -146,7 +146,7 @@ public class Building : MonoBehaviour, IInteractable, ITransporter
         }
     }
 
-    public void ItemIn(short itemId, Vector3 inPos)
+    public void ItemIn(ushort itemId, Vector3 inPos)
     {
         Inventory inputInventory = _MainModule.TryGetInputInventory();
         if (inputInventory != null)
@@ -154,7 +154,7 @@ public class Building : MonoBehaviour, IInteractable, ITransporter
             inputInventory.AddItem(itemId, 1, out int r);
         }
     }
-    public short GetItem()
+    public ushort GetItem()
     {
         Inventory outputinventory = _MainModule.TryGetOutputInventory();
         if (outputinventory != null)

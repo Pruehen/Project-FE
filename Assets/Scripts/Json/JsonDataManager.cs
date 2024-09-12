@@ -81,7 +81,7 @@ public static class JsonDataManager
             return null;
         }
     }
-    public static ItemData GetItem(short key)
+    public static ItemData GetItem(ushort key)
     {
         if (jsonCache.ItemDataTableCache.dic_Short.ContainsKey(key))
         {

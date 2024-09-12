@@ -14,7 +14,7 @@ public class Inserter : MonoBehaviour, IInteractable, ITransporter
     [SerializeField] LineRenderer lineRenderer;
     
     [SerializeField] ItemObject grabObject;
-    short _grab_id;
+    ushort _grab_id;
 
     float moveLogicSpeed = 1f;
     float moveLogicTime;
@@ -129,7 +129,7 @@ public class Inserter : MonoBehaviour, IInteractable, ITransporter
         _MainModule = GetComponent<IModule>();
     }
 
-    public short GrabObject
+    public ushort GrabObject
     {
         get { return _grab_id; }
         set
@@ -157,17 +157,17 @@ public class Inserter : MonoBehaviour, IInteractable, ITransporter
         GrabObject = 0;
         State_ItemTransport = false;        
     }
-    public bool CanItemIn(short itemId)
+    public bool CanItemIn(ushort itemId)
     {
         return GrabObject == 0;
     }
-    public void ItemIn(short itemId, Vector3 inPos)
+    public void ItemIn(ushort itemId, Vector3 inPos)
     {
         GrabObject = itemId;
         grabObject.SetPos((inPos == Vector3.zero) ? itemStayPoint_First : inPos, itemStayPoint_Last);
         State_ItemTransport = true;
     }
-    public short GetItem()
+    public ushort GetItem()
     {
         return GrabObject;
     }

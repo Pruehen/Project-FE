@@ -6,7 +6,7 @@ using UnityEngine;
 public class ItemData
 {
     [JsonProperty] public string Id { get; private set; }
-    [JsonProperty] public short Id_Short { get; private set; }
+    [JsonProperty] public ushort Id_UShort { get; private set; }
     [JsonProperty] public ItemType ItemType { get; private set; }
     [JsonProperty] public string Name { get; private set; }
     [JsonProperty] public string Desc { get; private set; }
@@ -18,10 +18,10 @@ public class ItemData
     [JsonProperty("DropMesh")] public string DropMesh_Path { get; private set; }
 
     [JsonConstructor]
-    public ItemData(string id, short id_short, ItemType itemType, string name, string desc, int maxStack, float energyReserves, string iconPath, string itemMeshPath, string dropMeshPath )
+    public ItemData(string id, ushort id_short, ItemType itemType, string name, string desc, int maxStack, float energyReserves, string iconPath, string itemMeshPath, string dropMeshPath )
     {
         Id = id;
-        Id_Short = id_short;
+        Id_UShort = id_short;
         ItemType = itemType;
         Name = name;
         Desc = desc;
@@ -59,16 +59,16 @@ public class ItemData
 public class ItemDataTable
 {
     [JsonProperty] public Dictionary<string, ItemData> dic;
-    [JsonIgnore] public Dictionary<short, ItemData> dic_Short;
+    [JsonIgnore] public Dictionary<ushort, ItemData> dic_Short;
     [JsonConstructor]
     public ItemDataTable(Dictionary<string, ItemData> dic)
     {
         this.dic = dic;
 
-        dic_Short = new Dictionary<short, ItemData>();
+        dic_Short = new Dictionary<ushort, ItemData>();
         foreach (var item in dic)
         {
-            dic_Short.Add(item.Value.Id_Short, item.Value);
+            dic_Short.Add(item.Value.Id_UShort, item.Value);
         }
     }
     public ItemDataTable()

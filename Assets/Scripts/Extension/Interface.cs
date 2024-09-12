@@ -47,9 +47,9 @@ public interface ITransporter
 {
     public bool CanItemOut(ITransporter nextNode);
     public void ItemOut(ITransporter nextNode);
-    public bool CanItemIn(short itemId);
-    public void ItemIn(short itemId, Vector3 inPos);
-    public short GetItem();
+    public bool CanItemIn(ushort itemId);
+    public void ItemIn(ushort itemId, Vector3 inPos);
+    public ushort GetItem();
     public void LogicInit();
     public void ExcuteLogic_OnUpdate(float deltaTime);
 }

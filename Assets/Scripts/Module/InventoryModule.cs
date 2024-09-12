@@ -76,7 +76,7 @@ public class Inventory
         }
         OnInventoryChange?.Invoke();
     }
-    public bool CanAddItem(short id, int count)//인벤토리에 아이템을 추가할 수 있는지 판별함
+    public bool CanAddItem(ushort id, int count)//인벤토리에 아이템을 추가할 수 있는지 판별함
     {
         if (FixedInventory)
         {
@@ -136,7 +136,7 @@ public class Inventory
             return canAddItem;
         }
     }
-    public void AddItem(short id, int count, out int remaining)//인벤토리를 찾아서 아이템 추가를 시도함. 아이템이 다 안 들어가면 remaining으로 남은 수량이 반환됨.
+    public void AddItem(ushort id, int count, out int remaining)//인벤토리를 찾아서 아이템 추가를 시도함. 아이템이 다 안 들어가면 remaining으로 남은 수량이 반환됨.
     {
         if (FixedInventory)
         {
@@ -148,7 +148,7 @@ public class Inventory
         }
         OnInventoryChange?.Invoke();
     }
-    public bool CanUseItem(short id, int count)//아이템 소모가 가능한지를 체크함
+    public bool CanUseItem(ushort id, int count)//아이템 소모가 가능한지를 체크함
     {
         if (TryFindCell(id, out CellData targetCell))
         {
@@ -159,7 +159,7 @@ public class Inventory
             return false;
         }
     }
-    public void UseItem_FixedInventory(short id, int count)//아이템을 소모함. 이 메서드 호출 이전에 CanUseItem 메서드를 한번 호출하는걸 권장함. 내부적으로 검사를 하긴 하지만
+    public void UseItem_FixedInventory(ushort id, int count)//아이템을 소모함. 이 메서드 호출 이전에 CanUseItem 메서드를 한번 호출하는걸 권장함. 내부적으로 검사를 하긴 하지만
     {
         if (TryFindCell(id, out CellData targetCell))
         {
@@ -180,7 +180,7 @@ public class Inventory
 
         return false;
     }
-    public void GrabItem(out short id, out int count)//아이템을 투입기 등으로 잡아서 옮김.
+    public void GrabItem(out ushort id, out int count)//아이템을 투입기 등으로 잡아서 옮김.
     {
         id = 0;
         count = 0;
@@ -198,7 +198,7 @@ public class Inventory
 
         Debug.LogError("수송 실패");
     }
-    public short GetNextGrabItem()
+    public ushort GetNextGrabItem()
     {
         foreach (CellData cell in CellDataList)
         {
@@ -210,7 +210,7 @@ public class Inventory
         return 0;
     }//다음에 투입기로 잡을 아이템이 뭔지 확인함
 
-    void AddItem_NotFixedInventory(short id, int count, out int remaining)
+    void AddItem_NotFixedInventory(ushort id, int count, out int remaining)
     {
         while (count > 0)
         {
@@ -255,7 +255,7 @@ public class Inventory
         // 정렬
         CellDataList.InsertionCellSort();
     }
-    void AddItem_FixedInventory(short id, int count, out int remaining)
+    void AddItem_FixedInventory(ushort id, int count, out int remaining)
     {
         remaining = count;
         if (TryFindCell(id, out CellData targetCell))
@@ -264,7 +264,7 @@ public class Inventory
         }        
         
     }
-    bool TryFindCell(short id, out CellData cell)
+    bool TryFindCell(ushort id, out CellData cell)
     {
         cell = null;
         foreach (var item in CellDataList)
@@ -278,7 +278,7 @@ public class Inventory
         Debug.LogWarning($"해당하는 아이템 슬롯을 찾지 못했습니다. : {id}");
         return false;
     }
-    void SetCorsor_FindValidCellIndex(short searchId)
+    void SetCorsor_FindValidCellIndex(ushort searchId)
     {
         for (CellCorsor = 0; CellCorsor < CellDataList.Count; CellCorsor++)
         {
@@ -298,7 +298,7 @@ public class Inventory
 
 public class CellData : IComparable<CellData>
 {
-    short _id;
+    ushort _id;
     int _count;
     int _maxCount;
     bool _fixedCell;
@@ -317,7 +317,7 @@ public class CellData : IComparable<CellData>
     }
 
 
-    public short Id 
+    public ushort Id 
     { 
         get { return _id; } 
         private set
@@ -388,7 +388,7 @@ public class CellData : IComparable<CellData>
         OnPropertyChanged(nameof(FixedCell));
     }
 
-    public CellData(Inventory inventory, short id = 0, int count = 0, bool fixedCell = false)
+    public CellData(Inventory inventory, ushort id = 0, int count = 0, bool fixedCell = false)
     {
         this.Inventory = inventory;
         FixedCell = fixedCell;
@@ -402,7 +402,7 @@ public class CellData : IComparable<CellData>
         Count = 0;
         MaxCount = 0;             
     }
-    public void SetItem(short itemId)
+    public void SetItem(ushort itemId)
     {
         Id = itemId;        
         if(Id != 0)
@@ -415,7 +415,7 @@ public class CellData : IComparable<CellData>
         }
     }
 
-    public void AddItem_NotFixedCell(short id, int count, out int remaining)
+    public void AddItem_NotFixedCell(ushort id, int count, out int remaining)
     {
         remaining = 0;
 
@@ -438,7 +438,7 @@ public class CellData : IComparable<CellData>
             Count = MaxCount;
         }
     }
-    public void AddItem_FixedCell(int id, int count, out int remaining)
+    public void AddItem_FixedCell(ushort id, int count, out int remaining)
     {
         remaining = count;
         if (FixedCell == false)
@@ -485,7 +485,7 @@ public class CellData : IComparable<CellData>
             return;
         }
 
-        short idTemp = Id;
+        ushort idTemp = Id;
         int countTemp = Count;
         int maxCountTemp = MaxCount;
 
@@ -495,7 +495,7 @@ public class CellData : IComparable<CellData>
 
         target.OnSwap_SetData(idTemp, countTemp, maxCountTemp);
     }
-    void OnSwap_SetData(short id, int count, int maxCount)
+    void OnSwap_SetData(ushort id, int count, int maxCount)
     {
         Id = id;
         Count = count;
