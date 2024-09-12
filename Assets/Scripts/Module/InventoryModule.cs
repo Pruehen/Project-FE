@@ -361,8 +361,8 @@ public class CellData : IComparable<CellData>
             return int.MaxValue; // Null은 비교할 수 없는 것으로 간주
 
         // _id의 해시값을 기준으로 비교
-        int thisHashCode = (_id != 0) ? _id - Count : int.MaxValue;
-        int otherHashCode = (other._id != 0) ? other._id - other.Count : int.MaxValue;
+        int thisHashCode = (_id != 0) ? (_id * 2048) - Count : int.MaxValue;
+        int otherHashCode = (other._id != 0) ? (other._id * 2048) - other.Count : int.MaxValue;
 
         return thisHashCode.CompareTo(otherHashCode);
     }

@@ -114,7 +114,7 @@ public class MinerModuleModel
 
         OutputInventory.AddItem(extractItem.Id_UShort, 1, out int remaining);
 
-        Debug.Log("Ã¤±¼ ¼º°ø");
+        //Debug.Log("Ã¤±¼ ¼º°ø");
     }
 
     void SetIsCraftItem_OnInventoryChange()

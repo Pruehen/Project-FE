@@ -27,7 +27,7 @@ public class UIManager : SceneSingleton<UIManager>
     public IWindow Actvie_ModuleWdw<T>(GameObject windowPrefab, T module) where T : MonoBehaviour, IModule
     {
         int instanceId = module.gameObject.GetInstanceID();
-
+        
         if (ActiveWdwModuleDic.ContainsKey(instanceId) == false && ActiveWdwModuleDic.Count < 5)
         {
             GameObject obj = ObjectPoolManager.Instance.DequeueObject(windowPrefab);
@@ -35,7 +35,7 @@ public class UIManager : SceneSingleton<UIManager>
 
             IWindow window = obj.GetComponent<IWindow>();
             window.Active(module);
-
+            
             ActiveWdwModuleDic.Add(instanceId, window);
             return window;
         }        

@@ -130,7 +130,10 @@ public class Charactor : MonoBehaviour
         {
             if(onMouseObjectTemp != null && onMouseObjectTemp.TrySelect(_lookPos, this.transform.position, interactionRange))
             {
-                onSelectObject?.DeSelect();
+                if (onSelectObject != null && onSelectObject != onMouseObjectTemp)
+                {
+                    onSelectObject?.DeSelect();                    
+                }
                 onSelectObject = onMouseObjectTemp;
             }
         }
