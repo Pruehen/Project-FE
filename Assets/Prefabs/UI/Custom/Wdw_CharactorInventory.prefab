@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7655691961093667299}
   - component: {fileID: 4838527122776141801}
   - component: {fileID: 5537046282131382297}
-  - component: {fileID: 7724374113683370940}
+  - component: {fileID: 6976481733772747219}
   m_Layer: 5
   m_Name: Wdw_CharactorInventory
   m_TagString: Untagged
@@ -92,7 +92,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6ffc07460485b94b96207e110f111ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7724374113683370940
+--- !u!114 &6976481733772747219
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -101,7 +101,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1162125286898261070}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c520a3d01f1009b45bb1a067843e7158, type: 3}
+  m_Script: {fileID: 11500000, guid: 1f415f01d2d2c9e4e9f5182f6baf8612, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cellList:
@@ -773,7 +773,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7724374113683370940}
+      - m_Target: {fileID: 6976481733772747219}
         m_TargetAssemblyTypeName: Wdw_InventoryView, Assembly-CSharp
         m_MethodName: Command_Close
         m_Mode: 1

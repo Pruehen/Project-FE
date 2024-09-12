@@ -6,7 +6,7 @@ public class Wdw_InventoryView : MonoBehaviour, IWindow
     [SerializeField] List<ItemCell> cellList;
 
     InventoryModule _Inventory;
-    InventoryModule Inventory
+    protected InventoryModule Inventory
     {
         get { return _Inventory; }
         set
@@ -36,7 +36,7 @@ public class Wdw_InventoryView : MonoBehaviour, IWindow
             cellList[i].RegisterCellData(Inventory.CellItemData(i));
         }
     }
-    public void Close()
+    public virtual void Close()
     {
         ObjectPoolManager.Instance.EnqueueObject(this.gameObject);        
 

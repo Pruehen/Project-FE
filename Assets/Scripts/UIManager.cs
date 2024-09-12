@@ -13,9 +13,9 @@ public class UIManager : SceneSingleton<UIManager>
     [SerializeField] MouseTrackUI _MouseTrackUI;
 
     [Header("±‚≈∏")]
-    [SerializeField] Transform Trf_WindowParent;    
-   
-    HashSet<int> ActiveWdwModuleHashSet = new HashSet<int>();
+    [SerializeField] Transform Trf_WindowParent;
+
+    Dictionary<int, IWindow> ActiveWdwModuleDic = new Dictionary<int, IWindow>();
     //=============================================================================================================================
     public void Active_BuildingMainModuleUIWdw(IModule module)
     {
@@ -28,7 +28,7 @@ public class UIManager : SceneSingleton<UIManager>
     {
         int instanceId = module.gameObject.GetInstanceID();
 
-        if (ActiveWdwModuleHashSet.Contains(instanceId) == false && ActiveWdwModuleHashSet.Count < 5)
+        if (ActiveWdwModuleDic.ContainsKey(instanceId) == false && ActiveWdwModuleDic.Count < 5)
         {
             GameObject obj = ObjectPoolManager.Instance.DequeueObject(windowPrefab);
             obj.transform.SetParent(Trf_WindowParent);
@@ -36,7 +36,7 @@ public class UIManager : SceneSingleton<UIManager>
             IWindow window = obj.GetComponent<IWindow>();
             window.Active(module);
 
-            ActiveWdwModuleHashSet.Add(instanceId);
+            ActiveWdwModuleDic.Add(instanceId, window);
             return window;
         }        
         else
@@ -46,11 +46,23 @@ public class UIManager : SceneSingleton<UIManager>
     }
     public void OnDeActive_ModuleWdw<T>(T module) where T : MonoBehaviour, IModule
     {
-        ActiveWdwModuleHashSet.Remove(module.gameObject.GetInstanceID());
+        ActiveWdwModuleDic.Remove(module.gameObject.GetInstanceID());
     }
     public void OnDeActive_ModuleWdw(int instanceId)
     {
-        ActiveWdwModuleHashSet.Remove(instanceId);
+        ActiveWdwModuleDic.Remove(instanceId);
+    }
+    public void AllModuleWdwDeActive()
+    {
+        List<IWindow> wdwTemp = new List<IWindow>();
+        foreach (var item in ActiveWdwModuleDic)
+        {
+            wdwTemp.Add(item.Value);
+        }
+        foreach (var item in wdwTemp)
+        {
+            item.Command_Close();
+        }
     }
     //=============================================================================================================================
     public void SetCellData_MouseTrackUI_OnCellPointerEnter(CellData cellData)
