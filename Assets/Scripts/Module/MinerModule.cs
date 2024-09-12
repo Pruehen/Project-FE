@@ -14,6 +14,7 @@ public class MinerModule : MonoBehaviour, IModule
         if (window == null)
         {
             window = UIManager.Instance.Actvie_ModuleWdw(UIManager.Instance.Prefab_MinerModuleUIWdw, this);
+            model.OutputInventory.OnOpen();
         }
     }
     public void Close_Wdw()
@@ -22,6 +23,7 @@ public class MinerModule : MonoBehaviour, IModule
         {
             window.Close();
             window = null;
+            model.OutputInventory.OnClose();
         }
     }
     public Inventory TryGetInputInventory()
@@ -71,7 +73,7 @@ public class MinerModuleModel
 
     public MinerModuleModel()
     {        
-        OutputInventory = new Inventory(1, true);
+        OutputInventory = new Inventory(1, true, EnumTypes.InventoryType.Output);
         
         OutputInventory.OnInventoryChange += SetIsCraftItem_OnInventoryChange;
     }

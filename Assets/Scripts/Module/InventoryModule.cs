@@ -1,3 +1,4 @@
+using EnumTypes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -5,7 +6,7 @@ using UnityEngine;
 
 public class InventoryModule : MonoBehaviour, IModule
 {
-    [SerializeField] int inventoryMaxCount = 150;
+    [SerializeField] protected int inventoryMaxCount = 150;
     public int InventoryMaxCount() { return inventoryMaxCount; }
 
     Inventory _inventory;
@@ -21,7 +22,11 @@ public class InventoryModule : MonoBehaviour, IModule
 
     private void Awake()
     {
-        Inventory = new Inventory(inventoryMaxCount, false);
+        Init();
+    }
+    protected virtual void Init()
+    {
+        Inventory = new Inventory(inventoryMaxCount, false, InventoryType.Storage);
     }
 
     protected IWindow window;
@@ -30,6 +35,7 @@ public class InventoryModule : MonoBehaviour, IModule
         if (window == null)
         {
             window = UIManager.Instance.Actvie_ModuleWdw(UIManager.Instance.Prefab_InventoryUIWdw, this);
+            Inventory.OnOpen();
         }
     }
     public void Close_Wdw()
@@ -38,6 +44,7 @@ public class InventoryModule : MonoBehaviour, IModule
         {
             window.Close();
             window = null;
+            Inventory.OnClose();
         }
     }
     public Inventory TryGetInputInventory()
@@ -52,12 +59,16 @@ public class InventoryModule : MonoBehaviour, IModule
 
 public class Inventory
 {
+    public static Dictionary<InventoryType, Inventory> OpenedInventoryDic = new Dictionary<InventoryType, Inventory>();
+
     public List<CellData> CellDataList { get; private set; }
     int CellCorsor { get; set; }
     bool FixedInventory { get; set; }
+    public InventoryType InventoryType { get; private set; }
+
     public Action OnInventoryChange;
 
-    public Inventory(int maxCount, bool fixedInventory)
+    public Inventory(int maxCount, bool fixedInventory, InventoryType inventoryType)
     {
         CellDataList = new List<CellData>();
         for (int i = 0; i < maxCount; i++)
@@ -66,8 +77,17 @@ public class Inventory
         }
         CellCorsor = 0;
         FixedInventory = fixedInventory;
+        InventoryType = inventoryType;
     }
 
+    public void OnOpen()//해당 인벤토리를 소유한 모듈의 UI가 열렸을 때
+    {
+        OpenedInventoryDic.Add(InventoryType, this);
+    }
+    public void OnClose()//해당 인벤토리를 소유한 모듈의 UI가 닫혔을 때
+    {
+        OpenedInventoryDic.Remove(InventoryType);
+    }
     public void Clear()//인벤토리의 내용물을 싹 지워버림
     {
         foreach (var item in CellDataList)
@@ -171,7 +191,7 @@ public class Inventory
     {
         CellDataList.InsertionCellSort();
     }
-    public bool CanGrabItem()//아이템을 투입기 등으로 잡을 수 있는지 체크함. 아이템 종류를 가리지 않음.
+    public bool CanGrabItem()//어떠한 아이템이든, 아이템을 투입기 등으로 잡을 수 있는지 체크함.
     {
         foreach (CellData cell in CellDataList)
         {
@@ -209,6 +229,37 @@ public class Inventory
         }
         return 0;
     }//다음에 투입기로 잡을 아이템이 뭔지 확인함
+    public Inventory Find_TransportTargetInventory()
+    {
+        if (OpenedInventoryDic.ContainsKey(InventoryType) == false || OpenedInventoryDic[InventoryType] != this)
+        {
+            Debug.Log("해당 인벤토리는 열려 있는 UI가 아닙니다.");
+            return null;
+        }
+        else
+        {
+            if(InventoryType == InventoryType.CharactorStorage)
+            {
+                if(OpenedInventoryDic.ContainsKey(InventoryType.Input))
+                {
+                    return OpenedInventoryDic[InventoryType.Input];
+                }
+                if(OpenedInventoryDic.ContainsKey(InventoryType.Storage))
+                {
+                    return OpenedInventoryDic[InventoryType.Storage];
+                }                
+            }
+            else
+            {
+                if(OpenedInventoryDic.ContainsKey(InventoryType.CharactorStorage))
+                {
+                    return OpenedInventoryDic[InventoryType.CharactorStorage];
+                }
+            }
+        }
+
+        return null;
+    }//현재 열려 있는 창 중에서 아이템 수송의 대상이 될 수 있는 인벤토리를 반환
 
     void AddItem_NotFixedInventory(ushort id, int count, out int remaining)
     {

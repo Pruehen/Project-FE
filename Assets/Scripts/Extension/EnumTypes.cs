@@ -59,4 +59,11 @@ namespace EnumTypes
         Bottom,
         Left
     }
+    public enum InventoryType
+    {
+        Input,
+        CharactorStorage,
+        Storage,
+        Output
+    }
 }

@@ -1,3 +1,4 @@
+using EnumTypes;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,8 @@ public class CraftingModule : MonoBehaviour, IModule
         if (window == null)
         {
             window = UIManager.Instance.Actvie_ModuleWdw(UIManager.Instance.Prefab_CraftingModuleUIWdw, this);
+            model.InputInventory.OnOpen();
+            model.OutputInventory.OnOpen();
         }
     }
     public void Close_Wdw()
@@ -23,6 +26,8 @@ public class CraftingModule : MonoBehaviour, IModule
         {
             window.Close();
             window = null;
+            model.InputInventory.OnClose();
+            model.OutputInventory.OnClose();
         }        
     }
     public Inventory TryGetInputInventory()
@@ -104,8 +109,8 @@ public class CraftingModuleModel
 
     public CraftingModuleModel()
     {
-        InputInventory = new Inventory(4, true);
-        OutputInventory = new Inventory(4, true);
+        InputInventory = new Inventory(4, true, InventoryType.Input);
+        OutputInventory = new Inventory(4, true, InventoryType.Output);
 
         InputInventory.OnInventoryChange += SetIsCraftItem_OnInventoryChange;
         OutputInventory.OnInventoryChange += SetIsCraftItem_OnInventoryChange;

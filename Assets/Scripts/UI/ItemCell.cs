@@ -1,9 +1,10 @@
 using System.ComponentModel;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ItemCell : MonoBehaviour
+public class ItemCell : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     static ItemCell _selectedCell;
     static ItemCell _onMouseCell;
@@ -116,7 +117,7 @@ public class ItemCell : MonoBehaviour
         OnMouseCell = null;
     }
 
-    public void ItemGrab_OnPointerDown()
+    void ItemGrab_OnPointerDown()
     {
         if (CellData == null || (CellData.FixedCell && CellData.Count == 0) || CellData.Id == 0)
             return;
@@ -127,7 +128,7 @@ public class ItemCell : MonoBehaviour
             Debug.Log("±×·¦");
         }
     }
-    public void ItemDrop_OnPointerUp()
+    void ItemDrop_OnPointerUp()
     {
         Debug.Log("µå¶ø");
         UIManager.Instance.RemoveIcon_MouseTrackUI_OnDrop();
@@ -140,5 +141,44 @@ public class ItemCell : MonoBehaviour
         }
 
         SelectedCell = null;
+    }
+    void ItemTransport_OnPointerDown()
+    {
+        if (CellData == null || (CellData.FixedCell && CellData.Count == 0) || CellData.Id == 0)
+            return;
+        else
+        {
+            Inventory targetInventory = CellData.Inventory.Find_TransportTargetInventory();
+            if (targetInventory != null)
+            {
+                targetInventory.AddItem(CellData.Id, CellData.Count, out int remaining);
+                CellData.UseItem(CellData.Count - remaining);
+            }
+        }
+    }
+
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            ItemGrab_OnPointerDown();
+        }
+        else if(eventData.button == PointerEventData.InputButton.Right)
+        {
+            ItemTransport_OnPointerDown();
+        }            
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            ItemDrop_OnPointerUp();
+        }
+        //else if (eventData.button == PointerEventData.InputButton.Right)
+        //{
+            
+        //}
     }
 }
