@@ -127,14 +127,17 @@ public class Belt : MonoBehaviour, IInteractable, ITransporter
         get { return _mi_id; }
         set
         {
-            _mi_id = value;
-            if(_mi_id == 0)
+            if (_mi_id != value)
             {
-                ObjectPoolManager.Instance.EnqueueObject(moveItemObject.gameObject);
-            }
-            else
-            {
-                moveItemObject = ObjectPoolManager.Instance.DequeueObject(JsonDataManager.GetItem(_mi_id).GetItemPrefab()).GetComponent<ItemObject>();
+                _mi_id = value;
+                if (_mi_id == 0)
+                {
+                    ObjectPoolManager.Instance.EnqueueObject(moveItemObject.gameObject);
+                }
+                else
+                {
+                    moveItemObject = ObjectPoolManager.Instance.DequeueObject(JsonDataManager.GetItem(_mi_id).GetItemPrefab()).GetComponent<ItemObject>();
+                }
             }            
         }
     }

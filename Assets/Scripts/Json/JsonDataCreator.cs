@@ -57,7 +57,8 @@ public class ItemData
     }
     public GameObject GetItemPrefab()
     {
-        return Resources.Load<GameObject>($"Prefabs/{Id}");
+        GameObject prefab = Resources.Load<GameObject>($"Prefabs/{Id}");
+        return (prefab != null) ? prefab : Resources.Load<GameObject>($"Prefabs/Item_Default");        
     }
 }
 public class ItemDataTable
