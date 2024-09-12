@@ -260,8 +260,10 @@ GameObject:
   - component: {fileID: 3746034961532962482}
   - component: {fileID: 987925396412603835}
   - component: {fileID: 4206016800663993425}
-  - component: {fileID: 5329811680771782844}
-  - component: {fileID: 4118956195435798620}
+  - component: {fileID: 3953604559409482391}
+  - component: {fileID: 5086377939539523914}
+  - component: {fileID: 4722361684957047674}
+  - component: {fileID: 6425122721441666516}
   - component: {fileID: 8979186391967929797}
   - component: {fileID: 5952094297687269389}
   m_Layer: 0
@@ -326,7 +328,7 @@ MonoBehaviour:
   moveSpeed: 10
   interactionRange: 10
   interactionSpeed: 1
---- !u!114 &5329811680771782844
+--- !u!114 &3953604559409482391
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -335,11 +337,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6885329667244045231}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa9ab6875f1d47040a21d1719a766f19, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f78353526a00c74d96dc9ffd3726877, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryMaxCount: 150
---- !u!114 &4118956195435798620
+--- !u!114 &5086377939539523914
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -348,9 +350,60 @@ MonoBehaviour:
   m_GameObject: {fileID: 6885329667244045231}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e08f656c836bce43ab488d9fbb246f7, type: 3}
+  m_Script: {fileID: 11500000, guid: 028ec8b9b3f75084da495e9661135421, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectableItemCellList:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  tool_buildingIdList:
+  - Building_Belt_T1
+  - Building_Inserter_T1
+  - Building_Belt_T1
+  - Building_Belt_T1
+  - Building_Belt_T1
+  - Building_Belt_T1
+  - Building_Belt_T1
+  - Building_Belt_T1
+  - Building_Belt_T1
+  - Building_Belt_T1
+  testText_BuildMode: {fileID: 0}
+--- !u!114 &4722361684957047674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6885329667244045231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b95819a3776e984b9b87a3aa14535ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CraftingTimeGain: 1
+  CraftingSpeedGain: 1
+--- !u!114 &6425122721441666516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6885329667244045231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe0b98946c573e342ba7be9ccf0cdab4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MiningTimeGain: 1
+  MiningSpeedGain: 1
 --- !u!54 &8979186391967929797
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -425,7 +478,7 @@ LineRenderer:
   - {x: 0, y: 0, z: 3}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 0.5
     widthCurve:
       serializedVersion: 2
       m_Curve:

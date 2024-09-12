@@ -12,7 +12,7 @@ public class InventoryModule : MonoBehaviour, IModule
     public Inventory Inventory
     {
         get { return _inventory; }
-        private set
+        protected set
         {
             _inventory = value;
         }
@@ -24,8 +24,8 @@ public class InventoryModule : MonoBehaviour, IModule
         Inventory = new Inventory(inventoryMaxCount, false);
     }
 
-    IWindow window;
-    public void Active_Wdw()
+    protected IWindow window;
+    public virtual void Active_Wdw()
     {
         if (window == null)
         {

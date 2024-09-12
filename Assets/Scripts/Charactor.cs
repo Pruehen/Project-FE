@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Charactor : MonoBehaviour
 {
-    InventoryModule _inventory;    
-    ToolModule _tool;
+    CharactorInventoryModule _inventory;    
+    CharactorToolModule _tool;
     CraftingModule _crafting;
     MinerModule _miner;
 
@@ -39,8 +39,8 @@ public class Charactor : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _lineRenderer = GetComponent<LineRenderer>();
 
-        _inventory = GetComponent<InventoryModule>();
-        _tool = GetComponent<ToolModule>();
+        _inventory = GetComponent<CharactorInventoryModule>();
+        _tool = GetComponent<CharactorToolModule>();
         _crafting = GetComponent<CraftingModule>();
         _miner = GetComponent<MinerModule>();
 

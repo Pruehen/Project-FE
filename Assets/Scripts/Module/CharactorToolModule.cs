@@ -2,10 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using EnumTypes;
 using TMPro;
-using System;
-using System.Linq;
 
-public class ToolModule : MonoBehaviour
+public class CharactorToolModule : MonoBehaviour
 {
     [SerializeField] List<SelectableItemCell> selectableItemCellList;
     [SerializeField] List<string> tool_buildingIdList;

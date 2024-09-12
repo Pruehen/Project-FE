@@ -4,6 +4,7 @@ using UnityEngine;
 public class UIManager : SceneSingleton<UIManager>
 {
     [Header("ÇÁ¸®ÆÕ")]
+    public GameObject Prefab_CharactorInventoryUIWdw;
     public GameObject Prefab_InventoryUIWdw;
     public GameObject Prefab_CraftingModuleUIWdw;
     public GameObject Prefab_MinerModuleUIWdw;
