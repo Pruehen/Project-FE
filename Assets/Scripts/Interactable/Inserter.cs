@@ -1,3 +1,4 @@
+using EnumTypes;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -67,6 +68,10 @@ public class Inserter : MonoBehaviour, IInteractable, ITransporter
         {
             return "키를 찾을 수 없음";
         }
+    }
+    public EntityType GetEntityType()
+    {
+        return EntityType.Building;
     }
     public Vector3 GetPos(Vector3 hitPos)
     {

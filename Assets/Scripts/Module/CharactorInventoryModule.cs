@@ -2,9 +2,10 @@ using EnumTypes;
 
 public class CharactorInventoryModule : InventoryModule
 {
-    protected override void Init()
+    Charactor _charactor;
+    public void Init(Charactor charactor)
     {
-        Inventory = new Inventory(inventoryMaxCount, false, InventoryType.CharactorStorage);
+        _charactor = charactor;
     }
 
     public override void Active_Wdw()

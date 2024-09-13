@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class MinerModule : MonoBehaviour, IModule
 {
-    MinerModuleModel model;
+    protected MinerModuleModel model;
 
-    [SerializeField] float MiningTimeGain = 1;
-    [SerializeField] float MiningSpeedGain = 1;
+    [SerializeField] protected float MiningTimeGain = 1;
+    [SerializeField] protected float MiningSpeedGain = 1;
 
-    IWindow window;
-    public void Active_Wdw()
+    protected IWindow window;
+    public virtual void Active_Wdw()
     {
         if (window == null)
         {
@@ -17,7 +17,7 @@ public class MinerModule : MonoBehaviour, IModule
             model.OutputInventory.OnOpen();
         }
     }
-    public void Close_Wdw()
+    public virtual void Close_Wdw()
     {
         if (window != null)
         {
@@ -26,11 +26,11 @@ public class MinerModule : MonoBehaviour, IModule
             model.OutputInventory.OnClose();
         }
     }
-    public Inventory TryGetInputInventory()
+    public virtual Inventory TryGetInputInventory()
     {
         return null;
     }
-    public Inventory TryGetOutputInventory()
+    public virtual Inventory TryGetOutputInventory()
     {
         return model.OutputInventory;
     }

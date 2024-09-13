@@ -1,3 +1,4 @@
+using EnumTypes;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,13 +9,13 @@ public class Sorter : MonoBehaviour, IInteractable, ITransporter
 
     [SerializeField] string ItemKey;
     [SerializeField] string BuildingKey;
-
-    [SerializeField] ItemObject[] moveItemObjectArray;
+    
     [SerializeField] Transform itemStayPoint;
 
+    ItemObject[] moveItemObjectArray = new ItemObject[4];
+
     float moveLogicSpeed = 2f;
-    float moveLogicTime;
-    
+    float moveLogicTime;    
 
     BuildingData _buildingData;
     IModule _MainModule;
@@ -61,6 +62,10 @@ public class Sorter : MonoBehaviour, IInteractable, ITransporter
         {
             return "키를 찾을 수 없음";
         }
+    }
+    public EntityType GetEntityType()
+    {
+        return EntityType.Building;
     }
     public Vector3 GetPos(Vector3 hitPos)
     {
@@ -137,7 +142,8 @@ public class Sorter : MonoBehaviour, IInteractable, ITransporter
         nextNode.ItemIn(moveItemIdArray[nextOutItemIndex], itemStayPoint.position);
         moveItemIdArray[nextOutItemIndex] = 0;
 
-        moveItemObjectArray[nextOutItemIndex].gameObject.SetActive(moveItemIdArray[nextOutItemIndex] != 0);
+        ItemObjectManager.RemoveObject(moveItemObjectArray[nextOutItemIndex]);
+        //moveItemObjectArray[nextOutItemIndex].gameObject.SetActive(moveItemIdArray[nextOutItemIndex] != 0);
 
         Add_NextOutItemIndex();
         itemHaveCount--;
@@ -152,9 +158,12 @@ public class Sorter : MonoBehaviour, IInteractable, ITransporter
         moveItemIdArray[nextInItemIndex] = itemId;
         timeValueArray_ItemMove[nextInItemIndex] = 0;
 
-        //그래픽 관련 변수 설정
-        moveItemObjectArray[nextInItemIndex].gameObject.SetActive(moveItemIdArray[nextInItemIndex] != 0);
-        moveItemObjectArray[nextInItemIndex].SetPos(inPos, itemStayPoint.position);
+        //그래픽 관련 변수 설정 : 아이템 생성
+        if(itemId != 0)
+        {
+            moveItemObjectArray[nextInItemIndex] = ItemObjectManager.CreateObject(itemId);
+            moveItemObjectArray[nextInItemIndex].SetPos(inPos, itemStayPoint.position);
+        }
 
         Add_NextInItemIndex();//nextInItemIndex 변경됨
         itemHaveCount++;
@@ -250,7 +259,7 @@ public class Sorter : MonoBehaviour, IInteractable, ITransporter
 
         for (int i = 0; i < 4; i++)
         {
-            if (moveItemIdArray[i] != 0)
+            if (moveItemIdArray[i] != 0 && moveItemObjectArray[i] != null)
             {
                 moveItemObjectArray[i].ItemMove(timeValueArray_ItemMove[i] * moveLogicSpeed);
                 timeValueArray_ItemMove[i] += deltaTime;

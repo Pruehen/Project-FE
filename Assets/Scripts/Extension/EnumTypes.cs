@@ -66,4 +66,10 @@ namespace EnumTypes
         Storage,
         Output
     }
+    public enum EntityType
+    {
+        Charactor,
+        Vein,
+        Building
+    }
 }

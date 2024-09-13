@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class Charactor : MonoBehaviour
 {
-    CharactorInventoryModule _inventory;    
-    CharactorToolModule _tool;
-    CraftingModule _crafting;
-    MinerModule _miner;
+    public CharactorInventoryModule builtIn_InventoryModule { get; private set; }
+    public CharactorToolModule builtIn_ToolModule { get; private set; }
+    public CharactorCraftingModule builtIn_CraftingModule { get; private set; }
+    public CharactorMinerModule builtIn_MinerModule { get; private set; }
 
     BuildMode BuildMode
     {
         get 
         {
-            return _tool.BuildMode;
+            return builtIn_ToolModule.BuildMode;
         }
     }
 
@@ -40,10 +40,10 @@ public class Charactor : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _lineRenderer = GetComponent<LineRenderer>();
 
-        _inventory = GetComponent<CharactorInventoryModule>();
-        _tool = GetComponent<CharactorToolModule>();
-        _crafting = GetComponent<CraftingModule>();
-        _miner = GetComponent<MinerModule>();
+        builtIn_InventoryModule = GetComponent<CharactorInventoryModule>();
+        builtIn_ToolModule = GetComponent<CharactorToolModule>();
+        builtIn_CraftingModule = GetComponent<CharactorCraftingModule>();
+        builtIn_MinerModule = GetComponent<CharactorMinerModule>();
 
         Player.Instance.PropertyChanged += OnPropertyChanged;
         Register_OnStart();
@@ -51,16 +51,16 @@ public class Charactor : MonoBehaviour
 
     void Register_OnStart()
     {
-        Player.Instance.Register_KeyAction(KeyCode.Alpha1, () => _tool.ToolSelect_OnNumKeyClick(0));
-        Player.Instance.Register_KeyAction(KeyCode.Alpha2, () => _tool.ToolSelect_OnNumKeyClick(1));
-        Player.Instance.Register_KeyAction(KeyCode.Alpha3, () => _tool.ToolSelect_OnNumKeyClick(2));
-        Player.Instance.Register_KeyAction(KeyCode.Alpha4, () => _tool.ToolSelect_OnNumKeyClick(3));
-        Player.Instance.Register_KeyAction(KeyCode.Alpha5, () => _tool.ToolSelect_OnNumKeyClick(4));
-        Player.Instance.Register_KeyAction(KeyCode.Alpha6, () => _tool.ToolSelect_OnNumKeyClick(5));
-        Player.Instance.Register_KeyAction(KeyCode.Alpha7, () => _tool.ToolSelect_OnNumKeyClick(6));
-        Player.Instance.Register_KeyAction(KeyCode.Alpha8, () => _tool.ToolSelect_OnNumKeyClick(7));
-        Player.Instance.Register_KeyAction(KeyCode.Alpha9, () => _tool.ToolSelect_OnNumKeyClick(8));
-        Player.Instance.Register_KeyAction(KeyCode.Alpha0, () => _tool.ToolSelect_OnNumKeyClick(9));
+        Player.Instance.Register_KeyAction(KeyCode.Alpha1, () => builtIn_ToolModule.ToolSelect_OnNumKeyClick(0));
+        Player.Instance.Register_KeyAction(KeyCode.Alpha2, () => builtIn_ToolModule.ToolSelect_OnNumKeyClick(1));
+        Player.Instance.Register_KeyAction(KeyCode.Alpha3, () => builtIn_ToolModule.ToolSelect_OnNumKeyClick(2));
+        Player.Instance.Register_KeyAction(KeyCode.Alpha4, () => builtIn_ToolModule.ToolSelect_OnNumKeyClick(3));
+        Player.Instance.Register_KeyAction(KeyCode.Alpha5, () => builtIn_ToolModule.ToolSelect_OnNumKeyClick(4));
+        Player.Instance.Register_KeyAction(KeyCode.Alpha6, () => builtIn_ToolModule.ToolSelect_OnNumKeyClick(5));
+        Player.Instance.Register_KeyAction(KeyCode.Alpha7, () => builtIn_ToolModule.ToolSelect_OnNumKeyClick(6));
+        Player.Instance.Register_KeyAction(KeyCode.Alpha8, () => builtIn_ToolModule.ToolSelect_OnNumKeyClick(7));
+        Player.Instance.Register_KeyAction(KeyCode.Alpha9, () => builtIn_ToolModule.ToolSelect_OnNumKeyClick(8));
+        Player.Instance.Register_KeyAction(KeyCode.Alpha0, () => builtIn_ToolModule.ToolSelect_OnNumKeyClick(9));
         Player.Instance.Register_KeyAction(KeyCode.R, () => OnKeyDown(KeyCode.R));
     }
 
@@ -115,7 +115,7 @@ public class Charactor : MonoBehaviour
         if (BuildMode != BuildMode.None)
         {
             Vector3Int hitPoint_Grid = _lookPos.ToIntVector();
-            _tool.ToolOnMove(hitPoint_Grid);
+            builtIn_ToolModule.ToolOnMove(hitPoint_Grid);
         }
     }
 
@@ -124,7 +124,7 @@ public class Charactor : MonoBehaviour
         if (BuildMode != BuildMode.None)
         {
             Vector3Int hitPoint_Grid = _lookPos.ToIntVector();
-            _tool.ToolOnClick(hitPoint_Grid);
+            builtIn_ToolModule.ToolOnClick(hitPoint_Grid);
         }
         else
         {
@@ -143,7 +143,7 @@ public class Charactor : MonoBehaviour
     {
         if (BuildMode != BuildMode.None)
         {
-            _tool.ToolOnKeyDown(key);
+            builtIn_ToolModule.ToolOnKeyDown(key);
         }
     }
 
@@ -168,24 +168,24 @@ public class Charactor : MonoBehaviour
     public void InventoryOpen()
     {
         _inventoryUIActive = true;
-        _inventory.Active_Wdw();
+        builtIn_InventoryModule.Active_Wdw();
     }
     public void InventoryToggle()
     {
         _inventoryUIActive = !_inventoryUIActive;
         if (_inventoryUIActive)
         {
-            _inventory.Active_Wdw();
+            builtIn_InventoryModule.Active_Wdw();
         }       
         else
         {
-            _inventory.Close_Wdw();
+            builtIn_InventoryModule.Close_Wdw();
         }
     }
     public void InventoryClose()
     {
         _inventoryUIActive = false;
-        _inventory.Close_Wdw();
+        builtIn_InventoryModule.Close_Wdw();
     }
 
     void Move_OnFixedUpdate()

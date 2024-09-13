@@ -22,10 +22,6 @@ public class InventoryModule : MonoBehaviour, IModule
 
     private void Awake()
     {
-        Init();
-    }
-    protected virtual void Init()
-    {
         Inventory = new Inventory(inventoryMaxCount, false, InventoryType.Storage);
     }
 

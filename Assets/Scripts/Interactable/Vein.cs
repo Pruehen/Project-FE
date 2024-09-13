@@ -1,9 +1,10 @@
+using EnumTypes;
 using UnityEngine;
 
 public class Vein : MonoBehaviour, IInteractable
 {
     [SerializeField] string itemKey;
-    [SerializeField] float extractTimeGain = 1;
+    [SerializeField] public float extractTimeGain = 1;
     [SerializeField] int reserves = 10000;
 
     Outline _outline;
@@ -21,6 +22,10 @@ public class Vein : MonoBehaviour, IInteractable
     {
         string name = JsonDataManager.GetItem(itemKey).Name;
         return name;
+    }
+    public EntityType GetEntityType()
+    {
+        return EntityType.Vein;
     }
     public Vector3 GetPos(Vector3 hitPos)
     {

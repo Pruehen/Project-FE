@@ -5,6 +5,12 @@ using TMPro;
 
 public class CharactorToolModule : MonoBehaviour
 {
+    Charactor _charactor;
+    public void Init(Charactor charactor)
+    {
+        _charactor = charactor;
+    }
+
     [SerializeField] List<SelectableItemCell> selectableItemCellList;
     [SerializeField] List<string> tool_buildingIdList;
 

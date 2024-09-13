@@ -4,6 +4,7 @@ using UnityEngine;
 public interface IInteractable
 {
     public string GetName();
+    public EntityType GetEntityType();
     public Vector3 GetPos(Vector3 hitPos);
     public float InteractSpeedGain();
     public bool TryInteract(Vector3 hitPos, Vector3 originPos, float checkRange);

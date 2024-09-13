@@ -65,6 +65,10 @@ public class Belt : MonoBehaviour, IInteractable, ITransporter
             return "키를 찾을 수 없음";
         }
     }
+    public EntityType GetEntityType()
+    {
+        return EntityType.Building;
+    }
     public Vector3 GetPos(Vector3 hitPos)
     {
         return this.transform.position;
@@ -132,11 +136,11 @@ public class Belt : MonoBehaviour, IInteractable, ITransporter
                 _mi_id = value;
                 if (_mi_id == 0)
                 {
-                    ObjectPoolManager.Instance.EnqueueObject(moveItemObject.gameObject);
+                    ItemObjectManager.RemoveObject(moveItemObject);                    
                 }
                 else
                 {
-                    moveItemObject = ObjectPoolManager.Instance.DequeueObject(JsonDataManager.GetItem(_mi_id).GetItemPrefab()).GetComponent<ItemObject>();
+                    moveItemObject = ItemObjectManager.CreateObject(_mi_id);
                 }
             }            
         }
