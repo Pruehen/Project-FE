@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TimeManager : SceneSingleton<TimeManager>
 {
     float time_h;
     Quaternion startRotation;
+    [SerializeField] float dayTime_min = 1;
 
     public float Time_H
     {
@@ -38,6 +37,6 @@ public class TimeManager : SceneSingleton<TimeManager>
     // Update is called once per frame
     void Update()
     {
-        Time_H += Time.deltaTime * 2f;
+        Time_H += Time.deltaTime * 24 * (1 / (60 * dayTime_min));
     }
 }
