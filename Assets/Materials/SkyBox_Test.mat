@@ -109,7 +109,7 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SunDisk: 2
-    - _SunSize: 0.04
+    - _SunSize: 0.05
     - _SunSizeConvergence: 10
     - _UVSec: 0
     - _ZWrite: 1
@@ -117,6 +117,6 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GroundColor: {r: 1, g: 0.6942363, b: 0.5707547, a: 1}
-    - _SkyTint: {r: 0.6792453, g: 0.28055784, b: 0, a: 1}
+    - _SkyTint: {r: 1, g: 0.6975583, b: 0.48584908, a: 1}
     - _Tint: {r: 1, g: 0.50980395, b: 0, a: 1}
   m_BuildTextureStacks: []
