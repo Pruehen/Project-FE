@@ -1,4 +1,3 @@
-
 using EnumTypes;
 using System.Collections.Generic;
 using System;

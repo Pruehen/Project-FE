@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using EnumTypes;
+using System.Linq;
 
 public class BeltNode : Node
 {
@@ -21,20 +22,21 @@ public class BeltNode : Node
     public override void Init()
     {
         Quaternion dir = Quaternion.identity;
+        BeltType type;
 
         if (PreviousNode == null && NextNode == null)
-        {
-            SetBeltType(BeltType.Mid, dir);
+        {            
+            type = BeltType.Mid;
         }
         else if (PreviousNode == null)
         {
-            dir = Quaternion.LookRotation(NextNode.gridPos - gridPos);
-            SetBeltType(BeltType.Mid, dir);
+            dir = Quaternion.LookRotation(NextNode.gridPos - gridPos);            
+            type = BeltType.Mid;
         }
         else if (NextNode == null)
         {
             dir = Quaternion.LookRotation(gridPos - PreviousNode.gridPos);
-            SetBeltType(BeltType.Mid, dir);
+            type = BeltType.Mid;
         }
         else
         {
@@ -51,20 +53,31 @@ public class BeltNode : Node
             if (angle > 0)
             {
                 // 오른쪽으로 꺾임
-                SetBeltType(BeltType.Right, dir);
+                type = BeltType.Right;
             }
             else if (angle < 0)
             {
                 // 왼쪽으로 꺾임                
-                SetBeltType(BeltType.Left, dir);
+                type = BeltType.Left;
             }
             else
             {
                 // 직선 (변화 없음)                
-                SetBeltType(BeltType.Mid, dir);
+                type = BeltType.Mid;
             }
         }
+
+        if (beltPart == null)
+        {
+            beltPart = ObjectPoolManager.Instance.DequeueObject(BeltManager.Instance.beltPart, gridPos).GetComponent<Belt>();
+        }
+
+        beltPart.transform.rotation = dir;
+        beltPart.SetBeltPart(type, this);
+
+        transporter = beltPart;
     }
+
     public override void Remove() 
     {
         if (beltPart != null)
@@ -76,23 +89,63 @@ public class BeltNode : Node
         GameLogicManager.Instance.RootBeltNodeSet.Remove(this);
     }
 
-
-    void SetBeltType(BeltType type, Quaternion dir)
+    public static void SetRootNode_OnBeltCreate(Node tailNode, Node headNode)
     {
-        if (beltPart == null)
+        Node currentNode = headNode;
+        RemoveRootNode(headNode);
+
+        while (currentNode != null && currentNode.nodeType == NodeType.BeltNode)
         {
-            beltPart = ObjectPoolManager.Instance.DequeueObject(BeltManager.Instance.beltPart, gridPos).GetComponent<Belt>();
+            if(IsRootNode(currentNode) == false && currentNode.NextNode == null)
+            {
+                SetRootNode(currentNode);
+                break;
+            }
+            else
+            {
+                currentNode = currentNode.NextNode;
+                if(currentNode == headNode)
+                {
+                    SetRootNode(currentNode);
+                    break;
+                }
+            }
         }
 
-        beltPart.transform.rotation = dir;
-        beltPart.SetBeltPart(type, this);
+        currentNode = tailNode;
+        RemoveRootNode(tailNode);
 
-        transporter = beltPart;
-
-        if(NextNode == null || PreviousNode == null)
+        while (currentNode != null && currentNode.nodeType == NodeType.BeltNode)
         {
-            GameLogicManager.Instance.RootBeltNodeSet.Add(this);
+            if (IsRootNode(currentNode) == false && currentNode.PreviousNode == null)
+            {
+                SetRootNode(currentNode);
+                break;
+            }
+            else
+            {
+                currentNode = currentNode.PreviousNode;
+                if (currentNode == tailNode)
+                {
+                    break;
+                }
+            }
         }
+
+        Debug.Log(GameLogicManager.Instance.RootBeltNodeSet.Count);
+    }
+
+    public static bool IsRootNode(Node node)
+    {
+        return GameLogicManager.Instance.RootBeltNodeSet.Contains(node);
+    }
+    public static void SetRootNode(Node node)
+    {
+        GameLogicManager.Instance.RootBeltNodeSet.Add(node);
+    }
+    public static void RemoveRootNode(Node node)
+    {
+        GameLogicManager.Instance.RootBeltNodeSet.Remove(node);        
     }
 }
 
@@ -158,7 +211,6 @@ public class SorterNode : Node
         
         sorterPart.SetSorterPart(inputNodeList, outputNodeList);
         transporter = sorterPart;
-        GameLogicManager.Instance.SorterNodeSet.Add(this);
     }
     public override void Remove() 
     {
@@ -234,6 +286,8 @@ public class BeltCreator
             node.Init();
         }
 
+        BeltNode.SetRootNode_OnBeltCreate(buildBeltNodeList.First(), buildBeltNodeList.Last());
+        
         buildBeltNodeList.Clear();
     }
 

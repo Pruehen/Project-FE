@@ -116,11 +116,6 @@ public class Sorter : MonoBehaviour, IInteractable, ITransporter
         _MainModule = GetComponent<IModule>();
         //moveLogicSpeed *= 2;
         moveLogicTime = 1 / moveLogicSpeed;
-    }    
-    void Update()
-    {
-        LogicInit();
-        ExcuteLogic_OnUpdate(Time.deltaTime);
     }
 
     public bool CanItemOut(ITransporter nextNode)
@@ -230,14 +225,6 @@ public class Sorter : MonoBehaviour, IInteractable, ITransporter
 
         isExcuteLogic = true;
 
-        if (outputNodeList.Count > 0)
-        {
-            foreach (var item in outputNodeList)
-            {
-                item.transporter.ExcuteLogic_OnUpdate(deltaTime);
-            }
-        }
-
         for (int i = 0; i < 4; i++)
         {            
             if (timeValueArray_ItemMove[i] > moveLogicTime)//아이템이 도착했는지
@@ -261,14 +248,6 @@ public class Sorter : MonoBehaviour, IInteractable, ITransporter
             {
                 moveItemObjectArray[i].ItemMove(timeValueArray_ItemMove[i] * moveLogicSpeed);
                 timeValueArray_ItemMove[i] += deltaTime;
-            }
-        }
-
-        if (inputNodeList.Count > 0)
-        {
-            foreach (var item in inputNodeList)
-            {
-                item.transporter.ExcuteLogic_OnUpdate(deltaTime);
             }
         }
     }
