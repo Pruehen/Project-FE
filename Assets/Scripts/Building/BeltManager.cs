@@ -89,25 +89,32 @@ public class BeltNode : Node
         GameLogicManager.Instance.RootBeltNodeSet.Remove(this);
     }
 
-    public static void SetRootNode_OnBeltCreate(Node tailNode, Node headNode)
+    public static void SetRootNode_OnBeltCreate(Node tailNode, Node headNode)//벨트 로직 실행 순서를 설정하기 위한 메서드
     {
         Node currentNode = headNode;
         RemoveRootNode(headNode);
 
-        while (currentNode != null && currentNode.nodeType == NodeType.BeltNode)
+        if (headNode.nodeType == NodeType.SorterNode)//헤드가 소터일 경우, 해당 소터 노드를 초기 실행 멤버에 등록
         {
-            if(IsRootNode(currentNode) == false && currentNode.NextNode == null)
+            SetSorterNode(headNode);
+        }
+        else
+        {
+            while (currentNode != null && currentNode.nodeType == NodeType.BeltNode)//아닐 경우, 맨 앞쪽의 소터가 아닌 노드를 등록
             {
-                SetRootNode(currentNode);
-                break;
-            }
-            else
-            {
-                currentNode = currentNode.NextNode;
-                if(currentNode == headNode)
+                if (IsRootNode(currentNode) == false && currentNode.NextNode == null)
                 {
                     SetRootNode(currentNode);
                     break;
+                }
+                else
+                {
+                    currentNode = currentNode.NextNode;
+                    if (currentNode == headNode)
+                    {
+                        SetRootNode(currentNode);
+                        break;
+                    }
                 }
             }
         }
@@ -115,37 +122,56 @@ public class BeltNode : Node
         currentNode = tailNode;
         RemoveRootNode(tailNode);
 
-        while (currentNode != null && currentNode.nodeType == NodeType.BeltNode)
+        if (tailNode.nodeType == NodeType.SorterNode)//테일이 소터일 경우, 해당 소터 노드를 등록
         {
-            if (IsRootNode(currentNode) == false && currentNode.PreviousNode == null)
+            SetSorterNode(tailNode);
+        }
+        else
+        {
+            while (currentNode != null && currentNode.nodeType == NodeType.BeltNode)
             {
-                SetRootNode(currentNode);
-                break;
-            }
-            else
-            {
-                currentNode = currentNode.PreviousNode;
-                if (currentNode == tailNode)
+                if (IsRootNode(currentNode) == false && currentNode.PreviousNode == null)
                 {
+                    SetRootNode(currentNode);
                     break;
+                }
+                else
+                {
+                    currentNode = currentNode.PreviousNode;
+                    if (currentNode == tailNode)
+                    {
+                        break;
+                    }
                 }
             }
         }
 
-        Debug.Log(GameLogicManager.Instance.RootBeltNodeSet.Count);
+        //Debug.Log(GameLogicManager.Instance.RootBeltNodeSet.Count);
     }
 
     public static bool IsRootNode(Node node)
     {
         return GameLogicManager.Instance.RootBeltNodeSet.Contains(node);
     }
+    public static bool IsSorterNode(Node node)
+    {
+        return GameLogicManager.Instance.SorterNodeSet.Contains(node);
+    }
     public static void SetRootNode(Node node)
     {
         GameLogicManager.Instance.RootBeltNodeSet.Add(node);
     }
+    public static void SetSorterNode(Node node)
+    {
+        GameLogicManager.Instance.SorterNodeSet.Add(node);
+    }
     public static void RemoveRootNode(Node node)
     {
         GameLogicManager.Instance.RootBeltNodeSet.Remove(node);        
+    }
+    public static void RemoveSorterNode(Node node)
+    {
+        GameLogicManager.Instance.SorterNodeSet.Remove(node);
     }
 }
 

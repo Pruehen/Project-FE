@@ -12,7 +12,7 @@ public class Sorter : MonoBehaviour, IInteractable, ITransporter
     [SerializeField] ItemObject[] moveItemObjectArray;
     [SerializeField] Transform itemStayPoint;
 
-    float moveLogicSpeed = 1f;
+    float moveLogicSpeed = 2f;
     float moveLogicTime;
     
 
@@ -132,8 +132,6 @@ public class Sorter : MonoBehaviour, IInteractable, ITransporter
     }
     public void ItemOut(ITransporter nextNode)
     {
-        Add_NextOutItemIndex();
-
         timeValueArray_ItemMove[nextOutItemIndex] = 0;
         
         nextNode.ItemIn(moveItemIdArray[nextOutItemIndex], itemStayPoint.position);
@@ -141,6 +139,7 @@ public class Sorter : MonoBehaviour, IInteractable, ITransporter
 
         moveItemObjectArray[nextOutItemIndex].gameObject.SetActive(moveItemIdArray[nextOutItemIndex] != 0);
 
+        Add_NextOutItemIndex();
         itemHaveCount--;
     }
     public bool CanItemIn(ushort itemId)
@@ -149,8 +148,6 @@ public class Sorter : MonoBehaviour, IInteractable, ITransporter
     }
     public void ItemIn(ushort itemId, Vector3 inPos)
     {
-        Add_NextOInItemIndex();//nextInItemIndex 변경됨
-
         //로직 변수 설정
         moveItemIdArray[nextInItemIndex] = itemId;
         timeValueArray_ItemMove[nextInItemIndex] = 0;
@@ -159,6 +156,7 @@ public class Sorter : MonoBehaviour, IInteractable, ITransporter
         moveItemObjectArray[nextInItemIndex].gameObject.SetActive(moveItemIdArray[nextInItemIndex] != 0);
         moveItemObjectArray[nextInItemIndex].SetPos(inPos, itemStayPoint.position);
 
+        Add_NextInItemIndex();//nextInItemIndex 변경됨
         itemHaveCount++;
     }
     
@@ -170,7 +168,7 @@ public class Sorter : MonoBehaviour, IInteractable, ITransporter
     int nextOutItemIndex = 0;//선입 선출을 위한 인덱스 변수
     int nextOutPortIndex = 0;//아이템 균등 배출을 위한 인덱스 변수
 
-    void Add_NextOInItemIndex()
+    void Add_NextInItemIndex()
     {
         nextInItemIndex++;
         if (nextInItemIndex >= 4)
@@ -225,6 +223,14 @@ public class Sorter : MonoBehaviour, IInteractable, ITransporter
 
         isExcuteLogic = true;
 
+        if (outputNodeList.Count > 0)
+        {
+            foreach (var item in outputNodeList)
+            {
+                item.transporter.ExcuteLogic_OnUpdate(deltaTime);
+            }
+        }
+
         for (int i = 0; i < 4; i++)
         {            
             if (timeValueArray_ItemMove[i] > moveLogicTime)//아이템이 도착했는지
@@ -248,6 +254,14 @@ public class Sorter : MonoBehaviour, IInteractable, ITransporter
             {
                 moveItemObjectArray[i].ItemMove(timeValueArray_ItemMove[i] * moveLogicSpeed);
                 timeValueArray_ItemMove[i] += deltaTime;
+            }
+        }
+
+        if (inputNodeList.Count > 0)
+        {
+            foreach (var item in inputNodeList)
+            {
+                item.transporter.ExcuteLogic_OnUpdate(deltaTime);
             }
         }
     }
