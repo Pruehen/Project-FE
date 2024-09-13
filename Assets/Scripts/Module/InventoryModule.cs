@@ -20,7 +20,7 @@ public class InventoryModule : MonoBehaviour, IModule
     }
     public CellData CellItemData(int index) { return Inventory.CellDataList[index]; }    
 
-    private void Awake()
+    protected virtual void Awake()
     {
         Inventory = new Inventory(inventoryMaxCount, false, InventoryType.Storage);
     }

@@ -8,6 +8,11 @@ public class CharactorInventoryModule : InventoryModule
         _charactor = charactor;
     }
 
+    protected override void Awake()
+    {
+        Inventory = new Inventory(inventoryMaxCount, false, InventoryType.CharactorStorage);
+    }
+
     public override void Active_Wdw()
     {
         if (window == null)
