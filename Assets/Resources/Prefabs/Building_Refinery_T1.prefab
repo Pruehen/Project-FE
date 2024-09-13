@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1774044772353328016}
   - component: {fileID: -8096749106778028507}
   - component: {fileID: -6799628280309421769}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Building_Refinery_T1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,7 +114,7 @@ GameObject:
   - component: {fileID: 4179230723951538649}
   - component: {fileID: 3180251653294211150}
   - component: {fileID: 3398061748118565474}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}

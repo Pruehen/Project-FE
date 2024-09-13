@@ -21,7 +21,6 @@ public class Charactor : MonoBehaviour
     UnityEngine.Vector3 _moveVector;
     UnityEngine.Vector3 _lookPos;
     float _speed;
-    float _interactTime = 0;
 
     bool _inventoryUIActive = false;
 
@@ -152,7 +151,7 @@ public class Charactor : MonoBehaviour
         if(onMouseObjectTemp != null && onMouseObjectTemp.TryInteract(_lookPos, this.transform.position, interactionRange))
         {
             onInteractObject = onMouseObjectTemp;
-            _interactTime += Time.deltaTime;            
+            builtIn_MinerModule.Mining(Time.deltaTime * interactionSpeed, onInteractObject);
         }
         else
         {
@@ -162,7 +161,6 @@ public class Charactor : MonoBehaviour
     public void EndInteract()
     {
         onInteractObject = null;
-        _interactTime = 0;
     }
 
     public void InventoryOpen()

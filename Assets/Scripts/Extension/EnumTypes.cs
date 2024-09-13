@@ -68,6 +68,7 @@ namespace EnumTypes
     }
     public enum EntityType
     {
+        Item,
         Charactor,
         Vein,
         Building

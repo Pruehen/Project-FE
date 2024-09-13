@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 885852736139902861}
   - component: {fileID: 1828626042600845378}
   - component: {fileID: 6137429693867547573}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 6429655213212922302}
   - component: {fileID: 409105915568455799}
   - component: {fileID: 2883594314109831167}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 8606884689250337593}
   - component: {fileID: 4839082488296403516}
   - component: {fileID: 599139217328116169}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -261,7 +261,7 @@ GameObject:
   - component: {fileID: -6874779395107776396}
   - component: {fileID: 8756442038893285442}
   - component: {fileID: 3894596709602662204}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sorter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -320,7 +320,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemKey: Item_Belt_T1
   BuildingKey: Building_Belt_T1
-  moveItemObjectArray: []
   itemStayPoint: {fileID: 278941254732479977}
 --- !u!135 &3894596709602662204
 SphereCollider:
@@ -354,7 +353,7 @@ GameObject:
   - component: {fileID: 6391872904659757836}
   - component: {fileID: 965678011133158552}
   - component: {fileID: 2288979402482312796}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -435,7 +434,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 278941254732479977}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Point_Mid
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5528001285305971211}
   - component: {fileID: -6799628280309421769}
   - component: {fileID: 3494728037513676484}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Building_Miner_T1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,7 +114,7 @@ GameObject:
   - component: {fileID: 7260543907336571853}
   - component: {fileID: 7534739421543845991}
   - component: {fileID: 4134885287350933120}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}

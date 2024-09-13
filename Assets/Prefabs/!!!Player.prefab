@@ -45,6 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caac72526590db746b992ad1bde93dd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mouseSelectablelayerMask:
+    serializedVersion: 2
+    m_Bits: 439
   controlledCharactor: {fileID: 0}
 --- !u!114 &387149985924366777
 MonoBehaviour:

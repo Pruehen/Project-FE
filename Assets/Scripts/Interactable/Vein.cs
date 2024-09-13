@@ -23,6 +23,10 @@ public class Vein : MonoBehaviour, IInteractable
         string name = JsonDataManager.GetItem(itemKey).Name;
         return name;
     }
+    public ushort GetItemKey()
+    {
+        return JsonDataManager.GetItem(itemKey).Id_UShort;
+    }
     public EntityType GetEntityType()
     {
         return EntityType.Vein;

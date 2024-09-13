@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Player : SceneSingleton<Player>
 {
+    [SerializeField] LayerMask mouseSelectablelayerMask;
     public Vector2 InputVector_Move { get; private set; }
 
     Vector3 _lookTargetPosVector;
@@ -131,7 +132,7 @@ public class Player : SceneSingleton<Player>
 
         Ray ray = Camera.main.ScreenPointToRay(mousePosition);
 
-        if (Physics.Raycast(ray, out RaycastHit hit))
+        if (Physics.Raycast(ray, out RaycastHit hit, 100, mouseSelectablelayerMask))
         {
             string mouseOverObjectName;
 
@@ -147,7 +148,7 @@ public class Player : SceneSingleton<Player>
                 LookTargetPosVector = hit.point;
                 mouseOverObjectName = null;
             }            
-            OnMouseObjectNameChanged?.Invoke(mouseOverObjectName);         
+            OnMouseObjectNameChanged?.Invoke(mouseOverObjectName);
         }
     }
 
