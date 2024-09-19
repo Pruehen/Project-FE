@@ -43,7 +43,7 @@ public class CraftingModule : MonoBehaviour, IModule
     {
         model.SetCraftingRecipyData(recipyKey);
     }
-    private void Awake()
+    protected virtual void Awake()
     {
         model = ModelManager.NewModel<CraftingModuleModel>(this.gameObject.GetInstanceID());
         model.Init_RecipyGroupKey(GetComponent<Building>().BuildingData.RecipyGroup);       

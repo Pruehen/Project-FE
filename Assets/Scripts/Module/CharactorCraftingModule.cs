@@ -7,6 +7,11 @@ public class CharactorCraftingModule : CraftingModule
     {
         _charactor = charactor;
     }
+    protected override void Awake()
+    {
+        model = ModelManager.NewModel<CraftingModuleModel>(this.gameObject.GetInstanceID());
+    }
+
     public override void Active_Wdw()
     {
         if (window == null)
