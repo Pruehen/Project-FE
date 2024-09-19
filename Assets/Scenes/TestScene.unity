@@ -1954,7 +1954,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1270496696549354171, guid: 9c2cf013745aa4949a4a4ea4da39ca87, type: 3}
       propertyPath: sunColor.ctime0
-      value: 13107
+      value: 11796
       objectReference: {fileID: 0}
     - target: {fileID: 1270496696549354171, guid: 9c2cf013745aa4949a4a4ea4da39ca87, type: 3}
       propertyPath: sunColor.ctime1
@@ -1962,11 +1962,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1270496696549354171, guid: 9c2cf013745aa4949a4a4ea4da39ca87, type: 3}
       propertyPath: sunColor.ctime2
-      value: 26214
+      value: 27525
       objectReference: {fileID: 0}
     - target: {fileID: 1270496696549354171, guid: 9c2cf013745aa4949a4a4ea4da39ca87, type: 3}
       propertyPath: sunColor.ctime3
-      value: 39321
+      value: 38010
       objectReference: {fileID: 0}
     - target: {fileID: 1270496696549354171, guid: 9c2cf013745aa4949a4a4ea4da39ca87, type: 3}
       propertyPath: sunColor.ctime4
@@ -1974,7 +1974,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1270496696549354171, guid: 9c2cf013745aa4949a4a4ea4da39ca87, type: 3}
       propertyPath: sunColor.ctime5
-      value: 52428
+      value: 53739
       objectReference: {fileID: 0}
     - target: {fileID: 1270496696549354171, guid: 9c2cf013745aa4949a4a4ea4da39ca87, type: 3}
       propertyPath: sunColor.ctime6
