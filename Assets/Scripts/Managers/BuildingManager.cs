@@ -1,5 +1,4 @@
 using EnumTypes;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -64,7 +63,7 @@ public class BuildingCrafter
 
 public class BuildingManager : SceneSingleton<BuildingManager>, IBuildTool
 {
-    public GameObject Prefab_inserterPart;
+    public GameObject Prefab_Building { get; private set; }
 
     BuildingCrafter buildingCrafter = new BuildingCrafter();
     Vector3Int posTemp;
@@ -94,9 +93,9 @@ public class BuildingManager : SceneSingleton<BuildingManager>, IBuildTool
             CheckBuildInserter(posTemp);
         }
     }
-    public void SetBuildingId(string buildingId)
+    public void SetBuildingData(BuildingData buildingData)
     {
-
+        Prefab_Building = buildingData.GetBuildingPrefab();
     }
     public void DeActive()
     {

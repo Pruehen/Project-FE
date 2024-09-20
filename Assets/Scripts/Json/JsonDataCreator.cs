@@ -125,6 +125,17 @@ public class BuildingData
         EnergyEfficiency = 1;
         SpeedEfficiency = 1;
     }
+    public GameObject GetBuildingPrefab()
+    {
+        GameObject prefab = Resources.Load<GameObject>($"Prefabs/{Id}");
+
+        if(prefab == null)
+        {
+            Debug.Log($"{Id} 에 해당하는 프리팹이 없습니다.");            
+        }
+
+        return prefab;
+    }
 }
 
 public class BuildingDataTable

@@ -89,7 +89,7 @@ public class CharactorToolModule : MonoBehaviour
             else if (buildingData.BuildingType == BuildingType.Mining || buildingData.BuildingType == BuildingType.Crafting || buildingData.BuildingType == BuildingType.Refinery
                 || buildingData.BuildingType == BuildingType.Generator || buildingData.BuildingType == BuildingType.Storage)
             {
-                SetBuildMode(BuildMode.Inserter, buildingId);
+                SetBuildMode(BuildMode.Building, buildingId);
             }
             else
             {
@@ -110,15 +110,12 @@ public class CharactorToolModule : MonoBehaviour
                 break;
             case BuildMode.Belt:
                 SelectTool = BeltManager.Instance;
-                testText_BuildMode.text = "벨트";
                 break;
             case BuildMode.Inserter:
                 SelectTool = InserterManager.Instance;
-                testText_BuildMode.text = "투입기";
                 break;
             case BuildMode.Building:
                 SelectTool = BuildingManager.Instance;
-                testText_BuildMode.text = "건물";
                 break;
             default:
                 SelectTool = null;
@@ -127,7 +124,8 @@ public class CharactorToolModule : MonoBehaviour
 
         if(SelectTool != null)
         {
-            SelectTool.SetBuildingId(buildingId);
+            SelectTool.SetBuildingData(JsonDataManager.GetBuilding(buildingId));
+            testText_BuildMode.text = JsonDataManager.GetItem(buildingId.Replace_ToItem()).Name.GetTextTable();
         }
     }
 

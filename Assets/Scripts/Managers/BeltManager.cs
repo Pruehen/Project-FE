@@ -422,7 +422,7 @@ public class BeltManager : SceneSingleton<BeltManager>, IBuildTool
     {
 
     }
-    public void SetBuildingId(string buildingId)
+    public void SetBuildingData(BuildingData buildingData)
     {
 
     }

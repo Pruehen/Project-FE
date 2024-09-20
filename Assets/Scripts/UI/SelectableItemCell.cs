@@ -57,14 +57,14 @@ public class SelectableItemCell : MonoBehaviour
     public void SetData_Building(string buildingId)
     {
         this.buildingId = buildingId;
-        string itemId = buildingId.Replace("Building_", "Item_");            
+        string itemId = buildingId.Replace_ToItem();
 
         CellData = new CellData(null, JsonDataManager.GetItem(itemId).Id_UShort, 0, true);
     }
     public void SetData_StaticCell(string buildingId, int count)
     {
         this.buildingId = buildingId;
-        string itemId = buildingId.Replace("Building_", "Item_");
+        string itemId = buildingId.Replace_ToItem();
 
         CellData = new CellData(null, JsonDataManager.GetItem(itemId).Id_UShort, count, true);
     }

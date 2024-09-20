@@ -150,6 +150,10 @@ public static class Extension
         Sprite lodeSprite = Resources.Load<Sprite>(path);
         image.sprite = lodeSprite;
     }
+    public static string Replace_ToItem(this string buildingId)
+    {
+        return buildingId.Replace("Building_", "Item_");
+    }
 
     public static string SimplifyNumber(this float number)
     {
