@@ -94,6 +94,10 @@ public class BuildingManager : SceneSingleton<BuildingManager>, IBuildTool
             CheckBuildInserter(posTemp);
         }
     }
+    public void SetBuildingId(string buildingId)
+    {
+
+    }
     public void DeActive()
     {
         buildingCrafter.DeActive();

@@ -8,13 +8,13 @@ public class Belt : MonoBehaviour, IInteractable, ITransporter
 
     [SerializeField] string ItemKey;
     [SerializeField] string BuildingKey;
+    [SerializeField] float BeltSpeed = 2;
 
     [SerializeField] Transform itemStayPoint;
     ItemObject moveItemObject;
 
     ushort _mi_id;    
-
-    float moveLogicSpeed = 2f;
+    
     float moveLogicTime;
 
     public List<GameObject> Prefab_BeltPart;
@@ -123,7 +123,7 @@ public class Belt : MonoBehaviour, IInteractable, ITransporter
     {
         _MainModule = GetComponent<IModule>();
         //moveLogicSpeed *= 2;
-        moveLogicTime = 1 / moveLogicSpeed;
+        moveLogicTime = 1 / BeltSpeed;
     }    
 
     public ushort MoveItemKey
@@ -208,7 +208,7 @@ public class Belt : MonoBehaviour, IInteractable, ITransporter
 
         if (MoveItemKey != 0)
         {            
-            moveItemObject.ItemMove(timeValue_ItemMove * moveLogicSpeed);
+            moveItemObject.ItemMove(timeValue_ItemMove * BeltSpeed);
             timeValue_ItemMove += deltaTime;
         }
 

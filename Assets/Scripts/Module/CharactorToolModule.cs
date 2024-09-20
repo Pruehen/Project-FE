@@ -71,7 +71,7 @@ public class CharactorToolModule : MonoBehaviour
         if (selectedToolTemp == buildingId)
         {
             selectedToolTemp = null;
-            SetBuildMode(BuildMode.None);
+            SetBuildMode(BuildMode.None, null);
         }
         else
         {
@@ -80,25 +80,28 @@ public class CharactorToolModule : MonoBehaviour
             BuildingData buildingData = JsonDataManager.GetBuilding(buildingId);
             if (buildingData.BuildingType == BuildingType.Conveying)
             {
-                SetBuildMode(BuildMode.Belt);
+                SetBuildMode(BuildMode.Belt, buildingId);
             }
             else if (buildingData.BuildingType == BuildingType.Inserter)
             {
-                SetBuildMode(BuildMode.Inserter);
+                SetBuildMode(BuildMode.Inserter, buildingId);
+            }
+            else if (buildingData.BuildingType == BuildingType.Mining || buildingData.BuildingType == BuildingType.Crafting || buildingData.BuildingType == BuildingType.Refinery
+                || buildingData.BuildingType == BuildingType.Generator || buildingData.BuildingType == BuildingType.Storage)
+            {
+                SetBuildMode(BuildMode.Inserter, buildingId);
             }
             else
             {
-                SetBuildMode(BuildMode.None);
+                Debug.LogError("해당 빌딩 타입은 지원되는 빌드 모드가 없습니다.");
+                SetBuildMode(BuildMode.None, null);
             }
         }
     }
     
-    public void SetBuildMode(BuildMode value)
+    public void SetBuildMode(BuildMode value, string buildingId)
     {
         this.BuildMode = value;
-
-        GridRenderer.Instance.Command_HideAllGridLines();
-        BeltManager.Instance.DeActive();
 
         switch (BuildMode)
         {
@@ -120,6 +123,11 @@ public class CharactorToolModule : MonoBehaviour
             default:
                 SelectTool = null;
                 break;
+        }
+
+        if(SelectTool != null)
+        {
+            SelectTool.SetBuildingId(buildingId);
         }
     }
 
