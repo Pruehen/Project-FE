@@ -21,7 +21,7 @@ def excel_to_custom_json(input_file, output_file):
 
         # 결과를 JSON 파일로 저장
         with open(output_file, "w", encoding="utf-8") as json_file:
-            json.dump(result, json_file, ensure_ascii=False, indent=4)
+            json.dump(result, json_file, ensure_ascii=False, indent=2)
 
         print(f"File converted successfully: {output_file}")
 

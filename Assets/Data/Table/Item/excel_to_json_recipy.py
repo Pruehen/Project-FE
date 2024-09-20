@@ -1,6 +1,5 @@
 import pandas as pd
 import sys
-import os
 import json
 
 def excel_to_custom_json(input_file, output_file):
@@ -18,29 +17,29 @@ def excel_to_custom_json(input_file, output_file):
                 "Id": id,
                 "Name": row["Name"],
                 "Desc": row["Desc"],
-                "Icon": row["Icon"],
-                "InputItem-1": row["InputItem-1"],
-                "InputItemCount-1": row["InputItemCount-1"],
-                "InputItem-2": row["InputItem-2"],
-                "InputItemCount-2": row["InputItemCount-2"],
-                "InputItem-3": row["InputItem-3"],
-                "InputItemCount-3": row["InputItemCount-3"],
-                "InputItem-4": row["InputItem-4"],
-                "InputItemCount-4": row["InputItemCount-4"],
-                "OutputItem-1": row["OutputItem-1"],
-                "OutputItemCount-1": row["OutputItemCount-1"],
-                "OutputItem-2": row["OutputItem-2"],
-                "OutputItemCount-2": row["OutputItemCount-2"],
-                "OutputItem-3": row["OutputItem-3"],
-                "OutputItemCount-3": row["OutputItemCount-3"],
-                "OutputItem-4": row["OutputItem-4"],
-                "OutputItemCount-4": row["OutputItemCount-4"],
+                "Icon": row["Icon"].replace("Resources/UI/Icon/Recipy/", "UI/Icon/Recipy/").replace(".png", ""),
+                "InputItem-1": row["InputItem-1"] if pd.notna(row["InputItem-1"]) else None,
+                "InputItemCount-1": int(row["InputItemCount-1"]) if pd.notna(row["InputItemCount-1"]) else 0,
+                "InputItem-2": row["InputItem-2"] if pd.notna(row["InputItem-2"]) else None,
+                "InputItemCount-2": int(row["InputItemCount-2"]) if pd.notna(row["InputItemCount-2"]) else 0,
+                "InputItem-3": row["InputItem-3"] if pd.notna(row["InputItem-3"]) else None,
+                "InputItemCount-3": int(row["InputItemCount-3"]) if pd.notna(row["InputItemCount-3"]) else 0,
+                "InputItem-4": row["InputItem-4"] if pd.notna(row["InputItem-4"]) else None,
+                "InputItemCount-4": int(row["InputItemCount-4"]) if pd.notna(row["InputItemCount-4"]) else 0,
+                "OutputItem-1": row["OutputItem-1"] if pd.notna(row["OutputItem-1"]) else None,
+                "OutputItemCount-1": int(row["OutputItemCount-1"]) if pd.notna(row["OutputItemCount-1"]) else 0,
+                "OutputItem-2": row["OutputItem-2"] if pd.notna(row["OutputItem-2"]) else None,
+                "OutputItemCount-2": int(row["OutputItemCount-2"]) if pd.notna(row["OutputItemCount-2"]) else 0,
+                "OutputItem-3": row["OutputItem-3"] if pd.notna(row["OutputItem-3"]) else None,
+                "OutputItemCount-3": int(row["OutputItemCount-3"]) if pd.notna(row["OutputItemCount-3"]) else 0,
+                "OutputItem-4": row["OutputItem-4"] if pd.notna(row["OutputItem-4"]) else None,
+                "OutputItemCount-4": int(row["OutputItemCount-4"]) if pd.notna(row["OutputItemCount-4"]) else 0,
                 "CraftingTime": row["CraftingTime"]
             }
 
         # 결과를 JSON 파일로 저장
         with open(output_file, "w", encoding="utf-8") as json_file:
-            json.dump(result, json_file, ensure_ascii=False, indent=4)
+            json.dump(result, json_file, ensure_ascii=False, indent=2)
 
         print(f"File converted successfully: {output_file}")
 
