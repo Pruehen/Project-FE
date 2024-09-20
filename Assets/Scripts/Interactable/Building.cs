@@ -117,7 +117,7 @@ public class Building : MonoBehaviour, IInteractable, ITransporter
 
     private void Awake()
     {
-        //_MainModule = GetComponent<IModule>();
+        _MainModule = GetComponent<IModule>();
         //Vector3Int deployPos = this.transform.position.ToIntVector();
 
         //for (int x = 0; x < BuildingData.DeploySizeX; x++)
