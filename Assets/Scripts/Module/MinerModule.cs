@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class MinerModule : MonoBehaviour, IModule
 {
-    protected MinerModuleModel model;
+    MinerModuleModel model;
 
-    [SerializeField] protected float MiningTimeGain = 1;
-    [SerializeField] protected float MiningSpeedGain = 1;
+    [SerializeField] float MiningTimeGain = 1;
+    [SerializeField] float MiningSpeedGain = 1;
 
-    protected IWindow window;
-    public virtual void Active_Wdw()
+    IWindow window;
+    public void Active_Wdw()
     {
         if (window == null)
         {
@@ -17,7 +17,7 @@ public class MinerModule : MonoBehaviour, IModule
             model.OutputInventory.OnOpen();
         }
     }
-    public virtual void Close_Wdw()
+    public void Close_Wdw()
     {
         if (window != null)
         {
@@ -26,11 +26,11 @@ public class MinerModule : MonoBehaviour, IModule
             model.OutputInventory.OnClose();
         }
     }
-    public virtual Inventory TryGetInputInventory()
+    public Inventory TryGetInputInventory()
     {
         return null;
     }
-    public virtual Inventory TryGetOutputInventory()
+    public Inventory TryGetOutputInventory()
     {
         return model.OutputInventory;
     }
@@ -39,11 +39,17 @@ public class MinerModule : MonoBehaviour, IModule
     {
         model = ModelManager.NewModel<MinerModuleModel>(this.gameObject.GetInstanceID());
         model.Init_ExtractItem("Item_Iron");
+        model.Register_OnExtract(OnExtract);
     }
 
     private void Update()
     {
         model.ExecuteLogic(Time.deltaTime);
+    }
+
+    void OnExtract()
+    {
+
     }
 }
 
@@ -57,6 +63,7 @@ public class MinerModuleModel
     bool _isCrafting = true;
 
     Action<float, float> OnExecuteLogic;
+    Action OnExtract;
     public void Register_OnExecuteLogic(Action<float, float> callBack)
     {
         OnExecuteLogic += callBack;
@@ -77,6 +84,11 @@ public class MinerModuleModel
         
         OutputInventory.OnInventoryChange += SetIsCraftItem_OnInventoryChange;
     }
+    public void Register_OnExtract(Action callBack)
+    {
+        OnExtract += callBack;
+    }
+
     public void Init_ExtractItem(string itemKey)
     {
         extractItem = JsonDataManager.GetItem(itemKey);
@@ -98,13 +110,13 @@ public class MinerModuleModel
         if (craftingTimeValue > craftingTime)
         {
             craftingTimeValue -= craftingTime;
-            CraftItem();
+            ExtractItem();
         }
 
         OnExecuteLogic?.Invoke(craftingTimeValue, craftingTime);
     }
 
-    void CraftItem()
+    void ExtractItem()
     {
         if (extractItem == null)
         {

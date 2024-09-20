@@ -114,7 +114,8 @@ public class CharactorToolModule : MonoBehaviour
                 testText_BuildMode.text = "투입기";
                 break;
             case BuildMode.Building:
-                SelectTool = null;
+                SelectTool = BuildingManager.Instance;
+                testText_BuildMode.text = "건물";
                 break;
             default:
                 SelectTool = null;
