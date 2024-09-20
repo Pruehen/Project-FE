@@ -131,7 +131,7 @@ public class BuildingData
 
         if(prefab == null)
         {
-            Debug.Log($"{Id} 에 해당하는 프리팹이 없습니다.");            
+            Debug.LogError($"{Id} 에 해당하는 프리팹이 없습니다.");            
         }
 
         return prefab;

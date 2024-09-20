@@ -6,14 +6,14 @@ public static class GridMap
     public static Dictionary<Vector3Int, Node> NodeDic_NormalDepth = new Dictionary<Vector3Int, Node>();//벨트, 구조물 등의 계층
     public static Dictionary<Vector3Int, Node> NodeDic_InteractableDepth = new Dictionary<Vector3Int, Node>();//투입기 등의 계층
 
-    public static BeltNode CreateBeltNode(Vector3Int gridPos)
+    public static BeltNode CreateBeltNode(Vector3Int gridPos)//벨트 건설
     {
         BeltNode node = new BeltNode(gridPos);
 
         NodeDic_NormalDepth.Add(gridPos, node);
         return node;
     }
-    public static SorterNode CreateSorterNode(Vector3Int gridPos)
+    public static SorterNode CreateSorterNode(Vector3Int gridPos)//소터 건설
     {
         Node nodeTemp = NodeDic_NormalDepth[gridPos];
         Node previousNode = nodeTemp.PreviousNode;
@@ -42,14 +42,14 @@ public static class GridMap
 
         return sorterNode;
     }
-    public static BuildingNode CreateBuildingNode(Vector3Int gridPos, Building building)
+    public static BuildingNode CreateBuildingNode(Vector3Int gridPos)//빌딩 건설
     {
-        BuildingNode node = new BuildingNode(gridPos, building);
+        BuildingNode node = new BuildingNode(gridPos, new Building());
 
         NodeDic_NormalDepth.Add(gridPos, node);
         return node;
     }
-    public static InserterNode CreateInserter(Vector3Int firstPos, Vector3Int lastPos)
+    public static InserterNode CreateInserter(Vector3Int firstPos, Vector3Int lastPos)//인서터 건설
     {
         InserterNode node = new InserterNode(firstPos, lastPos);
 

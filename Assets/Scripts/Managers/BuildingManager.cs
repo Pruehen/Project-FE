@@ -2,62 +2,69 @@ using EnumTypes;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class BuildingNode : Node
+{
+    public override Node PreviousNode { get { return null; } set { } }
+    public override Node NextNode { get { return null; } set { } }
+
+    public BuildingNode(Vector3Int gridPos, Building building)
+    {
+        this.nodeType = NodeType.BuildingNode;
+        this.gridPos = gridPos;
+        this.transporter = building;
+    }
+
+    public override void Init()
+    {
+
+    }
+
+    public override void Remove()
+    {
+
+    }
+}
+
 public class BuildingCrafter
 {
-    Vector3Int _firstNode;
-    Vector3Int _lastNode;
+    Vector3Int center;
+    Quaternion dir;
 
-    // 경로를 저장할 리스트
-    List<Vector3Int> path = new List<Vector3Int>();
-
-    public void BuildInserter(Vector3Int firstNode, GridDir gridDir)
+    public void BuildInserter(Vector3Int centerNode, GridDir gridDir)
     {
-        CheckBuildInserter(firstNode, gridDir);
-        BuildLineRenderer.Instance.HideAllGridLinesAndNodes();
+        CheckBuildInserter(centerNode, gridDir);        
 
-        InserterNode createNode = GridMap.CreateInserter(_firstNode, _lastNode);
+        BuildingNode createNode = GridMap.CreateBuildingNode(centerNode);
         createNode.Init();
     }
 
-    public void CheckBuildInserter(Vector3Int firstNode, GridDir gridDir)
+    public void CheckBuildInserter(Vector3Int centerNode, GridDir gridDir)
     {
-        _firstNode = firstNode;
-        _lastNode = firstNode;
+        center = centerNode;
 
         switch (gridDir)
         {
             case GridDir.Top:
-                _lastNode.z++;
+                dir = Quaternion.Euler(0, 0, 0);
                 break;
             case GridDir.Right:
-                _lastNode.x++;
+                dir = Quaternion.Euler(0, 90, 0);
                 break;
             case GridDir.Bottom:
-                _lastNode.z--;
+                dir = Quaternion.Euler(0, 180, 0);
                 break;
             case GridDir.Left:
-                _lastNode.x--;
+                dir = Quaternion.Euler(0, 270, 0);
                 break;
             default:
                 break;
         }
 
-        CalculatePath(_firstNode, _lastNode);
+        BuildMeshRenderer.Instance.DrawMesh(center, dir, BuildingManager.Instance.Prefab_Building);
     }
     public void DeActive()
     {
-        path.Clear();
-        BuildLineRenderer.Instance.DrawBeltLine(path);
-    }
-
-    void CalculatePath(Vector3Int start, Vector3Int end)
-    {
-        path.Clear();
-
-        path.Add(start);
-        path.Add(end);
-
-        BuildLineRenderer.Instance.DrawBeltLine(path);
+        BuildMeshRenderer.Instance.RemoveMesh();
     }
 }
 
@@ -71,14 +78,14 @@ public class BuildingManager : SceneSingleton<BuildingManager>, IBuildTool
 
     public void OnClick(Vector3Int pos)
     {
-        BuildInserter(pos);
+        BuildBuilding(pos);
     }
     public void OnMove(Vector3Int pos)
     {
         if (posTemp != pos)
         {
             posTemp = pos;
-            CheckBuildInserter(pos);
+            CheckBuillBuilding(pos);
         }
     }
     public void OnKeyDown(KeyCode key)//건설 방향을 바꿈
@@ -90,23 +97,24 @@ public class BuildingManager : SceneSingleton<BuildingManager>, IBuildTool
             {
                 buildDir = 0;
             }
-            CheckBuildInserter(posTemp);
+            CheckBuillBuilding(posTemp);
         }
     }
     public void SetBuildingData(BuildingData buildingData)
     {
         Prefab_Building = buildingData.GetBuildingPrefab();
+        CheckBuillBuilding(posTemp);
     }
     public void DeActive()
     {
         buildingCrafter.DeActive();
     }
 
-    void CheckBuildInserter(Vector3Int mouseNode)
+    void CheckBuillBuilding(Vector3Int mouseNode)
     {
         buildingCrafter.CheckBuildInserter(mouseNode, buildDir);
     }
-    void BuildInserter(Vector3Int lastNode)
+    void BuildBuilding(Vector3Int lastNode)
     {
         buildingCrafter.BuildInserter(lastNode, buildDir);
     }

@@ -138,7 +138,7 @@ public class InserterManager : SceneSingleton<InserterManager>, IBuildTool
     }
     public void SetBuildingData(BuildingData buildingData)
     {
-
+        CheckBuildInserter(posTemp);
     }
     public void DeActive()
     {

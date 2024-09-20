@@ -117,16 +117,16 @@ public class Building : MonoBehaviour, IInteractable, ITransporter
 
     private void Awake()
     {
-        _MainModule = GetComponent<IModule>();
-        Vector3Int deployPos = this.transform.position.ToIntVector();
+        //_MainModule = GetComponent<IModule>();
+        //Vector3Int deployPos = this.transform.position.ToIntVector();
 
-        for (int x = 0; x < BuildingData.DeploySizeX; x++)
-        {
-            for (int z = 0; z < BuildingData.DeploySizeZ; z++)
-            {
-                nodeTempList.Add(GridMap.CreateBuildingNode(deployPos + new Vector3Int(x, 0, z), this));
-            }
-        }
+        //for (int x = 0; x < BuildingData.DeploySizeX; x++)
+        //{
+        //    for (int z = 0; z < BuildingData.DeploySizeZ; z++)
+        //    {
+        //        nodeTempList.Add(GridMap.CreateBuildingNode(deployPos + new Vector3Int(x, 0, z)));
+        //    }
+        //}
     }
 
     public bool CanItemOut(ITransporter nextNode)
@@ -187,26 +187,4 @@ public class Building : MonoBehaviour, IInteractable, ITransporter
 
     public void LogicInit() { }   
     public void ExcuteLogic_OnUpdate(float deltaTime) { }
-}
-public class BuildingNode : Node
-{
-    public override Node PreviousNode { get { return null; } set { } }
-    public override Node NextNode { get { return null; } set { } }
-
-    public BuildingNode(Vector3Int gridPos, Building building)
-    {
-        this.nodeType = EnumTypes.NodeType.BuildingNode;
-        this.gridPos = gridPos;
-        this.transporter = building;
-    }
-
-    public override void Init()
-    {
-
-    }
-
-    public override void Remove() 
-    { 
-
-    }
 }
