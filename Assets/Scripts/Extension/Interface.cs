@@ -46,7 +46,7 @@ public interface IWindow
     public void Command_Close();
 }
 
-public interface ITransporter
+public interface ITransporter//벨트, 인서터, 투입 가능 건물 등
 {
     public bool CanItemOut(ITransporter nextNode);
     public void ItemOut(ITransporter nextNode);

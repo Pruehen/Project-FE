@@ -18,7 +18,7 @@ public static class ItemObjectManager
         return itemObjectDic[instanceId];
     }
 
-    public static void RemoveObject(ItemObject itemObject)
+    public static void RemoveObject(this ItemObject itemObject)
     {
         ObjectPoolManager.Instance.EnqueueObject(itemObject.gameObject);
     }

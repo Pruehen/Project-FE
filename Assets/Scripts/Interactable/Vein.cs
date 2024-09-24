@@ -18,6 +18,22 @@ public class Vein : MonoBehaviour, IInteractable
         }
     }
 
+    public void ExtractVein(int count, out int extractCount)
+    {
+        extractCount = count;
+        reserves -= count;
+
+        if(reserves <= 0)
+        {
+            extractCount += reserves;
+            RemoveVein();
+        }
+    }
+    void RemoveVein()
+    {
+        this.gameObject.SetActive(false);
+    }
+
     public string GetName()
     {
         string name = JsonDataManager.GetItem(itemKey).Name;

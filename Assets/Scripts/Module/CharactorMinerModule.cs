@@ -31,7 +31,14 @@ public class CharactorMinerModule : MonoBehaviour
         if(miningTimeValue >= currentVein.extractTimeGain)
         {
             miningTimeValue = 0;
-            ItemObjectManager.CreateObject(currentVein.GetItemKey()).ItemDrop(currentVein.transform.position);
+            currentVein.ExtractVein(1, out int extractCount);
+
+            for (int i = 0; i < extractCount; i++)
+            {
+                ItemObject itemObject = ItemObjectManager.CreateObject(currentVein.GetItemKey());
+                itemObject.ItemDrop(currentVein.transform.position);
+                itemObject.PoolItem(_charactor);
+            }
         }
     }
 }

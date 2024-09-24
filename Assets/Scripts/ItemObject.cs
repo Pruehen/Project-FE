@@ -8,6 +8,9 @@ public class ItemObject : MonoBehaviour, IInteractable
     Vector3 targetPos = Vector3.zero;
 
     bool _droped = false;
+    bool _pooled = false;
+    Charactor charactor;//æ∆¿Ã≈€¿ª »πµÊ«— ≈∏∞Ÿ¿« ∆Æ∑£Ω∫∆˚
+
     Rigidbody rb;
     BoxCollider bc;
     Outline outline;
@@ -70,6 +73,32 @@ public class ItemObject : MonoBehaviour, IInteractable
         rb.AddForce(new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)).normalized + new Vector3(0, 10, 0), ForceMode.VelocityChange);
         rb.AddTorque((Random.onUnitSphere * Random.Range(0f, 10)), ForceMode.VelocityChange);
     }
+    public void PoolItem(Charactor charactor)
+    {
+        _pooled = true;
+        rb.drag = 5f;
+        rb.useGravity = false;
+
+        this.charactor = charactor;
+    }
+    public void GetItem(Charactor charactor)
+    {
+        _pooled = false;
+        charactor.GetDropedItem(this.name);
+        this.RemoveObject();
+    }
+
+    void FixedUpdate()
+    {
+        Vector3 toTargetVec = charactor.transform.position - this.transform.position;
+        rb.AddForce(toTargetVec.normalized * 50, ForceMode.Acceleration);
+
+        if(toTargetVec.sqrMagnitude < 1)
+        {
+            GetItem(charactor);
+        }
+    }
+
 
     public string GetName()
     {
@@ -107,6 +136,7 @@ public class ItemObject : MonoBehaviour, IInteractable
 
     public bool TrySelect(Vector3 hitPos, Vector3 originPos, float checkRange)
     {
+        this.RemoveObject();
         return false;
     }
 

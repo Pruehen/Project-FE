@@ -191,6 +191,12 @@ public class Charactor : MonoBehaviour
         builtIn_InventoryModule.Close_Wdw();
     }
 
+    public void GetDropedItem(string itemKey)
+    {
+        ItemData itemData = JsonDataManager.GetItem(itemKey);
+        builtIn_InventoryModule.TryGetInputInventory().AddItem(itemData.Id_UShort, 1, out int r);
+    }
+
     void Move_OnFixedUpdate()
     {        
         if (_moveVector != UnityEngine.Vector3.zero)
