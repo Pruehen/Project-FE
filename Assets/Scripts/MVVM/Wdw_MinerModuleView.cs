@@ -41,7 +41,7 @@ public class Wdw_MinerModuleView : MonoBehaviour, IWindow
 
         ObjectPoolManager.Instance.EnqueueObject(this.gameObject);
 
-        UIManager.Instance.OnDeActive_ModuleWdw(instanceId);
+        UIManager.Instance.OnDeActive_ModuleWdw(module);
         module = null;
     }
     public void Command_Close()

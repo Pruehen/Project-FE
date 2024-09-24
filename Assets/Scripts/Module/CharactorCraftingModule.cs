@@ -1,47 +1,35 @@
 using UnityEngine;
 
-public class CharactorCraftingModule : CraftingModule
+public class CharactorCraftingModule : MonoBehaviour, IModule
 {
     Charactor _charactor;
+    IWindow window;
     public void Init(Charactor charactor)
     {
         _charactor = charactor;
     }
-    protected override void Awake()
-    {
-        model = ModelManager.NewModel<CraftingModuleModel>(this.gameObject.GetInstanceID());
-    }
 
-    public override void Active_Wdw()
+    public void Active_Wdw()
     {
         if (window == null)
         {
-            window = UIManager.Instance.Actvie_ModuleWdw(UIManager.Instance.Prefab_CraftingModuleUIWdw, this);
-            model.InputInventory.OnOpen();
-            model.OutputInventory.OnOpen();
+            window = UIManager.Instance.Actvie_ModuleWdw(UIManager.Instance.Prefab_CharactorCraftingModuleUIWdw, this);
         }
     }
-    public override void Close_Wdw()
+    public void Close_Wdw()
     {
         if(window != null)
         {
             window.Close();
             window = null;
-            model.InputInventory.OnClose();
-            model.OutputInventory.OnClose();
         }        
     }
-    public override Inventory TryGetInputInventory()
+    public Inventory TryGetInputInventory()
     {
-        return model.InputInventory;
+        return _charactor.builtIn_InventoryModule.TryGetInputInventory();
     }
-    public override Inventory TryGetOutputInventory()
+    public Inventory TryGetOutputInventory()
     {
-        return model.OutputInventory;
-    }
-
-    public override void SetCraftingRecipyData(string recipyKey)
-    {
-        model.SetCraftingRecipyData(recipyKey);
+        return _charactor.builtIn_InventoryModule.TryGetOutputInventory();
     }
 }

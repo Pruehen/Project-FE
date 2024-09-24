@@ -488,6 +488,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Prefab_CharactorInventoryUIWdw: {fileID: 1162125286898261070, guid: 564d0d5076acf374ca913d58d7f6f955, type: 3}
+  Prefab_CharactorCraftingModuleUIWdw: {fileID: 1162125286898261070, guid: dd23133ba38522046909c6907284c168, type: 3}
   Prefab_InventoryUIWdw: {fileID: 1162125286898261070, guid: 9e2cb6e0c4c20ac45bbea3308b49fb0d, type: 3}
   Prefab_CraftingModuleUIWdw: {fileID: 1162125286898261070, guid: d2e96a96bb728334abe48457c4f00fc7, type: 3}
   Prefab_MinerModuleUIWdw: {fileID: 1162125286898261070, guid: 771718213c29b704888ecc1208bbc62e, type: 3}

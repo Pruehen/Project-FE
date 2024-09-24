@@ -23,6 +23,7 @@ public class Charactor : MonoBehaviour
     float _speed;
 
     bool _inventoryUIActive = false;
+    bool _cmUIActive = false;
 
     [Range(1, 50)][SerializeField] float moveSpeed = 10;
     [Range(1, 50)][SerializeField] float interactionRange = 10;
@@ -189,6 +190,18 @@ public class Charactor : MonoBehaviour
     {
         _inventoryUIActive = false;
         builtIn_InventoryModule.Close_Wdw();
+    }
+    public void CraftingModuleToggle()
+    {
+        _cmUIActive = !_cmUIActive;
+        if (_cmUIActive)
+        {
+            builtIn_CraftingModule.Active_Wdw();
+        }
+        else
+        {
+            builtIn_CraftingModule.Close_Wdw();
+        }
     }
 
     public void GetDropedItem(string itemKey)

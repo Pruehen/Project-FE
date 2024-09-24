@@ -5,6 +5,7 @@ public class UIManager : SceneSingleton<UIManager>
 {
     [Header("«¡∏Æ∆’")]
     public GameObject Prefab_CharactorInventoryUIWdw;
+    public GameObject Prefab_CharactorCraftingModuleUIWdw;
     public GameObject Prefab_InventoryUIWdw;
     public GameObject Prefab_CraftingModuleUIWdw;
     public GameObject Prefab_MinerModuleUIWdw;
@@ -15,7 +16,7 @@ public class UIManager : SceneSingleton<UIManager>
     [Header("±‚≈∏")]
     [SerializeField] Transform Trf_WindowParent;
 
-    Dictionary<int, IWindow> ActiveWdwModuleDic = new Dictionary<int, IWindow>();
+    Dictionary<IModule, IWindow> ActiveWdwModuleDic = new Dictionary<IModule, IWindow>();
     //=============================================================================================================================
     public void Active_BuildingMainModuleUIWdw(IModule module)
     {
@@ -26,19 +27,18 @@ public class UIManager : SceneSingleton<UIManager>
     }
     public IWindow Actvie_ModuleWdw<T>(GameObject windowPrefab, T module) where T : MonoBehaviour, IModule
     {
-        int instanceId = module.gameObject.GetInstanceID();
-        
-        if (ActiveWdwModuleDic.ContainsKey(instanceId) == false && ActiveWdwModuleDic.Count < 5)
+        if (ActiveWdwModuleDic.ContainsKey(module) == false && ActiveWdwModuleDic.Count < 5)
         {
             GameObject obj = ObjectPoolManager.Instance.DequeueObject(windowPrefab);
             obj.transform.SetParent(Trf_WindowParent);
 
             IWindow window = obj.GetComponent<IWindow>();
+
             window.Active(module);
-            
-            ActiveWdwModuleDic.Add(instanceId, window);
+
+            ActiveWdwModuleDic.Add(module, window);
             return window;
-        }        
+        }
         else
         {
             return null;
@@ -46,11 +46,7 @@ public class UIManager : SceneSingleton<UIManager>
     }
     public void OnDeActive_ModuleWdw<T>(T module) where T : MonoBehaviour, IModule
     {
-        ActiveWdwModuleDic.Remove(module.gameObject.GetInstanceID());
-    }
-    public void OnDeActive_ModuleWdw(int instanceId)
-    {
-        ActiveWdwModuleDic.Remove(instanceId);
+        ActiveWdwModuleDic.Remove(module);
     }
     public void AllModuleWdwDeActive()
     {

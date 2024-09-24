@@ -77,7 +77,7 @@ public class Player : SceneSingleton<Player>
 
         Register_KeyAction(KeyCode.Tab, Command_CharactorInventoryToggle);
         Register_KeyAction(KeyCode.I, Command_CharactorInventoryToggle);
-        Register_KeyAction(KeyCode.U, Command_CharactorInventoryToggle);
+        Register_KeyAction(KeyCode.U, Command_CharactorCraftingModuleToggle);
         Register_KeyAction(KeyCode.Escape, Command_CharactorInventoryClose_OnEscClick);
         //foreach (KeyCode value in Enum.GetValues(typeof(KeyCode)))
         //{
@@ -202,6 +202,10 @@ public class Player : SceneSingleton<Player>
     void Command_CharactorInventoryToggle()
     {        
         controlledCharactor?.InventoryToggle();
+    }
+    void Command_CharactorCraftingModuleToggle()
+    {
+        controlledCharactor?.CraftingModuleToggle();
     }
     void Command_CharactorInventoryClose_OnEscClick()
     {

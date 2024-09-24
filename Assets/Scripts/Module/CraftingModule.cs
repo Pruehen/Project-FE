@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class CraftingModule : MonoBehaviour, IModule
 {
-    protected CraftingModuleModel model;
+    CraftingModuleModel model;
 
-    [SerializeField] protected float CraftingTimeGain = 1;
-    [SerializeField] protected float CraftingSpeedGain = 1;
+    [SerializeField] float CraftingTimeGain = 1;
+    [SerializeField] float CraftingSpeedGain = 1;
 
-    protected IWindow window;
-    public virtual void Active_Wdw()
+    IWindow window;
+    public void Active_Wdw()
     {
         if (window == null)
         {
@@ -20,7 +20,7 @@ public class CraftingModule : MonoBehaviour, IModule
             model.OutputInventory.OnOpen();
         }
     }
-    public virtual void Close_Wdw()
+    public void Close_Wdw()
     {
         if(window != null)
         {
@@ -30,20 +30,20 @@ public class CraftingModule : MonoBehaviour, IModule
             model.OutputInventory.OnClose();
         }        
     }
-    public virtual Inventory TryGetInputInventory()
+    public Inventory TryGetInputInventory()
     {
         return model.InputInventory;
     }
-    public virtual Inventory TryGetOutputInventory()
+    public Inventory TryGetOutputInventory()
     {
         return model.OutputInventory;
     }
 
-    public virtual void SetCraftingRecipyData(string recipyKey)
+    public void SetCraftingRecipyData(string recipyKey)
     {
         model.SetCraftingRecipyData(recipyKey);
     }
-    protected virtual void Awake()
+    void Awake()
     {
         model = ModelManager.NewModel<CraftingModuleModel>(this.gameObject.GetInstanceID());
         model.Init_RecipyGroupKey(GetComponent<Building>().BuildingData.RecipyGroup);       

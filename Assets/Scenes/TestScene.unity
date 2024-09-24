@@ -1530,22 +1530,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 868862948929729005, guid: b1e3c324dc24a7f4899ef0da7f24bb27, type: 3}
-      propertyPath: IsStaticCell
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 868862948929729005, guid: b1e3c324dc24a7f4899ef0da7f24bb27, type: 3}
-      propertyPath: StaticCell_Count
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1298265751549286660, guid: b1e3c324dc24a7f4899ef0da7f24bb27, type: 3}
-      propertyPath: IsStaticCell
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1298265751549286660, guid: b1e3c324dc24a7f4899ef0da7f24bb27, type: 3}
-      propertyPath: StaticCell_Count
-      value: 8
-      objectReference: {fileID: 0}
     - target: {fileID: 1372240451969683081, guid: b1e3c324dc24a7f4899ef0da7f24bb27, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1561,14 +1545,6 @@ PrefabInstance:
     - target: {fileID: 1372240451969683081, guid: b1e3c324dc24a7f4899ef0da7f24bb27, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1799470337311227042, guid: b1e3c324dc24a7f4899ef0da7f24bb27, type: 3}
-      propertyPath: IsStaticCell
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1799470337311227042, guid: b1e3c324dc24a7f4899ef0da7f24bb27, type: 3}
-      propertyPath: StaticCell_Count
-      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2280703152645777193, guid: b1e3c324dc24a7f4899ef0da7f24bb27, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1618,22 +1594,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3975585450124559114, guid: b1e3c324dc24a7f4899ef0da7f24bb27, type: 3}
-      propertyPath: IsStaticCell
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3975585450124559114, guid: b1e3c324dc24a7f4899ef0da7f24bb27, type: 3}
-      propertyPath: StaticCell_Count
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4287884121522399914, guid: b1e3c324dc24a7f4899ef0da7f24bb27, type: 3}
-      propertyPath: IsStaticCell
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4287884121522399914, guid: b1e3c324dc24a7f4899ef0da7f24bb27, type: 3}
-      propertyPath: StaticCell_Count
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4385996070656176417, guid: b1e3c324dc24a7f4899ef0da7f24bb27, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1649,42 +1609,6 @@ PrefabInstance:
     - target: {fileID: 4385996070656176417, guid: b1e3c324dc24a7f4899ef0da7f24bb27, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5330637134469470839, guid: b1e3c324dc24a7f4899ef0da7f24bb27, type: 3}
-      propertyPath: IsStaticCell
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5330637134469470839, guid: b1e3c324dc24a7f4899ef0da7f24bb27, type: 3}
-      propertyPath: StaticCell_Count
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 5363034884056730535, guid: b1e3c324dc24a7f4899ef0da7f24bb27, type: 3}
-      propertyPath: IsStaticCell
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5431525074392497199, guid: b1e3c324dc24a7f4899ef0da7f24bb27, type: 3}
-      propertyPath: IsStaticCell
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5431525074392497199, guid: b1e3c324dc24a7f4899ef0da7f24bb27, type: 3}
-      propertyPath: StaticCell_Count
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5738600481777952547, guid: b1e3c324dc24a7f4899ef0da7f24bb27, type: 3}
-      propertyPath: IsStaticCell
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5738600481777952547, guid: b1e3c324dc24a7f4899ef0da7f24bb27, type: 3}
-      propertyPath: StaticCell_Count
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5886796598701205546, guid: b1e3c324dc24a7f4899ef0da7f24bb27, type: 3}
-      propertyPath: IsStaticCell
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5886796598701205546, guid: b1e3c324dc24a7f4899ef0da7f24bb27, type: 3}
-      propertyPath: StaticCell_Count
-      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 7483992265161463271, guid: b1e3c324dc24a7f4899ef0da7f24bb27, type: 3}
       propertyPath: m_Pivot.x
