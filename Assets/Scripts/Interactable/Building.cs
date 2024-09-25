@@ -79,7 +79,7 @@ public class Building : MonoBehaviour, IInteractable, ITransporter
         if (Vector3.Distance(originPos, GetPos(hitPos)) < checkRange)
         {
             _MainModule.Active_Wdw();
-            Player.Instance.Command_CharactorInventoryOpen_OnBuildingClick();
+            Player.Instance.Command_CharactorInventoryOpen();
             return true;
         }
         else

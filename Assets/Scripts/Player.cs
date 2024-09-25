@@ -195,7 +195,7 @@ public class Player : SceneSingleton<Player>
         controlledCharactor?.EndInteract();
     }
 
-    public void Command_CharactorInventoryOpen_OnBuildingClick()
+    public void Command_CharactorInventoryOpen()
     {
         controlledCharactor?.InventoryOpen();
     }
@@ -210,6 +210,7 @@ public class Player : SceneSingleton<Player>
     void Command_CharactorInventoryClose_OnEscClick()
     {
         controlledCharactor?.InventoryClose();
+        controlledCharactor?.CraftingModuleClose();
     }
 
     public event PropertyChangedEventHandler PropertyChanged;

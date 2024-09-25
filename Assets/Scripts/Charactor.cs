@@ -168,7 +168,7 @@ public class Charactor : MonoBehaviour
     {
         onInteractObject = null;
     }
-
+    //================================================================================
     public void InventoryOpen()
     {
         _inventoryUIActive = true;
@@ -191,18 +191,31 @@ public class Charactor : MonoBehaviour
         _inventoryUIActive = false;
         builtIn_InventoryModule.Close_Wdw();
     }
+    //================================================================================
+    public void CraftingModuleOpen()
+    {
+        _cmUIActive = true;
+        builtIn_CraftingModule.Active_Wdw();
+    }
     public void CraftingModuleToggle()
     {
         _cmUIActive = !_cmUIActive;
         if (_cmUIActive)
         {
             builtIn_CraftingModule.Active_Wdw();
+            Player.Instance.Command_CharactorInventoryOpen();
         }
         else
         {
             builtIn_CraftingModule.Close_Wdw();
         }
     }
+    public void CraftingModuleClose()
+    {
+        _cmUIActive = false;
+        builtIn_CraftingModule.Close_Wdw();
+    }
+    //================================================================================
 
     public void GetDropedItem(string itemKey)
     {
