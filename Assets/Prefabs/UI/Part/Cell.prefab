@@ -351,6 +351,51 @@ MonoBehaviour:
   TMP_ItemCount: {fileID: 5995909818139904232}
   Image_ItemIcon: {fileID: 6877457649893639566}
   Image_FixedItemIcon: {fileID: 4641714898391869860}
+  OnLeftPointerDown:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3788146367927912940}
+        m_TargetAssemblyTypeName: ItemCell, Assembly-CSharp
+        m_MethodName: ItemGrab_OnPointerDown
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnLeftPointerUp:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3788146367927912940}
+        m_TargetAssemblyTypeName: ItemCell, Assembly-CSharp
+        m_MethodName: ItemDrop_OnPointerUp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnRightPointerDown:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3788146367927912940}
+        m_TargetAssemblyTypeName: ItemCell, Assembly-CSharp
+        m_MethodName: ItemTransport_OnPointerDown
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5339052536490540184
 MonoBehaviour:
   m_ObjectHideFlags: 0

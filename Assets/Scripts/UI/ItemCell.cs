@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -29,6 +30,10 @@ public class ItemCell : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     [SerializeField] TextMeshProUGUI TMP_ItemCount;
     [SerializeField] Image Image_ItemIcon;
     [SerializeField] Image Image_FixedItemIcon;
+
+    [SerializeField] UnityEvent OnLeftPointerDown;
+    [SerializeField] UnityEvent OnLeftPointerUp;
+    [SerializeField] UnityEvent OnRightPointerDown;
 
     CellData _cellData;
     public CellData CellData
@@ -117,7 +122,7 @@ public class ItemCell : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         OnMouseCell = null;
     }
 
-    void ItemGrab_OnPointerDown()
+    public void ItemGrab_OnPointerDown()
     {
         if (CellData == null || (CellData.FixedCell && CellData.Count == 0) || CellData.Id == 0)
             return;
@@ -128,7 +133,7 @@ public class ItemCell : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             Debug.Log("±×·¦");
         }
     }
-    void ItemDrop_OnPointerUp()
+    public void ItemDrop_OnPointerUp()
     {
         Debug.Log("µå¶ø");
         UIManager.Instance.RemoveIcon_MouseTrackUI_OnDrop();
@@ -142,7 +147,7 @@ public class ItemCell : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
         SelectedCell = null;
     }
-    void ItemTransport_OnPointerDown()
+    public void ItemTransport_OnPointerDown()
     {
         if (CellData == null || (CellData.FixedCell && CellData.Count == 0) || CellData.Id == 0)
             return;
@@ -162,11 +167,11 @@ public class ItemCell : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            ItemGrab_OnPointerDown();
+            OnLeftPointerDown?.Invoke();
         }
         else if(eventData.button == PointerEventData.InputButton.Right)
         {
-            ItemTransport_OnPointerDown();
+            OnRightPointerDown?.Invoke();
         }            
     }
 
@@ -174,11 +179,7 @@ public class ItemCell : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            ItemDrop_OnPointerUp();
+            OnLeftPointerUp?.Invoke();
         }
-        //else if (eventData.button == PointerEventData.InputButton.Right)
-        //{
-            
-        //}
     }
 }
