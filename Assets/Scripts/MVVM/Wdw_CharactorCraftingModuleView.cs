@@ -21,4 +21,6 @@ public class Wdw_CharactorCraftingModuleView : MonoBehaviour, IWindow
     {
         module.Close_Wdw();
     }
+
+    CraftingModuleModel cmm;
 }
