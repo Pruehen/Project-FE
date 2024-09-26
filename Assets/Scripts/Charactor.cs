@@ -46,6 +46,7 @@ public class Charactor : MonoBehaviour
         builtIn_MinerModule = GetComponent<CharactorMinerModule>();
 
         builtIn_InventoryModule.Init(this);
+
         builtIn_ToolModule.Init(this);
         builtIn_CraftingModule.Init(this);
         builtIn_MinerModule.Init(this);

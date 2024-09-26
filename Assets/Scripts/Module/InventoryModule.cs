@@ -175,7 +175,7 @@ public class Inventory
             return false;
         }
     }
-    public void UseItem_FixedInventory(ushort id, int count)//아이템을 소모함. 이 메서드 호출 이전에 CanUseItem 메서드를 한번 호출하는걸 권장함. 내부적으로 검사를 하긴 하지만
+    public void UseItem(ushort id, int count)//아이템을 소모함. 이 메서드 호출 이전에 CanUseItem 메서드를 한번 호출하는걸 권장함. 내부적으로 검사를 하긴 하지만
     {
         if (TryFindCell(id, out CellData targetCell))
         {

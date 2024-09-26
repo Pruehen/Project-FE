@@ -202,7 +202,7 @@ public class CraftingModuleModel
 
         for (int i = 0; i < _craftingRecipyData.InputItemGroup.Count; i++)
         {
-            InputInventory.UseItem_FixedInventory(_craftingRecipyData.InputItemGroup[i].data.Id_UShort, _craftingRecipyData.InputItemGroup[i].Count);
+            InputInventory.UseItem(_craftingRecipyData.InputItemGroup[i].data.Id_UShort, _craftingRecipyData.InputItemGroup[i].Count);
         }
         for (int i = 0; i < _craftingRecipyData.OutputItemGroup.Count; i++)
         {

@@ -64,7 +64,8 @@ namespace EnumTypes
         Input,
         CharactorStorage,
         Storage,
-        Output
+        Output,
+        Temp
     }
     public enum EntityType
     {
