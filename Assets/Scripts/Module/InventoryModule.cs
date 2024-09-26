@@ -474,6 +474,11 @@ public class CellData : IComparable<CellData>
             MaxCount = 0;
         }
     }
+    public void SetData(ushort itemId, int count)//더미 인벤토리가 사용 가능한 강제 아이템 설정 기능
+    {
+        Id = itemId;
+        Count = count;
+    }
 
     public void AddItem_NotFixedCell(ushort id, int count, out int remaining)
     {
