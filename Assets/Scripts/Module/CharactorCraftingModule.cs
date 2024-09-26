@@ -11,7 +11,7 @@ public class CharactorCraftingModule : MonoBehaviour, IModule
     public void Init(Charactor charactor)
     {
         _charactor = charactor;
-        _model = new CharactorCraftingModuleModel(_charactor.builtIn_InventoryModule.Inventory);
+        _model = new CharactorCraftingModuleModel(_charactor.builtIn_InventoryModule.Inventory);        
     }
 
     public void Active_Wdw()
@@ -41,6 +41,11 @@ public class CharactorCraftingModule : MonoBehaviour, IModule
     void Update()
     {
         _model.ExecuteLogic(Time.deltaTime);
+
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            _model.AddCraftOrder("Recipy_IronPlate", 10);
+        }
     }
 }
 public class CraftOrder
@@ -116,8 +121,8 @@ public class CharactorCraftingModuleModel
 
             for (int i = 0; i < craftingRecipyData.InputItemGroup.Count; i++)
             {
-                CharactorInventory.UseItem(craftingRecipyData.InputItemGroup[i].data.Id_UShort, craftingRecipyData.InputItemGroup[i].Count);
-                TempInventory.AddItem(craftingRecipyData.InputItemGroup[i].data.Id_UShort, craftingRecipyData.InputItemGroup[i].Count, out int r);
+                CharactorInventory.UseItem(craftingRecipyData.InputItemGroup[i].data.Id_UShort, craftingRecipyData.InputItemGroup[i].Count * count);
+                TempInventory.AddItem(craftingRecipyData.InputItemGroup[i].data.Id_UShort, craftingRecipyData.InputItemGroup[i].Count * count, out int r);
             }
 
             OrderAdd(craftingRecipyData, count);
@@ -219,7 +224,7 @@ public class CharactorCraftingModuleModel
 
             for (int i = 0; i < peekedOrder.RecipyData.OutputItemGroup.Count; i++)//다음에 제작할 물품의 완성 아이템 목록 순회
             {                
-                if (CharactorInventory.CanAddItem(peekedOrder.RecipyData.OutputItemGroup[i].data.Id_UShort, peekedOrder.RecipyData.OutputItemGroup[i].Count))//완성품을 하나라도 인벤토리에 투입하지 못할 경우, 비제작 상태로 변경
+                if (CharactorInventory.CanAddItem(peekedOrder.RecipyData.OutputItemGroup[i].data.Id_UShort, peekedOrder.RecipyData.OutputItemGroup[i].Count) == false)//완성품을 하나라도 인벤토리에 투입하지 못할 경우, 비제작 상태로 변경
                 {
                     _isCrafting = false;
                     Debug.Log("아웃풋이 가득 찼습니다.");

@@ -78,11 +78,21 @@ public class Inventory
 
     public void OnOpen()//해당 인벤토리를 소유한 모듈의 UI가 열렸을 때
     {
-        OpenedInventoryDic.Add(InventoryType, this);
+        if(OpenedInventoryDic.ContainsKey(InventoryType))
+        {
+            OpenedInventoryDic[InventoryType] = this;
+        }
+        else
+        {
+            OpenedInventoryDic.Add(InventoryType, this);
+        }        
     }
     public void OnClose()//해당 인벤토리를 소유한 모듈의 UI가 닫혔을 때
     {
-        OpenedInventoryDic.Remove(InventoryType);
+        if (OpenedInventoryDic.ContainsKey(InventoryType) && OpenedInventoryDic[InventoryType] == this)
+        {
+            OpenedInventoryDic.Remove(InventoryType);
+        }        
     }
     public void Clear()//인벤토리의 내용물을 싹 지워버림
     {
@@ -109,6 +119,7 @@ public class Inventory
         {
             int cellCorsorTemp = CellCorsor;
             bool canAddItem = false;
+            ItemData itemData = JsonDataManager.GetItem(id);
 
             while (count > 0)
             {
@@ -130,13 +141,13 @@ public class Inventory
                     break;
                 }
 
-                int cellRemaining = count - CellDataList[CellCorsor].Count;
+                int countRemaining = count - (itemData.MaxStack - CellDataList[CellCorsor].Count);
 
                 // 남은 아이템 수가 있는 경우
-                if (cellRemaining > 0)
+                if (countRemaining > 0)
                 {
                     // 남은 아이템 수를 다음 반복으로 전달
-                    count = cellRemaining;
+                    count = countRemaining;
                     // 다음 셀로 커서 이동
                     CellCorsor++;
                 }
@@ -230,6 +241,8 @@ public class Inventory
         if (OpenedInventoryDic.ContainsKey(InventoryType) == false || OpenedInventoryDic[InventoryType] != this)
         {
             Debug.Log("해당 인벤토리는 열려 있는 UI가 아닙니다.");
+            Debug.Log(OpenedInventoryDic.ContainsKey(InventoryType));
+            Debug.Log(OpenedInventoryDic[InventoryType]);
             return null;
         }
         else

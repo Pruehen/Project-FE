@@ -138,7 +138,7 @@ public class Charactor : MonoBehaviour
             {
                 if (onSelectObject != null && onSelectObject != onMouseObjectTemp)
                 {
-                    onSelectObject?.DeSelect();                    
+                    onSelectObject?.DeSelect();
                 }
                 onSelectObject = onMouseObjectTemp;
             }

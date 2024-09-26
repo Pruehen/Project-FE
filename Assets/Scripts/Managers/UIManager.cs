@@ -18,13 +18,13 @@ public class UIManager : SceneSingleton<UIManager>
 
     Dictionary<IModule, IWindow> ActiveWdwModuleDic = new Dictionary<IModule, IWindow>();
     //=============================================================================================================================
-    public void Active_BuildingMainModuleUIWdw(IModule module)
-    {
-        if (module != null)
-        {
-            module.Active_Wdw();
-        }
-    }
+    //public void Active_BuildingMainModuleUIWdw(IModule module)
+    //{
+    //    if (module != null)
+    //    {
+    //        module.Active_Wdw();
+    //    }
+    //}
     public IWindow Actvie_ModuleWdw<T>(GameObject windowPrefab, T module) where T : MonoBehaviour, IModule
     {
         if (ActiveWdwModuleDic.ContainsKey(module) == false && ActiveWdwModuleDic.Count < 5)
