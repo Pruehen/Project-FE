@@ -43,6 +43,11 @@ public class CharactorCraftingModule : MonoBehaviour, IModule
     {
         Model.TryAddCraftOrder(JsonDataManager.GetRecipyData(recipyDataKey), count);
     }
+    public void Command_OrderCancel(int index)
+    {
+        Model.OrderCancel(index);
+    }
+
     public void Command_RefreshData()
     {
         Model.RefreshData();
@@ -77,12 +82,7 @@ public class CraftOrder
 
 public class CharactorCraftingModuleModel : Extension.VM
 {
-    Queue<CraftOrder> queue_CraftOrder = new Queue<CraftOrder>();
-
-    public Queue<CraftOrder> GetQueue_CraftOrder()
-    {
-        return queue_CraftOrder;
-    }
+    List<CraftOrder> _list_CraftOrder = new List<CraftOrder>();
 
     public Inventory TempInventory { get; private set; }//제작 명령을 넣을 때 아이템을 담아 놓을 임시 공간. 현재 아이템을 제작 중일 때는 반드시 여기에 아이템이 들어있어야 함.
     public Inventory CharactorInventory { get; private set; }
@@ -92,9 +92,9 @@ public class CharactorCraftingModuleModel : Extension.VM
     bool _isCrafting = false;
 
     float _craftingTimeGain = 1;
-    float _craftingSpeedGain = 1;
+    float _craftingSpeedGain = 3;
 
-    float _craftingTimeRatio;
+    float _craftingTimeRatio = -1;
     public float CraftingTimeRatio
     {
         get { return _craftingTimeRatio; }
@@ -108,7 +108,7 @@ public class CharactorCraftingModuleModel : Extension.VM
         }
     }
 
-    int _craftOrderCount;
+    int _craftOrderCount = -1;
     public int CraftOrderCount
     {
         get { return _craftOrderCount; }
@@ -122,7 +122,7 @@ public class CharactorCraftingModuleModel : Extension.VM
         }
     }
 
-    int _remainingCount_FirstOrder;
+    int _remainingCount_FirstOrder = -1;
     public int RemainingCount_FirstOrder
     {
         get { return _remainingCount_FirstOrder; }
@@ -135,24 +135,21 @@ public class CharactorCraftingModuleModel : Extension.VM
             }
         }
     }
-    List<CraftOrder> _orderList;
-    public List<CraftOrder> OrderList
+    public List<CraftOrder> List_CraftOrder
     {
-        get { return _orderList; }
-        set
+        get 
         {
-            _orderList = value;
-            OnPropertyChanged(nameof(OrderList));
+            return _list_CraftOrder; 
         }
     }
 
     public void RefreshData()
     {
         CraftingTimeRatio = craftingTimeValue / craftingTime;
-        CraftOrderCount = queue_CraftOrder.Count;
+        CraftOrderCount = _list_CraftOrder.Count;
         if(CraftOrderCount > 0)
         {
-            RemainingCount_FirstOrder = queue_CraftOrder.Peek().Count;
+            RemainingCount_FirstOrder = _list_CraftOrder[0].Count;
         }
     }
 
@@ -178,7 +175,7 @@ public class CharactorCraftingModuleModel : Extension.VM
         }
     }
 
-    public void TryAddCraftOrder(RecipyData recipyData, int count)//제작 명령 추가. 외부 인터페이스를 통해 유일하게 접근 가능한 퍼블릭 메서드로 한정해야 함. **해당 메서드 호출 전에, 미리 인벤토리를 체크할 것
+    public void TryAddCraftOrder(RecipyData recipyData, int count)//제작 명령 추가. **해당 메서드 호출 전에, 미리 인벤토리를 체크할 것
     {
         if (recipyData == null)
         {
@@ -200,15 +197,39 @@ public class CharactorCraftingModuleModel : Extension.VM
             TempInventory.AddItem(recipyData.InputItemGroup[i].data.Id_UShort, recipyData.InputItemGroup[i].Count * count, out int r);
         }
 
-        OrderAdd(recipyData, count);
+        AddOrder(recipyData, count);
 
         Set_IsCraftItem();
     }
-    void OrderAdd(RecipyData craftingRecipyData, int count)
+    void AddOrder(RecipyData craftingRecipyData, int count)
     {
-        queue_CraftOrder.Enqueue(new CraftOrder(craftingRecipyData, count));
-        OrderList = queue_CraftOrder.ToList();
-        CraftOrderCount = queue_CraftOrder.Count;
+        _list_CraftOrder.Add(new CraftOrder(craftingRecipyData, count));
+        OnPropertyChanged(nameof(List_CraftOrder));
+
+        CraftOrderCount = _list_CraftOrder.Count;
+    }
+    public void OrderCancel(int index)//해당 인덱스의 제작 명령을 취소
+    {
+        if(_list_CraftOrder.Count > index)
+        {
+            RecipyData recipyData = _list_CraftOrder[index].RecipyData;
+            int count = _list_CraftOrder[index].Count;
+
+            for (int i = 0; i < recipyData.InputItemGroup.Count; i++)
+            {
+                TempInventory.UseItem(recipyData.InputItemGroup[i].data.Id_UShort, recipyData.InputItemGroup[i].Count * count);
+                CharactorInventory.AddItem(recipyData.InputItemGroup[i].data.Id_UShort, recipyData.InputItemGroup[i].Count * count, out int r);
+            }
+
+            RemoveOrder(index);
+        }
+    }
+    void RemoveOrder(int index)
+    {
+        _list_CraftOrder.RemoveAt(index);
+        OnPropertyChanged(nameof(List_CraftOrder));
+
+        CraftOrderCount = _list_CraftOrder.Count;
     }
 
     public void ExecuteLogic(float deltaTime)//제작 로직 수행
@@ -235,13 +256,13 @@ public class CharactorCraftingModuleModel : Extension.VM
 
     void CraftItem()
     {
-        if (queue_CraftOrder.Count == 0)
+        if (_list_CraftOrder.Count == 0)
         {
             Debug.LogWarning("제작할 레시피가 없습니다.");
             return;
         }
 
-        CraftOrder peekedOrder = queue_CraftOrder.Peek();
+        CraftOrder peekedOrder = _list_CraftOrder[0];
 
         for (int i = 0; i < peekedOrder.RecipyData.InputItemGroup.Count; i++)
         {
@@ -259,14 +280,15 @@ public class CharactorCraftingModuleModel : Extension.VM
 
     void OrderExecute()
     {
-        CraftOrder peekedOrder = queue_CraftOrder.Peek();
+        CraftOrder peekedOrder = _list_CraftOrder[0];
         peekedOrder.ExecuteOrder();
 
         if(peekedOrder.Count <= 0)
         {
-            queue_CraftOrder.Dequeue();
-            OrderList = queue_CraftOrder.ToList();
-            CraftOrderCount = queue_CraftOrder.Count;
+            _list_CraftOrder.RemoveAt(0);
+            OnPropertyChanged(nameof(List_CraftOrder));
+            
+            CraftOrderCount = _list_CraftOrder.Count;
         }
         else
         {
@@ -276,7 +298,7 @@ public class CharactorCraftingModuleModel : Extension.VM
 
     void Set_IsCraftItem()//아이템 제작 가능 상태인지 설정함
     {
-        if (queue_CraftOrder.Count == 0)
+        if (_list_CraftOrder.Count == 0)
         {
             _isCrafting = false;
         }
@@ -284,7 +306,7 @@ public class CharactorCraftingModuleModel : Extension.VM
         {
             _isCrafting = true;
 
-            CraftOrder peekedOrder = queue_CraftOrder.Peek();
+            CraftOrder peekedOrder = _list_CraftOrder[0];
 
             for (int i = 0; i < peekedOrder.RecipyData.OutputItemGroup.Count; i++)//다음에 제작할 물품의 완성 아이템 목록 순회
             {                

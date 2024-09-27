@@ -49,6 +49,10 @@ public class Wdw_CharactorCraftingModuleView : MonoBehaviour, IWindow
     {
         module.Close_Wdw();
     }
+    public void Command_OrderCancel(int index)
+    {
+        module.Command_OrderCancel(index);
+    }
 
     void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
@@ -67,14 +71,14 @@ public class Wdw_CharactorCraftingModuleView : MonoBehaviour, IWindow
                 }
                 break;
             case nameof(_vm.RemainingCount_FirstOrder):
-                _dummyInventory.CellDataList[0].SetData(JsonDataManager.GetItem(_vm.OrderList[0].RecipyData.OutputItem_1).Id_UShort, _vm.RemainingCount_FirstOrder);
+                _dummyInventory.CellDataList[0].SetData(JsonDataManager.GetItem(_vm.List_CraftOrder[0].RecipyData.OutputItem_1).Id_UShort, _vm.RemainingCount_FirstOrder);
                 break;
-            case nameof(_vm.OrderList):
+            case nameof(_vm.List_CraftOrder):
                 for (int i = 0; i < 6; i++)
                 {
-                    if (_vm.OrderList.Count <= i) break;
+                    if (_vm.List_CraftOrder.Count <= i) break;
 
-                    _dummyInventory.CellDataList[i].SetData(JsonDataManager.GetItem(_vm.OrderList[i].RecipyData.OutputItem_1).Id_UShort, _vm.OrderList[i].Count);
+                    _dummyInventory.CellDataList[i].SetData(JsonDataManager.GetItem(_vm.List_CraftOrder[i].RecipyData.OutputItem_1).Id_UShort, _vm.List_CraftOrder[i].Count);
                 }
                 break;
         }
