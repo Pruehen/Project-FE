@@ -5,15 +5,15 @@ public class Wdw_InventoryView : MonoBehaviour, IWindow
 {    
     [SerializeField] List<ItemCell> cellList;
 
-    InventoryModule _Inventory;
+    InventoryModule _module;
     protected InventoryModule Inventory
     {
-        get { return _Inventory; }
+        get { return _module; }
         set
         {
-            if (_Inventory != value)
+            if (_module != value)
             {
-                _Inventory = value;
+                _module = value;
                 Init();
             }
         }
@@ -40,10 +40,10 @@ public class Wdw_InventoryView : MonoBehaviour, IWindow
     {
         ObjectPoolManager.Instance.EnqueueObject(this.gameObject);        
 
-        UIManager.Instance.OnDeActive_ModuleWdw(_Inventory);
+        UIManager.Instance.OnDeActive_ModuleWdw(_module);
     }
     public void Command_Close()
     {
-        _Inventory.Close_Wdw();
+        _module.Close_Wdw();
     }
 }
