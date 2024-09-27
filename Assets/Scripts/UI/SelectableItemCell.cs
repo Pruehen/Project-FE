@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class SelectableItemCell : MonoBehaviour
@@ -9,9 +10,9 @@ public class SelectableItemCell : MonoBehaviour
     [SerializeField] TextMeshProUGUI TMP_ItemCount;
     [SerializeField] Image Image_ItemIcon;
 
-    string recipyId;
-    int itemId;
-    string buildingId;
+    public string recipyId;
+    public int itemId;
+    public string buildingId;
 
     Action<string> OnClick_CallBackRecipy;
     public void Register_OnClick_CallBackRecipy(Action<string> callBack) { OnClick_CallBackRecipy = callBack; }        
@@ -21,6 +22,8 @@ public class SelectableItemCell : MonoBehaviour
 
     Action<string> OnClick_CallBackBuilding;
     public void Register_OnClick_CallBackBuilding(Action<string> callBack) { OnClick_CallBackBuilding = callBack; }
+
+    [SerializeField] UnityEvent<string> OnClick_CallBackRecipe_UnityEvent;
 
     CellData _cellData;
     public CellData CellData
@@ -118,6 +121,8 @@ public class SelectableItemCell : MonoBehaviour
             OnClick_CallBackRecipy?.Invoke(recipyId);
             OnClick_CallBackItem?.Invoke(itemId);
             OnClick_CallBackBuilding?.Invoke(buildingId);
+
+            OnClick_CallBackRecipe_UnityEvent?.Invoke(recipyId);
         }
         else
         {

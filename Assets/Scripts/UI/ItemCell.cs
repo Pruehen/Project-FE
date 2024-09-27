@@ -117,7 +117,7 @@ public class ItemCell : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             OnMouseCell = this;
         }
     }
-        public void Remove_OnMouseCell_OnPointerExit()
+    public void Remove_OnMouseCell_OnPointerExit()
     {
         OnMouseCell = null;
     }

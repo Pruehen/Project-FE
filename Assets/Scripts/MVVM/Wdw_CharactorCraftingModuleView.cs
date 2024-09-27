@@ -12,6 +12,8 @@ public class Wdw_CharactorCraftingModuleView : MonoBehaviour, IWindow
     Inventory _dummyInventory;
     [SerializeField] Image Image_CraftProgressSquare;
 
+    [SerializeField] List<SelectableItemCell> List_SelectableItemCell;
+
     CharactorCraftingModule module;
     CharactorCraftingModuleModel _vm;
 
@@ -22,6 +24,22 @@ public class Wdw_CharactorCraftingModuleView : MonoBehaviour, IWindow
         for (int i = 0; i < List_DummyItemCell.Count; i++)
         {
             List_DummyItemCell[i].RegisterCellData(_dummyInventory.CellDataList[i]);
+        }
+
+
+        foreach (var item in List_SelectableItemCell)
+        {
+            item.gameObject.SetActive(false);
+        }
+        int selectableCellIndex = 0;
+        foreach (var item in JsonDataManager.jsonCache.RecipyDataTableCache.dic)
+        {
+            if(List_SelectableItemCell.Count > selectableCellIndex)
+            {
+                List_SelectableItemCell[selectableCellIndex].gameObject.SetActive(true);
+                List_SelectableItemCell[selectableCellIndex].SetData_Recipy(item.Key);
+                selectableCellIndex++;
+            }
         }
     }
 
@@ -53,6 +71,10 @@ public class Wdw_CharactorCraftingModuleView : MonoBehaviour, IWindow
     {
         module.Command_OrderCancel(index);
     }
+    public void Command_TryAddCraftOrder(string recipyDataKey)
+    {
+        module.Command_TryAddCraftOrder(recipyDataKey, 1);
+    }
 
     void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
@@ -71,7 +93,10 @@ public class Wdw_CharactorCraftingModuleView : MonoBehaviour, IWindow
                 }
                 break;
             case nameof(_vm.RemainingCount_FirstOrder):
-                _dummyInventory.CellDataList[0].SetData(JsonDataManager.GetItem(_vm.List_CraftOrder[0].RecipyData.OutputItem_1).Id_UShort, _vm.RemainingCount_FirstOrder);
+                if (_vm.List_CraftOrder.Count > 0)
+                {
+                    _dummyInventory.CellDataList[0].SetData(JsonDataManager.GetItem(_vm.List_CraftOrder[0].RecipyData.OutputItem_1).Id_UShort, _vm.RemainingCount_FirstOrder);
+                }
                 break;
             case nameof(_vm.List_CraftOrder):
                 for (int i = 0; i < 6; i++)

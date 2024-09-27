@@ -94,7 +94,7 @@ public class CharactorCraftingModuleModel : Extension.VM
     float _craftingTimeGain = 1;
     float _craftingSpeedGain = 3;
 
-    float _craftingTimeRatio = -1;
+    float _craftingTimeRatio;
     public float CraftingTimeRatio
     {
         get { return _craftingTimeRatio; }
@@ -108,7 +108,7 @@ public class CharactorCraftingModuleModel : Extension.VM
         }
     }
 
-    int _craftOrderCount = -1;
+    int _craftOrderCount;
     public int CraftOrderCount
     {
         get { return _craftOrderCount; }
@@ -122,7 +122,7 @@ public class CharactorCraftingModuleModel : Extension.VM
         }
     }
 
-    int _remainingCount_FirstOrder = -1;
+    int _remainingCount_FirstOrder;
     public int RemainingCount_FirstOrder
     {
         get { return _remainingCount_FirstOrder; }
@@ -145,12 +145,17 @@ public class CharactorCraftingModuleModel : Extension.VM
 
     public void RefreshData()
     {
-        CraftingTimeRatio = craftingTimeValue / craftingTime;
-        CraftOrderCount = _list_CraftOrder.Count;
-        if(CraftOrderCount > 0)
+        _craftingTimeRatio = craftingTimeValue / craftingTime;
+        _craftOrderCount = _list_CraftOrder.Count;
+        if(_craftOrderCount > 0)
         {
-            RemainingCount_FirstOrder = _list_CraftOrder[0].Count;
+            _remainingCount_FirstOrder = _list_CraftOrder[0].Count;
         }
+
+        OnPropertyChanged(nameof(CraftingTimeRatio));
+        OnPropertyChanged(nameof(CraftOrderCount));
+        OnPropertyChanged(nameof(RemainingCount_FirstOrder));
+        OnPropertyChanged(nameof(List_CraftOrder));
     }
 
     public CharactorCraftingModuleModel(Inventory charactorIv)
@@ -222,6 +227,8 @@ public class CharactorCraftingModuleModel : Extension.VM
             }
 
             RemoveOrder(index);
+
+            Set_IsCraftItem();
         }
     }
     void RemoveOrder(int index)
