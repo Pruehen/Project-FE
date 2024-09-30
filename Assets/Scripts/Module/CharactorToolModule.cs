@@ -104,7 +104,7 @@ public class CharactorToolModule : MonoBehaviour
         }
     }
     
-    public void SetBuildMode(BuildMode value, string buildingId)
+    public void SetBuildMode(BuildMode value, string buildingId)//툴 설정 메서드 : 건설 모드로 진입함
     {
         this.BuildMode = value;
 
@@ -116,9 +116,9 @@ public class CharactorToolModule : MonoBehaviour
             case BuildMode.Belt:
                 SelectTool = BeltManager.Instance;
                 break;
-            case BuildMode.Inserter:
-                SelectTool = InserterManager.Instance;
-                break;
+            //case BuildMode.Inserter:
+            //    SelectTool = InserterManager.Instance;
+            //    break;
             case BuildMode.Building:
                 SelectTool = BuildingManager.Instance;
                 break;

@@ -32,13 +32,13 @@ public class BuildingCrafter
 
     public void BuildInserter(Vector3Int centerNode, GridDir gridDir)
     {
-        CheckBuildInserter(centerNode, gridDir);        
+        CheckBuildPosition(centerNode, gridDir);        
 
         BuildingNode createNode = GridMap.CreateBuildingNode(centerNode);
         createNode.Init();
     }
 
-    public void CheckBuildInserter(Vector3Int centerNode, GridDir gridDir)
+    public void CheckBuildPosition(Vector3Int centerNode, GridDir gridDir)
     {
         center = centerNode;
 
@@ -112,7 +112,7 @@ public class BuildingManager : SceneSingleton<BuildingManager>, IBuildTool
 
     void CheckBuillBuilding(Vector3Int mouseNode)
     {
-        buildingCrafter.CheckBuildInserter(mouseNode, buildDir);
+        buildingCrafter.CheckBuildPosition(mouseNode, buildDir);
     }
     void BuildBuilding(Vector3Int lastNode)
     {

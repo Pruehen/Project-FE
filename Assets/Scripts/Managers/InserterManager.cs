@@ -47,8 +47,8 @@ public class InserterNode : Node
 
 public class InserterCrafter
 {
-    Vector3Int _firstNode;
-    Vector3Int _lastNode;
+    Vector3Int _centerNode;
+    //Vector3Int _lastNode;
 
     // 경로를 저장할 리스트
     List<Vector3Int> path = new List<Vector3Int>();    
@@ -58,34 +58,35 @@ public class InserterCrafter
         CheckBuildInserter(firstNode, gridDir);
         BuildLineRenderer.Instance.HideAllGridLinesAndNodes();
 
-        InserterNode createNode = GridMap.CreateInserter(_firstNode, _lastNode);
+        //InserterNode createNode = GridMap.CreateInserter(_centerNode, _lastNode);
+        BuildingNode createNode = GridMap.CreateBuildingNode(_centerNode);
         createNode.Init();        
     }
 
     public void CheckBuildInserter(Vector3Int firstNode, GridDir gridDir)
     {
-        _firstNode = firstNode;
-        _lastNode = firstNode;
+        //_centerNode = firstNode;
+        //_lastNode = firstNode;
 
-        switch (gridDir)
-        {
-            case GridDir.Top:
-                _lastNode.z++;
-                break;
-            case GridDir.Right:
-                _lastNode.x++;
-                break;
-            case GridDir.Bottom:
-                _lastNode.z--;
-                break;
-            case GridDir.Left:
-                _lastNode.x--;
-                break;
-            default:
-                break;
-        }
+        //switch (gridDir)
+        //{
+        //    case GridDir.Top:
+        //        _lastNode.z++;
+        //        break;
+        //    case GridDir.Right:
+        //        _lastNode.x++;
+        //        break;
+        //    case GridDir.Bottom:
+        //        _lastNode.z--;
+        //        break;
+        //    case GridDir.Left:
+        //        _lastNode.x--;
+        //        break;
+        //    default:
+        //        break;
+        //}
 
-        CalculatePath(_firstNode, _lastNode);
+        //CalculatePath(_centerNode, _lastNode);
     }
     public void DeActive()
     {
