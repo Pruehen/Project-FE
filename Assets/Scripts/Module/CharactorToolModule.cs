@@ -78,23 +78,28 @@ public class CharactorToolModule : MonoBehaviour
             selectedToolTemp = buildingId;
 
             BuildingData buildingData = JsonDataManager.GetBuilding(buildingId);
-            if (buildingData.BuildingType == BuildingType.Conveying)
+            if (buildingId.Contains("Building_Belt"))
             {
                 SetBuildMode(BuildMode.Belt, buildingId);
             }
-            else if (buildingData.BuildingType == BuildingType.Inserter)
-            {
-                SetBuildMode(BuildMode.Inserter, buildingId);
-            }
-            else if (buildingData.BuildingType == BuildingType.Mining || buildingData.BuildingType == BuildingType.Crafting || buildingData.BuildingType == BuildingType.Refinery
-                || buildingData.BuildingType == BuildingType.Generator || buildingData.BuildingType == BuildingType.Storage)
-            {
-                SetBuildMode(BuildMode.Building, buildingId);
-            }
+            //if (buildingData.BuildingType == BuildingType.Conveying)
+            //{
+            //    SetBuildMode(BuildMode.Belt, buildingId);
+            //}
+            //else if (buildingData.BuildingType == BuildingType.Inserter)
+            //{
+            //    SetBuildMode(BuildMode.Inserter, buildingId);
+            //}
+            //else if (buildingData.BuildingType == BuildingType.Mining || buildingData.BuildingType == BuildingType.Crafting || buildingData.BuildingType == BuildingType.Refinery
+            //    || buildingData.BuildingType == BuildingType.Generator || buildingData.BuildingType == BuildingType.Storage)
+            //{
+
+            //}
             else
             {
-                Debug.LogError("해당 빌딩 타입은 지원되는 빌드 모드가 없습니다.");
-                SetBuildMode(BuildMode.None, null);
+                //Debug.LogError("해당 빌딩 타입은 지원되는 빌드 모드가 없습니다.");
+                //SetBuildMode(BuildMode.None, null);
+                SetBuildMode(BuildMode.Building, buildingId);
             }
         }
     }
