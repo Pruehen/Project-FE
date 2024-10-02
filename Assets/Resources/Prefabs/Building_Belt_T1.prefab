@@ -501,6 +501,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemKey: Item_Belt_T1
   BuildingKey: Building_Belt_T1
+  occupiedNodeList:
+  - {fileID: 4516127602873005179}
 --- !u!114 &6934373235456586875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -513,9 +515,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d2f50d79d8a75140a7d87659a0960fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemKey: Item_Belt_T1
-  BuildingKey: Building_Belt_T1
-  BeltSpeed: 6
   itemStayPoint: {fileID: 4526850391706839762}
   Prefab_BeltPart:
   - {fileID: 6507850365416758677}

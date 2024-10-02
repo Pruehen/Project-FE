@@ -12,13 +12,13 @@ public class InserterModule : MonoBehaviour, ITransporter, IModule
     [SerializeField] ItemObject grabObject;
     ushort _grab_id;
 
-    float moveLogicSpeed = 1f;
+    float moveLogicSpeed;
     float moveLogicTime;
 
     Vector3 itemStayPoint_First;
     Vector3 itemStayPoint_Last;
    
-    public void Init(Vector3 startPos, Vector3 endPos, InserterNode inserterNode)
+    public void Init(Vector3 startPos, Vector3 endPos, InserterNode inserterNode, float moveLogicSpeed)
     {
         node = inserterNode;
 
@@ -35,8 +35,9 @@ public class InserterModule : MonoBehaviour, ITransporter, IModule
         itemStayPoint_First = startPos + new Vector3(0, 0.6f, 0);
         itemStayPoint_Last = endPos + new Vector3(0, 0.6f, 0);
 
-        moveLogicSpeed *= 2f / Vector3.Distance(itemStayPoint_First, itemStayPoint_Last);
-        moveLogicTime = 1 / moveLogicSpeed;
+        this.moveLogicSpeed = moveLogicSpeed;
+        this.moveLogicSpeed *= 2f / Vector3.Distance(itemStayPoint_First, itemStayPoint_Last);
+        moveLogicTime = 1 / this.moveLogicSpeed;
 
         timeValue = 0;
     }

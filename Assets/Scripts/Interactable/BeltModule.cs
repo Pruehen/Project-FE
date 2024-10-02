@@ -5,19 +5,18 @@ using EnumTypes;
 public class BeltModule : MonoBehaviour, ITransporter, IModule
 {
     BeltNode beltNode;    
-
-    [SerializeField] float BeltSpeed = 2;
-
+    
     [SerializeField] Transform itemStayPoint;
     ItemObject moveItemObject;
 
-    ushort _mi_id;    
-    
+    ushort _mi_id;
+
+    float beltSpeed = 2;
     float moveLogicTime;
 
     public List<GameObject> Prefab_BeltPart;
 
-    public void SetBeltPart(BeltType beltType, BeltNode beltNode)
+    public void SetBeltPart(BeltType beltType, BeltNode beltNode, float beltSpeed)
     {
         for (int i = 0; i < Prefab_BeltPart.Count; i++)
         {
@@ -25,13 +24,11 @@ public class BeltModule : MonoBehaviour, ITransporter, IModule
         }
 
         this.beltNode = beltNode;
-        timeValue_ItemMove = 0;        
-    }
+        timeValue_ItemMove = 0;
 
-    private void Awake()
-    {
-        moveLogicTime = 1 / BeltSpeed;
-    }    
+        this.beltSpeed = beltSpeed;
+        moveLogicTime = 1 / beltSpeed;
+    }
 
     public ushort MoveItemKey
     {
@@ -115,7 +112,7 @@ public class BeltModule : MonoBehaviour, ITransporter, IModule
 
         if (MoveItemKey != 0)
         {            
-            moveItemObject.ItemMove(timeValue_ItemMove * BeltSpeed);
+            moveItemObject.ItemMove(timeValue_ItemMove * beltSpeed);
             timeValue_ItemMove += deltaTime;
         }
 

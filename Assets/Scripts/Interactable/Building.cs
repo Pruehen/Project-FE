@@ -6,11 +6,13 @@ public class Building : MonoBehaviour, IInteractable
 {
     [SerializeField] string ItemKey;
     [SerializeField] string BuildingKey;
-    
-    List<Node> nodeTempList = new List<Node>();
+
+    public List<Transform> occupiedNodeList;
 
     BuildingData _buildingData;
-    IModule _MainModule;
+
+    public IModule MainModule { get; private set; }
+    public ITransporter Transporter { get; private set; }
 
     Outline _outline;
     Outline Outline
@@ -61,9 +63,9 @@ public class Building : MonoBehaviour, IInteractable
     }
     public Vector3 GetPos(Vector3 hitPos)
     {
-        if (nodeTempList.Count > 0)
+        if (occupiedNodeList.Count > 0)
         {
-            return nodeTempList.FindClosest(hitPos).gridPos;
+            return occupiedNodeList.FindClosest(hitPos).position;
         }
         else
         {
@@ -78,7 +80,7 @@ public class Building : MonoBehaviour, IInteractable
     {
         if (Vector3.Distance(originPos, GetPos(hitPos)) < checkRange)
         {
-            _MainModule.Active_Wdw();
+            MainModule.Active_Wdw();
             Player.Instance.Command_CharactorInventoryOpen();
             return true;
         }
@@ -89,7 +91,7 @@ public class Building : MonoBehaviour, IInteractable
     }
     public void DeSelect()
     {
-        _MainModule.Close_Wdw();        
+        MainModule.Close_Wdw();        
     }
     
 
@@ -117,6 +119,7 @@ public class Building : MonoBehaviour, IInteractable
 
     public void Init()
     {
-        _MainModule = GetComponent<IModule>();
+        MainModule = GetComponent<IModule>();
+        Transporter = GetComponent<ITransporter>();
     }
 }

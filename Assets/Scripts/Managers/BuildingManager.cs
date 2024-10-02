@@ -7,16 +7,19 @@ public class BuildingNode : Node
     public override Node PreviousNode { get { return null; } set { } }
     public override Node NextNode { get { return null; } set { } }
 
-    public BuildingNode(Vector3Int gridPos, Building building)
+    Building building;
+    public BuildingNode(Building building)
     {
         this.nodeType = NodeType.BuildingNode;
-        this.gridPos = gridPos;
+        this.building = building;
+        //this.gridPos = gridPos;
         //this.transporter = building;
     }
 
     public override void Init()
     {
-
+        building.Init();
+        transporter = building.Transporter;
     }
 
     public override void Remove()
@@ -34,8 +37,8 @@ public class BuildingCrafter
     {
         CheckBuildPosition(centerNode, gridDir);        
 
-        BuildingNode createNode = GridMap.CreateBuildingNode(centerNode);
-        createNode.Init();
+        BuildingNode createNode = GridMap.CreateBuildingNode(BuildingManager.Instance.Prefab_Building, center, dir);
+        createNode?.Init();
     }
 
     public void CheckBuildPosition(Vector3Int centerNode, GridDir gridDir)

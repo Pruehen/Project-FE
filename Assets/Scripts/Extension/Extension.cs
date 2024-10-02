@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 public static class Extension
 {
-    public static Node FindClosest(this List<Node> list, Vector3 position)
+    public static Transform FindClosest(this List<Transform> list, Vector3 position)
     {
         if (list == null || list.Count == 0)
         {
@@ -15,21 +15,21 @@ public static class Extension
             return null;
         }
 
-        Node closestTransform = null;
+        Transform closestVec3Int = null;
         float closestDistanceSqr = Mathf.Infinity;
 
-        foreach (Node node in list)
+        foreach (Transform item in list)
         {
-            float distanceSqr = (node.gridPos - position).sqrMagnitude;
+            float distanceSqr = (item.position - position).sqrMagnitude;
 
             if (distanceSqr < closestDistanceSqr)
             {
                 closestDistanceSqr = distanceSqr;
-                closestTransform = node;
+                closestVec3Int = item;
             }
         }
 
-        return closestTransform;
+        return closestVec3Int;
     }
 
     public static void InsertionCellSort<T>(this List<T> list) where T : CellData, IComparable<T>

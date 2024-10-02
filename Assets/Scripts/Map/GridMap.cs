@@ -1,30 +1,61 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class GridMap
 {
-    public static Dictionary<Vector3Int, Node> NodeDic_NormalDepth = new Dictionary<Vector3Int, Node>();//벨트, 구조물 등의 계층
-    //public static Dictionary<Vector3Int, Node> NodeDic_InteractableDepth = new Dictionary<Vector3Int, Node>();//투입기 등의 계층
+    public static HashSet<Vector3Int> HashSet_OccupiedDepth = new HashSet<Vector3Int>();//점유 공간 확인 계층
+    public static Dictionary<Vector3Int, Building> Dic_BuildingDepth = new Dictionary<Vector3Int, Building>();//빌딩 계층. 빌딩 관리에 사용됨
+    public static Dictionary<Vector3Int, Node> Dic_BeltDepth = new Dictionary<Vector3Int, Node>();//벨트 계층. 벨트 로직에 사용됨
+
+    static void Add_Dic_BeltDepth(Vector3Int gridPos, Node node)
+    {
+        Dic_BeltDepth.Add(gridPos, node);
+        HashSet_OccupiedDepth.Add(gridPos);
+    }
+    static void Remove_Dic_BeltDepth(Vector3Int gridPos)
+    {
+        Dic_BeltDepth.Remove(gridPos);
+        HashSet_OccupiedDepth.Remove(gridPos);
+    }
+    static void Add_Dic_BuildingDepth(Vector3Int gridPos, Building building)
+    {
+        Dic_BuildingDepth.Add(gridPos, building);
+        foreach (Transform item in building.occupiedNodeList)
+        {
+            HashSet_OccupiedDepth.Add(item.position.ToIntVector());
+        }
+
+    }
+    static void Remove_Dic_BuildingDepth(Vector3Int gridPos)
+    {
+        foreach (Transform item in Dic_BuildingDepth[gridPos].occupiedNodeList)
+        {
+            HashSet_OccupiedDepth.Remove(item.position.ToIntVector());
+        }
+        Dic_BuildingDepth.Remove(gridPos);
+    }
+
 
     public static BeltNode CreateBeltNode(Vector3Int gridPos)//벨트 건설
     {
         BeltNode node = new BeltNode(gridPos);
 
-        NodeDic_NormalDepth.Add(gridPos, node);
+        Add_Dic_BeltDepth(gridPos, node);
         return node;
     }
     public static SorterNode CreateSorterNode(Vector3Int gridPos)//소터 건설
     {
-        Node nodeTemp = NodeDic_NormalDepth[gridPos];
+        Node nodeTemp = Dic_BeltDepth[gridPos];
         Node previousNode = nodeTemp.PreviousNode;
         Node nextNode = nodeTemp.NextNode;
 
         //벨트와 소터 교체
         nodeTemp.Remove();
-        NodeDic_NormalDepth.Remove(gridPos);
+        Remove_Dic_BeltDepth(gridPos);
 
         SorterNode sorterNode = new SorterNode(gridPos);
-        NodeDic_NormalDepth.Add(gridPos, sorterNode);
+        Add_Dic_BeltDepth(gridPos, sorterNode);
         sorterNode.Init();
 
         //소터와 기존 벨트간의 연결
@@ -42,11 +73,24 @@ public static class GridMap
 
         return sorterNode;
     }
-    public static BuildingNode CreateBuildingNode(Vector3Int gridPos)//빌딩 건설
+    public static BuildingNode CreateBuildingNode(GameObject prefab, Vector3Int gridPos, Quaternion dir)//빌딩 건설
     {
-        BuildingNode node = new BuildingNode(gridPos, new Building());
+        Building building = ObjectPoolManager.Instance.DequeueObject(prefab, gridPos).GetComponent<Building>();
+        building.transform.rotation = dir;
 
-        NodeDic_NormalDepth.Add(gridPos, node);
+        foreach (Transform item in building.occupiedNodeList)
+        {
+            if (HashSet_OccupiedDepth.Contains(item.position.ToIntVector()))
+            {
+                Debug.Log("이미 사용 중인 공간입니다.");
+                ObjectPoolManager.Instance.EnqueueObject(building.gameObject);
+                return null;
+            }
+        }
+
+        BuildingNode node = new BuildingNode(building);
+        Add_Dic_BuildingDepth(gridPos, building);
+
         return node;
     }
     //public static InserterNode CreateInserter(Vector3Int firstPos, Vector3Int lastPos)//인서터 건설
@@ -63,7 +107,7 @@ public static class GridMap
         //{
         //    item.Value.transporter.LogicInit();
         //}
-        foreach (var item in NodeDic_NormalDepth)
+        foreach (var item in Dic_BeltDepth)
         {
             item.Value.transporter.LogicInit();
         }

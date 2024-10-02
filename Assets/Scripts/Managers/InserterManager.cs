@@ -21,14 +21,14 @@ public class InserterNode : Node
 
     public override void Init()
     {
-        if (GridMap.NodeDic_NormalDepth.ContainsKey(gridPos))
+        if (GridMap.Dic_BuildingDepth.ContainsKey(gridPos))
         {
-            this.PreviousNode = GridMap.NodeDic_NormalDepth[gridPos];
+            this.PreviousNode = GridMap.Dic_BeltDepth[gridPos];
             Debug.Log("이전 노드 연결");
         }
-        if (GridMap.NodeDic_NormalDepth.ContainsKey(lastPos))
+        if (GridMap.Dic_BuildingDepth.ContainsKey(lastPos))
         {
-            this.NextNode = GridMap.NodeDic_NormalDepth[lastPos];
+            this.NextNode = GridMap.Dic_BeltDepth[lastPos];
             Debug.Log("다음 노드 연결");
         }
 
@@ -37,7 +37,7 @@ public class InserterNode : Node
             inserterPart = ObjectPoolManager.Instance.DequeueObject(InserterManager.Instance.Prefab_inserterPart).GetComponent<InserterModule>();
         }
 
-        inserterPart.Init(gridPos, lastPos, this);
+        inserterPart.Init(gridPos, lastPos, this, 1);
         transporter = inserterPart;
 
         GameLogicManager.Instance.InserterNodeSet.Add(this);
@@ -59,8 +59,8 @@ public class InserterCrafter
         BuildLineRenderer.Instance.HideAllGridLinesAndNodes();
 
         //InserterNode createNode = GridMap.CreateInserter(_centerNode, _lastNode);
-        BuildingNode createNode = GridMap.CreateBuildingNode(_centerNode);
-        createNode.Init();        
+        //BuildingNode createNode = GridMap.CreateBuildingNode(_centerNode);
+        //createNode.Init();        
     }
 
     public void CheckBuildInserter(Vector3Int firstNode, GridDir gridDir)

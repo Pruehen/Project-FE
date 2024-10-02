@@ -321,6 +321,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemKey: Item_Inserter_T1
   BuildingKey: Building_Inserter_T1
+  occupiedNodeList:
+  - {fileID: 2735000197979240696}
 --- !u!114 &8301255398484736554
 MonoBehaviour:
   m_ObjectHideFlags: 0

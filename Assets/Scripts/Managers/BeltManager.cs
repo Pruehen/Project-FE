@@ -73,7 +73,7 @@ public class BeltNode : Node
         }
 
         beltPart.transform.rotation = dir;
-        beltPart.SetBeltPart(type, this);
+        beltPart.SetBeltPart(type, this, 1);
         beltPart.GetComponent<Building>().Init();
 
         transporter = beltPart;
@@ -267,9 +267,9 @@ public class BeltCreator
 
         for (int i = 0; i < path.Count; i++)
         {
-            if (GridMap.NodeDic_NormalDepth.ContainsKey(path[i]))//경로상에 이미 노드가 있음
+            if (GridMap.Dic_BuildingDepth.ContainsKey(path[i]))//경로상에 이미 노드가 있음
             {
-                Node selectNode = GridMap.NodeDic_NormalDepth[path[i]];
+                Node selectNode = GridMap.Dic_BeltDepth[path[i]];
 
                 if (i == 0 && selectNode.NextNode == null)//전방 말단 노드와 연결하는 경우
                 {
@@ -339,7 +339,7 @@ public class BeltCreator
     {
         path.Clear();
 
-        if (GridMap.NodeDic_NormalDepth.ContainsKey(start) && GridMap.NodeDic_NormalDepth[start].nodeType == NodeType.BuildingNode)
+        if (GridMap.Dic_BeltDepth.ContainsKey(start) && GridMap.Dic_BeltDepth[start].nodeType == NodeType.BuildingNode)
         {
             BuildLineRenderer.Instance.DrawBeltLine(path);
             return;
@@ -373,9 +373,9 @@ public class BeltCreator
                 }
             }
 
-            if (GridMap.NodeDic_NormalDepth.ContainsKey(posTemp))
+            if (GridMap.HashSet_OccupiedDepth.Contains(posTemp))
             {
-                if (GridMap.NodeDic_NormalDepth[posTemp].nodeType == NodeType.BeltNode) { path.Add(posTemp); }
+                if (GridMap.Dic_BeltDepth[posTemp].nodeType == NodeType.BeltNode) { path.Add(posTemp); }
                 break;
             }
             else
