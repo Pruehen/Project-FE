@@ -74,6 +74,7 @@ public class BeltNode : Node
 
         beltPart.transform.rotation = dir;
         beltPart.SetBeltPart(type, this);
+        beltPart.GetComponent<Building>().Init();
 
         transporter = beltPart;
     }
@@ -236,6 +237,7 @@ public class SorterNode : Node
         }
         
         sorterPart.SetSorterPart(inputNodeList, outputNodeList);
+        sorterPart.GetComponent<Building>().Init();
         transporter = sorterPart;
     }
     public override void Remove() 
