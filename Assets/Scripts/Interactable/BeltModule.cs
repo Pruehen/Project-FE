@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using EnumTypes;
 
-public class BeltModule : MonoBehaviour, ITransporter
+public class BeltModule : MonoBehaviour, ITransporter, IModule
 {
     BeltNode beltNode;    
 
@@ -124,4 +124,28 @@ public class BeltModule : MonoBehaviour, ITransporter
             beltNode.PreviousNode.transporter.ExcuteLogic_OnUpdate(deltaTime);
         }        
     }
+
+    #region IModule
+    void IModule.Active_Wdw()
+    {
+        Debug.Log("구현되지 않은 메서드 호출됨");
+    }
+
+    void IModule.Close_Wdw()
+    {
+        Debug.Log("구현되지 않은 메서드 호출됨");
+    }
+
+    Inventory IModule.TryGetInputInventory()
+    {
+        Debug.Log("구현되지 않은 메서드 호출됨");
+        return null;
+    }
+
+    Inventory IModule.TryGetOutputInventory()
+    {
+        Debug.Log("구현되지 않은 메서드 호출됨");
+        return null;
+    }
+    #endregion
 }

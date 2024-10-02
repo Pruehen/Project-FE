@@ -260,8 +260,8 @@ GameObject:
   - component: {fileID: 2735000197979240696}
   - component: {fileID: -1744551217189425621}
   - component: {fileID: -4959281085618762943}
+  - component: {fileID: 8301255398484736554}
   - component: {fileID: -2206782494762323991}
-  - component: {fileID: 2083114495970001675}
   - component: {fileID: 1521698978449034622}
   m_Layer: 8
   m_Name: Building_Inserter_T1
@@ -321,6 +321,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemKey: Item_Inserter_T1
   BuildingKey: Building_Inserter_T1
+--- !u!114 &8301255398484736554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6642412606424589900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50434dbf2f1b9014fba52f3a3d7ff8db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  start: {fileID: 6130074503724600160}
+  end: {fileID: 6175892839563708798}
+  grab: {fileID: 4821470382949908849}
+  lineRenderer: {fileID: 1521698978449034622}
+  grabObject: {fileID: 5992369199361994370}
 --- !u!135 &-2206782494762323991
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -342,25 +359,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0.5, z: 0}
---- !u!114 &2083114495970001675
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6642412606424589900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f558312b03656b4ba5bdf3ba96f2f96, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ItemKey: Item_Inserter_T1
-  BuildingKey: Building_Inserter_T1
-  start: {fileID: 6130074503724600160}
-  end: {fileID: 6175892839563708798}
-  grab: {fileID: 4821470382949908849}
-  lineRenderer: {fileID: 1521698978449034622}
-  grabObject: {fileID: 5992369199361994370}
 --- !u!120 &1521698978449034622
 LineRenderer:
   serializedVersion: 2
@@ -475,7 +473,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4741477767579208843, guid: 00cc70f201688d74ea9e15cc74ce0b94, type: 3}
       propertyPath: m_Name
-      value: ItemObject
+      value: GrabObject
       objectReference: {fileID: 0}
     - target: {fileID: 4741477767579208843, guid: 00cc70f201688d74ea9e15cc74ce0b94, type: 3}
       propertyPath: m_Layer

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class InserterModule : MonoBehaviour, ITransporter
+public class InserterModule : MonoBehaviour, ITransporter, IModule
 {
     InserterNode node;
 
@@ -161,4 +161,26 @@ public class InserterModule : MonoBehaviour, ITransporter
             grab.transform.position = Vector3.Lerp(itemStayPoint_Last, itemStayPoint_First, lerpValue);
         }
     }
+
+    #region IModule
+    void IModule.Active_Wdw()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    void IModule.Close_Wdw()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    Inventory IModule.TryGetInputInventory()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    Inventory IModule.TryGetOutputInventory()
+    {
+        throw new System.NotImplementedException();
+    }
+    #endregion
 }

@@ -115,17 +115,8 @@ public class Building : MonoBehaviour, IInteractable
         }
     }
 
-    private void Awake()
+    public void Init()
     {
         _MainModule = GetComponent<IModule>();
-        //Vector3Int deployPos = this.transform.position.ToIntVector();
-
-        //for (int x = 0; x < BuildingData.DeploySizeX; x++)
-        //{
-        //    for (int z = 0; z < BuildingData.DeploySizeZ; z++)
-        //    {
-        //        nodeTempList.Add(GridMap.CreateBuildingNode(deployPos + new Vector3Int(x, 0, z)));
-        //    }
-        //}
     }
 }
