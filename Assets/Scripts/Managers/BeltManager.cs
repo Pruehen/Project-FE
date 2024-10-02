@@ -8,7 +8,7 @@ public class BeltNode : Node
     Node _previousNode;
     Node _nextNode;
 
-    public Belt beltPart;
+    public BeltModule beltPart;
 
     public BeltNode(Vector3Int gridPos)
     {
@@ -69,7 +69,7 @@ public class BeltNode : Node
 
         if (beltPart == null)
         {
-            beltPart = ObjectPoolManager.Instance.DequeueObject(BeltManager.Instance.beltPart, gridPos).GetComponent<Belt>();
+            beltPart = ObjectPoolManager.Instance.DequeueObject(BeltManager.Instance.beltPart, gridPos).GetComponent<BeltModule>();
         }
 
         beltPart.transform.rotation = dir;

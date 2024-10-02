@@ -440,6 +440,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4516127602873005179}
   - component: {fileID: -8155029338522273122}
+  - component: {fileID: 2420336395593750758}
   - component: {fileID: 6934373235456586875}
   - component: {fileID: -8608296557162137921}
   m_Layer: 8
@@ -486,6 +487,20 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!114 &2420336395593750758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7270927363674871674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c115586d0a669f841b18dadd2f14ee99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ItemKey: Item_Belt_T1
+  BuildingKey: Building_Belt_T1
 --- !u!114 &6934373235456586875
 MonoBehaviour:
   m_ObjectHideFlags: 0

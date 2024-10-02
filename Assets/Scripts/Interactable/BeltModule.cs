@@ -2,12 +2,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using EnumTypes;
 
-public class Belt : MonoBehaviour, IInteractable, ITransporter
+public class BeltModule : MonoBehaviour, ITransporter
 {
     BeltNode beltNode;    
 
-    [SerializeField] string ItemKey;
-    [SerializeField] string BuildingKey;
     [SerializeField] float BeltSpeed = 2;
 
     [SerializeField] Transform itemStayPoint;
@@ -18,95 +16,6 @@ public class Belt : MonoBehaviour, IInteractable, ITransporter
     float moveLogicTime;
 
     public List<GameObject> Prefab_BeltPart;
-
-    BuildingData _buildingData;
-    IModule _MainModule;
-
-    Outline _outline;
-    Outline Outline
-    {
-        get
-        {
-            if (_outline == null)
-                _outline = GetComponent<Outline>();
-            return _outline;
-        }
-    }
-
-    public BuildingData BuildingData
-    {
-        get
-        {
-            if (_buildingData == null)
-            {
-                _buildingData = JsonDataManager.GetBuilding(BuildingKey);
-            }
-            return _buildingData;
-        }
-    }
-    public List<string> RecipyGroupData
-    {
-        get
-        {
-            return JsonDataManager.GetRecipyGroupData(BuildingData.RecipyGroup);
-        }
-    }
-
-    public string GetName()
-    {
-        ItemData data = JsonDataManager.GetItem(ItemKey);
-        if (data != null)
-        {
-            string name = data.Name;
-            return name;
-        }
-        else
-        {
-            return "키를 찾을 수 없음";
-        }
-    }
-    public EntityType GetEntityType()
-    {
-        return EntityType.Building;
-    }
-    public Vector3 GetPos(Vector3 hitPos)
-    {
-        return this.transform.position;
-    }
-    public float InteractSpeedGain()
-    {
-        return 1;
-    }
-    public bool TrySelect(Vector3 hitPos, Vector3 originPos, float checkRange)
-    {
-        return false;
-    }
-    public void DeSelect()
-    {
-
-    }
-
-    public void MouseEnter()
-    {
-        Outline.IsOutlineEnabled = true;
-    }
-
-    public void MouseExit()
-    {
-        Outline.IsOutlineEnabled = false;
-    }
-
-    public bool TryInteract(Vector3 hitPos, Vector3 originPos, float checkRange)
-    {
-        if (Vector3.Distance(originPos, GetPos(hitPos)) > checkRange)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
 
     public void SetBeltPart(BeltType beltType, BeltNode beltNode)
     {
@@ -121,8 +30,6 @@ public class Belt : MonoBehaviour, IInteractable, ITransporter
 
     private void Awake()
     {
-        _MainModule = GetComponent<IModule>();
-        //moveLogicSpeed *= 2;
         moveLogicTime = 1 / BeltSpeed;
     }    
 

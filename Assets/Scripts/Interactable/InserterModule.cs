@@ -1,13 +1,8 @@
-using EnumTypes;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Inserter : MonoBehaviour, IInteractable, ITransporter
+public class InserterModule : MonoBehaviour, ITransporter
 {
     InserterNode node;
-
-    [SerializeField] string ItemKey;
-    [SerializeField] string BuildingKey;
 
     [SerializeField] GameObject start;
     [SerializeField] GameObject end;
@@ -22,95 +17,7 @@ public class Inserter : MonoBehaviour, IInteractable, ITransporter
 
     Vector3 itemStayPoint_First;
     Vector3 itemStayPoint_Last;
-
-    BuildingData _buildingData;
-    IModule _MainModule;
-
-    Outline _outline;
-    Outline Outline
-    {
-        get
-        {
-            if (_outline == null)
-                _outline = GetComponent<Outline>();
-            return _outline;
-        }
-    }
-
-    public BuildingData BuildingData
-    {
-        get
-        {
-            if (_buildingData == null)
-            {
-                _buildingData = JsonDataManager.GetBuilding(BuildingKey);
-            }
-            return _buildingData;
-        }
-    }
-    public List<string> RecipyGroupData
-    {
-        get
-        {
-            return JsonDataManager.GetRecipyGroupData(BuildingData.RecipyGroup);
-        }
-    }
-
-    public string GetName()
-    {
-        ItemData data = JsonDataManager.GetItem(ItemKey);
-        if (data != null)
-        {
-            string name = data.Name;
-            return name;
-        }
-        else
-        {
-            return "키를 찾을 수 없음";
-        }
-    }
-    public EntityType GetEntityType()
-    {
-        return EntityType.Building;
-    }
-    public Vector3 GetPos(Vector3 hitPos)
-    {
-        return this.transform.position;
-    }
-    public float InteractSpeedGain()
-    {
-        return 1;
-    }
-    public bool TrySelect(Vector3 hitPos, Vector3 originPos, float checkRange)
-    {
-        return false;
-    }
-    public void DeSelect()
-    {
-
-    }
-
-    public void MouseEnter()
-    {
-        Outline.IsOutlineEnabled = true;
-    }
-
-    public void MouseExit()
-    {
-        Outline.IsOutlineEnabled = false;
-    }
-
-    public bool TryInteract(Vector3 hitPos, Vector3 originPos, float checkRange)
-    {
-        if (Vector3.Distance(originPos, GetPos(hitPos)) > checkRange)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
+   
     public void Init(Vector3 startPos, Vector3 endPos, InserterNode inserterNode)
     {
         node = inserterNode;
@@ -132,11 +39,6 @@ public class Inserter : MonoBehaviour, IInteractable, ITransporter
         moveLogicTime = 1 / moveLogicSpeed;
 
         timeValue = 0;
-    }
-
-    private void Awake()
-    {
-        _MainModule = GetComponent<IModule>();
     }
 
     public ushort GrabObject

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class MinerModule : MonoBehaviour, IModule
+public class MinerModule : MonoBehaviour, IModule, ITransporter
 {
     MinerModuleModel model;
 
@@ -9,6 +9,8 @@ public class MinerModule : MonoBehaviour, IModule
     [SerializeField] float MiningSpeedGain = 1;
 
     IWindow window;
+
+    #region IModule 인터페이스 구현부
     public void Active_Wdw()
     {
         if (window == null)
@@ -34,6 +36,68 @@ public class MinerModule : MonoBehaviour, IModule
     {
         return model.OutputInventory;
     }
+    #endregion
+
+    #region ITransporter 인터페이스 구현부
+    public bool CanItemOut(ITransporter nextNode)
+    {
+        Inventory outputinventory = TryGetOutputInventory();
+        if (outputinventory != null)
+        {
+            return outputinventory.CanGrabItem();
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public void ItemOut(ITransporter nextNode)
+    {
+        Inventory outputinventory = TryGetOutputInventory();
+        if (outputinventory != null)
+        {
+            outputinventory.GrabItem(out ushort itemId, out int itemCount);
+            nextNode.ItemIn(itemId, Vector3.zero);
+        }
+    }
+
+    public bool CanItemIn(ushort itemId)
+    {
+        Inventory inputInventory = TryGetInputInventory();
+        if (inputInventory != null)
+        {
+            return inputInventory.CanAddItem(itemId, 1);
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void ItemIn(ushort itemId, Vector3 inPos)
+    {
+        Inventory inputInventory = TryGetInputInventory();
+        if (inputInventory != null)
+        {
+            inputInventory.AddItem(itemId, 1, out int r);
+        }
+    }
+    public ushort GetItem()
+    {
+        Inventory outputinventory = TryGetOutputInventory();
+        if (outputinventory != null)
+        {
+            return outputinventory.GetNextGrabItem();
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    public void LogicInit() { Debug.Log("구현되지 않은 메서드를 호출했습니다."); }
+    public void ExcuteLogic_OnUpdate(float deltaTime) { Debug.Log("구현되지 않은 메서드를 호출했습니다."); }
+    #endregion
 
     private void Awake()
     {

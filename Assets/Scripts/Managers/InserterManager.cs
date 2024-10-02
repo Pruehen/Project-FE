@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InserterNode : Node
 {
-    Inserter inserterPart;
+    InserterModule inserterPart;
     Vector3Int lastPos;
 
     Node _previousNode;
@@ -34,7 +34,7 @@ public class InserterNode : Node
 
         if (inserterPart == null)
         {
-            inserterPart = ObjectPoolManager.Instance.DequeueObject(InserterManager.Instance.Prefab_inserterPart).GetComponent<Inserter>();
+            inserterPart = ObjectPoolManager.Instance.DequeueObject(InserterManager.Instance.Prefab_inserterPart).GetComponent<InserterModule>();
         }
 
         inserterPart.Init(gridPos, lastPos, this);

@@ -84,11 +84,11 @@ public class CharactorToolModule : MonoBehaviour
             }
             //if (buildingData.BuildingType == BuildingType.Conveying)
             //{
-            //    SetBuildMode(BuildMode.Belt, buildingId);
+            //    SetBuildMode(BuildMode.BeltModule, buildingId);
             //}
-            //else if (buildingData.BuildingType == BuildingType.Inserter)
+            //else if (buildingData.BuildingType == BuildingType.InserterModule)
             //{
-            //    SetBuildMode(BuildMode.Inserter, buildingId);
+            //    SetBuildMode(BuildMode.InserterModule, buildingId);
             //}
             //else if (buildingData.BuildingType == BuildingType.Mining || buildingData.BuildingType == BuildingType.Crafting || buildingData.BuildingType == BuildingType.Refinery
             //    || buildingData.BuildingType == BuildingType.Generator || buildingData.BuildingType == BuildingType.Storage)
@@ -116,7 +116,7 @@ public class CharactorToolModule : MonoBehaviour
             case BuildMode.Belt:
                 SelectTool = BeltManager.Instance;
                 break;
-            //case BuildMode.Inserter:
+            //case BuildMode.InserterModule:
             //    SelectTool = InserterManager.Instance;
             //    break;
             case BuildMode.Building:

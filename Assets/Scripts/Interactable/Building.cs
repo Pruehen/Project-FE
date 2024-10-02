@@ -2,7 +2,7 @@ using EnumTypes;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Building : MonoBehaviour, IInteractable, ITransporter
+public class Building : MonoBehaviour, IInteractable
 {
     [SerializeField] string ItemKey;
     [SerializeField] string BuildingKey;
@@ -128,63 +128,4 @@ public class Building : MonoBehaviour, IInteractable, ITransporter
         //    }
         //}
     }
-
-    public bool CanItemOut(ITransporter nextNode)
-    {        
-        Inventory outputinventory = _MainModule.TryGetOutputInventory();
-        if(outputinventory != null)
-        {
-            return outputinventory.CanGrabItem();
-        }
-        else
-        {
-            return false;
-        }        
-    }
-    public void ItemOut(ITransporter nextNode)
-    {
-        Inventory outputinventory = _MainModule.TryGetOutputInventory();
-        if (outputinventory != null)
-        {
-            outputinventory.GrabItem(out ushort itemId, out int itemCount);
-            nextNode.ItemIn(itemId, Vector3.zero);
-        }
-    }
-
-    public bool CanItemIn(ushort itemId)
-    {
-        Inventory inputInventory = _MainModule.TryGetInputInventory();
-        if (inputInventory != null)
-        {
-            return inputInventory.CanAddItem(itemId, 1);
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    public void ItemIn(ushort itemId, Vector3 inPos)
-    {
-        Inventory inputInventory = _MainModule.TryGetInputInventory();
-        if (inputInventory != null)
-        {
-            inputInventory.AddItem(itemId, 1, out int r);
-        }
-    }
-    public ushort GetItem()
-    {
-        Inventory outputinventory = _MainModule.TryGetOutputInventory();
-        if (outputinventory != null)
-        {
-            return outputinventory.GetNextGrabItem();
-        }
-        else
-        {
-            return 0;
-        }
-    }
-
-    public void LogicInit() { }   
-    public void ExcuteLogic_OnUpdate(float deltaTime) { }
 }

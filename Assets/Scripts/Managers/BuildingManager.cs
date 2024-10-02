@@ -11,7 +11,7 @@ public class BuildingNode : Node
     {
         this.nodeType = NodeType.BuildingNode;
         this.gridPos = gridPos;
-        this.transporter = building;
+        //this.transporter = building;
     }
 
     public override void Init()
@@ -30,7 +30,7 @@ public class BuildingCrafter
     Vector3Int center;
     Quaternion dir;
 
-    public void BuildInserter(Vector3Int centerNode, GridDir gridDir)
+    public void BuildBuilding(Vector3Int centerNode, GridDir gridDir)
     {
         CheckBuildPosition(centerNode, gridDir);        
 
@@ -116,7 +116,7 @@ public class BuildingManager : SceneSingleton<BuildingManager>, IBuildTool
     }
     void BuildBuilding(Vector3Int lastNode)
     {
-        buildingCrafter.BuildInserter(lastNode, buildDir);
+        buildingCrafter.BuildBuilding(lastNode, buildDir);
     }
 }
 
