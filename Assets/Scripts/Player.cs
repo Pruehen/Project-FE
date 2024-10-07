@@ -52,6 +52,10 @@ public class Player : SceneSingleton<Player>
 
 
     [SerializeField] Charactor controlledCharactor;
+    public Charactor ControlledCharactor
+    {
+        get => controlledCharactor;
+    }
 
     private void Start()
     {

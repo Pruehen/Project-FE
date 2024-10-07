@@ -84,7 +84,7 @@ public class ItemObject : MonoBehaviour, IInteractable
     public void GetItem(Charactor charactor)
     {
         _pooled = false;
-        charactor.GetDropedItem(this.name);
+        charactor.GetItem(this.name);
         this.RemoveObject();
     }
 

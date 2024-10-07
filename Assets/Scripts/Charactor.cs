@@ -218,7 +218,7 @@ public class Charactor : MonoBehaviour
     }
     //================================================================================
 
-    public void GetDropedItem(string itemKey)
+    public void GetItem(string itemKey)
     {
         ItemData itemData = JsonDataManager.GetItem(itemKey);
         builtIn_InventoryModule.TryGetInputInventory().AddItem(itemData.Id_UShort, 1, out int r);

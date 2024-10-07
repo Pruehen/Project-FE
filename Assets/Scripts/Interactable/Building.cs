@@ -133,5 +133,7 @@ public class Building : MonoBehaviour, IInteractable
     {
         OnDismantle?.Invoke();
         OnDismantle = null;
+
+        Player.Instance.ControlledCharactor.GetItem(ItemKey);
     }
 }
