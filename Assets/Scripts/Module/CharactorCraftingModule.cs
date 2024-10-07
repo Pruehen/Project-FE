@@ -56,11 +56,6 @@ public class CharactorCraftingModule : MonoBehaviour, IModule
     void Update()
     {
         Model.ExecuteLogic(Time.deltaTime);
-
-        if(Input.GetKeyDown(KeyCode.Q))
-        {
-            Command_TryAddCraftOrder("Recipy_IronPlate", 10);
-        }
     }
 }
 public class CraftOrder
