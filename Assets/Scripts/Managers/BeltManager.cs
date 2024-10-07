@@ -267,7 +267,7 @@ public class BeltCreator
 
         for (int i = 0; i < path.Count; i++)
         {
-            if (GridMap.Dic_BuildingDepth.ContainsKey(path[i]))//경로상에 이미 노드가 있음
+            if (GridMap.Dic_BeltDepth.ContainsKey(path[i]))//경로상에 이미 노드가 있음
             {
                 Node selectNode = GridMap.Dic_BeltDepth[path[i]];
 
