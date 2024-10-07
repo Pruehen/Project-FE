@@ -37,7 +37,7 @@ public class InserterNode : Node
             inserterPart = ObjectPoolManager.Instance.DequeueObject(InserterManager.Instance.Prefab_inserterPart).GetComponent<InserterModule>();
         }
 
-        //inserterPart.Init(gridPos, lastPos, this, 1);
+        //inserterPart.SetInserterPart(gridPos, lastPos, this, 1);
         transporter = inserterPart;
 
         GameLogicManager.Instance.InserterNodeSet.Add(this);
@@ -60,7 +60,7 @@ public class InserterCrafter
 
         //InserterNode createNode = GridMap.CreateInserter(_centerNode, _lastNode);
         //BuildingNode createNode = GridMap.CreateBuildingNode(_centerNode);
-        //createNode.Init();        
+        //createNode.SetInserterPart();        
     }
 
     public void CheckBuildInserter(Vector3Int firstNode, GridDir gridDir)

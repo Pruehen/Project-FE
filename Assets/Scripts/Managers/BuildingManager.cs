@@ -9,22 +9,25 @@ public class BuildingNode : Node
 
     Building building;
     IModule module;
-    public BuildingNode(Building building)
+    public BuildingNode(Building building, Vector3Int gridPos)
     {
         this.nodeType = NodeType.BuildingNode;
         this.building = building;
+        this.gridPos = gridPos;
     }
 
     public override void Init()
     {
         building.Init();
+        building.Register_OnDismantle(Remove);
+
         transporter = building.Transporter;
         module = building.MainModule;
 
         if(module is InserterModule)
         {
             InserterModule inserterModule = module as InserterModule;
-            inserterModule.Init(1);
+            inserterModule.SetInserterPart(1);
 
             GameLogicManager.Instance.InserterNodeSet.Add(this);
         }
@@ -32,7 +35,23 @@ public class BuildingNode : Node
 
     public override void Remove()
     {
+        if (building != null)
+        {
+            ObjectPoolManager.Instance.EnqueueObject(building.gameObject);
+        }
+        building = null;
+        transporter = null;
 
+        if (module is InserterModule)
+        {
+            InserterModule inserterModule = module as InserterModule;
+            inserterModule.RemoveInserterPart();
+
+            GameLogicManager.Instance.InserterNodeSet.Remove(this);
+        }
+        module = null;        
+
+        GridMap.Remove_Dic_BuildingDepth(this.gridPos);
     }
 }
 

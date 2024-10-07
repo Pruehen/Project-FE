@@ -18,7 +18,7 @@ public class InserterModule : MonoBehaviour, ITransporter, IModule
     Vector3 itemStayPoint_First;
     Vector3 itemStayPoint_Last;
    
-    public void Init(float moveLogicSpeed)
+    public void SetInserterPart(float moveLogicSpeed)
     {        
         ////인서터 파츠의 좌표 설정
         //this.transform.position = centerPos;
@@ -40,6 +40,10 @@ public class InserterModule : MonoBehaviour, ITransporter, IModule
 
         timeValue = 0;
     }
+    public void RemoveInserterPart()
+    {
+        GrabObject = 0;
+    }
 
     public ushort GrabObject
     {
@@ -49,7 +53,7 @@ public class InserterModule : MonoBehaviour, ITransporter, IModule
             _grab_id = value;
             if (_grab_id == 0)
             {
-                ItemObjectManager.RemoveObject(grabItemObject);
+                grabItemObject?.RemoveObject();
             }
             else
             {

@@ -27,7 +27,7 @@ public static class GridMap
         }
 
     }
-    static void Remove_Dic_BuildingDepth(Vector3Int gridPos)
+    public static void Remove_Dic_BuildingDepth(Vector3Int gridPos)
     {
         foreach (Transform item in Dic_BuildingDepth[gridPos].occupiedNodeList)
         {
@@ -88,7 +88,7 @@ public static class GridMap
             }
         }
 
-        BuildingNode node = new BuildingNode(building);
+        BuildingNode node = new BuildingNode(building, gridPos);
         Add_Dic_BuildingDepth(gridPos, building, node);
 
         return node;
