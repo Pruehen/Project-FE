@@ -25,10 +25,14 @@ public class SorterModule : MonoBehaviour, ITransporter, IModule
 
         moveLogicTime = 1 / moveLogicSpeed;
     }
-    public void RemoveSorterPart()
+    public void OnDismantle()
     {
         for (int i = 0; i < 4; i++)
         {
+            if (moveItemIdArray[i] != 0)
+            {
+                Player.Instance.GetItem(moveItemIdArray[i]);
+            }
             moveItemObjectArray[nextOutItemIndex]?.RemoveObject();
         }
     }

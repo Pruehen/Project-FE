@@ -2,6 +2,7 @@ using EnumTypes;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 public class Building : MonoBehaviour, IInteractable
 {
@@ -121,11 +122,11 @@ public class Building : MonoBehaviour, IInteractable
     public void Init()
     {
         MainModule = GetComponent<IModule>();
-        Transporter = GetComponent<ITransporter>();        
+        Transporter = GetComponent<ITransporter>();
     }
     public void Register_OnDismantle(Action OnDismantle)
     {
-        this.OnDismantle = OnDismantle;
+        this.OnDismantle += OnDismantle;
     }
 
     Action OnDismantle;
@@ -134,6 +135,8 @@ public class Building : MonoBehaviour, IInteractable
         OnDismantle?.Invoke();
         OnDismantle = null;
 
-        Player.Instance.ControlledCharactor.GetItem(ItemKey);
+        MainModule.OnDismantle();
+        MainModule.Close_Wdw();
+        Player.Instance.GetItem(ItemKey);
     }
 }

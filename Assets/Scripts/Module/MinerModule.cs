@@ -28,6 +28,13 @@ public class MinerModule : MonoBehaviour, IModule, ITransporter
             model.OutputInventory.OnClose();
         }
     }
+    public void OnDismantle()
+    {
+        foreach (CellData item in TryGetOutputInventory().CellDataList)
+        {
+            Player.Instance.GetItem(item.Id, item.Count);
+        }
+    }
     public Inventory TryGetInputInventory()
     {
         return null;

@@ -218,10 +218,14 @@ public class Charactor : MonoBehaviour
     }
     //================================================================================
 
-    public void GetItem(string itemKey)
+    public void GetItem(string itemKey, int count = 1)
     {
         ItemData itemData = JsonDataManager.GetItem(itemKey);
-        builtIn_InventoryModule.TryGetInputInventory().AddItem(itemData.Id_UShort, 1, out int r);
+        builtIn_InventoryModule.TryGetInputInventory().AddItem(itemData.Id_UShort, count, out int r);
+    }
+    public void GetItem(ushort itemKey, int count = 1)
+    {        
+        builtIn_InventoryModule.TryGetInputInventory().AddItem(itemKey, count, out int r);
     }
 
     void Move_OnFixedUpdate()

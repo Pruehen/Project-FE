@@ -29,8 +29,9 @@ public class BeltModule : MonoBehaviour, ITransporter, IModule
         this.beltSpeed = beltSpeed;
         moveLogicTime = 1 / beltSpeed;
     }
-    public void RemoveBeltPart()
+    public void OnDismantle()
     {
+        Player.Instance.GetItem(MoveItemKey);
         MoveItemKey = 0;
     }
 

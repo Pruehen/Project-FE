@@ -56,6 +56,17 @@ public class Player : SceneSingleton<Player>
     {
         get => controlledCharactor;
     }
+    public void GetItem(ushort itemKey, int count = 1)
+    {
+        if(itemKey != 0)
+        {
+            ControlledCharactor.GetItem(itemKey, count);
+        }        
+    }
+    public void GetItem(string itemKey, int count = 1)
+    {
+        ControlledCharactor.GetItem(itemKey, count);
+    }
 
     private void Start()
     {

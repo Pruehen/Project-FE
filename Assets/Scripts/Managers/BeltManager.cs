@@ -145,8 +145,6 @@ public class BeltNode : Node
             }
         }
 
-        beltPart.RemoveBeltPart();
-
         if (beltPart != null)
         {
             ObjectPoolManager.Instance.EnqueueObject(beltPart.gameObject);
@@ -384,8 +382,6 @@ public class SorterNode : Node
                 sorterNode.RemoveNode_InputOrOutput(this);
             }
         }
-
-        sorterPart.RemoveSorterPart();
 
         if (sorterPart != null)
         {

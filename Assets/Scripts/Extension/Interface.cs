@@ -18,6 +18,7 @@ public interface IModule
 {
     public void Active_Wdw();
     public void Close_Wdw();
+    public void OnDismantle();
     public Inventory TryGetInputInventory();
     public Inventory TryGetOutputInventory();
 }

@@ -40,11 +40,11 @@ public class InserterModule : MonoBehaviour, ITransporter, IModule
 
         timeValue = 0;
     }
-    public void RemoveInserterPart()
+    public void OnDismantle()
     {
+        Player.Instance.GetItem(GrabObject);
         GrabObject = 0;
     }
-
     public ushort GrabObject
     {
         get { return _grab_id; }

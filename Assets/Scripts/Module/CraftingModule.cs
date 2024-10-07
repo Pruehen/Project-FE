@@ -32,6 +32,17 @@ public class CraftingModule : MonoBehaviour, IModule, ITransporter
             model.OutputInventory.OnClose();
         }        
     }
+    public void OnDismantle()
+    {
+        foreach (CellData item in TryGetInputInventory().CellDataList)
+        {
+            Player.Instance.GetItem(item.Id, item.Count);
+        }
+        foreach (CellData item in TryGetOutputInventory().CellDataList)
+        {
+            Player.Instance.GetItem(item.Id, item.Count);
+        }
+    }
     public Inventory TryGetInputInventory()
     {
         return model.InputInventory;
@@ -112,7 +123,6 @@ public class CraftingModule : MonoBehaviour, IModule, ITransporter
         model = ModelManager.NewModel<CraftingModuleModel>(this.gameObject.GetInstanceID());
         model.Init_RecipyGroupKey(GetComponent<Building>().BuildingData.RecipyGroup);       
     }
-
     private void Update()
     {
         model.ExecuteLogic(Time.deltaTime);

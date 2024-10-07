@@ -43,6 +43,13 @@ public class InventoryModule : MonoBehaviour, IModule
             Inventory.OnClose();
         }
     }
+    public void OnDismantle()
+    {
+        foreach (CellData item in Inventory.CellDataList)
+        {
+            Player.Instance.GetItem(item.Id, item.Count);
+        }        
+    }
     public Inventory TryGetInputInventory()
     {
         return Inventory;

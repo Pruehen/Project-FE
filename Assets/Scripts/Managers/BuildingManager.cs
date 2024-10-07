@@ -1,5 +1,4 @@
 using EnumTypes;
-using System.Reflection;
 using UnityEngine;
 
 public class BuildingNode : Node
@@ -44,9 +43,7 @@ public class BuildingNode : Node
 
         if (module is InserterModule)
         {
-            InserterModule inserterModule = module as InserterModule;
-            inserterModule.RemoveInserterPart();
-
+            InserterModule inserterModule = module as InserterModule;            
             GameLogicManager.Instance.InserterNodeSet.Remove(this);
         }
         module = null;        

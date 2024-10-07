@@ -1,7 +1,5 @@
 using EnumTypes;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class CharactorCraftingModule : MonoBehaviour, IModule
@@ -30,6 +28,17 @@ public class CharactorCraftingModule : MonoBehaviour, IModule
             window.Close();
             window = null;
         }        
+    }
+    public void OnDismantle()
+    {
+        foreach (CellData item in TryGetInputInventory().CellDataList)
+        {
+            Player.Instance.GetItem(item.Id, item.Count);
+        }
+        foreach (CellData item in TryGetOutputInventory().CellDataList)
+        {
+            Player.Instance.GetItem(item.Id, item.Count);
+        }
     }
     public Inventory TryGetInputInventory()
     {
