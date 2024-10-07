@@ -1,3 +1,4 @@
+using EnumTypes;
 using UnityEngine;
 
 public class CharactorMinerModule : MonoBehaviour
@@ -10,16 +11,27 @@ public class CharactorMinerModule : MonoBehaviour
 
     [SerializeField] float MiningSpeedGain = 5;
 
+    Building currentBuilding;
     Vein currentVein;
     IInteractable currentInteractable;
 
     float miningTimeValue = 0;
 
-    public void Mining(float deltaTime, IInteractable interactable)
+    public void Mining_OnTryInteract(float deltaTime, IInteractable interactable)
     {
-        if (interactable.GetEntityType() != EnumTypes.EntityType.Vein) return;       
-        
-        if(currentInteractable != interactable)
+        if (interactable.GetEntityType() == EntityType.Vein)
+        {
+            VeinMining(deltaTime, interactable);
+        }       
+        else if(interactable.GetEntityType() == EntityType.Building)
+        {
+            DismantleBuilding(deltaTime, interactable);
+        }
+    }
+
+    void VeinMining(float deltaTime, IInteractable interactable)
+    {
+        if (currentInteractable != interactable)
         {
             currentInteractable = interactable;
             currentVein = interactable as Vein;
@@ -28,7 +40,7 @@ public class CharactorMinerModule : MonoBehaviour
 
         miningTimeValue += deltaTime * MiningSpeedGain;
 
-        if(miningTimeValue >= currentVein.extractTimeGain)
+        if (miningTimeValue >= currentVein.extractTimeGain)
         {
             miningTimeValue = 0;
             currentVein.ExtractVein(1, out int extractCount);
@@ -39,6 +51,24 @@ public class CharactorMinerModule : MonoBehaviour
                 itemObject.ItemDrop(currentVein.transform.position);
                 itemObject.PoolItem(_charactor);
             }
+        }
+    }
+
+    void DismantleBuilding(float deltaTime, IInteractable interactable)
+    {
+        if (currentInteractable != interactable)
+        {
+            currentInteractable = interactable;
+            currentBuilding = interactable as Building;
+            miningTimeValue = 0;
+        }
+
+        miningTimeValue += deltaTime * MiningSpeedGain;
+
+        if (miningTimeValue >= 1)
+        {
+            miningTimeValue = 0;
+            currentBuilding.Dismantle();     
         }
     }
 }

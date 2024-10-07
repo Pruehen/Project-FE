@@ -1,4 +1,5 @@
 using EnumTypes;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -120,6 +121,17 @@ public class Building : MonoBehaviour, IInteractable
     public void Init()
     {
         MainModule = GetComponent<IModule>();
-        Transporter = GetComponent<ITransporter>();
+        Transporter = GetComponent<ITransporter>();        
+    }
+    public void Register_OnDismantle(Action OnDismantle)
+    {
+        this.OnDismantle = OnDismantle;
+    }
+
+    Action OnDismantle;
+    public void Dismantle()
+    {
+        OnDismantle?.Invoke();
+        OnDismantle = null;
     }
 }

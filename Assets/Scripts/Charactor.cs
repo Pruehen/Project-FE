@@ -158,7 +158,7 @@ public class Charactor : MonoBehaviour
         if(onMouseObjectTemp != null && onMouseObjectTemp.TryInteract(_lookPos, this.transform.position, interactionRange))
         {
             onInteractObject = onMouseObjectTemp;
-            builtIn_MinerModule.Mining(Time.deltaTime * interactionSpeed, onInteractObject);
+            builtIn_MinerModule.Mining_OnTryInteract(Time.deltaTime * interactionSpeed, onInteractObject);
         }
         else
         {

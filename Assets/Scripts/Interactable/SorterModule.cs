@@ -25,6 +25,13 @@ public class SorterModule : MonoBehaviour, ITransporter, IModule
 
         moveLogicTime = 1 / moveLogicSpeed;
     }
+    public void RemoveSorterPart()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            moveItemObjectArray[nextOutItemIndex]?.RemoveObject();
+        }
+    }
 
     public bool CanItemOut(ITransporter nextNode)
     {
@@ -45,7 +52,7 @@ public class SorterModule : MonoBehaviour, ITransporter, IModule
         nextNode.ItemIn(moveItemIdArray[nextOutItemIndex], itemStayPoint.position);
         moveItemIdArray[nextOutItemIndex] = 0;
 
-        ItemObjectManager.RemoveObject(moveItemObjectArray[nextOutItemIndex]);
+        moveItemObjectArray[nextOutItemIndex]?.RemoveObject();
         //moveItemObjectArray[nextOutItemIndex].gameObject.SetActive(moveItemIdArray[nextOutItemIndex] != 0);
 
         Add_NextOutItemIndex();

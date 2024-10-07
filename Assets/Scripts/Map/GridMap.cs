@@ -13,7 +13,7 @@ public static class GridMap
         Dic_BeltDepth.Add(gridPos, node);
         Dic_OccupiedDepth.Add(gridPos, node);
     }
-    static void Remove_Dic_BeltDepth(Vector3Int gridPos)
+    public static void Remove_Dic_BeltDepth(Vector3Int gridPos)
     {
         Dic_BeltDepth.Remove(gridPos);
         Dic_OccupiedDepth.Remove(gridPos);
@@ -46,7 +46,7 @@ public static class GridMap
     }
     public static SorterNode CreateSorterNode(Vector3Int gridPos)//소터 건설
     {
-        Node nodeTemp = Dic_BeltDepth[gridPos];
+        Node nodeTemp = Dic_BeltDepth[gridPos];//소터가 위치할 포지션
         Node previousNode = nodeTemp.PreviousNode;
         Node nextNode = nodeTemp.NextNode;
 

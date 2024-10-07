@@ -90,7 +90,7 @@ public class CharactorToolModule : MonoBehaviour
             //{
             //    SetBuildMode(BuildMode.InserterModule, buildingId);
             //}
-            //else if (buildingData.BuildingType == BuildingType.Mining || buildingData.BuildingType == BuildingType.Crafting || buildingData.BuildingType == BuildingType.Refinery
+            //else if (buildingData.BuildingType == BuildingType.Mining_OnTryInteract || buildingData.BuildingType == BuildingType.Crafting || buildingData.BuildingType == BuildingType.Refinery
             //    || buildingData.BuildingType == BuildingType.Generator || buildingData.BuildingType == BuildingType.Storage)
             //{
 

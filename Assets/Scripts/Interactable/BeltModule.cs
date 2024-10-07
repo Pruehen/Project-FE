@@ -29,6 +29,10 @@ public class BeltModule : MonoBehaviour, ITransporter, IModule
         this.beltSpeed = beltSpeed;
         moveLogicTime = 1 / beltSpeed;
     }
+    public void RemoveBeltPart()
+    {
+        MoveItemKey = 0;
+    }
 
     public ushort MoveItemKey
     {
@@ -40,7 +44,8 @@ public class BeltModule : MonoBehaviour, ITransporter, IModule
                 _mi_id = value;
                 if (_mi_id == 0)
                 {
-                    ItemObjectManager.RemoveObject(moveItemObject);                    
+                    moveItemObject?.RemoveObject();
+                    moveItemObject = null;
                 }
                 else
                 {
