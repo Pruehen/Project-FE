@@ -90,12 +90,14 @@ public class ItemObject : MonoBehaviour, IInteractable
 
     void FixedUpdate()
     {
-        Vector3 toTargetVec = charactor.transform.position - this.transform.position;
-        rb.AddForce(toTargetVec.normalized * 50, ForceMode.Acceleration);
-
-        if(toTargetVec.sqrMagnitude < 1)
+        if (_pooled)
         {
-            GetItem(charactor);
+            Vector3 toTargetVec = charactor.transform.position - this.transform.position;
+            rb.AddForce(toTargetVec.normalized * 50, ForceMode.Acceleration);
+            if (toTargetVec.sqrMagnitude < 1)
+            {
+                GetItem(charactor);
+            }
         }
     }
 

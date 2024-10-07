@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class InserterModule : MonoBehaviour, ITransporter, IModule
 {
-    InserterNode node;
+    Node PreviousNode { get; set; }
+    Node NextNode { get; set; }
 
-    [SerializeField] GameObject start;
-    [SerializeField] GameObject end;
-    [SerializeField] GameObject grab;
-    [SerializeField] LineRenderer lineRenderer;
+    [SerializeField] Transform startNodePos;
+    [SerializeField] Transform endNodePos;
+    [SerializeField] Transform grabTrf;
     
-    [SerializeField] ItemObject grabObject;
+    ItemObject grabItemObject;
     ushort _grab_id;
 
     float moveLogicSpeed;
@@ -18,22 +18,21 @@ public class InserterModule : MonoBehaviour, ITransporter, IModule
     Vector3 itemStayPoint_First;
     Vector3 itemStayPoint_Last;
    
-    public void Init(Vector3 startPos, Vector3 endPos, InserterNode inserterNode, float moveLogicSpeed)
-    {
-        node = inserterNode;
+    public void Init(float moveLogicSpeed)
+    {        
+        ////인서터 파츠의 좌표 설정
+        //this.transform.position = centerPos;
 
-        //인서터 파츠의 좌표 설정
-        this.transform.position = startPos;
-        start.transform.position = startPos + new Vector3(0, 0.8f, 0);
-        end.transform.position = endPos + new Vector3(0, 0.8f, 0);
-
-        //파츠간의 라인을 그리는 임시 기능
-        lineRenderer.SetPosition(0, startPos + new Vector3(0, 0.6f, 0));
-        lineRenderer.SetPosition(1, endPos + new Vector3(0, 0.6f, 0));
+        ////파츠간의 라인을 그리는 임시 기능
+        //lineRenderer.SetPosition(0, startPos + new Vector3(0, 0.6f, 0));
+        //lineRenderer.SetPosition(1, endPos + new Vector3(0, 0.6f, 0));
 
         //아이템이 이동할 포지션
-        itemStayPoint_First = startPos + new Vector3(0, 0.6f, 0);
-        itemStayPoint_Last = endPos + new Vector3(0, 0.6f, 0);
+        itemStayPoint_First = startNodePos.position + new Vector3(0, 0.6f, 0);
+        itemStayPoint_Last = endNodePos.position + new Vector3(0, 0.6f, 0);
+
+        PreviousNode = FindNode_OnUpdate(startNodePos.position.ToIntVector());
+        NextNode = FindNode_OnUpdate(endNodePos.position.ToIntVector());
 
         this.moveLogicSpeed = moveLogicSpeed;
         this.moveLogicSpeed *= 2f / Vector3.Distance(itemStayPoint_First, itemStayPoint_Last);
@@ -48,7 +47,14 @@ public class InserterModule : MonoBehaviour, ITransporter, IModule
         set
         {
             _grab_id = value;
-            grabObject.gameObject.SetActive(_grab_id != 0);
+            if (_grab_id == 0)
+            {
+                ItemObjectManager.RemoveObject(grabItemObject);
+            }
+            else
+            {
+                grabItemObject = ItemObjectManager.CreateObject(_grab_id);
+            }
         }
     }
 
@@ -77,7 +83,7 @@ public class InserterModule : MonoBehaviour, ITransporter, IModule
     public void ItemIn(ushort itemId, Vector3 inPos)
     {
         GrabObject = itemId;
-        grabObject.SetPos((inPos == Vector3.zero) ? itemStayPoint_First : inPos, itemStayPoint_Last);
+        grabItemObject.SetPos((inPos == Vector3.zero) ? itemStayPoint_First : inPos, itemStayPoint_Last);
         State_ItemTransport = true;
     }
     public ushort GetItem()
@@ -86,11 +92,11 @@ public class InserterModule : MonoBehaviour, ITransporter, IModule
     }
     void TryGrapItem()
     {
-        if (node.PreviousNode == null)
+        if (PreviousNode == null)
             return;
 
-        ITransporter grabTarget = node.PreviousNode?.transporter;
-        ITransporter dropTarget = node.NextNode?.transporter;
+        ITransporter grabTarget = PreviousNode?.transporter;
+        ITransporter dropTarget = NextNode?.transporter;
 
         if (grabTarget != null && dropTarget != null)
         {
@@ -102,21 +108,29 @@ public class InserterModule : MonoBehaviour, ITransporter, IModule
     }
     public void LogicInit()
     {
-        isExcuteLogic = false;
+        //isExcuteLogic = false;
     }
     public void ExcuteLogic_OnUpdate(float deltaTime)
-    {
-        if (isExcuteLogic)
+    {      
+        if(NextNode == null)
+        {
+            NextNode = FindNode_OnUpdate(endNodePos.position.ToIntVector());
             return;
-        isExcuteLogic = true;        
+        }
+        if(PreviousNode == null)
+        {
+            PreviousNode = FindNode_OnUpdate(startNodePos.position.ToIntVector());
+            return;
+        }
+
 
         if (timeValue >= moveLogicTime)//아이템이 도착했는지
         {
             if (State_ItemTransport)
             {
-                if (node.NextNode != null && CanItemOut(node.NextNode.transporter))
+                if (NextNode != null && CanItemOut(NextNode.transporter))
                 {
-                    ItemOut(node.NextNode.transporter);
+                    ItemOut(NextNode.transporter);
                     timeValue -= moveLogicTime;                    
                 }
                 else
@@ -142,7 +156,7 @@ public class InserterModule : MonoBehaviour, ITransporter, IModule
 
         if (GrabObject != 0 && State_ItemTransport)
         {
-            grabObject.ItemMove(timeValue * moveLogicSpeed);            
+            grabItemObject.ItemMove(timeValue * moveLogicSpeed);            
             timeValue += deltaTime;
         }
         else if(GrabObject == 0 && State_ItemTransport == false)
@@ -155,33 +169,47 @@ public class InserterModule : MonoBehaviour, ITransporter, IModule
     {
         if (State_ItemTransport)
         {
-            grab.transform.position = Vector3.Lerp(itemStayPoint_First, itemStayPoint_Last, lerpValue);
+            grabTrf.position = Vector3.Lerp(itemStayPoint_First, itemStayPoint_Last, lerpValue);
         }
         else
         {
-            grab.transform.position = Vector3.Lerp(itemStayPoint_Last, itemStayPoint_First, lerpValue);
+            grabTrf.position = Vector3.Lerp(itemStayPoint_Last, itemStayPoint_First, lerpValue);
         }
     }
+    Node FindNode_OnUpdate(Vector3Int findPos)
+    {
+        if(GridMap.Dic_OccupiedDepth.ContainsKey(findPos))
+        {
+            return GridMap.Dic_OccupiedDepth[findPos];
+        }
+        else
+        {
+            return null;
+        }
+    }    
+
 
     #region IModule
     void IModule.Active_Wdw()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("구현되지 않은 메서드 호출됨");
     }
 
     void IModule.Close_Wdw()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("구현되지 않은 메서드 호출됨");
     }
 
     Inventory IModule.TryGetInputInventory()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("구현되지 않은 메서드 호출됨");
+        return null;
     }
 
     Inventory IModule.TryGetOutputInventory()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("구현되지 않은 메서드 호출됨");
+        return null;
     }
     #endregion
 }

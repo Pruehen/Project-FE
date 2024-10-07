@@ -4,26 +4,26 @@ using UnityEngine;
 
 public static class GridMap
 {
-    public static HashSet<Vector3Int> HashSet_OccupiedDepth = new HashSet<Vector3Int>();//점유 공간 확인 계층
+    public static Dictionary<Vector3Int, Node> Dic_OccupiedDepth = new Dictionary<Vector3Int, Node>();//점유 공간 확인 계층
     public static Dictionary<Vector3Int, Building> Dic_BuildingDepth = new Dictionary<Vector3Int, Building>();//빌딩 계층. 빌딩 관리에 사용됨
     public static Dictionary<Vector3Int, Node> Dic_BeltDepth = new Dictionary<Vector3Int, Node>();//벨트 계층. 벨트 로직에 사용됨
 
     static void Add_Dic_BeltDepth(Vector3Int gridPos, Node node)
     {
         Dic_BeltDepth.Add(gridPos, node);
-        HashSet_OccupiedDepth.Add(gridPos);
+        Dic_OccupiedDepth.Add(gridPos, node);
     }
     static void Remove_Dic_BeltDepth(Vector3Int gridPos)
     {
         Dic_BeltDepth.Remove(gridPos);
-        HashSet_OccupiedDepth.Remove(gridPos);
+        Dic_OccupiedDepth.Remove(gridPos);
     }
-    static void Add_Dic_BuildingDepth(Vector3Int gridPos, Building building)
+    static void Add_Dic_BuildingDepth(Vector3Int gridPos, Building building, Node node)
     {
         Dic_BuildingDepth.Add(gridPos, building);
         foreach (Transform item in building.occupiedNodeList)
         {
-            HashSet_OccupiedDepth.Add(item.position.ToIntVector());
+            Dic_OccupiedDepth.Add(item.position.ToIntVector(), node);
         }
 
     }
@@ -31,7 +31,7 @@ public static class GridMap
     {
         foreach (Transform item in Dic_BuildingDepth[gridPos].occupiedNodeList)
         {
-            HashSet_OccupiedDepth.Remove(item.position.ToIntVector());
+            Dic_OccupiedDepth.Remove(item.position.ToIntVector());
         }
         Dic_BuildingDepth.Remove(gridPos);
     }
@@ -80,7 +80,7 @@ public static class GridMap
 
         foreach (Transform item in building.occupiedNodeList)
         {
-            if (HashSet_OccupiedDepth.Contains(item.position.ToIntVector()))
+            if (Dic_OccupiedDepth.ContainsKey(item.position.ToIntVector()))
             {
                 Debug.Log("이미 사용 중인 공간입니다.");
                 ObjectPoolManager.Instance.EnqueueObject(building.gameObject);
@@ -89,7 +89,7 @@ public static class GridMap
         }
 
         BuildingNode node = new BuildingNode(building);
-        Add_Dic_BuildingDepth(gridPos, building);
+        Add_Dic_BuildingDepth(gridPos, building, node);
 
         return node;
     }
@@ -103,10 +103,6 @@ public static class GridMap
     //}
     public static void Command_LogicInit_OnUpdate()
     {
-        //foreach (var item in NodeDic_InteractableDepth)
-        //{
-        //    item.Value.transporter.LogicInit();
-        //}
         foreach (var item in Dic_BeltDepth)
         {
             item.Value.transporter.LogicInit();

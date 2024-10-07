@@ -373,7 +373,7 @@ public class BeltCreator
                 }
             }
 
-            if (GridMap.HashSet_OccupiedDepth.Contains(posTemp))
+            if (GridMap.Dic_OccupiedDepth.ContainsKey(posTemp))
             {
                 if (GridMap.Dic_BeltDepth[posTemp].nodeType == NodeType.BeltNode) { path.Add(posTemp); }
                 break;

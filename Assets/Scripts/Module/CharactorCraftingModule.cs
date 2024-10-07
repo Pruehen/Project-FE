@@ -39,6 +39,7 @@ public class CharactorCraftingModule : MonoBehaviour, IModule
     {
         return _charactor.builtIn_InventoryModule.Inventory;
     }
+
     public void Command_TryAddCraftOrder(string recipyDataKey, int count)
     {
         Model.TryAddCraftOrder(JsonDataManager.GetRecipyData(recipyDataKey), count);

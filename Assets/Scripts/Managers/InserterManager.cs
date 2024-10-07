@@ -37,7 +37,7 @@ public class InserterNode : Node
             inserterPart = ObjectPoolManager.Instance.DequeueObject(InserterManager.Instance.Prefab_inserterPart).GetComponent<InserterModule>();
         }
 
-        inserterPart.Init(gridPos, lastPos, this, 1);
+        //inserterPart.Init(gridPos, lastPos, this, 1);
         transporter = inserterPart;
 
         GameLogicManager.Instance.InserterNodeSet.Add(this);

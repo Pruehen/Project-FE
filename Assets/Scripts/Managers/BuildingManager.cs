@@ -1,5 +1,5 @@
 using EnumTypes;
-using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 public class BuildingNode : Node
@@ -8,18 +8,26 @@ public class BuildingNode : Node
     public override Node NextNode { get { return null; } set { } }
 
     Building building;
+    IModule module;
     public BuildingNode(Building building)
     {
         this.nodeType = NodeType.BuildingNode;
         this.building = building;
-        //this.gridPos = gridPos;
-        //this.transporter = building;
     }
 
     public override void Init()
     {
         building.Init();
         transporter = building.Transporter;
+        module = building.MainModule;
+
+        if(module is InserterModule)
+        {
+            InserterModule inserterModule = module as InserterModule;
+            inserterModule.Init(1);
+
+            GameLogicManager.Instance.InserterNodeSet.Add(this);
+        }
     }
 
     public override void Remove()
