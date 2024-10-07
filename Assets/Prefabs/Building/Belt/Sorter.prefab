@@ -321,6 +321,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemKey: Item_Belt_T1
   BuildingKey: Building_Belt_T1
+  occupiedNodeList:
+  - {fileID: 2735000197979240696}
 --- !u!114 &8756442038893285442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,8 +335,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 211bb3c02fa092d448a8fba7c602d903, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ItemKey: Item_Belt_T1
-  BuildingKey: Building_Belt_T1
   itemStayPoint: {fileID: 278941254732479977}
 --- !u!135 &3894596709602662204
 SphereCollider:

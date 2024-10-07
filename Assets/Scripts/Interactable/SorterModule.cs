@@ -2,7 +2,7 @@ using EnumTypes;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Sorter : MonoBehaviour, ITransporter
+public class SorterModule : MonoBehaviour, ITransporter, IModule
 {
     List<Node> inputNodeList;
     List<Node> outputNodeList;
@@ -177,4 +177,28 @@ public class Sorter : MonoBehaviour, ITransporter
             }
         }
     }
+
+    #region IModule
+    void IModule.Active_Wdw()
+    {
+        Debug.Log("구현되지 않은 메서드 호출됨");
+    }
+
+    void IModule.Close_Wdw()
+    {
+        Debug.Log("구현되지 않은 메서드 호출됨");
+    }
+
+    Inventory IModule.TryGetInputInventory()
+    {
+        Debug.Log("구현되지 않은 메서드 호출됨");
+        return null;
+    }
+
+    Inventory IModule.TryGetOutputInventory()
+    {
+        Debug.Log("구현되지 않은 메서드 호출됨");
+        return null;
+    }
+    #endregion
 }

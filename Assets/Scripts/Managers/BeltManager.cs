@@ -178,7 +178,7 @@ public class BeltNode : Node
 
 public class SorterNode : Node
 {
-    public Sorter sorterPart;
+    public SorterModule sorterPart;
 
     List<Node> inputNodeList = new List<Node>();
     List<Node> outputNodeList = new List<Node>();
@@ -233,7 +233,7 @@ public class SorterNode : Node
     {
         if (sorterPart == null)
         {
-            sorterPart = ObjectPoolManager.Instance.DequeueObject(BeltManager.Instance.sorterPart, gridPos).GetComponent<Sorter>();
+            sorterPart = ObjectPoolManager.Instance.DequeueObject(BeltManager.Instance.sorterPart, gridPos).GetComponent<SorterModule>();
         }
         
         sorterPart.SetSorterPart(inputNodeList, outputNodeList);
