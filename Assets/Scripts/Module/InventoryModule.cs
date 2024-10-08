@@ -186,7 +186,7 @@ public class Inventory
         }
         OnInventoryChange?.Invoke();
     }
-    public bool CanUseItem(ushort id, int count)//아이템 소모가 가능한지를 체크함
+    public bool CanUseItem(ushort id, int count = 1)//아이템 소모가 가능한지를 체크함
     {
         if (TryFindCell(id, out CellData targetCell))
         {

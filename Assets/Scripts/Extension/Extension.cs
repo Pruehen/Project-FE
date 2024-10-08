@@ -150,7 +150,7 @@ public static class Extension
         Sprite lodeSprite = Resources.Load<Sprite>(path);
         image.sprite = lodeSprite;
     }
-    public static string Replace_ToItem(this string buildingId)
+    public static string Replace_ToItem(this string buildingId)//빌딩 아이디를 아이템 아이디로 변경함
     {
         return buildingId.Replace("Building_", "Item_");
     }

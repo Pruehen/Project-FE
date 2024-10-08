@@ -75,31 +75,25 @@ public class CharactorToolModule : MonoBehaviour
         }
         else
         {
-            selectedToolTemp = buildingId;
-
             BuildingData buildingData = JsonDataManager.GetBuilding(buildingId);
-            if (buildingId.Contains("Building_Belt"))
+            ItemData itemData = JsonDataManager.GetItem(buildingId.Replace_ToItem());
+            if(Inventory.CanUseItem(itemData.Id_UShort))
             {
-                SetBuildMode(BuildMode.Belt, buildingId);
+                selectedToolTemp = buildingId;
+                if (buildingId.Contains("Building_Belt"))
+                {
+                    SetBuildMode(BuildMode.Belt, buildingId);
+                }
+                else
+                {
+                    SetBuildMode(BuildMode.Building, buildingId);
+                }
             }
-            //if (buildingData.BuildingType == BuildingType.Conveying)
-            //{
-            //    SetBuildMode(BuildMode.BeltModule, buildingId);
-            //}
-            //else if (buildingData.BuildingType == BuildingType.InserterModule)
-            //{
-            //    SetBuildMode(BuildMode.InserterModule, buildingId);
-            //}
-            //else if (buildingData.BuildingType == BuildingType.Mining_OnTryInteract || buildingData.BuildingType == BuildingType.Crafting || buildingData.BuildingType == BuildingType.Refinery
-            //    || buildingData.BuildingType == BuildingType.Generator || buildingData.BuildingType == BuildingType.Storage)
-            //{
-
-            //}
             else
             {
-                //Debug.LogError("해당 빌딩 타입은 지원되는 빌드 모드가 없습니다.");
-                //SetBuildMode(BuildMode.None, null);
-                SetBuildMode(BuildMode.Building, buildingId);
+                Debug.Log("인벤토리에 필요한 아이템이 없습니다.");
+                selectedToolTemp = null;
+                SetBuildMode(BuildMode.None, null);
             }
         }
     }
@@ -116,9 +110,6 @@ public class CharactorToolModule : MonoBehaviour
             case BuildMode.Belt:
                 SelectTool = BeltManager.Instance;
                 break;
-            //case BuildMode.InserterModule:
-            //    SelectTool = InserterManager.Instance;
-            //    break;
             case BuildMode.Building:
                 SelectTool = BuildingManager.Instance;
                 break;
