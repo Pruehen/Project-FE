@@ -70,8 +70,7 @@ public class CharactorToolModule : MonoBehaviour
     {
         if (selectedToolTemp == buildingId)
         {
-            selectedToolTemp = null;
-            SetBuildMode(BuildMode.None, null);
+            Command_ToolDeActive("툴을 비활성화합니다");
         }
         else
         {
@@ -91,9 +90,7 @@ public class CharactorToolModule : MonoBehaviour
             }
             else
             {
-                Debug.Log("인벤토리에 필요한 아이템이 없습니다.");
-                selectedToolTemp = null;
-                SetBuildMode(BuildMode.None, null);
+                Command_ToolDeActive("인벤토리에 필요한 아이템이 없습니다");
             }
         }
     }
@@ -137,5 +134,12 @@ public class CharactorToolModule : MonoBehaviour
     public void ToolOnKeyDown(KeyCode key)
     {
         SelectTool.OnKeyDown(key);
+    }
+
+    public void Command_ToolDeActive(string msg)
+    {
+        Debug.Log(msg);
+        selectedToolTemp = null;
+        SetBuildMode(BuildMode.None, null);
     }
 }

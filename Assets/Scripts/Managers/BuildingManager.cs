@@ -53,15 +53,32 @@ public class BuildingCrafter
     Vector3Int center;
     Quaternion dir;
 
-    public void BuildBuilding(Vector3Int centerNode, GridDir gridDir)
+    public void BuildBuilding(Vector3Int centerNode, GridDir gridDir, BuildingData data)
     {
-        CheckBuildPosition(centerNode, gridDir);        
+        ushort buildingItemId = JsonDataManager.GetItem(data.Id.Replace_ToItem()).Id_UShort;
+        if (Player.Instance.CanUseItem(buildingItemId) == false)//인벤토리에 아이템이 없거나 키가 잘못되었을 경우
+        {
+            Command_ToolDeActive("아이템이 부족합니다");
+            return;
+        }
 
-        BuildingNode createNode = GridMap.CreateBuildingNode(BuildingManager.Instance.Prefab_Building, center, dir);
-        createNode?.Init();
+        CheckBuildPosition(centerNode, gridDir, data);        
+
+        BuildingNode createNode = GridMap.CreateBuildingNode(data.GetBuildingPrefab(), center, dir);
+
+        if (createNode != null)//빌딩 노드 생성에 성공했을 경우
+        {
+            createNode.Init();
+            Player.Instance.UseItem(buildingItemId);
+
+            if (Player.Instance.CanUseItem(buildingItemId) == false)//인벤토리에 아이템이 없거나 키가 잘못되었을 경우
+            {
+                Command_ToolDeActive("");
+            }
+        }
     }
 
-    public void CheckBuildPosition(Vector3Int centerNode, GridDir gridDir)
+    public void CheckBuildPosition(Vector3Int centerNode, GridDir gridDir, BuildingData data)
     {
         center = centerNode;
 
@@ -83,17 +100,22 @@ public class BuildingCrafter
                 break;
         }
 
-        BuildMeshRenderer.Instance.DrawMesh(center, dir, BuildingManager.Instance.Prefab_Building);
+        BuildMeshRenderer.Instance.DrawMesh(center, dir, data.GetBuildingPrefab());
     }
     public void DeActive()
     {
         BuildMeshRenderer.Instance.RemoveMesh();
     }
+
+    void Command_ToolDeActive(string msg)
+    {
+        Player.Instance.ControlledCharactor.builtIn_ToolModule.Command_ToolDeActive(msg);
+    }
 }
 
 public class BuildingManager : SceneSingleton<BuildingManager>, IBuildTool
 {
-    public GameObject Prefab_Building { get; private set; }
+    BuildingData selectedBuildingData;
 
     BuildingCrafter buildingCrafter = new BuildingCrafter();
     Vector3Int posTemp;
@@ -125,7 +147,7 @@ public class BuildingManager : SceneSingleton<BuildingManager>, IBuildTool
     }
     public void SetBuildingData(BuildingData buildingData)
     {
-        Prefab_Building = buildingData.GetBuildingPrefab();
+        selectedBuildingData = buildingData;
         CheckBuillBuilding(posTemp);
     }
     public void DeActive()
@@ -135,11 +157,11 @@ public class BuildingManager : SceneSingleton<BuildingManager>, IBuildTool
 
     void CheckBuillBuilding(Vector3Int mouseNode)
     {
-        buildingCrafter.CheckBuildPosition(mouseNode, buildDir);
+        buildingCrafter.CheckBuildPosition(mouseNode, buildDir, selectedBuildingData);
     }
     void BuildBuilding(Vector3Int lastNode)
     {
-        buildingCrafter.BuildBuilding(lastNode, buildDir);
+        buildingCrafter.BuildBuilding(lastNode, buildDir, selectedBuildingData);
     }
 }
 

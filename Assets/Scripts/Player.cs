@@ -67,6 +67,18 @@ public class Player : SceneSingleton<Player>
     {
         ControlledCharactor.GetItem(itemKey, count);
     }
+    public bool CanUseItem(ushort itemKey, int count = 1)
+    {
+        if(itemKey == 0)
+        {
+            return false;
+        }
+        return controlledCharactor.CanUseItem(itemKey, count);
+    }
+    public void UseItem(ushort itemKey, int count = 1)
+    {
+        controlledCharactor.UseItem(itemKey, count);
+    }
 
     private void Start()
     {

@@ -227,6 +227,14 @@ public class Charactor : MonoBehaviour
     {        
         builtIn_InventoryModule.TryGetInputInventory().AddItem(itemKey, count, out int r);
     }
+    public bool CanUseItem(ushort itemKey, int count = 1)
+    {
+        return builtIn_InventoryModule.TryGetInputInventory().CanUseItem(itemKey, count);
+    }
+    public void UseItem(ushort itemKey, int count = 1)
+    {
+        builtIn_InventoryModule.TryGetInputInventory().UseItem(itemKey, count);
+    }
 
     void Move_OnFixedUpdate()
     {        

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using EnumTypes;
 using System.Linq;
+using System;
 
 public class BeltNode : Node
 {
@@ -506,7 +507,7 @@ public class BeltCreator
         
         CalculatePath(_firstNode, _lastNode);
     }
-    public void DeActive()
+    public void OnDeActive()
     {
         path.Clear();
         BuildLineRenderer.Instance.DrawBeltLine(path);
@@ -572,8 +573,7 @@ public class BeltManager : SceneSingleton<BeltManager>, IBuildTool
 
     BeltCreator buildingBeltTemp = new BeltCreator();
     Vector3Int posTemp;
-    
-
+        
     bool isBuildMode = false;
 
     public void OnClick(Vector3Int pos)
@@ -607,7 +607,7 @@ public class BeltManager : SceneSingleton<BeltManager>, IBuildTool
     }
     public void DeActive()
     {
-        buildingBeltTemp.DeActive();
+        buildingBeltTemp.OnDeActive();
         isBuildMode = false;
     }
 
