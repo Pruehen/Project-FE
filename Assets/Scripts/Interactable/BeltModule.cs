@@ -16,7 +16,7 @@ public class BeltModule : MonoBehaviour, ITransporter, IModule
 
     public List<GameObject> Prefab_BeltPart;
 
-    public void SetBeltPart(BeltType beltType, BeltNode beltNode, float beltSpeed)
+    public void SetBeltPart(BeltType beltType, BeltNode beltNode)
     {
         for (int i = 0; i < Prefab_BeltPart.Count; i++)
         {
@@ -24,12 +24,16 @@ public class BeltModule : MonoBehaviour, ITransporter, IModule
         }
 
         this.beltNode = beltNode;
+    }
+
+    public void OnBuildingInit()
+    {
         timeValue_ItemMove = 0;
 
-        this.beltSpeed = beltSpeed;
+        this.beltSpeed = 1;//TODO : 벨트 속도를 테이블에서 가져올 것
         moveLogicTime = 1 / beltSpeed;
     }
-    public void OnDismantle()
+    public void OnBuildingDismantle()
     {
         Player.Instance.GetItem(MoveItemKey);
         MoveItemKey = 0;

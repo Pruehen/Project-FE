@@ -853,7 +853,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Trf_Cam: {fileID: 963194228}
   CamSpeed: 2
-  CamDistance: 20
+  CamDistance: 18
   CamAngle_X: 45
   CamAngle_Y: 0
   _targetObejct: {fileID: 562363247}

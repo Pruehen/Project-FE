@@ -28,7 +28,12 @@ public class MinerModule : MonoBehaviour, IModule, ITransporter
             model.OutputInventory.OnClose();
         }
     }
-    public void OnDismantle()
+
+    public void OnBuildingInit()
+    {
+        
+    }
+    public void OnBuildingDismantle()
     {
         foreach (CellData item in TryGetOutputInventory().CellDataList)
         {

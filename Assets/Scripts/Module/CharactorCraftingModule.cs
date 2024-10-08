@@ -29,7 +29,11 @@ public class CharactorCraftingModule : MonoBehaviour, IModule
             window = null;
         }        
     }
-    public void OnDismantle()
+    public void OnBuildingInit()
+    {
+
+    }
+    public void OnBuildingDismantle()
     {
         foreach (CellData item in TryGetInputInventory().CellDataList)
         {

@@ -25,9 +25,6 @@ public class BuildingNode : Node
 
         if(module is InserterModule)
         {
-            InserterModule inserterModule = module as InserterModule;
-            inserterModule.SetInserterPart(1);
-
             GameLogicManager.Instance.InserterNodeSet.Add(this);
         }
     }
@@ -42,8 +39,7 @@ public class BuildingNode : Node
         transporter = null;
 
         if (module is InserterModule)
-        {
-            InserterModule inserterModule = module as InserterModule;            
+        {                  
             GameLogicManager.Instance.InserterNodeSet.Remove(this);
         }
         module = null;        

@@ -21,7 +21,7 @@ public class GridRenderer : SceneSingleton<GridRenderer>
     Vector3 drawTemp;
     bool isDraw = false;
 
-    public void DrawGrid(Vector3 gridCenter)
+    public void DrawGrid(Vector3 gridCenter, bool drowCenter = true)
     {
         if(isDraw == true && drawTemp == gridCenter)
         {
@@ -37,7 +37,7 @@ public class GridRenderer : SceneSingleton<GridRenderer>
         {
             centerNode = Instantiate(Prefab_CenterNodePoint, this.transform);
         }
-        centerNode.SetActive(true);
+        centerNode.SetActive(drowCenter);
         centerNode.transform.position = gridCenter;
 
         // X 방향 라인 그리기 (Z축에 평행한 라인)

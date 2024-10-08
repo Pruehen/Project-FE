@@ -18,6 +18,9 @@ public class SorterModule : MonoBehaviour, ITransporter, IModule
     {
         this.inputNodeList = inputNodeList;
         this.outputNodeList = outputNodeList;
+    }
+    public void OnBuildingInit()
+    {
         for (int i = 0; i < 4; i++)
         {
             timeValueArray_ItemMove[i] = 0;
@@ -25,7 +28,7 @@ public class SorterModule : MonoBehaviour, ITransporter, IModule
 
         moveLogicTime = 1 / moveLogicSpeed;
     }
-    public void OnDismantle()
+    public void OnBuildingDismantle()
     {
         for (int i = 0; i < 4; i++)
         {

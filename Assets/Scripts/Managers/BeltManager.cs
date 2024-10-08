@@ -109,7 +109,7 @@ public class BeltNode : Node
         }
 
         beltPart.transform.rotation = dir;
-        beltPart.SetBeltPart(type, this, 1);
+        beltPart.SetBeltPart(type, this);
 
         Building building = beltPart.GetComponent<Building>();
         building.Init();

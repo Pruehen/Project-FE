@@ -43,7 +43,11 @@ public class InventoryModule : MonoBehaviour, IModule
             Inventory.OnClose();
         }
     }
-    public void OnDismantle()
+    public void OnBuildingInit()
+    {
+
+    }
+    public void OnBuildingDismantle()
     {
         foreach (CellData item in Inventory.CellDataList)
         {

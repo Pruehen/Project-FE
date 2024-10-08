@@ -32,7 +32,13 @@ public class CraftingModule : MonoBehaviour, IModule, ITransporter
             model.OutputInventory.OnClose();
         }        
     }
-    public void OnDismantle()
+    public void OnBuildingInit()
+    {
+        model = ModelManager.NewModel<CraftingModuleModel>(this.gameObject.GetInstanceID());
+        model.Init_RecipyGroupKey(GetComponent<Building>().BuildingData.RecipyGroup);
+    }
+
+    public void OnBuildingDismantle()
     {
         foreach (CellData item in TryGetInputInventory().CellDataList)
         {
@@ -118,11 +124,7 @@ public class CraftingModule : MonoBehaviour, IModule, ITransporter
     {
         model.SetCraftingRecipyData(recipyKey);
     }
-    void Awake()
-    {
-        model = ModelManager.NewModel<CraftingModuleModel>(this.gameObject.GetInstanceID());
-        model.Init_RecipyGroupKey(GetComponent<Building>().BuildingData.RecipyGroup);       
-    }
+
     private void Update()
     {
         model.ExecuteLogic(Time.deltaTime);

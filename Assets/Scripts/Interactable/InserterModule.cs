@@ -17,30 +17,23 @@ public class InserterModule : MonoBehaviour, ITransporter, IModule
 
     Vector3 itemStayPoint_First;
     Vector3 itemStayPoint_Last;
-   
-    public void SetInserterPart(float moveLogicSpeed)
+
+    public void OnBuildingInit()
     {        
-        ////인서터 파츠의 좌표 설정
-        //this.transform.position = centerPos;
-
-        ////파츠간의 라인을 그리는 임시 기능
-        //lineRenderer.SetPosition(0, startPos + new Vector3(0, 0.6f, 0));
-        //lineRenderer.SetPosition(1, endPos + new Vector3(0, 0.6f, 0));
-
         //아이템이 이동할 포지션
-        itemStayPoint_First = startNodePos.position + new Vector3(0, 0.6f, 0);
-        itemStayPoint_Last = endNodePos.position + new Vector3(0, 0.6f, 0);
+        itemStayPoint_First = startNodePos.position + new Vector3(0, 0.4f, 0);
+        itemStayPoint_Last = endNodePos.position + new Vector3(0, 0.4f, 0);
 
         PreviousNode = FindNode_OnUpdate(startNodePos.position.ToIntVector());
         NextNode = FindNode_OnUpdate(endNodePos.position.ToIntVector());
 
-        this.moveLogicSpeed = moveLogicSpeed;
+        this.moveLogicSpeed = 1;//TODO : 인서터 동작 속도를 테이블에서 가져올 것
         this.moveLogicSpeed *= 2f / Vector3.Distance(itemStayPoint_First, itemStayPoint_Last);
         moveLogicTime = 1 / this.moveLogicSpeed;
 
         timeValue = 0;
     }
-    public void OnDismantle()
+    public void OnBuildingDismantle()
     {
         Player.Instance.GetItem(GrabObject);
         GrabObject = 0;
