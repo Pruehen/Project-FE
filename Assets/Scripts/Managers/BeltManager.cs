@@ -438,10 +438,17 @@ public class BeltCreator
     List<Vector3Int> path = new List<Vector3Int>();
     List<Node> buildBeltNodeList = new List<Node>();
 
-    public void BuildBelt(Vector3Int lastNode)
+    public void BuildBelt(Vector3Int lastNode, BuildingData data)
     {
         CheckBuildBelt(lastNode);
         BuildLineRenderer.Instance.HideAllGridLinesAndNodes();
+
+        ushort buildingItemId = JsonDataManager.GetItem(data.Id.Replace_ToItem()).Id_UShort;
+        if (Player.Instance.CanUseItem(buildingItemId) == false)//인벤토리에 아이템이 없거나 키가 잘못되었을 경우
+        {
+            Command_ToolDeActive("아이템이 부족합니다");
+            return;
+        }
 
         for (int i = 0; i < path.Count; i++)
         {
@@ -485,6 +492,12 @@ public class BeltCreator
                 buildBeltNodeList[i - 1].NextNode = buildBeltNodeList[i];
                 buildBeltNodeList[i].PreviousNode = buildBeltNodeList[i - 1];
             }
+
+            Player.Instance.UseItem(buildingItemId);
+            if (Player.Instance.CanUseItem(buildingItemId) == false)//인벤토리에 아이템이 없거나 키가 잘못되었을 경우
+            {
+                break;
+            }
         }        
 
         foreach (Node node in buildBeltNodeList)
@@ -495,6 +508,11 @@ public class BeltCreator
         BeltNode.SetRootNode_OnBeltCreate(buildBeltNodeList.First(), buildBeltNodeList.Last());
         
         buildBeltNodeList.Clear();
+
+        if (Player.Instance.CanUseItem(buildingItemId) == false)//인벤토리에 아이템이 없거나 키가 잘못되었을 경우
+        {
+            Command_ToolDeActive("아이템이 부족합니다");            
+        }
     }
 
     public void StartBuildBelt(Vector3Int firstNode)
@@ -512,7 +530,10 @@ public class BeltCreator
         path.Clear();
         BuildLineRenderer.Instance.DrawBeltLine(path);
     }
-
+    void Command_ToolDeActive(string msg)
+    {
+        Player.Instance.ControlledCharactor.builtIn_ToolModule.Command_ToolDeActive(msg);
+    }
     private void CalculatePath(Vector3Int start, Vector3Int end)
     {
         path.Clear();
@@ -571,6 +592,8 @@ public class BeltManager : SceneSingleton<BeltManager>, IBuildTool
     public GameObject beltPart;
     public GameObject sorterPart;
 
+    BuildingData buildingData;
+
     BeltCreator buildingBeltTemp = new BeltCreator();
     Vector3Int posTemp;
         
@@ -603,7 +626,7 @@ public class BeltManager : SceneSingleton<BeltManager>, IBuildTool
     }
     public void SetBuildingData(BuildingData buildingData)
     {
-
+        this.buildingData = buildingData;
     }
     public void DeActive()
     {
@@ -621,6 +644,6 @@ public class BeltManager : SceneSingleton<BeltManager>, IBuildTool
     }
     void BuildBelt(Vector3Int lastNode)
     {
-        buildingBeltTemp.BuildBelt(lastNode);
+        buildingBeltTemp.BuildBelt(lastNode, buildingData);
     }
 }

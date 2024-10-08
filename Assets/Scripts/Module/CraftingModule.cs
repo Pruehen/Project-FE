@@ -307,7 +307,7 @@ public class CraftingModuleModel
                 }
             }
 
-            for (int i = 0; i < CraftingRecipyData.InputItemGroup.Count; i++)
+            for (int i = 0; i < CraftingRecipyData.OutputItemGroup.Count; i++)
             {
                 if (OutputInventory.CellDataList[i].CanItemAdd() == false)
                 {
