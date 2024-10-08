@@ -1,4 +1,5 @@
 using EnumTypes;
+using System;
 using UnityEngine;
 
 public class Vein : MonoBehaviour, IInteractable
@@ -6,6 +7,12 @@ public class Vein : MonoBehaviour, IInteractable
     [SerializeField] string itemKey;
     [SerializeField] public float extractTimeGain = 1;
     [SerializeField] int reserves = 10000;
+
+    Action<Vein> OnRemoveVein;
+    public void Register_OnRemoveVein(Action<Vein> callback)
+    {
+        OnRemoveVein += callback;
+    }
 
     Outline _outline;
     Outline Outline
@@ -31,6 +38,11 @@ public class Vein : MonoBehaviour, IInteractable
     }
     void RemoveVein()
     {
+        GridMap.Remove_Dic_VeinDepth(this.transform.position.ToIntVector());
+
+        OnRemoveVein.Invoke(this);
+        OnRemoveVein = null;
+
         this.gameObject.SetActive(false);
     }
 
@@ -83,5 +95,10 @@ public class Vein : MonoBehaviour, IInteractable
     public void MouseExit()
     {
         Outline.IsOutlineEnabled = false;
+    }
+
+    void Awake()
+    {
+        GridMap.Add_Dic_VeinDepth(this.transform.position.ToIntVector(), this);
     }
 }

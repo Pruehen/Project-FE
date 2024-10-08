@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MinerModule : MonoBehaviour, IModule, ITransporter
@@ -7,6 +8,9 @@ public class MinerModule : MonoBehaviour, IModule, ITransporter
 
     [SerializeField] float MiningTimeGain = 1;
     [SerializeField] float MiningSpeedGain = 1;
+
+    List<Vein> ExtractVeinList = new List<Vein>();
+    int extractIndex = 0;
 
     IWindow window;
 
@@ -31,7 +35,25 @@ public class MinerModule : MonoBehaviour, IModule, ITransporter
 
     public void OnBuildingInit()
     {
-        
+        Building building = this.GetComponent<Building>();
+
+        foreach (Transform item in building.occupiedNodeList)//채굴 가능한 광맥 등록 로직
+        {
+            if(GridMap.Dic_VeinDepth.ContainsKey(item.position.ToIntVector()))
+            {
+                Vein vein = GridMap.Dic_VeinDepth[item.position.ToIntVector()];
+                ExtractVeinList.Add(vein);
+                vein.Register_OnRemoveVein(OnVeinRemove);
+            }
+        }
+
+        model = ModelManager.NewModel<MinerModuleModel>(this.gameObject.GetInstanceID());
+
+        if (ExtractVeinList.Count > 0)
+        {
+            model.Set_ExtractItem(ExtractVeinList[0].GetItemKey());
+            model.Register_OnExtract(OnExtract);
+        }
     }
     public void OnBuildingDismantle()
     {
@@ -111,21 +133,28 @@ public class MinerModule : MonoBehaviour, IModule, ITransporter
     public void ExcuteLogic_OnUpdate(float deltaTime) { Debug.Log("구현되지 않은 메서드를 호출했습니다."); }
     #endregion
 
-    private void Awake()
-    {
-        model = ModelManager.NewModel<MinerModuleModel>(this.gameObject.GetInstanceID());
-        model.Init_ExtractItem("Item_Iron");
-        model.Register_OnExtract(OnExtract);
-    }
-
     private void Update()
     {
-        model.ExecuteLogic(Time.deltaTime);
+        if (ExtractVeinList.Count > 0)
+        {
+            model.ExecuteLogic(Time.deltaTime);
+        }
     }
 
     void OnExtract()
     {
+        ExtractVeinList[extractIndex].ExtractVein(1, out int ec);
 
+        extractIndex++;
+        if(extractIndex >= ExtractVeinList.Count)
+        {
+            extractIndex = 0;
+        }
+    }
+    void OnVeinRemove(Vein vein)
+    {
+        ExtractVeinList.Remove(vein);
+        extractIndex = 0;
     }
 }
 
@@ -165,10 +194,10 @@ public class MinerModuleModel
         OnExtract += callBack;
     }
 
-    public void Init_ExtractItem(string itemKey)
-    {
+    public void Set_ExtractItem(ushort itemKey)
+    {        
+        OutputInventory.CellDataList[0].SetItem(itemKey);
         extractItem = JsonDataManager.GetItem(itemKey);
-        OutputInventory.CellDataList[0].SetItem(extractItem.Id_UShort);
 
         SetIsCraftItem_OnInventoryChange();
     }
@@ -201,8 +230,7 @@ public class MinerModuleModel
         }
 
         OutputInventory.AddItem(extractItem.Id_UShort, 1, out int remaining);
-
-        //Debug.Log("채굴 성공");
+        OnExtract.Invoke();
     }
 
     void SetIsCraftItem_OnInventoryChange()

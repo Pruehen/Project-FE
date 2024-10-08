@@ -7,6 +7,7 @@ public static class GridMap
     public static Dictionary<Vector3Int, Node> Dic_OccupiedDepth = new Dictionary<Vector3Int, Node>();//Á¡À¯ °ø°£ È®ÀÎ °èÃþ
     public static Dictionary<Vector3Int, Building> Dic_BuildingDepth = new Dictionary<Vector3Int, Building>();//ºôµù °èÃþ. ºôµù °ü¸®¿¡ »ç¿ëµÊ
     public static Dictionary<Vector3Int, Node> Dic_BeltDepth = new Dictionary<Vector3Int, Node>();//º§Æ® °èÃþ. º§Æ® ·ÎÁ÷¿¡ »ç¿ëµÊ
+    public static Dictionary<Vector3Int, Vein> Dic_VeinDepth = new Dictionary<Vector3Int, Vein>();//±¤¸Æ °èÃþ. Ã¤±¼±âÀÇ ±¤¸Æ Ã¼Å© ·ÎÁ÷¿¡ »ç¿ëµÊ
 
     static void Add_Dic_BeltDepth(Vector3Int gridPos, Node node)
     {
@@ -25,7 +26,6 @@ public static class GridMap
         {
             Dic_OccupiedDepth.Add(item.position.ToIntVector(), node);
         }
-
     }
     public static void Remove_Dic_BuildingDepth(Vector3Int gridPos)
     {
@@ -35,7 +35,14 @@ public static class GridMap
         }
         Dic_BuildingDepth.Remove(gridPos);
     }
-
+    public static void Add_Dic_VeinDepth(Vector3Int gridPos, Vein vein)
+    {
+        Dic_VeinDepth.Add(gridPos, vein);
+    }
+    public static void Remove_Dic_VeinDepth(Vector3Int gridPos)
+    {
+        Dic_VeinDepth.Remove(gridPos);
+    }
 
     public static BeltNode CreateBeltNode(Vector3Int gridPos)//º§Æ® °Ç¼³
     {
