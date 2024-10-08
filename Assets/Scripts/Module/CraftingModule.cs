@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CraftingModule : MonoBehaviour, IModule, ITransporter
 {
-    CraftingModuleModel model;
+    public CraftingModuleModel model { get; private set; }
 
     [SerializeField] float CraftingTimeGain = 1;
     [SerializeField] float CraftingSpeedGain = 1;
@@ -34,7 +34,7 @@ public class CraftingModule : MonoBehaviour, IModule, ITransporter
     }
     public void OnBuildingInit()
     {
-        model = ModelManager.NewModel<CraftingModuleModel>(this.gameObject.GetInstanceID());
+        model = new CraftingModuleModel();
         model.Init_RecipyGroupKey(GetComponent<Building>().BuildingData.RecipyGroup);
     }
 

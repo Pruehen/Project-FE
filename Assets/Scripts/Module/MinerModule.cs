@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MinerModule : MonoBehaviour, IModule, ITransporter
 {
-    MinerModuleModel model;
+    public MinerModuleModel model { get; private set; }
 
     [SerializeField] float MiningTimeGain = 1;
     [SerializeField] float MiningSpeedGain = 1;
@@ -47,7 +47,7 @@ public class MinerModule : MonoBehaviour, IModule, ITransporter
             }
         }
 
-        model = ModelManager.NewModel<MinerModuleModel>(this.gameObject.GetInstanceID());
+        model = new MinerModuleModel();
 
         if (ExtractVeinList.Count > 0)
         {

@@ -18,7 +18,6 @@ public class Wdw_CraftingModuleView : MonoBehaviour, IWindow
 
     CraftingModuleViewModel _vm;
     CraftingModule module;
-    int instanceId;
 
     public void Active(IModule craftingModule)
     {
@@ -27,21 +26,20 @@ public class Wdw_CraftingModuleView : MonoBehaviour, IWindow
         subUnit_RecipySelectWdw.SetActive(false);
 
         module = craftingModule as CraftingModule;
-        instanceId = module.gameObject.GetInstanceID();
 
         if (_vm == null)
         {
             _vm = new CraftingModuleViewModel();
             _vm.PropertyChanged += OnPropertyChanged;
-            _vm.Register(instanceId);
-            _vm.Command_RefreshVM(instanceId);
+            _vm.Register(module.model);
+            _vm.Command_RefreshVM(module.model);
         }
     }
     public void Close()
     {
         if (_vm != null)
         {
-            _vm.UnRegister(instanceId);
+            _vm.UnRegister(module.model);
             _vm.PropertyChanged -= OnPropertyChanged;
             _vm = null;
         }
@@ -198,22 +196,17 @@ public class CraftingModuleViewModel : VM
     }
 
 
-    public void Register(int id)
-    {
-        CraftingModuleModel model = ModelManager._craftingModuleModelDic[id];
-
+    public void Register(CraftingModuleModel model)
+    {        
         model.Register_OnSetCraftingRecipyData(OnSetCraftingRecipyData);
         model.Register_OnExecuteLogic(OnExecuteLogic);      
     }
-    public void Command_RefreshVM(int id)
-    {
-        CraftingModuleModel model = ModelManager._craftingModuleModelDic[id];
+    public void Command_RefreshVM(CraftingModuleModel model)
+    {        
         model.RefreshVM_OnWdwActive(RefreshVM);
     }
-    public void UnRegister(int id)
+    public void UnRegister(CraftingModuleModel model)
     {
-        CraftingModuleModel model = ModelManager._craftingModuleModelDic[id];
-
         model.UnRegister_OnSetCraftingRecipyData(OnSetCraftingRecipyData);
         model.UnRegister_OnExecuteLogic(OnExecuteLogic);       
     }

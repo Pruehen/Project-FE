@@ -13,28 +13,26 @@ public class Wdw_MinerModuleView : MonoBehaviour, IWindow
 
     MinerModuleViewModel _vm;
     MinerModule module;
-    int instanceId;
 
     public void Active(IModule craftingModule)
     {
         this.gameObject.SetActive(true);
 
-        module = craftingModule as MinerModule;
-        instanceId = module.gameObject.GetInstanceID();
+        module = craftingModule as MinerModule;        
 
         if (_vm == null)
         {
             _vm = new MinerModuleViewModel();
             _vm.PropertyChanged += OnPropertyChanged;
-            _vm.Register(instanceId);
-            _vm.Command_RefreshVM(instanceId);
+            _vm.Register(module.model);
+            _vm.Command_RefreshVM(module.model);
         }
     }
     public void Close()
     {
         if (_vm != null)
         {
-            _vm.UnRegister(instanceId);
+            _vm.UnRegister(module.model);
             _vm.PropertyChanged -= OnPropertyChanged;
             _vm = null;
         }
@@ -128,21 +126,16 @@ public class MinerModuleViewModel : VM
     }
 
 
-    public void Register(int id)
+    public void Register(MinerModuleModel model)
     {
-        MinerModuleModel model = ModelManager._minerModuleModelDic[id];
-        
         model.Register_OnExecuteLogic(OnExecuteLogic);
     }
-    public void Command_RefreshVM(int id)
-    {
-        MinerModuleModel model = ModelManager._minerModuleModelDic[id];
+    public void Command_RefreshVM(MinerModuleModel model)
+    {        
         model.RefreshVM_OnWdwActive(RefreshVM);
     }
-    public void UnRegister(int id)
-    {
-        MinerModuleModel model = ModelManager._minerModuleModelDic[id];
-        
+    public void UnRegister(MinerModuleModel model)
+    {                
         model.UnRegister_OnExecuteLogic(OnExecuteLogic);
     }
 

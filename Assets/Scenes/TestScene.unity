@@ -253,19 +253,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 737620029586850022, guid: 1af6e650f6ca0f84788688c1442bc981, type: 3}
       propertyPath: reserves
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1118628757225190276, guid: 1af6e650f6ca0f84788688c1442bc981, type: 3}
       propertyPath: reserves
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1613950957265540655, guid: 1af6e650f6ca0f84788688c1442bc981, type: 3}
       propertyPath: reserves
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1710092494558380077, guid: 1af6e650f6ca0f84788688c1442bc981, type: 3}
       propertyPath: reserves
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2225811287883118808, guid: 1af6e650f6ca0f84788688c1442bc981, type: 3}
       propertyPath: m_LocalPosition.x
@@ -309,23 +309,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2322434251156806731, guid: 1af6e650f6ca0f84788688c1442bc981, type: 3}
       propertyPath: reserves
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2953779958159253322, guid: 1af6e650f6ca0f84788688c1442bc981, type: 3}
       propertyPath: reserves
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3809713742301632388, guid: 1af6e650f6ca0f84788688c1442bc981, type: 3}
       propertyPath: reserves
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5000748384374568319, guid: 1af6e650f6ca0f84788688c1442bc981, type: 3}
       propertyPath: reserves
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7944551087994158472, guid: 1af6e650f6ca0f84788688c1442bc981, type: 3}
       propertyPath: reserves
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8542323872652785472, guid: 1af6e650f6ca0f84788688c1442bc981, type: 3}
       propertyPath: m_Name
@@ -569,6 +569,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Item_Copper(Vein)
       objectReference: {fileID: 0}
+    - target: {fileID: 1636833111912062476, guid: 863e88e9637349440be6b841ddf5b9f6, type: 3}
+      propertyPath: reserves
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2301248594447443595, guid: 863e88e9637349440be6b841ddf5b9f6, type: 3}
+      propertyPath: reserves
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2333621819353641862, guid: 863e88e9637349440be6b841ddf5b9f6, type: 3}
+      propertyPath: reserves
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3064123682981860134, guid: 863e88e9637349440be6b841ddf5b9f6, type: 3}
+      propertyPath: reserves
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3593473047108376448, guid: 863e88e9637349440be6b841ddf5b9f6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6
@@ -608,6 +624,26 @@ PrefabInstance:
     - target: {fileID: 3593473047108376448, guid: 863e88e9637349440be6b841ddf5b9f6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4188949946466933421, guid: 863e88e9637349440be6b841ddf5b9f6, type: 3}
+      propertyPath: reserves
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5612127034300066042, guid: 863e88e9637349440be6b841ddf5b9f6, type: 3}
+      propertyPath: reserves
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5844697569147875111, guid: 863e88e9637349440be6b841ddf5b9f6, type: 3}
+      propertyPath: reserves
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6970094244417154296, guid: 863e88e9637349440be6b841ddf5b9f6, type: 3}
+      propertyPath: reserves
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8687955349510025176, guid: 863e88e9637349440be6b841ddf5b9f6, type: 3}
+      propertyPath: reserves
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
