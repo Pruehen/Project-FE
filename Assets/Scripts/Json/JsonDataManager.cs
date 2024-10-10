@@ -202,6 +202,19 @@ public static class JsonDataManager
                 return _textDataTableCache;
             }
         }
+        //=======================================================================
+        SaveData _saveDataCache;
+        public SaveData SaveDataCache
+        {
+            get
+            {
+                if (_saveDataCache == null)
+                {
+                    _saveDataCache = JsonDataManager.DataTableListLoad<SaveData>(SaveData.FilePath());
+                }
+                return _saveDataCache;
+            }
+        }
         public void Lode()
         {
             _itemDataTableCache = ItemDataTableCache;
@@ -212,11 +225,13 @@ public static class JsonDataManager
         }
         public void Save()
         {
-            JsonDataManager.DataSaveCommand(_itemDataTableCache, ItemDataTable.FilePath());
-            JsonDataManager.DataSaveCommand(_buildingDataTableCache, BuildingDataTable.FilePath());
-            JsonDataManager.DataSaveCommand(_recipyGroupDataTableCache, RecipyGroupDataTable.FilePath());
-            JsonDataManager.DataSaveCommand(_recipyDataTableCache, RecipyDataTable.FilePath());
-            JsonDataManager.DataSaveCommand(_textDataTableCache, TextDataTable.FilePath());
+            //JsonDataManager.DataSaveCommand(_itemDataTableCache, ItemDataTable.FilePath());
+            //JsonDataManager.DataSaveCommand(_buildingDataTableCache, BuildingDataTable.FilePath());
+            //JsonDataManager.DataSaveCommand(_recipyGroupDataTableCache, RecipyGroupDataTable.FilePath());
+            //JsonDataManager.DataSaveCommand(_recipyDataTableCache, RecipyDataTable.FilePath());
+            //JsonDataManager.DataSaveCommand(_textDataTableCache, TextDataTable.FilePath());
+
+            DataSaveCommand(_saveDataCache, SaveData.FilePath());
         }
     }
 }

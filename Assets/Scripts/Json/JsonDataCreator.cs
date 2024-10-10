@@ -405,12 +405,38 @@ public class TextDataTable
         return "/Data/Table/Item/TextData.json";
     }
 }
-
+public class SaveData
+{
+    [JsonProperty] public Dictionary<Vector3Int, Building> dic;
+    
+    [JsonConstructor]
+    public SaveData(Dictionary<Vector3Int, Building> dic)
+    {
+        this.dic = dic;
+    }
+    public SaveData()
+    {
+        dic = new Dictionary<Vector3Int, Building>();        
+    }
+    public static string FilePath()
+    {
+        return "/Data/Save/TestSaveFile.json";
+    }
+}
 public class JsonDataCreator : MonoBehaviour
 {
     private void Awake()
     {
         JsonDataManager.jsonCache.Lode();
-        JsonDataManager.jsonCache.Save();
+        //JsonDataManager.jsonCache.Save();
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.V))
+        {
+            Debug.Log("저장 시도");
+            JsonDataManager.jsonCache.Save();            
+        }
     }
 }
