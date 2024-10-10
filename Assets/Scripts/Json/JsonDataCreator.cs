@@ -420,5 +420,10 @@ public class JsonDataCreator : MonoBehaviour
             Debug.Log("저장 시도");
             JsonDataManager.jsonCache.Save();            
         }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            Debug.Log("로드 시도");
+            JsonDataManager.SaveData_AllDataLode();
+        }
     }
 }

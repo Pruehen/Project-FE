@@ -134,6 +134,13 @@ public static class JsonDataManager
     {
         jsonCache.SaveDataCache.TryAddBuildingData(gridPos, building);
     }
+    public static void SaveData_AllDataLode()
+    {
+        foreach (var item in jsonCache.SaveDataCache.list_building)
+        {
+            item.LodeData_Building();
+        } 
+    }
 
     public static string GetText(string key, Language language)
     {
@@ -225,7 +232,7 @@ public static class JsonDataManager
             _buildingDataTableCache = BuildingDataTableCache;
             _recipyGroupDataTableCache = RecipyGroupDataTableCache;
             _recipyDataTableCache = RecipyDataTableCache;
-            _textDataTableCache = TextDataTableCache;
+            _textDataTableCache = TextDataTableCache;            
         }
         public void Save()
         {

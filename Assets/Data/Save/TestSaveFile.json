@@ -1,11 +1,24 @@
 {
-  "dic_building": {
-    "(-2, 0, -41)": {
+  "list_building": [
+    {
       "buildingDataId": "Building_Crafter_T1",
       "positionData": [
-        -2,
+        -8,
         0,
-        -41
+        -42
+      ],
+      "rotationData": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "buildingDataId": "Building_Crafter_T1",
+      "positionData": [
+        -3,
+        0,
+        -45
       ],
       "rotationData": [
         0.0,
@@ -13,5 +26,5 @@
         0.0
       ]
     }
-  }
+  ]
 }

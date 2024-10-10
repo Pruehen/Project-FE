@@ -28,7 +28,6 @@ public static class GridMap
     static void Add_Dic_BuildingDepth(Vector3Int gridPos, Building building, Node node)
     {
         Dic_BuildingDepth.Add(gridPos, building);
-        JsonDataManager.SaveData_TryAddBuildingData(gridPos, building);
 
         foreach (Transform item in building.occupiedNodeList)
         {
@@ -88,7 +87,7 @@ public static class GridMap
 
         return sorterNode;
     }
-    public static BuildingNode CreateBuildingNode(BuildingData buildingData, Vector3Int gridPos, Quaternion dir)//빌딩 건설
+    public static BuildingNode CreateBuildingNode(BuildingData buildingData, Vector3Int gridPos, Quaternion dir)//빌딩 건설. 일반적으로 플레이어가 빌딩을 설치 시도한 상황에서 호출함.
     {
         Building building = ObjectPoolManager.Instance.DequeueObject(buildingData.GetBuildingPrefab(), gridPos).GetComponent<Building>();
         building.transform.rotation = dir;
@@ -102,6 +101,19 @@ public static class GridMap
                 return null;
             }
         }
+
+        BuildingNode node = new BuildingNode(building, gridPos);
+        Add_Dic_BuildingDepth(gridPos, building, node);
+
+        JsonDataManager.SaveData_TryAddBuildingData(gridPos, building);
+
+        return node;
+    }
+    public static BuildingNode CreateBuildingNode_LodeData(BuildingData buildingData, Vector3Int gridPos, Quaternion dir)
+        //빌딩 건설. 로드 시에만 호출할 것. 점유 공간 검사 기능과 세이브데이터에 건물 추가 기능이 삭제된 메서드임.
+    {
+        Building building = ObjectPoolManager.Instance.DequeueObject(buildingData.GetBuildingPrefab(), gridPos).GetComponent<Building>();
+        building.transform.rotation = dir;
 
         BuildingNode node = new BuildingNode(building, gridPos);
         Add_Dic_BuildingDepth(gridPos, building, node);
