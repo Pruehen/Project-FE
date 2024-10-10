@@ -1,1 +1,17 @@
-null
+{
+  "dic_building": {
+    "(-2, 0, -41)": {
+      "buildingDataId": "Building_Crafter_T1",
+      "positionData": [
+        -2,
+        0,
+        -41
+      ],
+      "rotationData": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  }
+}

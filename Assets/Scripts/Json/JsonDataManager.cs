@@ -130,6 +130,10 @@ public static class JsonDataManager
             return null;
         }
     }
+    public static void SaveData_TryAddBuildingData(Vector3Int gridPos, Building building)
+    {
+        jsonCache.SaveDataCache.TryAddBuildingData(gridPos, building);
+    }
 
     public static string GetText(string key, Language language)
     {

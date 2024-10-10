@@ -28,6 +28,8 @@ public static class GridMap
     static void Add_Dic_BuildingDepth(Vector3Int gridPos, Building building, Node node)
     {
         Dic_BuildingDepth.Add(gridPos, building);
+        JsonDataManager.SaveData_TryAddBuildingData(gridPos, building);
+
         foreach (Transform item in building.occupiedNodeList)
         {
             Dic_OccupiedDepth.Add(item.position.ToIntVector(), node);
@@ -86,9 +88,9 @@ public static class GridMap
 
         return sorterNode;
     }
-    public static BuildingNode CreateBuildingNode(GameObject prefab, Vector3Int gridPos, Quaternion dir)//ºôµù °Ç¼³
+    public static BuildingNode CreateBuildingNode(BuildingData buildingData, Vector3Int gridPos, Quaternion dir)//ºôµù °Ç¼³
     {
-        Building building = ObjectPoolManager.Instance.DequeueObject(prefab, gridPos).GetComponent<Building>();
+        Building building = ObjectPoolManager.Instance.DequeueObject(buildingData.GetBuildingPrefab(), gridPos).GetComponent<Building>();
         building.transform.rotation = dir;
 
         foreach (Transform item in building.occupiedNodeList)

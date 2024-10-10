@@ -64,7 +64,7 @@ public class BuildingCrafter
 
         CheckBuildPosition(centerNode, gridDir, data);        
 
-        BuildingNode createNode = GridMap.CreateBuildingNode(data.GetBuildingPrefab(), center, dir);
+        BuildingNode createNode = GridMap.CreateBuildingNode(data, center, dir);
 
         if (createNode != null)//빌딩 노드 생성에 성공했을 경우
         {
