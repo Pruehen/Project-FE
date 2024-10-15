@@ -649,6 +649,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 863e88e9637349440be6b841ddf5b9f6, type: 3}
+--- !u!1001 &1299566341
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2225811287883118808, guid: f3446e5fbd7753246bfa738419f405e6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2225811287883118808, guid: f3446e5fbd7753246bfa738419f405e6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2225811287883118808, guid: f3446e5fbd7753246bfa738419f405e6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2225811287883118808, guid: f3446e5fbd7753246bfa738419f405e6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2225811287883118808, guid: f3446e5fbd7753246bfa738419f405e6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2225811287883118808, guid: f3446e5fbd7753246bfa738419f405e6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2225811287883118808, guid: f3446e5fbd7753246bfa738419f405e6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2225811287883118808, guid: f3446e5fbd7753246bfa738419f405e6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2225811287883118808, guid: f3446e5fbd7753246bfa738419f405e6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2225811287883118808, guid: f3446e5fbd7753246bfa738419f405e6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8542323872652785472, guid: f3446e5fbd7753246bfa738419f405e6, type: 3}
+      propertyPath: m_Name
+      value: Item_BioSludge(Vein)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f3446e5fbd7753246bfa738419f405e6, type: 3}
 --- !u!114 &1382526752 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1298265751549286660, guid: b1e3c324dc24a7f4899ef0da7f24bb27, type: 3}
@@ -2177,4 +2234,5 @@ SceneRoots:
   - {fileID: 1095905458}
   - {fileID: 1251659697}
   - {fileID: 773005040}
+  - {fileID: 1299566341}
   - {fileID: 1564612809}
