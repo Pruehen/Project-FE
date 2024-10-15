@@ -35,7 +35,7 @@ public class Charactor : MonoBehaviour
     IInteractable onSelectObject;
 
     // Start is called before the first frame update
-    void Start()
+    public void Init()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _lineRenderer = GetComponent<LineRenderer>();
@@ -52,10 +52,10 @@ public class Charactor : MonoBehaviour
         builtIn_MinerModule.Init(this);
 
         Player.Instance.PropertyChanged += OnPropertyChanged;
-        Register_OnStart();
+        Register_OnInit();
     }
 
-    void Register_OnStart()
+    void Register_OnInit()
     {
         Player.Instance.Register_KeyAction(KeyCode.Alpha1, () => builtIn_ToolModule.ToolSelect_OnNumKeyClick(0));
         Player.Instance.Register_KeyAction(KeyCode.Alpha2, () => builtIn_ToolModule.ToolSelect_OnNumKeyClick(1));

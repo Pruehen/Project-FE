@@ -109,6 +109,9 @@ public class Player : SceneSingleton<Player>
         //{
         //    keyActions.Add(value, () => OnKeyClickDown?.Invoke(value));
         //}
+
+        ControlledCharactor.Init();
+        CamMove.Instance.SetTargetObject(ControlledCharactor.transform);
     }
     // Update is called once per frame
     void Update()

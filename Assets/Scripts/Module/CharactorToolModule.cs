@@ -11,7 +11,7 @@ public class CharactorToolModule : MonoBehaviour
         _charactor = charactor;
     }
 
-    [SerializeField] List<SelectableItemCell> selectableItemCellList;
+    //[SerializeField] List<SelectableItemCell> selectableItemCellList;
     [SerializeField] List<string> tool_buildingIdList;
 
     [SerializeField] TextMeshProUGUI testText_BuildMode;
@@ -50,11 +50,11 @@ public class CharactorToolModule : MonoBehaviour
 
     private void Awake()
     {
-        for (int i = 0; i < selectableItemCellList.Count; i++)
-        {
-            selectableItemCellList[i].Register_OnClick_CallBackBuilding(ToolSelect_OnSelectableCellClick);
-            selectableItemCellList[i].SetData_StaticCell(tool_buildingIdList[i], i + 1);
-        }
+        //for (int i = 0; i < selectableItemCellList.Count; i++)
+        //{
+        //    selectableItemCellList[i].Register_OnClick_CallBackBuilding(ToolSelect_OnSelectableCellClick);
+        //    selectableItemCellList[i].SetData_StaticCell(tool_buildingIdList[i], i + 1);
+        //}
     }
 
     public void ToolSelect_OnSelectableCellClick(string buildingId)

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CamMove : MonoBehaviour
+public class CamMove : SceneSingleton<CamMove>
 {
     [SerializeField] Transform Trf_Cam;
 
@@ -10,13 +10,9 @@ public class CamMove : MonoBehaviour
     [Range(0, 360)][SerializeField] float CamAngle_Y = 0;
     [SerializeField] Transform _targetObejct;
 
-    // Start is called before the first frame update
-    void Start()
+    public void SetTargetObject(Transform transform)
     {
-        if(_targetObejct == null)
-        {
-            //_targetObejct = Player.Instance.transform;
-        }        
+        _targetObejct = transform;
     }
 
     // Update is called once per frame
