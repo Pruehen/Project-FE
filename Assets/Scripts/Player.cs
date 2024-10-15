@@ -85,7 +85,7 @@ public class Player : SceneSingleton<Player>
         keyActions = new Dictionary<KeyCode, Action>
         {
             { KeyCode.I, () => OnKeyClickDown?.Invoke(KeyCode.I) },
-            { KeyCode.U, () => OnKeyClickDown?.Invoke(KeyCode.U) },
+            { KeyCode.E, () => OnKeyClickDown?.Invoke(KeyCode.E) },
             { KeyCode.R, () => OnKeyClickDown?.Invoke(KeyCode.R) },
             { KeyCode.Tab, () => OnKeyClickDown?.Invoke(KeyCode.Tab) },
             { KeyCode.Escape, () => OnKeyClickDown?.Invoke(KeyCode.Escape) },
@@ -104,7 +104,7 @@ public class Player : SceneSingleton<Player>
 
         Register_KeyAction(KeyCode.Tab, Command_CharactorInventoryToggle);
         Register_KeyAction(KeyCode.I, Command_CharactorInventoryToggle);
-        Register_KeyAction(KeyCode.U, Command_CharactorCraftingModuleToggle);
+        Register_KeyAction(KeyCode.E, Command_CharactorCraftingModuleToggle);
         Register_KeyAction(KeyCode.Escape, Command_CharactorInventoryClose_OnEscClick);
         //foreach (KeyCode value in Enum.GetValues(typeof(KeyCode)))
         //{
