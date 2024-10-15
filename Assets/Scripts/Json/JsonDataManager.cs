@@ -134,11 +134,21 @@ public static class JsonDataManager
     {
         jsonCache.SaveDataCache.TryAddBuildingData(gridPos, building);
     }
+    public static void SaveData_TryRemoveBuildingData(Vector3Int gridPos)
+    {
+        jsonCache.SaveDataCache.TryRemoveBuildingData(gridPos);
+    }
+
     public static void SaveData_AllDataLode()
     {
-        foreach (var item in jsonCache.SaveDataCache.list_building)
+        //foreach (var building in jsonCache.SaveDataCache.list_)
+        //{
+        //    building.LodeData_Building();
+        //}
+
+        foreach (var building in jsonCache.SaveDataCache.dic_Building)
         {
-            item.LodeData_Building();
+            building.Value.LodeData_Building();
         } 
     }
 
@@ -236,12 +246,7 @@ public static class JsonDataManager
         }
         public void Save()
         {
-            //JsonDataManager.DataSaveCommand(_itemDataTableCache, ItemDataTable.FilePath());
-            //JsonDataManager.DataSaveCommand(_buildingDataTableCache, BuildingDataTable.FilePath());
-            //JsonDataManager.DataSaveCommand(_recipyGroupDataTableCache, RecipyGroupDataTable.FilePath());
-            //JsonDataManager.DataSaveCommand(_recipyDataTableCache, RecipyDataTable.FilePath());
-            //JsonDataManager.DataSaveCommand(_textDataTableCache, TextDataTable.FilePath());
-
+            SaveDataCache.DataSave();
             DataSaveCommand(_saveDataCache, SaveData.FilePath());
         }
     }

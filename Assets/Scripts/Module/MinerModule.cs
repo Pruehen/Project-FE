@@ -39,9 +39,9 @@ public class MinerModule : MonoBehaviour, IModule, ITransporter
 
         foreach (Transform item in building.occupiedNodeList)//Ã¤±¼ °¡´ÉÇÑ ±¤¸Æ µî·Ï ·ÎÁ÷
         {
-            if(GridMap.Dic_VeinDepth.ContainsKey(item.position.ToIntVector()))
+            if(GridMap.Dic_VeinDepth.ContainsKey(item.position.ToVector3Int()))
             {
-                Vein vein = GridMap.Dic_VeinDepth[item.position.ToIntVector()];
+                Vein vein = GridMap.Dic_VeinDepth[item.position.ToVector3Int()];
                 ExtractVeinList.Add(vein);
                 vein.Register_OnRemoveVein(OnVeinRemove);
             }

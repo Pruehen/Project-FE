@@ -24,8 +24,8 @@ public class InserterModule : MonoBehaviour, ITransporter, IModule
         itemStayPoint_First = startNodePos.position + new Vector3(0, 0.4f, 0);
         itemStayPoint_Last = endNodePos.position + new Vector3(0, 0.4f, 0);
 
-        PreviousNode = FindNode_OnUpdate(startNodePos.position.ToIntVector());
-        NextNode = FindNode_OnUpdate(endNodePos.position.ToIntVector());
+        PreviousNode = FindNode_OnUpdate(startNodePos.position.ToVector3Int());
+        NextNode = FindNode_OnUpdate(endNodePos.position.ToVector3Int());
 
         this.moveLogicSpeed = 1;//TODO : 인서터 동작 속도를 테이블에서 가져올 것
         this.moveLogicSpeed *= 2f / Vector3.Distance(itemStayPoint_First, itemStayPoint_Last);
@@ -111,12 +111,12 @@ public class InserterModule : MonoBehaviour, ITransporter, IModule
     {      
         if(NextNode == null)
         {
-            NextNode = FindNode_OnUpdate(endNodePos.position.ToIntVector());
+            NextNode = FindNode_OnUpdate(endNodePos.position.ToVector3Int());
             return;
         }
         if(PreviousNode == null)
         {
-            PreviousNode = FindNode_OnUpdate(startNodePos.position.ToIntVector());
+            PreviousNode = FindNode_OnUpdate(startNodePos.position.ToVector3Int());
             return;
         }
 

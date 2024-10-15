@@ -1,18 +1,30 @@
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class GridMap
+public class GridMap
 {
     public static Dictionary<Vector3Int, Node> Dic_OccupiedDepth = new Dictionary<Vector3Int, Node>();//Á¡À¯ °ø°£ È®ÀÎ °èÃþ
     public static Dictionary<Vector3Int, Building> Dic_BuildingDepth = new Dictionary<Vector3Int, Building>();//ºôµù °èÃþ. ºôµù °ü¸®¿¡ »ç¿ëµÊ
     public static Dictionary<Vector3Int, Node> Dic_BeltDepth = new Dictionary<Vector3Int, Node>();//º§Æ® °èÃþ. º§Æ® ·ÎÁ÷¿¡ »ç¿ëµÊ
     public static Dictionary<Vector3Int, Vein> Dic_VeinDepth = new Dictionary<Vector3Int, Vein>();//±¤¸Æ °èÃþ. Ã¤±¼±âÀÇ ±¤¸Æ Ã¼Å© ·ÎÁ÷¿¡ »ç¿ëµÊ    
 
-    public static void Save()
-    {        
-        //JsonDataManager.DataSaveCommand()
-    }
+    public Dictionary<string, Node> Dic_OccupiedDepth_Data = new Dictionary<string, Node>();//Á¡À¯ °ø°£ È®ÀÎ °èÃþ
+    public Dictionary<string, Building> Dic_BuildingDepth_Data = new Dictionary<string, Building>();//ºôµù °èÃþ. ºôµù °ü¸®¿¡ »ç¿ëµÊ
+    public Dictionary<string, Node> Dic_BeltDepth_Data = new Dictionary<string, Node>();//º§Æ® °èÃþ. º§Æ® ·ÎÁ÷¿¡ »ç¿ëµÊ
+    public Dictionary<string, Vein> Dic_VeinDepth_Data = new Dictionary<string, Vein>();//±¤¸Æ °èÃþ. Ã¤±¼±âÀÇ ±¤¸Æ Ã¼Å© ·ÎÁ÷¿¡ »ç¿ëµÊ    
 
+    [JsonConstructor]
+    public GridMap()
+    {
+    }
+    public GridMap()
+    {
+    }
+    public static string FilePath()
+    {
+        return "/Data/Save/TestSaveFile.json";
+    }
 
 
     static void Add_Dic_BeltDepth(Vector3Int gridPos, Node node)
@@ -31,16 +43,17 @@ public static class GridMap
 
         foreach (Transform item in building.occupiedNodeList)
         {
-            Dic_OccupiedDepth.Add(item.position.ToIntVector(), node);
+            Dic_OccupiedDepth.Add(item.position.ToVector3Int(), node);
         }
     }
     public static void Remove_Dic_BuildingDepth(Vector3Int gridPos)
     {
         foreach (Transform item in Dic_BuildingDepth[gridPos].occupiedNodeList)
         {
-            Dic_OccupiedDepth.Remove(item.position.ToIntVector());
+            Dic_OccupiedDepth.Remove(item.position.ToVector3Int());
         }
         Dic_BuildingDepth.Remove(gridPos);
+        JsonDataManager.SaveData_TryRemoveBuildingData(gridPos);
     }
     public static void Add_Dic_VeinDepth(Vector3Int gridPos, Vein vein)
     {
@@ -94,7 +107,7 @@ public static class GridMap
 
         foreach (Transform item in building.occupiedNodeList)
         {
-            if (Dic_OccupiedDepth.ContainsKey(item.position.ToIntVector()))
+            if (Dic_OccupiedDepth.ContainsKey(item.position.ToVector3Int()))
             {
                 Debug.Log("ÀÌ¹Ì »ç¿ë ÁßÀÎ °ø°£ÀÔ´Ï´Ù.");
                 ObjectPoolManager.Instance.EnqueueObject(building.gameObject);
@@ -134,34 +147,5 @@ public static class GridMap
         {
             item.Value.transporter.LogicInit();
         }
-    }
-    public static Vector3Int ToIntVector(this Vector3 vector)
-    {
-        int x = Mathf.RoundToInt(vector.x); // x °ªÀ» ¹Ý¿Ã¸²ÇÏ¿© int·Î º¯È¯
-        int z = Mathf.RoundToInt(vector.z); // z °ªÀ» ¹Ý¿Ã¸²ÇÏ¿© int·Î º¯È¯
-        int y = 0;// Mathf.RoundToInt(vector.y);        
-
-        return new Vector3Int(x, y, z); // »õ·Î¿î Vector3 ¹ÝÈ¯
-    }
-
-    public static Vector3Int Up(this Vector3Int vector3Int)
-    {
-        vector3Int.z++;
-        return vector3Int;
-    }
-    public static Vector3Int Down(this Vector3Int vector3Int)
-    {
-        vector3Int.z--;
-        return vector3Int;
-    }
-    public static Vector3Int Left(this Vector3Int vector3Int)
-    {
-        vector3Int.x--;
-        return vector3Int;
-    }
-    public static Vector3Int Right(this Vector3Int vector3Int)
-    {
-        vector3Int.x++;
-        return vector3Int;
     }
 }

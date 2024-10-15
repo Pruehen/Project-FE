@@ -120,7 +120,7 @@ public class Charactor : MonoBehaviour
     {
         if (BuildMode != BuildMode.None)
         {
-            Vector3Int hitPoint_Grid = _lookPos.ToIntVector();
+            Vector3Int hitPoint_Grid = _lookPos.ToVector3Int();
             builtIn_ToolModule.ToolOnMove(hitPoint_Grid);
         }
     }
@@ -129,7 +129,7 @@ public class Charactor : MonoBehaviour
     {
         if (BuildMode != BuildMode.None)
         {
-            Vector3Int hitPoint_Grid = _lookPos.ToIntVector();
+            Vector3Int hitPoint_Grid = _lookPos.ToVector3Int();
             builtIn_ToolModule.ToolOnClick(hitPoint_Grid);
         }
         else

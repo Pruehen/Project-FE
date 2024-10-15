@@ -1,7 +1,39 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+
+
+public class SaveData_Charactor
+{
+    [JsonProperty] int[] positionData;
+    [JsonProperty] float[] rotationData;
+
+    [JsonConstructor]
+    public SaveData_Charactor(int[] positionData, float[] rotationData)
+    {        
+        this.positionData = positionData;
+        this.rotationData = rotationData;
+    }
+    public SaveData_Charactor(Vector3Int gridPos, Quaternion rotateion)
+    {        
+        positionData = new int[] { gridPos.x, gridPos.y, gridPos.z };
+
+        Vector3 eulerAngle = rotateion.eulerAngles;
+        rotationData = new float[] { eulerAngle.x, eulerAngle.y, eulerAngle.z };
+    }
+
+    public void LodeData_Building()
+    {
+        //BuildingNode createNode = GridMap.CreateBuildingNode_LodeData(JsonDataManager.GetBuilding(buildingDataId),
+        //    new Vector3(positionData[0], positionData[1], positionData[2]).ToVector3Int(),
+        //    Quaternion.Euler(rotationData[0], rotationData[1], rotationData[2]));
+
+        //if (createNode != null)//빌딩 노드 생성에 성공했을 경우
+        //{
+        //    createNode.Init();
+        //}
+    }
+}
 
 public class SaveData_Building
 {
@@ -28,7 +60,7 @@ public class SaveData_Building
     public void LodeData_Building()
     {
         BuildingNode createNode = GridMap.CreateBuildingNode_LodeData(JsonDataManager.GetBuilding(buildingDataId), 
-            new Vector3(positionData[0], positionData[1], positionData[2]).ToIntVector(), 
+            new Vector3(positionData[0], positionData[1], positionData[2]).ToVector3Int(), 
             Quaternion.Euler(rotationData[0], rotationData[1], rotationData[2]));
 
         if (createNode != null)//빌딩 노드 생성에 성공했을 경우
@@ -40,29 +72,41 @@ public class SaveData_Building
 
 public class SaveData
 {
-    [JsonProperty] public List<SaveData_Building> list_building;
+    [JsonProperty] public List<SaveData_Charactor> list_Charactor;
+    [JsonProperty] public Dictionary<string, SaveData_Building> dic_Building;
 
     [JsonConstructor]
-    public SaveData(List<SaveData_Building> list)
+    public SaveData(List<SaveData_Charactor> list_Charactor, Dictionary<string, SaveData_Building> list_building)
     {
-        this.list_building = list;
-        if (this.list_building == null)
+        this.list_Charactor = list_Charactor;
+        if (this.list_Charactor == null)
         {
-            this.list_building = new List<SaveData_Building>();
+            this.list_Charactor = new List<SaveData_Charactor>();
+        }
+
+        this.dic_Building = list_building;
+        if (this.dic_Building == null)
+        {
+            this.dic_Building = new Dictionary<string, SaveData_Building>();
         }
     }
     public SaveData()
     {
-        list_building = new List<SaveData_Building>();
+        this.list_Charactor = new List<SaveData_Charactor>();
+        this.dic_Building = new Dictionary<string, SaveData_Building>();
     }
     public void TryAddBuildingData(Vector3Int gridPos, Building building)
     {
-        //if(list_building.Contains(building))
-        //{
-        //    Debug.Log("이미 설치된 건물입니다.");
-        //    return;
-        //}
-        list_building.Add(new SaveData_Building(building.BuildingData, gridPos, building.transform.rotation));
+        dic_Building.Add(gridPos.ToString(), new SaveData_Building(building.BuildingData, gridPos, building.transform.rotation));
+    }
+    public void TryRemoveBuildingData(Vector3Int gridPos)
+    {
+        dic_Building.Remove(gridPos.ToString());
+    }
+
+    public void DataSave()
+    {
+
     }
     public static string FilePath()
     {

@@ -38,7 +38,7 @@ public class Vein : MonoBehaviour, IInteractable
     }
     void RemoveVein()
     {
-        GridMap.Remove_Dic_VeinDepth(this.transform.position.ToIntVector());
+        GridMap.Remove_Dic_VeinDepth(this.transform.position.ToVector3Int());
 
         OnRemoveVein.Invoke(this);
         OnRemoveVein = null;
@@ -99,6 +99,6 @@ public class Vein : MonoBehaviour, IInteractable
 
     void Awake()
     {
-        GridMap.Add_Dic_VeinDepth(this.transform.position.ToIntVector(), this);
+        GridMap.Add_Dic_VeinDepth(this.transform.position.ToVector3Int(), this);
     }
 }

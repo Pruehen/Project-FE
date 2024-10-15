@@ -1,1 +1,17 @@
-null
+{
+  "list_building": [
+    {
+      "buildingDataId": "Building_Miner_T1",
+      "positionData": [
+        5,
+        0,
+        -31
+      ],
+      "rotationData": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ]
+}

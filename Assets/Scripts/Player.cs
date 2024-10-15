@@ -50,11 +50,10 @@ public class Player : SceneSingleton<Player>
     public void Register_KeyAction(KeyCode key, Action callBack) { keyActions[key] += callBack; }
     public void UnRegister_KeyAction(KeyCode key, Action callBack) { keyActions[key] -= callBack; }
 
-
-    [SerializeField] Charactor controlledCharactor;
+    [SerializeField] int controlledCharactorIndex = 0;     
     public Charactor ControlledCharactor
     {
-        get => controlledCharactor;
+        get => CharactorManager.Instance.GetCharactor(controlledCharactorIndex);
     }
     public void GetItem(ushort itemKey, int count = 1)
     {
@@ -73,11 +72,11 @@ public class Player : SceneSingleton<Player>
         {
             return false;
         }
-        return controlledCharactor.CanUseItem(itemKey, count);
+        return ControlledCharactor.CanUseItem(itemKey, count);
     }
     public void UseItem(ushort itemKey, int count = 1)
     {
-        controlledCharactor.UseItem(itemKey, count);
+        ControlledCharactor.UseItem(itemKey, count);
     }
 
     private void Start()
@@ -194,7 +193,7 @@ public class Player : SceneSingleton<Player>
         }
         if (Input.GetMouseButtonDown(0))
         {
-            controlledCharactor?.OnMouseLeftClick();
+            ControlledCharactor?.OnMouseLeftClick();
         }
     }
 
@@ -212,32 +211,32 @@ public class Player : SceneSingleton<Player>
 
     void Command_TryInteract()
     {
-        if (controlledCharactor != null)
+        if (ControlledCharactor != null)
         {
-            controlledCharactor.TryInteract();
+            ControlledCharactor.TryInteract();
         }
     }
     void Command_EndInteract()
     {
-        controlledCharactor?.EndInteract();
+        ControlledCharactor?.EndInteract();
     }
 
     public void Command_CharactorInventoryOpen()
     {
-        controlledCharactor?.InventoryOpen();
+        ControlledCharactor?.InventoryOpen();
     }
     void Command_CharactorInventoryToggle()
-    {        
-        controlledCharactor?.InventoryToggle();
+    {
+        ControlledCharactor?.InventoryToggle();
     }
     void Command_CharactorCraftingModuleToggle()
     {
-        controlledCharactor?.CraftingModuleToggle();
+        ControlledCharactor?.CraftingModuleToggle();
     }
     void Command_CharactorInventoryClose_OnEscClick()
     {
-        controlledCharactor?.InventoryClose();
-        controlledCharactor?.CraftingModuleClose();
+        ControlledCharactor?.InventoryClose();
+        ControlledCharactor?.CraftingModuleClose();
     }
 
     public event PropertyChangedEventHandler PropertyChanged;

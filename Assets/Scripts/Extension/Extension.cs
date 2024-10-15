@@ -7,6 +7,24 @@ using System.ComponentModel;
 
 public static class Extension
 {
+    public static Vector3Int ToVector3Int(this Vector3 vector)
+    {
+        int x = Mathf.RoundToInt(vector.x); // x 값을 반올림하여 int로 변환
+        int z = Mathf.RoundToInt(vector.z); // z 값을 반올림하여 int로 변환
+        int y = 0;// Mathf.RoundToInt(vector.y);        
+
+        return new Vector3Int(x, y, z); // 새로운 Vector3 반환
+    }
+    public static string ToString(this Vector3Int vector3Int)
+    {
+        return $"{vector3Int.x},{vector3Int.y},{vector3Int.z}";
+    }
+    public static Vector3Int ToVector3Int(this string str)
+    {
+        string[] values = str.Split(',');
+        return new Vector3Int(int.Parse(values[0]), int.Parse(values[1]), int.Parse(values[2]));
+    }
+
     public static Transform FindClosest(this List<Transform> list, Vector3 position)
     {
         if (list == null || list.Count == 0)

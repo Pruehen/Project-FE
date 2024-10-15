@@ -410,20 +410,31 @@ public class JsonDataCreator : MonoBehaviour
     private void Awake()
     {
         JsonDataManager.jsonCache.Lode();
-        //JsonDataManager.jsonCache.Save();
+
+        AllDataLode();
     }
 
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.V))
         {
-            Debug.Log("저장 시도");
-            JsonDataManager.jsonCache.Save();            
+            AllDataSave();
         }
         if (Input.GetKeyDown(KeyCode.L))
         {
-            Debug.Log("로드 시도");
-            JsonDataManager.SaveData_AllDataLode();
+            AllDataLode();
         }
+    }
+
+    void AllDataLode()
+    {
+        Debug.Log("로드 시도");
+        JsonDataManager.SaveData_AllDataLode();
+    }
+    void AllDataSave()
+    {
+        Debug.Log("저장 시도");        
+
+        JsonDataManager.jsonCache.Save();
     }
 }
