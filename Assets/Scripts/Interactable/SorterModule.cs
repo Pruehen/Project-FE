@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SorterModule : MonoBehaviour, ITransporter, IModule
 {
-    List<Node> inputNodeList;
-    List<Node> outputNodeList;
+    List<INode> inputNodeList;
+    List<INode> outputNodeList;
     
     [SerializeField] Transform itemStayPoint;
 
@@ -14,7 +14,7 @@ public class SorterModule : MonoBehaviour, ITransporter, IModule
     float moveLogicSpeed = 2f;
     float moveLogicTime;    
 
-    public void SetSorterPart(List<Node> inputNodeList, List<Node> outputNodeList)
+    public void SetSorterPart(List<INode> inputNodeList, List<INode> outputNodeList)
     {
         this.inputNodeList = inputNodeList;
         this.outputNodeList = outputNodeList;
@@ -123,9 +123,9 @@ public class SorterModule : MonoBehaviour, ITransporter, IModule
         ITransporter transporter = null;
         for (int i = 0; i < outputNodeList.Count; i++)
         {
-            if (outputNodeList[nextOutPortIndex].transporter.CanItemIn(0))
+            if (outputNodeList[nextOutPortIndex].Transporter.CanItemIn(0))
             {
-                transporter = outputNodeList[nextOutPortIndex].transporter;
+                transporter = outputNodeList[nextOutPortIndex].Transporter;
                 Add_NextOutPortIndex();
                 break;
             }
@@ -153,7 +153,7 @@ public class SorterModule : MonoBehaviour, ITransporter, IModule
         {
             foreach (var item in outputNodeList)
             {
-                item.transporter.ExcuteLogic_OnUpdate(deltaTime);
+                item.Transporter.ExcuteLogic_OnUpdate(deltaTime);
             }
         }
 
@@ -187,7 +187,7 @@ public class SorterModule : MonoBehaviour, ITransporter, IModule
         {
             foreach (var item in inputNodeList)
             {
-                item.transporter.ExcuteLogic_OnUpdate(deltaTime);
+                item.Transporter.ExcuteLogic_OnUpdate(deltaTime);
             }
         }
     }

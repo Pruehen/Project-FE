@@ -2,22 +2,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using EnumTypes;
 using System.Linq;
-using System;
 
-public class BeltNode : Node
+public class BeltNode : INode
 {
-    Node _previousNode;
-    Node _nextNode;
+    NodeType _nodeType;
+    ITransporter _transporter;
+    Vector3Int _gridPos;
+    INode _previousNode;
+    INode _nextNode;
 
     public BeltModule beltPart;
 
     public BeltNode(Vector3Int gridPos)
     {
-        this.gridPos = gridPos;
-        nodeType = NodeType.BeltNode;        
+        GridPos = gridPos;
+        NodeType = NodeType.BeltNode;        
     }
 
-    public override Node PreviousNode 
+    public NodeType NodeType { get => _nodeType; set => _nodeType = value; }
+    public ITransporter Transporter { get => _transporter; set => _transporter = value; }
+    public Vector3Int GridPos { get => _gridPos; set => _gridPos = value; }
+    public INode PreviousNode 
     { 
         get 
         { 
@@ -36,7 +41,7 @@ public class BeltNode : Node
             }
         }  
     }
-    public override Node NextNode 
+    public INode NextNode 
     { 
         get 
         { 
@@ -56,7 +61,7 @@ public class BeltNode : Node
         } 
     }
 
-    public override void Init()
+    public void Init()
     {
         Quaternion dir = Quaternion.identity;
         BeltType type;
@@ -67,25 +72,25 @@ public class BeltNode : Node
         }
         else if (PreviousNode == null)
         {
-            dir = Quaternion.LookRotation(NextNode.gridPos - gridPos);            
+            dir = Quaternion.LookRotation(NextNode.GridPos - GridPos);            
             type = BeltType.Mid;
         }
         else if (NextNode == null)
         {
-            dir = Quaternion.LookRotation(gridPos - PreviousNode.gridPos);
+            dir = Quaternion.LookRotation(GridPos - PreviousNode.GridPos);
             type = BeltType.Mid;
         }
         else
         {
             // 이전 노드에서 현재 노드로 가는 벡터
-            Vector3 previousToCurrent = gridPos - PreviousNode.gridPos;
+            Vector3 previousToCurrent = GridPos - PreviousNode.GridPos;
 
             // 현재 노드에서 다음 노드로 가는 벡터
-            Vector3 currentToNext = NextNode.gridPos - gridPos;
+            Vector3 currentToNext = NextNode.GridPos - GridPos;
 
             // 외적을 계산하여 Y축 값을 확인
             float angle = Vector3.SignedAngle(previousToCurrent, currentToNext, Vector3.up);
-            dir = Quaternion.LookRotation(NextNode.gridPos - gridPos);
+            dir = Quaternion.LookRotation(NextNode.GridPos - GridPos);
 
             if (angle > 0)
             {
@@ -106,7 +111,7 @@ public class BeltNode : Node
 
         if (beltPart == null)
         {
-            beltPart = ObjectPoolManager.Instance.DequeueObject(BeltManager.Instance.beltPart, gridPos).GetComponent<BeltModule>();
+            beltPart = ObjectPoolManager.Instance.DequeueObject(BeltManager.Instance.beltPart, GridPos).GetComponent<BeltModule>();
         }
 
         beltPart.transform.rotation = dir;
@@ -116,18 +121,18 @@ public class BeltNode : Node
         building.Init();
         building.Register_OnDismantle(Remove);
 
-        transporter = beltPart;
+        Transporter = beltPart;
     }
 
-    public override void Remove() 
+    public void Remove() 
     {
         if (PreviousNode != null)
         {
-            if (PreviousNode.nodeType == NodeType.BeltNode)
+            if (PreviousNode.NodeType == NodeType.BeltNode)
             {
                 PreviousNode.NextNode = null;
             }
-            else if (PreviousNode.nodeType == NodeType.SorterNode)
+            else if (PreviousNode.NodeType == NodeType.SorterNode)
             {
                 SorterNode sorterNode = PreviousNode as SorterNode;
                 sorterNode.RemoveNode_InputOrOutput(this);
@@ -135,11 +140,11 @@ public class BeltNode : Node
         }
         if (NextNode != null)
         {
-            if (NextNode.nodeType == NodeType.BeltNode)
+            if (NextNode.NodeType == NodeType.BeltNode)
             {
                 NextNode.PreviousNode = null;
             }
-            else if (NextNode.nodeType == NodeType.SorterNode)
+            else if (NextNode.NodeType == NodeType.SorterNode)
             {
                 SorterNode sorterNode = NextNode as SorterNode;
                 sorterNode.RemoveNode_InputOrOutput(this);
@@ -151,57 +156,24 @@ public class BeltNode : Node
             ObjectPoolManager.Instance.EnqueueObject(beltPart.gameObject);
         }
         beltPart = null;
-        transporter = null;
+        Transporter = null;
         RemoveRootNode(this);
 
-        GridMap.Remove_Dic_BeltDepth(this.gridPos);
+        GridMap.Remove_Dic_BeltDepth(GridPos);
     }
-    //void Remove_OnDismantle()//우클릭 상호작용을 통해 해체
-    //{
-    //    if (PreviousNode != null)
-    //    {
-    //        if(PreviousNode.nodeType == NodeType.BeltNode)
-    //        {
-    //            PreviousNode.NextNode = null;
-    //            SetRootNode(PreviousNode);
-    //        }            
-    //        else if(PreviousNode.nodeType == NodeType.SorterNode)
-    //        {
-    //            SorterNode sorterNode = PreviousNode as SorterNode;
-    //            sorterNode.RemoveNode_InputOrOutput(this);
-    //        }
-    //    }
-    //    if (NextNode != null)
-    //    {
-    //        if(NextNode.nodeType == NodeType.BeltNode)
-    //        {
-    //            NextNode.PreviousNode = null;
-    //            SetRootNode(NextNode);
-    //        }
-    //        else if (NextNode.nodeType == NodeType.SorterNode)
-    //        {
-    //            SorterNode sorterNode = NextNode as SorterNode;
-    //            sorterNode.RemoveNode_InputOrOutput(this);
-    //        }
-    //    }
 
-    //    beltPart.RemoveBeltPart();
-    //    Remove();
-    //    GridMap.Remove_Dic_BeltDepth(this.gridPos);
-    //}
-
-    public static void SetRootNode_OnBeltCreate(Node tailNode, Node headNode)//벨트 로직 실행 순서를 설정하기 위한 메서드
+    public static void SetRootNode_OnBeltCreate(INode tailNode, INode headNode)//벨트 로직 실행 순서를 설정하기 위한 메서드
     {
-        Node currentNode = headNode;
+        INode currentNode = headNode;
         RemoveRootNode(headNode);
 
-        if (headNode.nodeType == NodeType.SorterNode)//헤드가 소터일 경우, 해당 소터 노드를 초기 실행 멤버에 등록
+        if (headNode.NodeType == NodeType.SorterNode)//헤드가 소터일 경우, 해당 소터 노드를 초기 실행 멤버에 등록
         {
             SetSorterNode(headNode);
         }
         else
         {
-            while (currentNode != null && currentNode.nodeType == NodeType.BeltNode)//아닐 경우, 맨 앞쪽의 소터가 아닌 노드를 등록
+            while (currentNode != null && currentNode.NodeType == NodeType.BeltNode)//아닐 경우, 맨 앞쪽의 소터가 아닌 노드를 등록
             {
                 if (IsRootNode(currentNode) == false && currentNode.NextNode == null)
                 {
@@ -223,13 +195,13 @@ public class BeltNode : Node
         currentNode = tailNode;
         RemoveRootNode(tailNode);
 
-        if (tailNode.nodeType == NodeType.SorterNode)//테일이 소터일 경우, 해당 소터 노드를 등록
+        if (tailNode.NodeType == NodeType.SorterNode)//테일이 소터일 경우, 해당 소터 노드를 등록
         {
             SetSorterNode(tailNode);
         }
         else
         {
-            while (currentNode != null && currentNode.nodeType == NodeType.BeltNode)
+            while (currentNode != null && currentNode.NodeType == NodeType.BeltNode)
             {
                 if (IsRootNode(currentNode) == false && currentNode.PreviousNode == null)
                 {
@@ -246,44 +218,50 @@ public class BeltNode : Node
                 }
             }
         }
-
-        //Debug.Log(GameLogicManager.Instance.RootBeltNodeSet.Count);
     }
 
-    public static bool IsRootNode(Node node)
+    public static bool IsRootNode(INode node)
     {
         return GameLogicManager.Instance.RootBeltNodeSet.Contains(node);
     }
-    public static bool IsSorterNode(Node node)
+    public static bool IsSorterNode(INode node)
     {
         return GameLogicManager.Instance.SorterNodeSet.Contains(node);
     }
-    public static void SetRootNode(Node node)
+    public static void SetRootNode(INode node)
     {
         GameLogicManager.Instance.RootBeltNodeSet.Add(node);
     }
-    public static void SetSorterNode(Node node)
+    public static void SetSorterNode(INode node)
     {
         GameLogicManager.Instance.SorterNodeSet.Add(node);
     }
-    public static void RemoveRootNode(Node node)
+    public static void RemoveRootNode(INode node)
     {
         GameLogicManager.Instance.RootBeltNodeSet.Remove(node);        
     }
-    public static void RemoveSorterNode(Node node)
+    public static void RemoveSorterNode(INode node)
     {
         GameLogicManager.Instance.SorterNodeSet.Remove(node);
     }
 }
 
-public class SorterNode : Node
+public class SorterNode : INode
 {
+    NodeType _nodeType;
+    ITransporter _transporter;
+    Vector3Int _gridPos;
+
     public SorterModule sorterPart;
 
-    List<Node> inputNodeList = new List<Node>();//PreviousNode
-    List<Node> outputNodeList = new List<Node>();//NextNode
+    List<INode> inputNodeList = new List<INode>();//PreviousNode
+    List<INode> outputNodeList = new List<INode>();//NextNode
     int _usePort = 0;
-    public override Node PreviousNode 
+
+    public NodeType NodeType { get => _nodeType; set => _nodeType = value; }
+    public ITransporter Transporter { get => _transporter; set => _transporter = value; }
+    public Vector3Int GridPos { get => _gridPos; set => _gridPos = value; }
+    public INode PreviousNode 
     { 
         get 
         { 
@@ -294,7 +272,7 @@ public class SorterNode : Node
             if (_usePort <= 4 && value != null)
             {
                 inputNodeList.Add(value);
-                Debug.Log($"소터에 인포트를 추가합니다. {value.gridPos}");
+                Debug.Log($"소터에 인포트를 추가합니다. {value.GridPos}");
                 _usePort++;
             }
             else
@@ -303,7 +281,7 @@ public class SorterNode : Node
             }
         }     
     }
-    public override Node NextNode 
+    public INode NextNode 
     { 
         get 
         { 
@@ -314,7 +292,7 @@ public class SorterNode : Node
             if (_usePort <= 4 && value != null)
             {
                 outputNodeList.Add(value);
-                Debug.Log($"소터에 아웃포트를 추가합니다. {value.gridPos}");
+                Debug.Log($"소터에 아웃포트를 추가합니다. {value.GridPos}");
                 _usePort++;
             }
             else
@@ -323,7 +301,7 @@ public class SorterNode : Node
             }
         } 
     }
-    public void RemoveNode_InputOrOutput(Node node)
+    public void RemoveNode_InputOrOutput(INode node)
     {
         if(inputNodeList.Contains(node))
         {
@@ -339,14 +317,14 @@ public class SorterNode : Node
 
     public SorterNode(Vector3Int gridPos)
     {
-        this.gridPos = gridPos;
-        nodeType = NodeType.SorterNode;
+        GridPos = gridPos;
+        NodeType = NodeType.SorterNode;
     }
-    public override void Init()
+    public void Init()
     {
         if (sorterPart == null)
         {
-            sorterPart = ObjectPoolManager.Instance.DequeueObject(BeltManager.Instance.sorterPart, gridPos).GetComponent<SorterModule>();
+            sorterPart = ObjectPoolManager.Instance.DequeueObject(BeltManager.Instance.sorterPart, GridPos).GetComponent<SorterModule>();
         }
         
         sorterPart.SetSorterPart(inputNodeList, outputNodeList);
@@ -355,17 +333,17 @@ public class SorterNode : Node
         building.Init();
         building.Register_OnDismantle(Remove);
 
-        transporter = sorterPart;
+        Transporter = sorterPart;
     }
-    public override void Remove() 
+    public void Remove() 
     {
         foreach (var inputNode in inputNodeList)
         {
-            if (inputNode.nodeType == NodeType.BeltNode)
+            if (inputNode.NodeType == NodeType.BeltNode)
             {
                 inputNode.NextNode = null;
             }
-            else if (inputNode.nodeType == NodeType.SorterNode)
+            else if (inputNode.NodeType == NodeType.SorterNode)
             {
                 SorterNode sorterNode = inputNode as SorterNode;
                 sorterNode.RemoveNode_InputOrOutput(this);
@@ -373,11 +351,11 @@ public class SorterNode : Node
         }
         foreach (var outputNode in outputNodeList)
         {
-            if (outputNode.nodeType == NodeType.BeltNode)
+            if (outputNode.NodeType == NodeType.BeltNode)
             {
                 outputNode.PreviousNode = null;
             }
-            else if (outputNode.nodeType == NodeType.SorterNode)
+            else if (outputNode.NodeType == NodeType.SorterNode)
             {
                 SorterNode sorterNode = outputNode as SorterNode;
                 sorterNode.RemoveNode_InputOrOutput(this);
@@ -389,44 +367,11 @@ public class SorterNode : Node
             ObjectPoolManager.Instance.EnqueueObject(sorterPart.gameObject);
         }
         sorterPart = null;
-        transporter = null;
+        Transporter = null;
         BeltNode.RemoveSorterNode(this);
 
-        GridMap.Remove_Dic_BeltDepth(this.gridPos);
+        GridMap.Remove_Dic_BeltDepth(GridPos);
     }
-    //void Remove_OnDismantle()
-    //{
-    //    foreach (var inputNode in inputNodeList)
-    //    {
-    //        if (inputNode.nodeType == NodeType.BeltNode)
-    //        {
-    //            inputNode.NextNode = null;
-    //            BeltNode.SetRootNode(inputNode);
-    //        }
-    //        else if (inputNode.nodeType == NodeType.SorterNode)
-    //        {
-    //            SorterNode sorterNode = inputNode as SorterNode;
-    //            sorterNode.RemoveNode_InputOrOutput(this);
-    //        }
-    //    }
-    //    foreach (var outputNode in outputNodeList)
-    //    {
-    //        if (outputNode.nodeType == NodeType.BeltNode)
-    //        {
-    //            outputNode.PreviousNode = null;
-    //            BeltNode.SetRootNode(outputNode);
-    //        }
-    //        else if (outputNode.nodeType == NodeType.SorterNode)
-    //        {
-    //            SorterNode sorterNode = outputNode as SorterNode;
-    //            sorterNode.RemoveNode_InputOrOutput(this);
-    //        }
-    //    }
-
-    //    sorterPart.RemoveSorterPart();
-    //    Remove();
-    //    GridMap.Remove_Dic_BeltDepth(this.gridPos);
-    //}
 }
 
 public class BeltCreator
@@ -436,7 +381,7 @@ public class BeltCreator
 
     // 경로를 저장할 리스트
     List<Vector3Int> path = new List<Vector3Int>();
-    List<Node> buildBeltNodeList = new List<Node>();
+    List<INode> buildBeltNodeList = new List<INode>();
 
     public void BuildBelt(Vector3Int lastNode, BuildingData data)
     {
@@ -454,7 +399,7 @@ public class BeltCreator
         {
             if (GridMap.Dic_BeltDepth.ContainsKey(path[i]))//경로상에 이미 노드가 있음
             {
-                Node selectNode = GridMap.Dic_BeltDepth[path[i]];
+                INode selectNode = GridMap.Dic_BeltDepth[path[i]];
 
                 if (i == 0 && selectNode.NextNode == null)//전방 말단 노드와 연결하는 경우
                 {
@@ -466,12 +411,12 @@ public class BeltCreator
                 }
                 else//중단 노드에 연결하는 경우 : 병합기 생성
                 {
-                    if(selectNode.nodeType == NodeType.BeltNode)
+                    if(selectNode.NodeType == NodeType.BeltNode)
                     {
                         selectNode = GridMap.CreateSorterNode(path[i]);
                         Debug.Log("신규 병합기 생성");
                     }
-                    else if(selectNode.nodeType == NodeType.SorterNode)
+                    else if(selectNode.NodeType == NodeType.SorterNode)
                     {
                         Debug.Log("기존 병합기에 연결");
                     }
@@ -500,7 +445,7 @@ public class BeltCreator
             }
         }        
 
-        foreach (Node node in buildBeltNodeList)
+        foreach (INode node in buildBeltNodeList)
         {
             node.Init();
         }
@@ -538,7 +483,7 @@ public class BeltCreator
     {
         path.Clear();
 
-        if (GridMap.Dic_BeltDepth.ContainsKey(start) && GridMap.Dic_BeltDepth[start].nodeType == NodeType.BuildingNode)
+        if (GridMap.Dic_BeltDepth.ContainsKey(start) && GridMap.Dic_BeltDepth[start].NodeType == NodeType.BuildingNode)
         {
             BuildLineRenderer.Instance.DrawBeltLine(path);
             return;
@@ -574,7 +519,7 @@ public class BeltCreator
 
             if (GridMap.Dic_OccupiedDepth.ContainsKey(posTemp))
             {
-                if (GridMap.Dic_BeltDepth[posTemp].nodeType == NodeType.BeltNode) { path.Add(posTemp); }
+                if (GridMap.Dic_BeltDepth[posTemp].NodeType == NodeType.BeltNode) { path.Add(posTemp); }
                 break;
             }
             else

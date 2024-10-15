@@ -141,9 +141,9 @@ public static class JsonDataManager
 
     public static void SaveData_AllDataLode()
     {
-        //foreach (var building in jsonCache.SaveDataCache.list_)
+        //foreach (var buildingPart in jsonCache.SaveDataCache.list_)
         //{
-        //    building.LodeData_Building();
+        //    buildingPart.LodeData_Building();
         //}
 
         foreach (var building in jsonCache.SaveDataCache.dic_Building)

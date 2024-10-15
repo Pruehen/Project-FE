@@ -4,30 +4,31 @@ using UnityEngine;
 
 public class GridMap
 {
-    public static Dictionary<Vector3Int, Node> Dic_OccupiedDepth = new Dictionary<Vector3Int, Node>();//점유 공간 확인 계층
+    public static Dictionary<Vector3Int, INode> Dic_OccupiedDepth = new Dictionary<Vector3Int, INode>();//점유 공간 확인 계층
     public static Dictionary<Vector3Int, Building> Dic_BuildingDepth = new Dictionary<Vector3Int, Building>();//빌딩 계층. 빌딩 관리에 사용됨
-    public static Dictionary<Vector3Int, Node> Dic_BeltDepth = new Dictionary<Vector3Int, Node>();//벨트 계층. 벨트 로직에 사용됨
+    public static Dictionary<Vector3Int, INode> Dic_BeltDepth = new Dictionary<Vector3Int, INode>();//벨트 계층. 벨트 로직에 사용됨
     public static Dictionary<Vector3Int, Vein> Dic_VeinDepth = new Dictionary<Vector3Int, Vein>();//광맥 계층. 채굴기의 광맥 체크 로직에 사용됨    
 
-    public Dictionary<string, Node> Dic_OccupiedDepth_Data = new Dictionary<string, Node>();//점유 공간 확인 계층
+    public Dictionary<string, INode> Dic_OccupiedDepth_Data = new Dictionary<string, INode>();//점유 공간 확인 계층
     public Dictionary<string, Building> Dic_BuildingDepth_Data = new Dictionary<string, Building>();//빌딩 계층. 빌딩 관리에 사용됨
-    public Dictionary<string, Node> Dic_BeltDepth_Data = new Dictionary<string, Node>();//벨트 계층. 벨트 로직에 사용됨
+    public Dictionary<string, INode> Dic_BeltDepth_Data = new Dictionary<string, INode>();//벨트 계층. 벨트 로직에 사용됨
     public Dictionary<string, Vein> Dic_VeinDepth_Data = new Dictionary<string, Vein>();//광맥 계층. 채굴기의 광맥 체크 로직에 사용됨    
 
     [JsonConstructor]
     public GridMap()
     {
     }
-    public GridMap()
-    {
-    }
+    //public GridMap()
+    //{
+
+    //}
     public static string FilePath()
     {
         return "/Data/Save/TestSaveFile.json";
     }
 
 
-    static void Add_Dic_BeltDepth(Vector3Int gridPos, Node node)
+    static void Add_Dic_BeltDepth(Vector3Int gridPos, INode node)
     {
         Dic_BeltDepth.Add(gridPos, node);
         Dic_OccupiedDepth.Add(gridPos, node);
@@ -37,7 +38,7 @@ public class GridMap
         Dic_BeltDepth.Remove(gridPos);
         Dic_OccupiedDepth.Remove(gridPos);
     }
-    static void Add_Dic_BuildingDepth(Vector3Int gridPos, Building building, Node node)
+    static void Add_Dic_BuildingDepth(Vector3Int gridPos, Building building, INode node)
     {
         Dic_BuildingDepth.Add(gridPos, building);
 
@@ -73,9 +74,9 @@ public class GridMap
     }
     public static SorterNode CreateSorterNode(Vector3Int gridPos)//소터 건설
     {
-        Node nodeTemp = Dic_BeltDepth[gridPos];//소터가 위치할 포지션
-        Node previousNode = nodeTemp.PreviousNode;
-        Node nextNode = nodeTemp.NextNode;
+        INode nodeTemp = Dic_BeltDepth[gridPos];//소터가 위치할 포지션
+        INode previousNode = nodeTemp.PreviousNode;
+        INode nextNode = nodeTemp.NextNode;
 
         //벨트와 소터 교체
         nodeTemp.Remove();
@@ -145,7 +146,7 @@ public class GridMap
     {
         foreach (var item in Dic_BeltDepth)
         {
-            item.Value.transporter.LogicInit();
+            item.Value.Transporter.LogicInit();
         }
     }
 }

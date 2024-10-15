@@ -105,14 +105,14 @@ public class BeltModule : MonoBehaviour, ITransporter, IModule
 
         if (beltNode.NextNode != null)
         {
-            beltNode.NextNode.transporter.ExcuteLogic_OnUpdate(deltaTime);
+            beltNode.NextNode.Transporter.ExcuteLogic_OnUpdate(deltaTime);
         }
 
         if (timeValue_ItemMove > moveLogicTime)//아이템이 도착했는지
         {
-            if (beltNode.NextNode != null && CanItemOut(beltNode.NextNode.transporter))
+            if (beltNode.NextNode != null && CanItemOut(beltNode.NextNode.Transporter))
             {
-                ItemOut(beltNode.NextNode.transporter);
+                ItemOut(beltNode.NextNode.Transporter);
             }
             else
             {
@@ -128,7 +128,7 @@ public class BeltModule : MonoBehaviour, ITransporter, IModule
 
         if (beltNode.PreviousNode != null)
         {
-            beltNode.PreviousNode.transporter.ExcuteLogic_OnUpdate(deltaTime);
+            beltNode.PreviousNode.Transporter.ExcuteLogic_OnUpdate(deltaTime);
         }        
     }
 

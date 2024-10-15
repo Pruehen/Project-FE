@@ -32,15 +32,15 @@ public interface IBuildTool
     public void SetBuildingData(BuildingData buildingData);
     public void DeActive();
 }
-public abstract class Node
+public interface INode
 {
-    public NodeType nodeType { get; protected set; }
-    public ITransporter transporter;
-    public Vector3Int gridPos;
-    public abstract Node PreviousNode { get; set; }
-    public abstract Node NextNode { get; set; }
-    public abstract void Init();
-    public abstract void Remove();
+    public NodeType NodeType { get; set; }
+    public ITransporter Transporter { get; set; }
+    public Vector3Int GridPos { get; set; }
+    public INode PreviousNode { get; set; }
+    public INode NextNode { get; set; }
+    public void Init();
+    public void Remove();
 }
 public interface IWindow
 {

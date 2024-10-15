@@ -6,7 +6,10 @@ public class CharactorManager : SceneSingleton<CharactorManager>
 
     public void GenerateCharactor_OnNewGame()
     {
+        if(charactorList.Count == 0)
+        {
 
+        }
     }
     public Charactor GetCharactor(int index)
     {

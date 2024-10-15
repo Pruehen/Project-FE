@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class InserterModule : MonoBehaviour, ITransporter, IModule
 {
-    Node PreviousNode { get; set; }
-    Node NextNode { get; set; }
+    INode PreviousNode { get; set; }
+    INode NextNode { get; set; }
 
     [SerializeField] Transform startNodePos;
     [SerializeField] Transform endNodePos;
@@ -92,8 +92,8 @@ public class InserterModule : MonoBehaviour, ITransporter, IModule
         if (PreviousNode == null)
             return;
 
-        ITransporter grabTarget = PreviousNode?.transporter;
-        ITransporter dropTarget = NextNode?.transporter;
+        ITransporter grabTarget = PreviousNode?.Transporter;
+        ITransporter dropTarget = NextNode?.Transporter;
 
         if (grabTarget != null && dropTarget != null)
         {
@@ -125,9 +125,9 @@ public class InserterModule : MonoBehaviour, ITransporter, IModule
         {
             if (State_ItemTransport)
             {
-                if (NextNode != null && CanItemOut(NextNode.transporter))
+                if (NextNode != null && CanItemOut(NextNode.Transporter))
                 {
-                    ItemOut(NextNode.transporter);
+                    ItemOut(NextNode.Transporter);
                     timeValue -= moveLogicTime;                    
                 }
                 else
@@ -173,7 +173,7 @@ public class InserterModule : MonoBehaviour, ITransporter, IModule
             grabTrf.position = Vector3.Lerp(itemStayPoint_Last, itemStayPoint_First, lerpValue);
         }
     }
-    Node FindNode_OnUpdate(Vector3Int findPos)
+    INode FindNode_OnUpdate(Vector3Int findPos)
     {
         if(GridMap.Dic_OccupiedDepth.ContainsKey(findPos))
         {

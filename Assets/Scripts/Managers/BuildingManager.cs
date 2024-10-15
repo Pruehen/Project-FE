@@ -1,27 +1,36 @@
 using EnumTypes;
 using UnityEngine;
 
-public class BuildingNode : Node
+public class BuildingNode : INode
 {
-    public override Node PreviousNode { get { return null; } set { } }
-    public override Node NextNode { get { return null; } set { } }
+    NodeType _nodeType;
+    ITransporter _transporter;
+    Vector3Int _gridPos;
+    INode _previousNode;
+    INode _nextNode;
 
-    Building building;
+    public NodeType NodeType { get => _nodeType; set => _nodeType = value; }
+    public ITransporter Transporter { get => _transporter; set => _transporter = value; }
+    public Vector3Int GridPos { get => _gridPos; set => _gridPos = value; }
+    public INode PreviousNode { get { return null; } set { } }
+    public INode NextNode { get { return null; } set { } }
+
+    Building buildingPart;
     IModule module;
     public BuildingNode(Building building, Vector3Int gridPos)
     {
-        this.nodeType = NodeType.BuildingNode;
-        this.building = building;
-        this.gridPos = gridPos;
+        NodeType = NodeType.BuildingNode;
+        this.buildingPart = building;
+        GridPos = gridPos;
     }
 
-    public override void Init()
+    public void Init()
     {
-        building.Init();
-        building.Register_OnDismantle(Remove);
+        buildingPart.Init();
+        buildingPart.Register_OnDismantle(Remove);
 
-        transporter = building.Transporter;
-        module = building.MainModule;
+        Transporter = buildingPart.Transporter;
+        module = buildingPart.MainModule;
 
         if(module is InserterModule)
         {
@@ -29,14 +38,14 @@ public class BuildingNode : Node
         }
     }
 
-    public override void Remove()
+    public void Remove()
     {
-        if (building != null)
+        if (buildingPart != null)
         {
-            ObjectPoolManager.Instance.EnqueueObject(building.gameObject);
+            ObjectPoolManager.Instance.EnqueueObject(buildingPart.gameObject);
         }
-        building = null;
-        transporter = null;
+        buildingPart = null;
+        Transporter = null;
 
         if (module is InserterModule)
         {                  
@@ -44,7 +53,7 @@ public class BuildingNode : Node
         }
         module = null;        
 
-        GridMap.Remove_Dic_BuildingDepth(this.gridPos);
+        GridMap.Remove_Dic_BuildingDepth(GridPos);
     }
 }
 

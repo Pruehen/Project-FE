@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class GameLogicManager : SceneSingleton<GameLogicManager>
 {
-    public HashSet<Node> InserterNodeSet = new HashSet<Node>();
-    public HashSet<Node> SorterNodeSet = new HashSet<Node>();
-    public HashSet<Node> RootBeltNodeSet = new HashSet<Node>();
+    public HashSet<INode> InserterNodeSet = new HashSet<INode>();
+    public HashSet<INode> SorterNodeSet = new HashSet<INode>();
+    public HashSet<INode> RootBeltNodeSet = new HashSet<INode>();
 
     // Update is called once per frame
     void Update()
@@ -14,15 +14,15 @@ public class GameLogicManager : SceneSingleton<GameLogicManager>
 
         foreach (var node in InserterNodeSet)
         {
-            node.transporter.ExcuteLogic_OnUpdate(Time.deltaTime);
+            node.Transporter.ExcuteLogic_OnUpdate(Time.deltaTime);
         }
         foreach (var node in SorterNodeSet)
         {
-            node.transporter.ExcuteLogic_OnUpdate(Time.deltaTime);
+            node.Transporter.ExcuteLogic_OnUpdate(Time.deltaTime);
         }
         foreach (var node in RootBeltNodeSet)
         {
-            node.transporter.ExcuteLogic_OnUpdate(Time.deltaTime);
+            node.Transporter.ExcuteLogic_OnUpdate(Time.deltaTime);
         }
     }
 }
