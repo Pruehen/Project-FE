@@ -60,17 +60,7 @@ public class Charactor : MonoBehaviour
 
     void Register_OnInit()
     {
-        Player.Instance.Register_KeyAction(KeyCode.Alpha1, () => builtIn_ToolModule.ToolSelect_OnNumKeyClick(0));
-        Player.Instance.Register_KeyAction(KeyCode.Alpha2, () => builtIn_ToolModule.ToolSelect_OnNumKeyClick(1));
-        Player.Instance.Register_KeyAction(KeyCode.Alpha3, () => builtIn_ToolModule.ToolSelect_OnNumKeyClick(2));
-        Player.Instance.Register_KeyAction(KeyCode.Alpha4, () => builtIn_ToolModule.ToolSelect_OnNumKeyClick(3));
-        Player.Instance.Register_KeyAction(KeyCode.Alpha5, () => builtIn_ToolModule.ToolSelect_OnNumKeyClick(4));
-        Player.Instance.Register_KeyAction(KeyCode.Alpha6, () => builtIn_ToolModule.ToolSelect_OnNumKeyClick(5));
-        Player.Instance.Register_KeyAction(KeyCode.Alpha7, () => builtIn_ToolModule.ToolSelect_OnNumKeyClick(6));
-        Player.Instance.Register_KeyAction(KeyCode.Alpha8, () => builtIn_ToolModule.ToolSelect_OnNumKeyClick(7));
-        Player.Instance.Register_KeyAction(KeyCode.Alpha9, () => builtIn_ToolModule.ToolSelect_OnNumKeyClick(8));
-        Player.Instance.Register_KeyAction(KeyCode.Alpha0, () => builtIn_ToolModule.ToolSelect_OnNumKeyClick(9));
-        Player.Instance.Register_KeyAction(KeyCode.R, () => OnKeyDown(KeyCode.R));
+
     }
 
     void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -152,7 +142,7 @@ public class Charactor : MonoBehaviour
         }
     }
 
-    void OnKeyDown(KeyCode key)
+    public void OnKeyDown(KeyCode key)
     {
         if (BuildMode != BuildMode.None)
         {

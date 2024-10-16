@@ -172,6 +172,10 @@ public static class Extension
     {
         return buildingId.Replace("Building_", "Item_");
     }
+    public static string Replace_ToBuilding(this string itemId)
+    {
+        return itemId.Replace("Item_", "Building_");
+    }
 
     public static string SimplifyNumber(this float number)
     {

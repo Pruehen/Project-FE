@@ -12,7 +12,7 @@ public class SelectableItemCell : MonoBehaviour, IPointerDownHandler, IPointerUp
     [SerializeField] Image Image_ItemIcon;
 
     public string recipyId;
-    public int itemId;
+    public ushort itemId;
     public string buildingId;
 
     Action<string> OnClick_CallBackRecipy;
@@ -25,6 +25,7 @@ public class SelectableItemCell : MonoBehaviour, IPointerDownHandler, IPointerUp
     public void Register_OnClick_CallBackBuilding(Action<string> callBack) { OnClick_CallBackBuilding = callBack; }
 
     [SerializeField] UnityEvent<string> OnClick_CallBackRecipe_UnityEvent;
+    [SerializeField] UnityEvent<int> OnClick_CallBackCellIndex_UnityEvent;
 
     [SerializeField] UnityEvent OnLeftPointerDown;
     [SerializeField] UnityEvent OnLeftPointerUp;
@@ -147,6 +148,7 @@ public class SelectableItemCell : MonoBehaviour, IPointerDownHandler, IPointerUp
             OnClick_CallBackBuilding?.Invoke(buildingId);
 
             OnClick_CallBackRecipe_UnityEvent?.Invoke(recipyId);
+            OnClick_CallBackCellIndex_UnityEvent?.Invoke(itemId);
         }
         else
         {

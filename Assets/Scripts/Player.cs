@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Reflection;
 using UnityEngine;
 
 public class Player : SceneSingleton<Player>
@@ -53,6 +54,8 @@ public class Player : SceneSingleton<Player>
     [SerializeField] int controlledCharactorIndex = 0;
     Charactor _charactor;
 
+    QuickSlot quickSlot;
+
     public Charactor ControlledCharactor
     {
         get
@@ -99,6 +102,8 @@ public class Player : SceneSingleton<Player>
 
     public void Init()
     {
+        quickSlot = GetComponent<QuickSlot>();
+
         keyActions = new Dictionary<KeyCode, Action>
         {
             { KeyCode.I, () => OnKeyClickDown?.Invoke(KeyCode.I) },
@@ -123,12 +128,20 @@ public class Player : SceneSingleton<Player>
         Register_KeyAction(KeyCode.I, Command_CharactorInventoryToggle);
         Register_KeyAction(KeyCode.E, Command_CharactorCraftingModuleToggle);
         Register_KeyAction(KeyCode.Escape, Command_CharactorInventoryClose_OnEscClick);
-        //foreach (KeyCode value in Enum.GetValues(typeof(KeyCode)))
-        //{
-        //    keyActions.Add(value, () => OnKeyClickDown?.Invoke(value));
-        //}      
 
         SetControlledCharactor();
+
+        Register_KeyAction(KeyCode.Alpha1, () => Command_ToolSelect_OnNumKeyClick(0));
+        Register_KeyAction(KeyCode.Alpha2, () => Command_ToolSelect_OnNumKeyClick(1));
+        Register_KeyAction(KeyCode.Alpha3, () => Command_ToolSelect_OnNumKeyClick(2));
+        Register_KeyAction(KeyCode.Alpha4, () => Command_ToolSelect_OnNumKeyClick(3));
+        Register_KeyAction(KeyCode.Alpha5, () => Command_ToolSelect_OnNumKeyClick(4));
+        Register_KeyAction(KeyCode.Alpha6, () => Command_ToolSelect_OnNumKeyClick(5));
+        Register_KeyAction(KeyCode.Alpha7, () => Command_ToolSelect_OnNumKeyClick(6));
+        Register_KeyAction(KeyCode.Alpha8, () => Command_ToolSelect_OnNumKeyClick(7));
+        Register_KeyAction(KeyCode.Alpha9, () => Command_ToolSelect_OnNumKeyClick(8));
+        Register_KeyAction(KeyCode.Alpha0, () => Command_ToolSelect_OnNumKeyClick(9));
+        Register_KeyAction(KeyCode.R, () => Command_CharactorOnKeyDown(KeyCode.R));
     }
     // Update is called once per frame
     void Update()
@@ -257,6 +270,18 @@ public class Player : SceneSingleton<Player>
     {
         ControlledCharactor?.InventoryClose();
         ControlledCharactor?.CraftingModuleClose();
+    }
+    void Command_ToolSelect_OnNumKeyClick(int index)
+    {
+        quickSlot.Command_GetCellData_BuildingId(index);
+    }
+    public void Command_ToolSelect_SetBuildingId(string buildingId)
+    {
+        ControlledCharactor.builtIn_ToolModule.ToolSelect(buildingId);
+    }
+    void Command_CharactorOnKeyDown(KeyCode keyCode)
+    {
+        ControlledCharactor.OnKeyDown(keyCode);
     }
 
     public event PropertyChangedEventHandler PropertyChanged;

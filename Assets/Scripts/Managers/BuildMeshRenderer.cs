@@ -32,6 +32,7 @@ public class BuildMeshRenderer : SceneSingleton<BuildMeshRenderer>
                     Destroy(component);
                 }
             }
+            objTemp.layer = LayerMask.NameToLayer("Ignore Raycast");
 
             // 2. obj에 있는 모든 메시를 검색해서 마테리얼을 변경한다.
             MeshRenderer[] meshRenderers = objTemp.GetComponentsInChildren<MeshRenderer>();

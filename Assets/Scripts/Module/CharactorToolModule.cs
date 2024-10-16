@@ -9,12 +9,7 @@ public class CharactorToolModule : MonoBehaviour
     public void Init(Charactor charactor)
     {
         _charactor = charactor;
-    }
-
-    //[SerializeField] List<SelectableItemCell> selectableItemCellList;
-    [SerializeField] List<string> tool_buildingIdList;
-
-    [SerializeField] TextMeshProUGUI testText_BuildMode;
+    }    
 
     public BuildMode BuildMode {  get; private set; }
 
@@ -27,8 +22,7 @@ public class CharactorToolModule : MonoBehaviour
             if (_selectTool != null)
             {
                 GridRenderer.Instance.Command_HideAllGridLines();
-                _selectTool.DeActive();
-                testText_BuildMode.text = "";
+                _selectTool.DeActive();                
             }
             _selectTool = value;            
         }
@@ -47,28 +41,9 @@ public class CharactorToolModule : MonoBehaviour
             return _inventory; 
         }
     }    
-
-    private void Awake()
+    public void ToolSelect(string buildingId)
     {
-        //for (int i = 0; i < selectableItemCellList.Count; i++)
-        //{
-        //    selectableItemCellList[i].Register_OnClick_CallBackBuilding(ToolSelect_OnSelectableCellClick);
-        //    selectableItemCellList[i].SetData_StaticCell(tool_buildingIdList[i], i + 1);
-        //}
-    }
-
-    public void ToolSelect_OnSelectableCellClick(string buildingId)
-    {
-        ToolSelect(buildingId);
-    }
-    public void ToolSelect_OnNumKeyClick(int index)
-    {
-        ToolSelect(tool_buildingIdList[index]);
-    }
-
-    void ToolSelect(string buildingId)
-    {
-        if (selectedToolTemp == buildingId)
+        if (selectedToolTemp == buildingId || buildingId == null)
         {
             Command_ToolDeActive("툴을 비활성화합니다");
         }
@@ -117,8 +92,7 @@ public class CharactorToolModule : MonoBehaviour
 
         if(SelectTool != null)
         {
-            SelectTool.SetBuildingData(JsonDataManager.GetBuilding(buildingId));
-            testText_BuildMode.text = JsonDataManager.GetItem(buildingId.Replace_ToItem()).Name.GetTextTable();
+            SelectTool.SetBuildingData(JsonDataManager.GetBuilding(buildingId));            
         }
     }
 

@@ -21,7 +21,7 @@ public class Building : MonoBehaviour, IInteractable
         get
         {
             if (_outline == null)
-                _outline = GetComponent<Outline>();
+                TryGetComponent(out _outline);
             return _outline;
         }
     }
