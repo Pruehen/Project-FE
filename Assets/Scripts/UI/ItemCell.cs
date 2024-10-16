@@ -144,6 +144,11 @@ public class ItemCell : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             OnMouseCell.CellData.Inventory.AddItem(SelectedCell.CellData.Id, SelectedCell.CellData.Count, out int remaining);
             SelectedCell.CellData.UseItem(SelectedCell.CellData.Count - remaining);
         }
+        else if(SelectableItemCell.OnMouseCell != null && SelectedCell != null)
+        {
+            Debug.Log($"아이템 등록 {SelectedCell.name} -> {SelectableItemCell.OnMouseCell.name}");
+            SelectableItemCell.OnMouseCell.SetData_Item(SelectedCell.CellData.Id);
+        }
 
         SelectedCell = null;
     }

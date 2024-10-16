@@ -3,9 +3,10 @@ using System.ComponentModel;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SelectableItemCell : MonoBehaviour
+public class SelectableItemCell : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     [SerializeField] TextMeshProUGUI TMP_ItemCount;
     [SerializeField] Image Image_ItemIcon;
@@ -24,6 +25,21 @@ public class SelectableItemCell : MonoBehaviour
     public void Register_OnClick_CallBackBuilding(Action<string> callBack) { OnClick_CallBackBuilding = callBack; }
 
     [SerializeField] UnityEvent<string> OnClick_CallBackRecipe_UnityEvent;
+
+    [SerializeField] UnityEvent OnLeftPointerDown;
+    [SerializeField] UnityEvent OnLeftPointerUp;
+    [SerializeField] UnityEvent OnRightPointerDown;
+    [SerializeField] UnityEvent OnMiddlePointerDown;
+
+    static SelectableItemCell _onMouseCell;
+    public static SelectableItemCell OnMouseCell
+    {
+        get { return _onMouseCell; }
+        set
+        {
+            _onMouseCell = value;
+        }
+    }
 
     CellData _cellData;
     public CellData CellData
@@ -59,7 +75,7 @@ public class SelectableItemCell : MonoBehaviour
     }
     public void SetData_Building(string buildingId)
     {
-        this.buildingId = buildingId;
+        this.buildingId = buildingId;        
         string itemId = buildingId.Replace_ToItem();
 
         CellData = new CellData(null, JsonDataManager.GetItem(itemId).Id_UShort, 0, true);
@@ -113,6 +129,14 @@ public class SelectableItemCell : MonoBehaviour
     {
         UIManager.Instance.SetCellData_MouseTrackUI_OnCellPointerEnter(null);
     }
+    public void Set_OnMouseCell_OnPointerEnter()
+    {
+        OnMouseCell = this;
+    }
+    public void Remove_OnMouseCell_OnPointerExit()
+    {
+        OnMouseCell = null;
+    }
 
     public void SelectCell_OnClick()
     {
@@ -127,6 +151,31 @@ public class SelectableItemCell : MonoBehaviour
         else
         {
             Debug.LogWarning("빈 셀 데이터를 선택했습니다.");
+        }
+    }
+
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            OnLeftPointerDown?.Invoke();
+        }
+        else if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            OnRightPointerDown?.Invoke();
+        }
+        else if (eventData.button == PointerEventData.InputButton.Middle)
+        {
+            OnMiddlePointerDown?.Invoke();
+        }
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            OnLeftPointerUp?.Invoke();
         }
     }
 }
