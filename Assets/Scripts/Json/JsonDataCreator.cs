@@ -429,7 +429,7 @@ public class JsonDataCreator : MonoBehaviour
     void AllDataLode()
     {
         Debug.Log("로드 시도");
-        //JsonDataManager.SaveData_AllDataLode();
+        JsonDataManager.SaveData_AllDataLode();
     }
     void AllDataSave()
     {

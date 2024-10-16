@@ -141,15 +141,7 @@ public static class JsonDataManager
 
     public static void SaveData_AllDataLode()
     {
-        //foreach (var buildingPart in jsonCache.SaveDataCache.list_)
-        //{
-        //    buildingPart.LodeData_Building();
-        //}
-
-        foreach (var building in jsonCache.SaveDataCache.dic_Building)
-        {
-            building.Value.LodeData_Building();
-        } 
+        jsonCache.SaveDataCache.AllDataLode();
     }
 
     public static string GetText(string key, Language language)

@@ -8,10 +8,14 @@ public class CharactorCraftingModule : MonoBehaviour, IModule
     public CharactorCraftingModuleModel Model { get; private set; }
 
     IWindow window;
+
+    bool isInit = false;
     public void Init(Charactor charactor)
     {
         _charactor = charactor;
         Model = new CharactorCraftingModuleModel(_charactor.builtIn_InventoryModule.Inventory);        
+
+        isInit = true;
     }
 
     public void Active_Wdw()
@@ -69,7 +73,7 @@ public class CharactorCraftingModule : MonoBehaviour, IModule
 
     void Update()
     {
-        Model.ExecuteLogic(Time.deltaTime);
+        Model?.ExecuteLogic(Time.deltaTime);
     }
 }
 public class CraftOrder

@@ -15,23 +15,20 @@ public class SaveData_Charactor
         this.rotationData = rotationData;
     }
     public SaveData_Charactor(Vector3Int gridPos, Quaternion rotateion)
-    {        
+    {
+        SaveData(gridPos, rotateion);
+    }
+
+    public void SaveData(Vector3Int gridPos, Quaternion rotateion)
+    {
         positionData = new int[] { gridPos.x, gridPos.y, gridPos.z };
 
         Vector3 eulerAngle = rotateion.eulerAngles;
         rotationData = new float[] { eulerAngle.x, eulerAngle.y, eulerAngle.z };
     }
-
-    public void LodeData_Building()
+    public void LodeData_Charactor()
     {
-        //BuildingNode createNode = GridMap.CreateBuildingNode_LodeData(JsonDataManager.GetBuilding(buildingDataId),
-        //    new Vector3(positionData[0], positionData[1], positionData[2]).ToVector3Int(),
-        //    Quaternion.Euler(rotationData[0], rotationData[1], rotationData[2]));
-
-        //if (createNode != null)//빌딩 노드 생성에 성공했을 경우
-        //{
-        //    createNode.Init();
-        //}
+        CharactorManager.Instance.GenerateCharactor(new Vector3(positionData[0], positionData[1], positionData[2]));
     }
 }
 
@@ -103,10 +100,43 @@ public class SaveData
     {
         dic_Building.Remove(gridPos.ToString());
     }
+    public SaveData_Charactor AddCharactor()
+    {
+        list_Charactor.Add(new SaveData_Charactor(new Vector3Int(0, 1, 0), Quaternion.identity));
+        return list_Charactor[list_Charactor.Count - 1];
+    }
+    public void RemoveCharactor(int index)
+    {        
+
+    }
 
     public void DataSave()
     {
+        for (int i = 0; i < list_Charactor.Count; i++)
+        {
+            Charactor charactor = CharactorManager.Instance.GetCharactor(i);
+            list_Charactor[i].SaveData(charactor.transform.position.ToVector3Int(), charactor.transform.rotation);
+        }
+    }
+    public void AllDataLode()
+    {
+        if(list_Charactor.Count == 0)
+        {
+            AddCharactor().LodeData_Charactor();
+        }
+        else
+        {
+            foreach (var charactor in list_Charactor)
+            {
+                charactor.LodeData_Charactor();
+            }
+        }
+        Player.Instance.Init();
 
+        foreach (var building in dic_Building)
+        {
+            building.Value.LodeData_Building();
+        }
     }
     public static string FilePath()
     {

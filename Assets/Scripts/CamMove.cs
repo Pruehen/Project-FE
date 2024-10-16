@@ -13,6 +13,7 @@ public class CamMove : SceneSingleton<CamMove>
     public void SetTargetObject(Transform transform)
     {
         _targetObejct = transform;
+        this.transform.position += _targetObejct.position;
     }
 
     // Update is called once per frame

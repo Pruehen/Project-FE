@@ -34,6 +34,7 @@ public class Charactor : MonoBehaviour
     IInteractable onMouseObjectTemp;
     IInteractable onSelectObject;
 
+    bool isInit = false;
     // Start is called before the first frame update
     public void Init()
     {
@@ -53,6 +54,8 @@ public class Charactor : MonoBehaviour
 
         Player.Instance.PropertyChanged += OnPropertyChanged;
         Register_OnInit();
+
+        isInit = true;
     }
 
     void Register_OnInit()
@@ -89,12 +92,16 @@ public class Charactor : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (isInit == false) return;
+        
         Move_OnFixedUpdate();
         PointLook_OnFixedUpdate();        
     }
 
     private void Update()
     {
+        if (isInit == false) return;
+
         if (onInteractObject != null)
         {
             DrawBeam(onInteractObject.GetPos(_lookPos));

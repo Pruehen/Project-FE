@@ -50,11 +50,29 @@ public class Player : SceneSingleton<Player>
     public void Register_KeyAction(KeyCode key, Action callBack) { keyActions[key] += callBack; }
     public void UnRegister_KeyAction(KeyCode key, Action callBack) { keyActions[key] -= callBack; }
 
-    [SerializeField] int controlledCharactorIndex = 0;     
+    [SerializeField] int controlledCharactorIndex = 0;
+    Charactor _charactor;
+
     public Charactor ControlledCharactor
     {
-        get => CharactorManager.Instance.GetCharactor(controlledCharactorIndex);
+        get
+        {
+            return _charactor;
+        }
     }
+    void SetControlledCharactor()
+    {
+        Charactor charactor = CharactorManager.Instance.GetCharactor(controlledCharactorIndex);
+
+        if (_charactor != charactor)
+        {
+            _charactor = charactor;
+            _charactor.Init();
+
+            CamMove.Instance.SetTargetObject(_charactor.transform);
+        }
+    }
+
     public void GetItem(ushort itemKey, int count = 1)
     {
         if(itemKey != 0)
@@ -79,7 +97,7 @@ public class Player : SceneSingleton<Player>
         ControlledCharactor.UseItem(itemKey, count);
     }
 
-    private void Start()
+    public void Init()
     {
         keyActions = new Dictionary<KeyCode, Action>
         {
@@ -108,10 +126,9 @@ public class Player : SceneSingleton<Player>
         //foreach (KeyCode value in Enum.GetValues(typeof(KeyCode)))
         //{
         //    keyActions.Add(value, () => OnKeyClickDown?.Invoke(value));
-        //}
+        //}      
 
-        ControlledCharactor.Init();
-        CamMove.Instance.SetTargetObject(ControlledCharactor.transform);
+        SetControlledCharactor();
     }
     // Update is called once per frame
     void Update()

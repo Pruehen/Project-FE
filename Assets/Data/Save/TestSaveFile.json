@@ -1,4 +1,17 @@
 {
-  "list_Charactor": [],
+  "list_Charactor": [
+    {
+      "positionData": [
+        9,
+        0,
+        -17
+      ],
+      "rotationData": [
+        0.490592539,
+        45.5603142,
+        4.135618E-07
+      ]
+    }
+  ],
   "dic_Building": {}
 }
