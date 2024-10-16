@@ -1953,7 +1953,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5126110146260512289, guid: a7046c90baf903a43b62c12d6c854a4f, type: 3}
       propertyPath: mouseSelectablelayerMask.m_Bits
-      value: 4294967295
+      value: 371
       objectReference: {fileID: 0}
     - target: {fileID: 6729066391482029443, guid: a7046c90baf903a43b62c12d6c854a4f, type: 3}
       propertyPath: m_LocalPosition.x

@@ -18,8 +18,8 @@ public class Charactor : MonoBehaviour
     }
 
     Rigidbody _rigidbody;
-    UnityEngine.Vector3 _moveVector;
-    UnityEngine.Vector3 _lookPos;
+    Vector3 _moveVector;
+    Vector3 _lookPos;
     float _speed;
 
     bool _inventoryUIActive = false;
@@ -78,7 +78,7 @@ public class Charactor : MonoBehaviour
         switch (e.PropertyName)
         {
             case nameof(Player.Instance.LookTargetPosVector):
-                _lookPos = Player.Instance.LookTargetPosVector;
+                _lookPos = Player.Instance.LookTargetPosVector;                
                 //GridDraw_OnMouseMove();
                 break;
             case nameof(Player.Instance.InputVector_Move):
@@ -264,7 +264,7 @@ public class Charactor : MonoBehaviour
 
     void PointLook_OnFixedUpdate()
     {
-        if(_lookPos != UnityEngine.Vector3.zero)
+        if(_lookPos != Vector3.zero)
         {
             this.transform.LookAt(_lookPos);
         }
