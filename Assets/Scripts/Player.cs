@@ -271,9 +271,9 @@ public class Player : SceneSingleton<Player>
         ControlledCharactor?.InventoryClose();
         ControlledCharactor?.CraftingModuleClose();
     }
-    void Command_ToolSelect_OnNumKeyClick(int index)
+    void Command_ToolSelect_OnNumKeyClick(int cellIndex)
     {
-        quickSlot.Command_GetCellData_BuildingId(index);
+        quickSlot.Command_GetCellData_BuildingId(cellIndex);
     }
     public void Command_ToolSelect_SetBuildingId(string buildingId)
     {

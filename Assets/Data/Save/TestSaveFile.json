@@ -4,14 +4,41 @@
       "positionData": [
         -3,
         0,
-        -6
+        7
       ],
       "rotationData": [
-        0.856637657,
-        45.95332,
-        -5.3366815E-08
+        -2.15556888E-08,
+        31.51789,
+        1.192708E-15
       ]
     }
   ],
-  "dic_Building": {}
+  "dic_Building": {
+    "(-7, 0, 9)": {
+      "buildingDataId": "Building_Crafter_T1",
+      "positionData": [
+        -7,
+        0,
+        9
+      ],
+      "rotationData": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "(-7, 0, 7)": {
+      "buildingDataId": "Building_Crafter_T1",
+      "positionData": [
+        -7,
+        0,
+        7
+      ],
+      "rotationData": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  }
 }

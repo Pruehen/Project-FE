@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2912986200191610963
 RectTransform:
   m_ObjectHideFlags: 0
@@ -366,6 +366,9 @@ MonoBehaviour:
   itemId: 0
   buildingId: 
   OnClick_CallBackRecipe_UnityEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnClick_CallBackCellIndex_UnityEvent:
     m_PersistentCalls:
       m_Calls: []
   OnLeftPointerDown:

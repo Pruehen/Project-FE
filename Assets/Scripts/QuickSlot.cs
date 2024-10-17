@@ -23,4 +23,8 @@ public class QuickSlot : MonoBehaviour
             Player.Instance.Command_ToolSelect_SetBuildingId(buildingId);
         }
     }
+    public void Command_RemoveCellData_BuildingId(int index)
+    {
+        SelectableCell_QuickSlotList[index].SetData_Item(0);
+    }
 }
