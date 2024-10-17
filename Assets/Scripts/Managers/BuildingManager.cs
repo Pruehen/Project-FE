@@ -118,7 +118,7 @@ public class BuildingCrafter
 
     void Command_ToolDeActive(string msg)
     {
-        Player.Instance.ControlledCharactor.builtIn_ToolModule.Command_ToolDeActive(msg);
+        Player.Instance.ControlledCharactor.BuiltIn_ToolModule.Command_ToolDeActive(msg);
     }
 }
 

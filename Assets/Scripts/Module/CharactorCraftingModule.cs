@@ -13,7 +13,7 @@ public class CharactorCraftingModule : MonoBehaviour, IModule
     public void Init(Charactor charactor)
     {
         _charactor = charactor;
-        Model = new CharactorCraftingModuleModel(_charactor.builtIn_InventoryModule.Inventory);        
+        Model = new CharactorCraftingModuleModel(_charactor.BuiltIn_InventoryModule.Inventory);        
 
         isInit = true;
     }
@@ -50,11 +50,11 @@ public class CharactorCraftingModule : MonoBehaviour, IModule
     }
     public Inventory TryGetInputInventory()
     {
-        return _charactor.builtIn_InventoryModule.Inventory;
+        return _charactor.BuiltIn_InventoryModule.Inventory;
     }
     public Inventory TryGetOutputInventory()
     {
-        return _charactor.builtIn_InventoryModule.Inventory;
+        return _charactor.BuiltIn_InventoryModule.Inventory;
     }
 
     public void Command_TryAddCraftOrder(string recipyDataKey, int count)

@@ -477,7 +477,7 @@ public class BeltCreator
     }
     void Command_ToolDeActive(string msg)
     {
-        Player.Instance.ControlledCharactor.builtIn_ToolModule.Command_ToolDeActive(msg);
+        Player.Instance.ControlledCharactor.BuiltIn_ToolModule.Command_ToolDeActive(msg);
     }
     private void CalculatePath(Vector3Int start, Vector3Int end)
     {

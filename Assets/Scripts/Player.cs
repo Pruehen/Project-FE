@@ -70,7 +70,6 @@ public class Player : SceneSingleton<Player>
         if (_charactor != charactor)
         {
             _charactor = charactor;
-            _charactor.Init();
 
             CamMove.Instance.SetTargetObject(_charactor.transform);
         }
@@ -277,7 +276,7 @@ public class Player : SceneSingleton<Player>
     }
     public void Command_ToolSelect_SetBuildingId(string buildingId)
     {
-        ControlledCharactor.builtIn_ToolModule.ToolSelect(buildingId);
+        ControlledCharactor.BuiltIn_ToolModule.ToolSelect(buildingId);
     }
     void Command_CharactorOnKeyDown(KeyCode keyCode)
     {

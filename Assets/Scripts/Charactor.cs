@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class Charactor : MonoBehaviour
 {
-    public CharactorInventoryModule builtIn_InventoryModule { get; private set; }
-    public CharactorToolModule builtIn_ToolModule { get; private set; }
-    public CharactorCraftingModule builtIn_CraftingModule { get; private set; }
-    public CharactorMinerModule builtIn_MinerModule { get; private set; }
+    public CharactorInventoryModule BuiltIn_InventoryModule { get; private set; }
+    public CharactorToolModule BuiltIn_ToolModule { get; private set; }
+    public CharactorCraftingModule BuiltIn_CraftingModule { get; private set; }
+    public CharactorMinerModule BuiltIn_MinerModule { get; private set; }
 
     BuildMode BuildMode
     {
         get 
         {
-            return builtIn_ToolModule.BuildMode;
+            return BuiltIn_ToolModule.BuildMode;
         }
     }
 
@@ -36,31 +36,25 @@ public class Charactor : MonoBehaviour
 
     bool isInit = false;
     // Start is called before the first frame update
-    public void Init()
+    public void Init(SaveData_Charactor saveData_Charactor)
     {
         _rigidbody = GetComponent<Rigidbody>();
         _lineRenderer = GetComponent<LineRenderer>();
 
-        builtIn_InventoryModule = GetComponent<CharactorInventoryModule>();
-        builtIn_ToolModule = GetComponent<CharactorToolModule>();
-        builtIn_CraftingModule = GetComponent<CharactorCraftingModule>();
-        builtIn_MinerModule = GetComponent<CharactorMinerModule>();
+        BuiltIn_InventoryModule = GetComponent<CharactorInventoryModule>();
+        BuiltIn_ToolModule = GetComponent<CharactorToolModule>();
+        BuiltIn_CraftingModule = GetComponent<CharactorCraftingModule>();
+        BuiltIn_MinerModule = GetComponent<CharactorMinerModule>();
 
-        builtIn_InventoryModule.Init(this);
+        BuiltIn_InventoryModule.LodeData_OnInit(saveData_Charactor.dic_ItemId_Count);
 
-        builtIn_ToolModule.Init(this);
-        builtIn_CraftingModule.Init(this);
-        builtIn_MinerModule.Init(this);
+        BuiltIn_ToolModule.Init(this);
+        BuiltIn_CraftingModule.Init(this);
+        BuiltIn_MinerModule.Init(this);
 
         Player.Instance.PropertyChanged += OnPropertyChanged;
-        Register_OnInit();
 
         isInit = true;
-    }
-
-    void Register_OnInit()
-    {
-
     }
 
     void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -118,7 +112,7 @@ public class Charactor : MonoBehaviour
         if (BuildMode != BuildMode.None)
         {
             Vector3Int hitPoint_Grid = _lookPos.ToVector3Int();
-            builtIn_ToolModule.ToolOnMove(hitPoint_Grid);
+            BuiltIn_ToolModule.ToolOnMove(hitPoint_Grid);
         }
     }
 
@@ -127,7 +121,7 @@ public class Charactor : MonoBehaviour
         if (BuildMode != BuildMode.None)
         {
             Vector3Int hitPoint_Grid = _lookPos.ToVector3Int();
-            builtIn_ToolModule.ToolOnClick(hitPoint_Grid);
+            BuiltIn_ToolModule.ToolOnClick(hitPoint_Grid);
         }
         else
         {
@@ -146,7 +140,7 @@ public class Charactor : MonoBehaviour
     {
         if (BuildMode != BuildMode.None)
         {
-            builtIn_ToolModule.ToolOnKeyDown(key);
+            BuiltIn_ToolModule.ToolOnKeyDown(key);
         }
     }
 
@@ -155,7 +149,7 @@ public class Charactor : MonoBehaviour
         if(onMouseObjectTemp != null && onMouseObjectTemp.TryInteract(_lookPos, this.transform.position, interactionRange))
         {
             onInteractObject = onMouseObjectTemp;
-            builtIn_MinerModule.Mining_OnTryInteract(Time.deltaTime * interactionSpeed, onInteractObject);
+            BuiltIn_MinerModule.Mining_OnTryInteract(Time.deltaTime * interactionSpeed, onInteractObject);
         }
         else
         {
@@ -170,67 +164,67 @@ public class Charactor : MonoBehaviour
     public void InventoryOpen()
     {
         _inventoryUIActive = true;
-        builtIn_InventoryModule.Active_Wdw();
+        BuiltIn_InventoryModule.Active_Wdw();
     }
     public void InventoryToggle()
     {
         _inventoryUIActive = !_inventoryUIActive;
         if (_inventoryUIActive)
         {
-            builtIn_InventoryModule.Active_Wdw();
+            BuiltIn_InventoryModule.Active_Wdw();
         }       
         else
         {
-            builtIn_InventoryModule.Close_Wdw();
+            BuiltIn_InventoryModule.Close_Wdw();
         }
     }
     public void InventoryClose()
     {
         _inventoryUIActive = false;
-        builtIn_InventoryModule.Close_Wdw();
+        BuiltIn_InventoryModule.Close_Wdw();
     }
     //================================================================================
     public void CraftingModuleOpen()
     {
         _cmUIActive = true;
-        builtIn_CraftingModule.Active_Wdw();
+        BuiltIn_CraftingModule.Active_Wdw();
     }
     public void CraftingModuleToggle()
     {
         _cmUIActive = !_cmUIActive;
         if (_cmUIActive)
         {
-            builtIn_CraftingModule.Active_Wdw();
+            BuiltIn_CraftingModule.Active_Wdw();
             Player.Instance.Command_CharactorInventoryOpen();
         }
         else
         {
-            builtIn_CraftingModule.Close_Wdw();
+            BuiltIn_CraftingModule.Close_Wdw();
         }
     }
     public void CraftingModuleClose()
     {
         _cmUIActive = false;
-        builtIn_CraftingModule.Close_Wdw();
+        BuiltIn_CraftingModule.Close_Wdw();
     }
     //================================================================================
 
     public void GetItem(string itemKey, int count = 1)
     {
         ItemData itemData = JsonDataManager.GetItem(itemKey);
-        builtIn_InventoryModule.TryGetInputInventory().AddItem(itemData.Id_UShort, count, out int r);
+        BuiltIn_InventoryModule.TryGetInputInventory().AddItem(itemData.Id_UShort, count, out int r);
     }
     public void GetItem(ushort itemKey, int count = 1)
     {        
-        builtIn_InventoryModule.TryGetInputInventory().AddItem(itemKey, count, out int r);
+        BuiltIn_InventoryModule.TryGetInputInventory().AddItem(itemKey, count, out int r);
     }
     public bool CanUseItem(ushort itemKey, int count = 1)
     {
-        return builtIn_InventoryModule.TryGetInputInventory().CanUseItem(itemKey, count);
+        return BuiltIn_InventoryModule.TryGetInputInventory().CanUseItem(itemKey, count);
     }
     public void UseItem(ushort itemKey, int count = 1)
     {
-        builtIn_InventoryModule.TryGetInputInventory().UseItem(itemKey, count);
+        BuiltIn_InventoryModule.TryGetInputInventory().UseItem(itemKey, count);
     }
 
     void Move_OnFixedUpdate()

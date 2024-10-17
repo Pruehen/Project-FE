@@ -238,7 +238,7 @@ public static class JsonDataManager
         }
         public void Save()
         {
-            SaveDataCache.DataSave();
+            SaveDataCache.AllDataSave();
             DataSaveCommand(_saveDataCache, SaveData.FilePath());
         }
     }

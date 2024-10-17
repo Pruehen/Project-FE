@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Vein : MonoBehaviour, IInteractable
 {
-    [SerializeField] string itemKey;
+    [SerializeField] public string itemKey;
     [SerializeField] public float extractTimeGain = 1;
-    [SerializeField] int reserves = 10000;
+    [SerializeField] public int reserves = 10000;
 
     Action<Vein> OnRemoveVein;
     public void Register_OnRemoveVein(Action<Vein> callback)
@@ -38,12 +38,10 @@ public class Vein : MonoBehaviour, IInteractable
     }
     void RemoveVein()
     {
-        GridMap.Remove_Dic_VeinDepth(this.transform.position.ToVector3Int());
-
         OnRemoveVein.Invoke(this);
         OnRemoveVein = null;
 
-        this.gameObject.SetActive(false);
+        GridMap.Remove_Dic_VeinDepth(this.transform.position.ToVector3Int());
     }
 
     public string GetName()
@@ -95,10 +93,5 @@ public class Vein : MonoBehaviour, IInteractable
     public void MouseExit()
     {
         Outline.IsOutlineEnabled = false;
-    }
-
-    void Awake()
-    {
-        GridMap.Add_Dic_VeinDepth(this.transform.position.ToVector3Int(), this);
     }
 }

@@ -54,6 +54,10 @@ public class InventoryModule : MonoBehaviour, IModule
             Player.Instance.GetItem(item.Id, item.Count);
         }        
     }
+    public void LodeData_OnInit(Dictionary<ushort, int> dic_ItemId_Count)
+    {
+        Inventory.LodeData(dic_ItemId_Count);
+    }
     public Inventory TryGetInputInventory()
     {
         return Inventory;
@@ -85,6 +89,13 @@ public class Inventory
         CellCorsor = 0;
         FixedInventory = fixedInventory;
         InventoryType = inventoryType;
+    }
+    public void LodeData(Dictionary<ushort, int> dic_ItemId_Count)
+    {
+        foreach (var item in dic_ItemId_Count)
+        {
+            AddItem(item.Key, item.Value, out int r);
+        }
     }
 
     public void OnOpen()//해당 인벤토리를 소유한 모듈의 UI가 열렸을 때

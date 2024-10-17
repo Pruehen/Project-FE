@@ -1,4 +1,3 @@
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,25 +6,7 @@ public class GridMap
     public static Dictionary<Vector3Int, INode> Dic_OccupiedDepth = new Dictionary<Vector3Int, INode>();//Á¡À¯ °ø°£ È®ÀÎ °èÃþ
     public static Dictionary<Vector3Int, Building> Dic_BuildingDepth = new Dictionary<Vector3Int, Building>();//ºôµù °èÃþ. ºôµù °ü¸®¿¡ »ç¿ëµÊ
     public static Dictionary<Vector3Int, INode> Dic_BeltDepth = new Dictionary<Vector3Int, INode>();//º§Æ® °èÃþ. º§Æ® ·ÎÁ÷¿¡ »ç¿ëµÊ
-    public static Dictionary<Vector3Int, Vein> Dic_VeinDepth = new Dictionary<Vector3Int, Vein>();//±¤¸Æ °èÃþ. Ã¤±¼±âÀÇ ±¤¸Æ Ã¼Å© ·ÎÁ÷¿¡ »ç¿ëµÊ    
-
-    public Dictionary<string, INode> Dic_OccupiedDepth_Data = new Dictionary<string, INode>();//Á¡À¯ °ø°£ È®ÀÎ °èÃþ
-    public Dictionary<string, Building> Dic_BuildingDepth_Data = new Dictionary<string, Building>();//ºôµù °èÃþ. ºôµù °ü¸®¿¡ »ç¿ëµÊ
-    public Dictionary<string, INode> Dic_BeltDepth_Data = new Dictionary<string, INode>();//º§Æ® °èÃþ. º§Æ® ·ÎÁ÷¿¡ »ç¿ëµÊ
-    public Dictionary<string, Vein> Dic_VeinDepth_Data = new Dictionary<string, Vein>();//±¤¸Æ °èÃþ. Ã¤±¼±âÀÇ ±¤¸Æ Ã¼Å© ·ÎÁ÷¿¡ »ç¿ëµÊ    
-
-    [JsonConstructor]
-    public GridMap()
-    {
-    }
-    //public GridMap()
-    //{
-
-    //}
-    public static string FilePath()
-    {
-        return "/Data/Save/TestSaveFile.json";
-    }
+    public static Dictionary<Vector3Int, Vein> Dic_VeinDepth = new Dictionary<Vector3Int, Vein>();//±¤¸Æ °èÃþ. Ã¤±¼±âÀÇ ±¤¸Æ Ã¼Å© ·ÎÁ÷¿¡ »ç¿ëµÊ     
 
 
     static void Add_Dic_BeltDepth(Vector3Int gridPos, INode node)
@@ -62,7 +43,8 @@ public class GridMap
     }
     public static void Remove_Dic_VeinDepth(Vector3Int gridPos)
     {
-        Dic_VeinDepth.Remove(gridPos);
+        Dic_VeinDepth[gridPos].gameObject.SetActive(false);
+        Dic_VeinDepth.Remove(gridPos);        
     }
 
     public static BeltNode CreateBeltNode(Vector3Int gridPos)//º§Æ® °Ç¼³

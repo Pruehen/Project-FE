@@ -407,7 +407,7 @@ public class TextDataTable
 }
 public class JsonDataCreator : MonoBehaviour
 {
-    private void Awake()
+    private void Start()
     {
         JsonDataManager.jsonCache.Lode();
 

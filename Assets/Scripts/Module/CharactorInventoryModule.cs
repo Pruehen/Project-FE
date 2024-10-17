@@ -2,12 +2,6 @@ using EnumTypes;
 
 public class CharactorInventoryModule : InventoryModule
 {
-    Charactor _charactor;
-    public void Init(Charactor charactor)
-    {
-        _charactor = charactor;
-    }
-
     protected override void Awake()
     {
         Inventory = new Inventory(inventoryMaxCount, false, InventoryType.CharactorStorage);

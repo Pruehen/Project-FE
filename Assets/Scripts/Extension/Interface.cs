@@ -20,7 +20,7 @@ public interface IModule
     public void Active_Wdw();
     public void Close_Wdw();
     public void OnBuildingInit();
-    public void OnBuildingDismantle();
+    public void OnBuildingDismantle();    
     public Inventory TryGetInputInventory();
     public Inventory TryGetOutputInventory();
 }

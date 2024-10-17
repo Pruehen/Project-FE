@@ -2,15 +2,19 @@
   "list_Charactor": [
     {
       "positionData": [
-        -3,
+        3,
         0,
-        7
+        -1
       ],
-      "rotationData": [
-        -2.15556888E-08,
-        31.51789,
-        1.192708E-15
-      ]
+      "dic_ItemId_Count": {
+        "1": 136,
+        "2": 162,
+        "3": 12,
+        "4": 10,
+        "5": 13,
+        "6": 1,
+        "0": 0
+      }
     }
   ],
   "dic_Building": {
@@ -27,12 +31,103 @@
         0.0
       ]
     },
-    "(-7, 0, 7)": {
-      "buildingDataId": "Building_Crafter_T1",
+    "(5, 0, 0)": {
+      "buildingDataId": "Building_Miner_T1",
       "positionData": [
-        -7,
+        5,
         0,
-        7
+        0
+      ],
+      "rotationData": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "(5, 0, -2)": {
+      "buildingDataId": "Building_Miner_T1",
+      "positionData": [
+        5,
+        0,
+        -2
+      ],
+      "rotationData": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "(7, 0, 0)": {
+      "buildingDataId": "Building_Miner_T1",
+      "positionData": [
+        7,
+        0,
+        0
+      ],
+      "rotationData": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "(7, 0, -2)": {
+      "buildingDataId": "Building_Miner_T1",
+      "positionData": [
+        7,
+        0,
+        -2
+      ],
+      "rotationData": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "(5, 0, -5)": {
+      "buildingDataId": "Building_Miner_T1",
+      "positionData": [
+        5,
+        0,
+        -5
+      ],
+      "rotationData": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "(7, 0, -5)": {
+      "buildingDataId": "Building_Miner_T1",
+      "positionData": [
+        7,
+        0,
+        -5
+      ],
+      "rotationData": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "(5, 0, -7)": {
+      "buildingDataId": "Building_Miner_T1",
+      "positionData": [
+        5,
+        0,
+        -7
+      ],
+      "rotationData": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "(7, 0, -7)": {
+      "buildingDataId": "Building_Miner_T1",
+      "positionData": [
+        7,
+        0,
+        -7
       ],
       "rotationData": [
         0.0,
