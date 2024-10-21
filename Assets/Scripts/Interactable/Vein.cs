@@ -94,4 +94,9 @@ public class Vein : MonoBehaviour, IInteractable
     {
         Outline.IsOutlineEnabled = false;
     }
+
+    void Awake()
+    {
+        GridMap.Add_Dic_VeinDepth(this.transform.position.ToVector3Int(), this);
+    }
 }

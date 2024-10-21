@@ -509,7 +509,7 @@ public class CellData : IComparable<CellData>
         if (Id == 0)//빈 칸일 경우
         {
             SetItem(id);
-            Debug.LogWarning("수신 셀이 비어있습니다. 아이템을 할당합니다.");
+            Debug.Log("수신 셀이 비어있습니다. 아이템을 할당합니다.");
         }
         else if (Id != id)
         {
